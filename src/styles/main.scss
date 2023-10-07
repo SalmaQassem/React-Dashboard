@@ -1,2 +1,14 @@
 //Import global rules
 @use "./global_rules";
+
+//Import Colors
+@use "./colors";
+
+//Import Fonts
+@use "../helpers/fonts";
+
+//Import Mixins
+@use "../helpers/mixins";
+
+//Import NavBar
+@use "./NavBar.module";

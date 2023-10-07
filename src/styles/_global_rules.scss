@@ -1,18 +1,28 @@
 @use "./variables/mediaQuery" as *;
 @use "../helpers/mixins" as *;
 
-html {
+%reset {
   margin: 0;
   padding: 0;
+}
+html {
+  @extend %reset;
   @include mediaQuery($XXlargeScreen_min_width) {
     font-size: 0.8vw;
   }
 }
 
+body {
+  @extend %reset;
+  direction: rtl;
+}
+
 * {
-  margin: 0;
-  padding: 0;
+  @extend %reset;
   box-sizing: border-box;
+  user-select: none;
+  outline: none;
+  border: none;
 }
 
 ul {
@@ -24,7 +34,5 @@ a {
 }
 
 button {
-  outline: none;
-  border: none;
   cursor: pointer;
 }
