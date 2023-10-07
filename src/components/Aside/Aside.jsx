@@ -12,7 +12,7 @@ const usersOptions = [
   { id: "0", name: "مستخدم جديد", icon: <FiUserPlus /> },
   { id: "1", name: "صلاحيات المستخدم", icon: <FiUserCheck /> },
 ];
-const account = [{ name: "حسابي", icon: <FaRegUserCircle /> }];
+const account = [{ id: "0", name: "حسابي", icon: <FaRegUserCircle /> }];
 
 const Aside = () => {
   return (
