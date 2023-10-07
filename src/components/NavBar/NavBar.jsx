@@ -8,7 +8,7 @@ import {
   HiOutlineSun,
   HiOutlineBellAlert,
 } from "react-icons/hi2";
-import user from "../../assets/images/Ellipse 7.png";
+import user from "../../assets/images/Ellipse.png";
 const NavBar = () => {
   return (
     <nav className={styles.nav}>

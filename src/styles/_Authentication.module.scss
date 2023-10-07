@@ -1,0 +1,39 @@
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./colors" as *;
+
+.auth {
+  width: 100vw;
+  height: 100vh;
+
+  .content {
+    height: 100vh;
+    padding: 5rem 0;
+    position: relative;
+    @include flex-variant(flex, $direction: row, $align: center);
+    &::before {
+      content: "";
+      position: absolute;
+      left: 57%;
+      height: 100%;
+      width: 0.0625rem;
+      background-color: $grey-6;
+    }
+    .image {
+      width: 57%;
+      height: 100%;
+      flex-basis: 57%;
+      @include flex-variant(
+        flex,
+        $direction: row,
+        $align: center,
+        $justify: center
+      );
+
+      img {
+        width: 85%;
+        height: 100%;
+      }
+    }
+  }
+}
