@@ -1,0 +1,33 @@
+@use "./colors" as *;
+@use "../helpers/mixins" as *;
+
+.item {
+  width: 100%;
+  padding: 0.5rem 1.5rem;
+  @include flex-variant(
+    flex,
+    $direction: row,
+    $align: center,
+    $justify: center
+  );
+  color: $black;
+  background-color: $white;
+  border-radius: 0.625rem;
+  cursor: pointer;
+
+  span {
+    font-size: 1rem;
+    flex: 1;
+    white-space: nowrap;
+  }
+
+  .icon {
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $justify: center
+    );
+    font-size: 1.5rem;
+  }
+}

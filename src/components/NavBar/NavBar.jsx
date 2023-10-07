@@ -11,7 +11,7 @@ import {
 import user from "../../assets/images/Ellipse 7.png";
 const NavBar = () => {
   return (
-    <div className={styles.nav}>
+    <nav className={styles.nav}>
       <StyledContainer>
         <div className={styles.items}>
           <div className={styles.title}>
@@ -59,7 +59,7 @@ const NavBar = () => {
           </div>
         </div>
       </StyledContainer>
-    </div>
+    </nav>
   );
 };
 
