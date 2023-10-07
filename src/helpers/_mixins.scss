@@ -1,0 +1,40 @@
+@mixin flex-variant(
+  $display,
+  $direction: false,
+  $align: false,
+  $justify: false,
+  $wrap: false,
+  $gap: false,
+  $grow: false
+) {
+  display: $display;
+
+  @if $direction {
+    flex-direction: $direction;
+  }
+
+  @if $align {
+    align-items: $align;
+  }
+
+  @if $justify {
+    justify-content: $justify;
+  }
+
+  @if $wrap {
+    flex-wrap: $wrap;
+  }
+
+  @if $gap {
+    gap: $gap;
+  }
+  @if $grow {
+    flex-grow: $grow;
+  }
+}
+
+@mixin mediaQuery($screen) {
+  @media (#{$screen}) {
+      @content;
+  }
+}
