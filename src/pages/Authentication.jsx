@@ -19,3 +19,37 @@ const Authentication = () => {
 };
 
 export default Authentication;
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function action({ request }) {
+  const data = await request.formData();
+  const enteredData = {
+    email: data.get("email"),
+    password: data.get("password"),
+  };
+  /*const response = await fetch("localhost:8000/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(enteredData),
+  });
+  */
+  const res = {
+    accessToken: "kkk",
+    user: {
+      id: "0",
+      first_name: "أحمد",
+      last_name: "منتصر",
+      phone: 536,
+      email: "test@gmail.com",
+      role: "super_admin",
+      created_at: "",
+      updated_at: "",
+    },
+  };
+  //const res = { message: "email or password invalid" };
+
+  return res;
+  //return response;
+}

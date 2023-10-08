@@ -9,7 +9,10 @@ import {
   HiOutlineBellAlert,
 } from "react-icons/hi2";
 import user from "../../assets/images/Ellipse.png";
+import { useContext } from "react";
+import UserContext from "../../store/user-context";
 const NavBar = () => {
+  const context = useContext(UserContext);
   return (
     <nav className={styles.nav}>
       <StyledContainer>
@@ -52,8 +55,8 @@ const NavBar = () => {
                 <img src={user} alt="user" />
               </div>
               <div className={styles.text}>
-                <p>أحمد منتصر</p>
-                <p>مدخل بيانات</p>
+                <p>{`${context.first_name} ${context.last_name}`}</p>
+                <p>{context.role === "super_admin" ? "أدمن" : "مدخل بيانات"}</p>
               </div>
             </div>
           </div>
