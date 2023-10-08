@@ -1,11 +1,11 @@
 import styles from "../../styles/_AsideItem.module.scss";
-
-const AsideItem = ({ name, icon }) => {
+import { Link } from "react-router-dom";
+const AsideItem = ({ name, icon, url }) => {
   return (
-    <div className={styles.item}>
+    <Link to={url} className={styles.item}>
       <span>{name}</span>
       <div className={styles.icon}>{icon}</div>
-    </div>
+    </Link>
   );
 };
 

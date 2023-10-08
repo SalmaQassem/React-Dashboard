@@ -1,0 +1,117 @@
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./colors" as *;
+
+%color {
+  background-color: $white;
+  color: $black;
+}
+.dashboard {
+  width: 100%;
+  .info {
+    @include flex-variant(flex, $direction: row, $align: center, $gap: 2.5rem);
+    font-family: "Cairo-Medium";
+    .dateTime {
+      width: calc(16% - 1.5625rem);
+      flex-basis: calc(16% - 1.5625rem);
+      @include flex-variant(
+        flex,
+        $direction: column,
+        $justify: center,
+        $gap: 1.5625rem
+      );
+      .item {
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $align: center,
+          $justify: space-between
+        );
+        .icon {
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $align: center,
+            $justify: center
+          );
+          font-size: 1.75rem;
+        }
+        span {
+          font-size: 1.25rem;
+          flex: 1 0;
+          text-align: center;
+        }
+      }
+    }
+    .counters {
+      width: calc(84% - 1.5625rem);
+      flex-basis: calc(84% - 1.5625rem);
+      @include flex-variant(flex, $direction: row, $gap: 1.5625rem);
+      flex: 1 0;
+      .card {
+        max-width: 20%;
+        padding: 0.9375rem;
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $align: center,
+          $gap: 1.125rem
+        );
+        flex: 1 0;
+        border-radius: 0.875rem;
+        .icon {
+          width: 3.125rem;
+          height: 3.125rem;
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $align: center,
+            $justify: center
+          );
+          font-size: 1.5rem;
+          background-color: $grey-3;
+          border-radius: 50%;
+        }
+        .text {
+          height: 100%;
+          @include flex-variant(
+            flex,
+            $direction: column,
+            $justify: space-between
+          );
+          flex: 1 0;
+          text-align: center;
+          p {
+            font-size: 1.25rem;
+          }
+          span {
+            font-size: 1.75rem;
+            font-family: "Cairo-ExtraBold";
+          }
+        }
+        &:first-of-type {
+          background-color: $pink;
+          color: $white;
+          .icon {
+            @extend %color;
+          }
+        }
+        &:nth-of-type(2) {
+          background-color: $white;
+          color: $black;
+          .icon {
+            background-color: $black;
+            color: $white;
+          }
+        }
+        &:nth-of-type(3) {
+          background-color: $grey-7;
+          color: $white;
+          .icon {
+            @extend %color;
+          }
+        }
+      }
+    }
+  }
+}

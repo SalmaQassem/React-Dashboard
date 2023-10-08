@@ -9,8 +9,13 @@ import { useContext } from "react";
 import UserContext from "../../store/user-context";
 
 const main = [
-  { id: "0", name: "لوحة التحكم", icon: <MdOutlineDashboardCustomize /> },
-  { id: "1", name: "رسالة", icon: <IoIosChatbubbles /> },
+  {
+    id: "0",
+    name: "لوحة التحكم",
+    icon: <MdOutlineDashboardCustomize />,
+    url: "/dashboard",
+  },
+  { id: "1", name: "رسالة", icon: <IoIosChatbubbles />, url: "messages" },
 ];
 const usersOptions = [
   { id: "0", name: "مستخدم جديد", icon: <FiUserPlus /> },
@@ -27,7 +32,12 @@ const Aside = () => {
         <div className={styles.items}>
           {main.map((item) => {
             return (
-              <AsideItem key={item.id} name={item.name} icon={item.icon} />
+              <AsideItem
+                key={item.id}
+                name={item.name}
+                icon={item.icon}
+                url={item.url}
+              />
             );
           })}
         </div>

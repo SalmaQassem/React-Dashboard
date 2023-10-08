@@ -27,14 +27,14 @@ export async function action({ request }) {
     email: data.get("email"),
     password: data.get("password"),
   };
-  /*const response = await fetch("localhost:8000/api/login", {
+  /*const response = await fetch("https://zad.mqawilk.com/api/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(enteredData),
-  });
-  */
+  });*/
+
   const res = {
     accessToken: "kkk",
     user: {

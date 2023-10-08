@@ -12,6 +12,7 @@ const AuthForm = () => {
   const context = useContext(UserContext);
   const navigate = useNavigate();
   const data = useActionData();
+  
   useEffect(() => {
     if (data && !data.message) {
       //const content = data.json();
