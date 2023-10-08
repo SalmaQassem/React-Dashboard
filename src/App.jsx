@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
 import Dashboard from "./pages/dashboard";
-import Cookies from "js-cookie";
 import { useEffect, useContext } from "react";
 import UserContext from "./store/user-context";
 
@@ -15,13 +14,13 @@ const router = createBrowserRouter([
   {
     path: "dashboard",
     element: <Root />,
-    children: [{ index: true, element: <Dashboard /> }],
+    children: [{ index: true, element: <Dashboard /> },{}],
   },
 ]);
 function App() {
   const context = useContext(UserContext);
   useEffect(() => {
-    const storedUserData = Cookies.get("userData");
+    const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {
       const {
         id,

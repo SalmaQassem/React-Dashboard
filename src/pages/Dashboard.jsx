@@ -11,7 +11,7 @@ import Houses from "../components/Dashboard/Houses";
 
 const dateTime = [
   { id: "0", value: "13:35", icon: <BsClockHistory /> },
-  { id: "1", value: "30صفر1445", icon: <LuCalendarClock /> },
+  { id: "1", value: "30 صفر 1445", icon: <LuCalendarClock /> },
 ];
 
 const buildings = [

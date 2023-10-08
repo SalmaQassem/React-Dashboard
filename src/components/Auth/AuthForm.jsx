@@ -25,8 +25,8 @@ const AuthForm = () => {
         secure: true,
         httpOnly: true,
       });
-      //store user data in cookies
-      Cookies.set("userData", JSON.stringify(content.user), {
+      //store user data in local storage
+      localStorage.setItem("userData", JSON.stringify(content.user), {
         secure: true,
         httpOnly: true,
       });
