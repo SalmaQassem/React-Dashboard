@@ -6,6 +6,8 @@ import {
   BsHouseDoor,
 } from "react-icons/bs";
 import { LuCalendarClock } from "react-icons/lu";
+import Chart from "../components/Dashboard/Chart";
+import Houses from "../components/Dashboard/Houses";
 
 const dateTime = [
   { id: "0", value: "13:35", icon: <BsClockHistory /> },
@@ -51,8 +53,13 @@ const Dashboard = () => {
           })}
         </div>
       </div>
-      <div></div>
-      <div></div>
+      <div className={styles.chart}>
+        <Chart />
+      </div>
+      <div className={styles.houses}>
+        <h1>أخر سكن أو فندق تم إضافته</h1>
+        <Houses />
+      </div>
     </div>
   );
 };

@@ -9,7 +9,7 @@
     @include flex-variant(flex, $direction: row, $grow: 1);
     .body {
       width: 85%;
-      padding: 1.75rem;
+      padding: 1.75rem 2.5rem;
       background-color: $grey-3;
     }
   }
