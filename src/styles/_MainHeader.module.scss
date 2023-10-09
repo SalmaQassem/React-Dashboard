@@ -1,0 +1,22 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+
+.header {
+  margin-bottom: 2.1875rem;
+  @include flex-variant(flex, $direction: row, $align: center, $gap: 0.9375rem);
+  font-family: "Cairo-Bold";
+
+  h1 {
+    font-size: 1.375rem;
+  }
+
+  .icon {
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $justify: center
+    );
+    font-size: 2rem;
+  }
+}

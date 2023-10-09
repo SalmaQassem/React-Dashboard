@@ -1,0 +1,30 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+@use "./colors" as *;
+
+.button {
+  width: 25%;
+  padding: 0.75rem 2.5rem;
+  margin-right: auto;
+  @include flex-variant(
+    flex,
+    $direction: row,
+    $align: center,
+    $justify: space-between,
+    $gap: 1.25rem
+  );
+  font-size: 1.125rem;
+  font-family: "Cairo-ExtraBold";
+  color: $white;
+  background-color: $pink;
+  border-radius: 0.9375rem;
+  .icon {
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $justify: center
+    );
+    font-size: 1.5rem;
+  }
+}

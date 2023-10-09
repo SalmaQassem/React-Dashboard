@@ -1,0 +1,17 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+@use "./colors" as *;
+
+.option {
+  @include flex-variant(
+    flex,
+    $direction: row,
+    $align: center,
+    $justify: space-between
+  );
+  cursor: pointer;
+  
+  .icon {
+    font-size: 1.5rem;
+  }
+}

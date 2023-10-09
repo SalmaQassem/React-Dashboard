@@ -22,7 +22,9 @@ const usersOptions = [
   { id: "1", name: "صلاحيات المستخدم", icon: <FiUserCheck /> },
 ];
 const account = [{ id: "0", name: "حسابي", icon: <FaRegUserCircle /> }];
-const houses = [{ id: "0", name: "إضافة منشأة", icon: <LiaHotelSolid /> }];
+const houses = [
+  { id: "0", name: "إضافة منشأة", icon: <LiaHotelSolid />, url: "AddBuilding" },
+];
 
 const Aside = () => {
   const context = useContext(UserContext);
@@ -52,7 +54,12 @@ const Aside = () => {
           {(context.role === "super_admin" ? usersOptions : houses).map(
             (item) => {
               return (
-                <AsideItem key={item.id} name={item.name} icon={item.icon} />
+                <AsideItem
+                  key={item.id}
+                  name={item.name}
+                  icon={item.icon}
+                  url={item.url}
+                />
               );
             }
           )}

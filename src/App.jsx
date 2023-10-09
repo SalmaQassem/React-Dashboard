@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
 import Dashboard from "./pages/dashboard";
+import AddBuilding from "./pages/AddBuilding";
 import { useEffect, useContext } from "react";
 import UserContext from "./store/user-context";
 
@@ -14,7 +15,10 @@ const router = createBrowserRouter([
   {
     path: "dashboard",
     element: <Root />,
-    children: [{ index: true, element: <Dashboard /> },{}],
+    children: [
+      { index: true, element: <Dashboard /> },
+      { path: "AddBuilding", element: <AddBuilding /> },
+    ],
   },
 ]);
 function App() {
