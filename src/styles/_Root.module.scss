@@ -4,6 +4,7 @@
 .root {
   min-height: 100vh;
   @include flex-variant(flex, $direction: column);
+  overflow: hidden;
 
   .content {
     @include flex-variant(flex, $direction: row, $grow: 1);

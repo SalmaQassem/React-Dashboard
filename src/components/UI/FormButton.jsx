@@ -1,16 +1,13 @@
 import styles from "../../styles/_FormButton.module.scss";
-import { BsArrowLeftCircle } from "react-icons/bs";
 
 const FormButton = (props) => {
   const handleClick = () => {
     props.onClick();
   };
   return (
-    <button className={styles.button} onClick={handleClick}>
+    <button className={`${styles.button} ${props.class}`} onClick={handleClick}>
       <span>{props.children}</span>
-      <div className={styles.icon}>
-        <BsArrowLeftCircle />
-      </div>
+      <div className={styles.icon}>{props.icon}</div>
     </button>
   );
 };

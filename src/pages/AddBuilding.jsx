@@ -4,7 +4,7 @@ import MainHeader from "../components/UI/MainHeader";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { RiHotelLine } from "react-icons/ri";
-import { BsBuildings, BsBuildingGear } from "react-icons/bs";
+import { BsBuildings, BsBuildingGear, BsArrowLeftCircle } from "react-icons/bs";
 import { PiDoorOpenLight } from "react-icons/pi";
 import { GoLocation } from "react-icons/go";
 import {
@@ -26,6 +26,9 @@ import RadioButton from "../components/UI/RadioButton";
 import FormButton from "../components/UI/FormButton";
 import StyledContainer from "../components/UI/StyledContainer";
 import BuildingContext from "../store/building-context";
+import background from "../assets/images/Vector.png";
+import background1 from "../assets/images/Vector1.png";
+import Map from "../components/UI/Map";
 
 const firstPageInputs = [
   {
@@ -244,133 +247,158 @@ const AddBuilding = () => {
     //handleFile(fileUploaded);
   };
   return (
-    <StyledContainer>
-      <div className={styles.body}>
-        <MainHeader text="إضافة منشأة" icon={<LiaHotelSolid />} />
-        <Form className={styles.form}>
-          {pageNumber === 0 && (
-            <>
-              <div className={styles.inputs}>
-                {firstPageInputs.map((item) => {
-                  return item.type === "select" ? (
-                    <SelectInput
-                      key={item.id}
-                      options={item.options}
-                      placeholder={item.placeholder}
-                      icon={item.icon}
-                    />
-                  ) : (
-                    <div key={item.id} className={styles.input}>
-                      <input
-                        type={item.type}
-                        id={item.id}
-                        name={item.name}
+    <div className={styles.page}>
+      {/*pageNumber === 2 && (
+        <>
+          <img className={styles.headVector} src={background} alt="" />
+          <img className={styles.bottomVector} src={background1} alt="" />
+        </>
+      )*/}
+      <StyledContainer>
+        <div className={styles.body}>
+          <MainHeader text="إضافة منشأة" icon={<LiaHotelSolid />} />
+          <Form className={styles.form}>
+            {pageNumber === 0 && (
+              <>
+                <div className={styles.inputs}>
+                  {firstPageInputs.map((item) => {
+                    return item.type === "select" ? (
+                      <SelectInput
+                        key={item.id}
+                        options={item.options}
                         placeholder={item.placeholder}
+                        icon={item.icon}
                       />
-                      <div className={styles.icon}>{item.icon}</div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className={styles.radioButtons}>
-                {radioItems.map((item) => {
-                  return (
-                    <div key={item.id} className={styles.radioButton}>
-                      <p className={styles.title}>{item.title}</p>
-                      <div className={styles.content}>
-                        {item.radios.map((radio) => {
-                          return (
-                            <RadioButton
-                              key={radio.id}
-                              name={radio.name}
-                              value={radio.id}
-                              label={radio.label}
-                              onChange={inputHandler}
-                            />
-                          );
-                        })}
+                    ) : (
+                      <div key={item.id} className={styles.input}>
+                        <input
+                          type={item.type}
+                          id={item.id}
+                          name={item.name}
+                          placeholder={item.placeholder}
+                        />
+                        <div className={styles.icon}>{item.icon}</div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <FormButton onClick={handlePageData}>
-                أكمل تسجيل المنشأة
-              </FormButton>
-            </>
-          )}
-          {pageNumber === 1 && (
-            <>
-              <div className={styles.inputs}>
-                {secondPageInputs.map((item) => {
-                  return item.type === "select" ? (
-                    <SelectInput
-                      key={item.id}
-                      options={item.options}
-                      placeholder={item.placeholder}
-                      icon={item.icon}
-                    />
-                  ) : (
-                    <div key={item.id} className={styles.input}>
-                      <input
-                        type={item.type}
-                        id={item.id}
-                        name={item.name}
-                        placeholder={item.placeholder}
-                      />
-                      <div className={styles.icon}>{item.icon}</div>
-                    </div>
-                  );
-                })}
-                <div className={styles.selectFile}>
-                  <>
-                    <button onClick={handleClick}>اختر الملف</button>
-                    <input
-                      type="file"
-                      id="files"
-                      name="files"
-                      accept="image/jpg, .pdf,.docx,.doc"
-                      onChange={handleChange}
-                      ref={hiddenFileInput}
-                      style={{ display: "none" }}
-                    />
-                  </>
-                  <p>الملفات المسموحة: jpg, pdf, docx, doc</p>
+                    );
+                  })}
                 </div>
-              </div>
-              {tableData.length > 0 && (
-                <div className={styles.table}>
-                  <div className={styles.head}>
-                    {tableHead.map((item) => {
-                      return <p key={item.id}>{item.text}</p>;
-                    })}
-                  </div>
-                  <div className={styles.tableBody}>
-                    {tableData.map((item, index) => {
-                      return (
-                        <div key={index} className={styles.item}>
-                          <div className={styles.tableData}>
-                            <p className={styles.num}>{index + 1}</p>
-                            <p className={styles.name}>{item.fileName}</p>
-                            <p className={styles.type}>{item.type}</p>
-                          </div>
-                          <button className={styles.delete}>
-                            <IoClose />
-                          </button>
+                <div className={styles.radioButtons}>
+                  {radioItems.map((item) => {
+                    return (
+                      <div key={item.id} className={styles.radioButton}>
+                        <p className={styles.title}>{item.title}</p>
+                        <div className={styles.content}>
+                          {item.radios.map((radio) => {
+                            return (
+                              <RadioButton
+                                key={radio.id}
+                                name={radio.name}
+                                value={radio.id}
+                                label={radio.label}
+                                onChange={inputHandler}
+                              />
+                            );
+                          })}
                         </div>
-                      );
-                    })}
+                      </div>
+                    );
+                  })}
+                </div>
+                <FormButton
+                  onClick={handlePageData}
+                  icon={<BsArrowLeftCircle />}
+                >
+                  أكمل تسجيل المنشأة
+                </FormButton>
+              </>
+            )}
+            {pageNumber === 1 && (
+              <>
+                <div className={styles.inputs}>
+                  {secondPageInputs.map((item) => {
+                    return item.type === "select" ? (
+                      <SelectInput
+                        key={item.id}
+                        options={item.options}
+                        placeholder={item.placeholder}
+                        icon={item.icon}
+                      />
+                    ) : (
+                      <div key={item.id} className={styles.input}>
+                        <input
+                          type={item.type}
+                          id={item.id}
+                          name={item.name}
+                          placeholder={item.placeholder}
+                        />
+                        <div className={styles.icon}>{item.icon}</div>
+                      </div>
+                    );
+                  })}
+                  <div className={styles.selectFile}>
+                    <>
+                      <button onClick={handleClick}>اختر الملف</button>
+                      <input
+                        type="file"
+                        id="files"
+                        name="files"
+                        accept="image/jpg, .pdf,.docx,.doc"
+                        onChange={handleChange}
+                        ref={hiddenFileInput}
+                        style={{ display: "none" }}
+                      />
+                    </>
+                    <p>الملفات المسموحة: jpg, pdf, docx, doc</p>
                   </div>
                 </div>
-              )}
-              <FormButton onClick={handlePageData}>
-                أكمل تسجيل المنشأة
-              </FormButton>
-            </>
-          )}
-        </Form>
-      </div>
-    </StyledContainer>
+                {tableData.length > 0 && (
+                  <div className={styles.table}>
+                    <div className={styles.head}>
+                      {tableHead.map((item) => {
+                        return <p key={item.id}>{item.text}</p>;
+                      })}
+                    </div>
+                    <div className={styles.tableBody}>
+                      {tableData.map((item, index) => {
+                        return (
+                          <div key={index} className={styles.item}>
+                            <div className={styles.tableData}>
+                              <p className={styles.num}>{index + 1}</p>
+                              <p className={styles.name}>{item.fileName}</p>
+                              <p className={styles.type}>{item.type}</p>
+                            </div>
+                            <button className={styles.delete}>
+                              <IoClose />
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+                <FormButton
+                  onClick={handlePageData}
+                  icon={<BsArrowLeftCircle />}
+                >
+                  أكمل تسجيل المنشأة
+                </FormButton>
+              </>
+            )}
+            {pageNumber === 2 && (
+              <div className={styles.map}>
+                <p>تحديد المنشأة على الخريطة</p>
+                <div className={styles.mapItem}>
+                  <Map />
+                </div>
+                <FormButton class={styles.save} icon={<LiaHotelSolid />}>
+                  حفظ تسجيل المنشأة
+                </FormButton>
+              </div>
+            )}
+          </Form>
+        </div>
+      </StyledContainer>
+    </div>
   );
 };
 
