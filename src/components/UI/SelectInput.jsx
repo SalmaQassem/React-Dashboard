@@ -1,8 +1,10 @@
 import styles from "../../styles/_SelectInput.module.scss";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import Select, { components } from "react-select";
+import BuildingContext from "../../store/building-context";
 
 const SelectInput = (props) => {
+  const context = useContext(BuildingContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenuOpen = () => {
     setMenuOpen(true);
@@ -11,6 +13,7 @@ const SelectInput = (props) => {
     setMenuOpen(false);
   };
   const [selectedOption, setSelectedOption] = useState(null);
+
   const arrowIcon = props.icon;
   const DropdownIndicator = (props) => {
     return (
@@ -24,7 +27,9 @@ const SelectInput = (props) => {
       <components.Option {...props}>
         <div className={styles.option}>
           <span>{props.data.label}</span>
-          <div className={styles.icon}>{props.data.icon}</div>
+          {props.data.icon && (
+            <div className={styles.icon}>{props.data.icon}</div>
+          )}
         </div>
       </components.Option>
     );
@@ -89,13 +94,17 @@ const SelectInput = (props) => {
           : state.isSelected && "#d11242",
     }),
   };
-
+  useEffect(() => {
+    if (selectedOption) {
+      context.setSecondPage(selectedOption.value);
+      //sessionStorage.setItem("selectedType", selectedOption.value);
+    }
+  }, [selectedOption]);
   return (
     <Select
       defaultValue={selectedOption}
-      placeholder={props.placeholder}
+      {...props}
       onChange={setSelectedOption}
-      options={props.options}
       menuIsOpen={menuOpen}
       onMenuOpen={handleMenuOpen}
       onMenuClose={handleMenuClose}
