@@ -4,6 +4,7 @@ import Root from "./pages/Root";
 import Dashboard from "./pages/dashboard";
 import AddBuilding from "./pages/AddBuilding";
 import Review from "./pages/Review";
+import Contract from "./pages/Contract";
 import { useEffect, useContext } from "react";
 import UserContext from "./store/user-context";
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       { index: true, element: <Dashboard /> },
       { path: "AddBuilding", element: <AddBuilding /> },
       { path: "Review", element: <Review /> },
+      { path: "Contract", element: <Contract /> },
     ],
   },
 ]);

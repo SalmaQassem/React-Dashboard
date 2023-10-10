@@ -27,6 +27,7 @@ import RadioButton from "../components/UI/RadioButton";
 import FormButton from "../components/UI/FormButton";
 import StyledContainer from "../components/UI/StyledContainer";
 import BuildingContext from "../store/building-context";
+import AsideContext from "../store/aside-context";
 //import background from "../assets/images/Vector.png";
 //import background1 from "../assets/images/Vector1.png";
 import Map from "../components/UI/Map";
@@ -219,6 +220,7 @@ const tableHead = [
 ];
 const AddBuilding = () => {
   const context = useContext(BuildingContext);
+  const asideContext = useContext(AsideContext);
   const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState(0);
   const [input, setInput] = useState("");
@@ -249,7 +251,8 @@ const AddBuilding = () => {
     //handleFile(fileUploaded);
   };
   const saveData = () => {
-    navigate('/dashboard/Review');
+    asideContext.setIsOpened();
+    navigate("/dashboard/Review");
   };
   return (
     <div className={styles.page}>

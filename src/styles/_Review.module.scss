@@ -1,4 +1,59 @@
-.gallery {
-  width: 100%;
-  height: 100%;
+@use "./colors" as *;
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+
+%font {
+  font-family: "Cairo-Bold";
+  font-size: 1rem;
+  color: $white;
+}
+.review {
+  @include flex-variant(flex, $direction: column, $gap: 1.75rem);
+
+  .filters {
+    padding: 1rem;
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $justify: space-between
+    );
+    background-color: $pink;
+    @extend %font;
+    border-radius: 1.125rem 1.125rem 0 0;
+
+    .filterItems {
+      width: 30%;
+      @include flex-variant(flex, $direction: row, $align: center, $gap: 1rem);
+      a {
+        padding: 0.75rem 0.75rem;
+        flex: 1 0;
+        @extend %font;
+        background-color: $black;
+        border: 0.0625rem solid $white;
+        border-radius: 0.9375rem;
+        text-align: center;
+      }
+    }
+  }
+  .info {
+    padding: 1rem;
+    background-color: $pink-1;
+    .wrapper {
+      @include flex-variant(
+        flex,
+        $direction: row,
+        $align: center,
+        $justify: center,
+        $gap: 1rem
+      );
+      .infoItem {
+        padding: 2rem;
+        @extend %font;
+        background-color: $pink;
+        border-radius: 0.9375rem 2.5rem 0.9375rem 0.9375rem;
+        border: 0.0625rem solid $white;
+      }
+    }
+  }
 }

@@ -9,6 +9,9 @@
   @include flex-variant(flex, $direction: column, $gap: 2.25rem);
   font-family: "Cairo-Bold";
   background-color: $pink;
+  &.close {
+    display: none;
+  }
 
   .section {
     width: 100%;

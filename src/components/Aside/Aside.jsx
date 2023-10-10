@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { LiaHotelSolid } from "react-icons/lia";
 import AsideItem from "./AsideItem";
 import { useContext } from "react";
+import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
 
 const main = [
@@ -27,9 +28,14 @@ const houses = [
 ];
 
 const Aside = () => {
+  const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
   return (
-    <aside className={styles.aside}>
+    <aside
+      className={
+        asideContext.isOpened ? styles.aside : `${styles.aside} ${styles.close}`
+      }
+    >
       <div className={styles.section}>
         <div className={styles.items}>
           {main.map((item) => {

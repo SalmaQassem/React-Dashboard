@@ -10,9 +10,14 @@ import {
 } from "react-icons/hi2";
 import user from "../../assets/images/Ellipse.png";
 import { useContext } from "react";
+import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
 const NavBar = () => {
+  const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
+  const onBarsClick = () => {
+    asideContext.setIsOpened();
+  };
   return (
     <nav className={styles.nav}>
       <StyledContainer>
@@ -21,7 +26,7 @@ const NavBar = () => {
             <div className={styles.logo}>
               <img src={logo} alt="logo" />
             </div>
-            <div className={styles.bars}>
+            <div className={styles.bars} onClick={onBarsClick}>
               <span />
               <span />
               <span />

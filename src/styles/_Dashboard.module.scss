@@ -8,6 +8,7 @@
 }
 .dashboard {
   width: 100%;
+  padding: 1.75rem 2.5rem;
   @include flex-variant(flex, $direction: column, $gap: 2.5rem);
   .info {
     @include flex-variant(flex, $direction: row, $align: center, $gap: 2.5rem);
