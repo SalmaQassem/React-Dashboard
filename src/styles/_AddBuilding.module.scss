@@ -32,11 +32,11 @@
   position: relative;
   .headVector {
     @extend %img;
-    top: -45%;
+    top: -40%;
   }
   .bottomVector {
     @extend %img;
-    bottom: -45%;
+    bottom: -40%;
   }
 
   .body {

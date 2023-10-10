@@ -18,9 +18,11 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
+    "react-images-viewer": "^1.7.1",
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.16.0",
     "react-select": "^5.7.7",
+    "react-simple-image-viewer": "^1.2.2",
     "sass": "^1.64.2",
     "styled-components": "^6.0.7"
   },

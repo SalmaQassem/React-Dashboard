@@ -1,5 +1,6 @@
 import styles from "../styles/_AddBuilding.module.scss";
 import { useState, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import MainHeader from "../components/UI/MainHeader";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
@@ -26,8 +27,8 @@ import RadioButton from "../components/UI/RadioButton";
 import FormButton from "../components/UI/FormButton";
 import StyledContainer from "../components/UI/StyledContainer";
 import BuildingContext from "../store/building-context";
-import background from "../assets/images/Vector.png";
-import background1 from "../assets/images/Vector1.png";
+//import background from "../assets/images/Vector.png";
+//import background1 from "../assets/images/Vector1.png";
 import Map from "../components/UI/Map";
 
 const firstPageInputs = [
@@ -218,6 +219,7 @@ const tableHead = [
 ];
 const AddBuilding = () => {
   const context = useContext(BuildingContext);
+  const navigate = useNavigate();
   const [pageNumber, setPageNumber] = useState(0);
   const [input, setInput] = useState("");
   const [tableData, setTableData] = useState([]);
@@ -245,6 +247,9 @@ const AddBuilding = () => {
       });
     }
     //handleFile(fileUploaded);
+  };
+  const saveData = () => {
+    navigate('/dashboard/Review');
   };
   return (
     <div className={styles.page}>
@@ -390,7 +395,11 @@ const AddBuilding = () => {
                 <div className={styles.mapItem}>
                   <Map />
                 </div>
-                <FormButton class={styles.save} icon={<LiaHotelSolid />}>
+                <FormButton
+                  class={styles.save}
+                  icon={<LiaHotelSolid />}
+                  onClick={saveData}
+                >
                   حفظ تسجيل المنشأة
                 </FormButton>
               </div>

@@ -37,6 +37,14 @@ button {
   cursor: pointer;
 }
 
-.leaflet-container{
+.leaflet-container {
   height: 100%;
+}
+#viewerBackdrop {
+  > div {
+    min-width: 50vw;
+    img {
+      width: 100%;
+    }
+  }
 }
