@@ -10,6 +10,7 @@
     @include flex-variant(flex, $direction: row, $grow: 1);
     .body {
       width: 85%;
+      position: relative;
       background-color: $grey-3;
       &.full {
         width: 100%;

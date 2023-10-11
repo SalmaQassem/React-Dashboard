@@ -3,7 +3,6 @@
 @use "./colors" as *;
 
 %styles {
-  width: 65%;
   border: 0.0625rem solid $grey-9;
   border-radius: 0.5rem;
   font-family: "Cairo-Regular";
@@ -14,6 +13,7 @@
   font-size: 1rem;
 }
 .contract {
+  //min-height: 150vh;
   padding-top: 1.75rem;
   @include flex-variant(
     flex,
@@ -55,7 +55,7 @@
       @include flex-variant(
         flex,
         $direction: column,
-        $justify: space-between,
+        //$justify: space-between,
         $gap: 2.5rem
       );
       .inputs {
@@ -63,20 +63,21 @@
         .input {
           height: 3.125rem;
           width: 100%;
-          @extend %styles;
           padding: 0 0.9375rem;
-          @include flex-variant(flex, $direction: row, $align: center);
+          position: relative;
+          @extend %styles;
           background-color: $white;
           input {
-            flex: 1 0;
-            width: 100%;
+            width: calc(100% - 1.875rem);
+            height: 100%;
+            padding-left: 1.875rem;
+            position: absolute;
+            right: 0.9375rem;
+            top: 0;
+            z-index: 1;
             @extend %font;
+            background-color: transparent;
           }
-          /*input[type="date"]::-webkit-datetime-edit-year-field,
-            input[type="date"]::-webkit-datetime-edit-month-field,
-            input[type="date"]::-webkit-datetime-edit-day-field {
-              color: transparent;
-            }*/
           .icon {
             @include flex-variant(
               flex,
@@ -84,6 +85,10 @@
               $align: center,
               $justify: center
             );
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0.9375rem;
             font-size: 1.5rem;
             color: $pink;
           }
@@ -104,3 +109,9 @@
     }
   }
 }
+/*.vector {
+  position: absolute;
+  width: 17%;
+  right: 0;
+  bottom: 0;
+}*/
