@@ -53,6 +53,57 @@
         background-color: $pink;
         border-radius: 0.9375rem 2.5rem 0.9375rem 0.9375rem;
         border: 0.0625rem solid $white;
+        cursor: pointer;
+        &.active {
+          background-color: $black;
+        }
+      }
+    }
+  }
+  .data {
+    min-height: 65vh;
+    > .img {
+      width: 16vw;
+      height: 100%;
+      position: absolute;
+      background-image: url("../assets/images/Vector3.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      left: 0;
+    }
+    .filteredData {
+      padding: 1.75rem 0;
+      @include flex-variant(flex, $direction: column, $gap: 1.5rem);
+      .message {
+        text-align: center;
+        @extend %font;
+        color: $black;
+      }
+      .item {
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $align: center,
+          $gap: 1.75rem
+        );
+        .name {
+          width: 20%;
+          @extend %font;
+          color: $black;
+          overflow-wrap: break-word;  
+        }
+        .value {
+          width: 10%;
+          @extend %font;
+          color: $grey-10;
+        }
+        .icon {
+          width: 10%;
+          @include flex-variant(flex, $direction: row, $align: center);
+          @extend %font;
+          font-size: 2rem;
+          color: $grey-5;
+        }
       }
     }
   }
