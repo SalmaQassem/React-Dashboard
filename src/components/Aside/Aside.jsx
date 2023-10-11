@@ -24,7 +24,7 @@ const usersOptions = [
     id: "1",
     name: "صلاحيات المستخدم",
     icon: <FiUserCheck />,
-    url: "/dashboard",
+    url: "UserPermits",
   },
 ];
 const account = [
@@ -37,7 +37,7 @@ const houses = [
 const Aside = () => {
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
-  const [isActive, setIsActive] = useState("لوحة التحكم");
+  const [isActive, setIsActive] = useState("");
   const clickHandler = (text) => {
     setIsActive(text);
   };

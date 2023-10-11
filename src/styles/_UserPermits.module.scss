@@ -1,0 +1,8 @@
+@use "../helpers/mixins" as *;
+
+.userPermits {
+  padding: 1.75rem 2.5rem;
+  .forms {
+    @include flex-variant(flex, $direction: column, $gap: 1.25rem);
+  }
+}

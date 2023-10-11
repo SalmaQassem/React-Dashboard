@@ -58,6 +58,7 @@ const NewUserForm = () => {
   const inputHandler = ({ target: { value } }) => {
     setInput(value);
   };
+  
   const handleSubmit = () => {};
   return (
     <div className={styles.addUser}>
