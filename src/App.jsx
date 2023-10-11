@@ -7,6 +7,7 @@ import AddBuilding from "./pages/AddBuilding";
 import Review from "./pages/Review";
 import Contract from "./pages/Contract";
 import UserPermits from "./pages/UserPermits";
+import Profile from "./pages/Profle";
 import { useEffect, useContext } from "react";
 import UserContext from "./store/user-context";
 
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { index: true, element: <Dashboard /> },
       { path: "NewUser", element: <NewUser /> },
       { path: "UserPermits", element: <UserPermits /> },
+      { path: "Profile", element: <Profile /> },
       { path: "AddBuilding", element: <AddBuilding /> },
       { path: "Review", element: <Review /> },
       { path: "Contract", element: <Contract /> },

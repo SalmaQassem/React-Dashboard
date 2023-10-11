@@ -22,13 +22,13 @@ const usersOptions = [
   { id: "0", name: "مستخدم جديد", icon: <FiUserPlus />, url: "NewUser" },
   {
     id: "1",
-    name: "صلاحيات المستخدم",
+    name: "صلاحيات المستخدمين",
     icon: <FiUserCheck />,
     url: "UserPermits",
   },
 ];
 const account = [
-  { id: "0", name: "حسابي", icon: <FaRegUserCircle />, url: "/dashboard" },
+  { id: "0", name: "حسابي", icon: <FaRegUserCircle />, url: "Profile" },
 ];
 const houses = [
   { id: "0", name: "إضافة منشأة", icon: <LiaHotelSolid />, url: "AddBuilding" },
@@ -64,15 +64,11 @@ const Aside = () => {
           })}
         </div>
       </div>
-      <div className={styles.section}>
-        <span>
-          {context.role === "super_admin"
-            ? "إدارة المستخدمين"
-            : "إدارة المنشأه"}
-        </span>
-        <div className={styles.items}>
-          {(context.role === "super_admin" ? usersOptions : houses).map(
-            (item) => {
+      {context.role === "super_admin" && (
+        <div className={styles.section}>
+          <span>إدارة المستخدمين</span>
+          <div className={styles.items}>
+            {usersOptions.map((item) => {
               return (
                 <AsideItem
                   key={item.id}
@@ -83,8 +79,25 @@ const Aside = () => {
                   handleClick={clickHandler}
                 />
               );
-            }
-          )}
+            })}
+          </div>
+        </div>
+      )}
+      <div className={styles.section}>
+        <span>إدارة المنشأة</span>
+        <div className={styles.items}>
+          {houses.map((item) => {
+            return (
+              <AsideItem
+                key={item.id}
+                name={item.name}
+                icon={item.icon}
+                url={item.url}
+                isActive={isActive}
+                handleClick={clickHandler}
+              />
+            );
+          })}
         </div>
       </div>
       <div className={styles.section}>
@@ -96,6 +109,7 @@ const Aside = () => {
                 key={item.id}
                 name={item.name}
                 icon={item.icon}
+                url={item.url}
                 isActive={isActive}
                 handleClick={clickHandler}
               />
