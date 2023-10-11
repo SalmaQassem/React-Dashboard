@@ -43,7 +43,7 @@ export async function action({ request }) {
       last_name: "منتصر",
       phone: 536,
       email: "test@gmail.com",
-      role: "writer",
+      role: "super_admin",
       created_at: "",
       updated_at: "",
     },

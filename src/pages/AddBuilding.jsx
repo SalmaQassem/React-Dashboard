@@ -302,6 +302,7 @@ const AddBuilding = () => {
                                 key={radio.id}
                                 name={radio.name}
                                 value={radio.id}
+                                icon="true"
                                 label={radio.label}
                                 onChange={inputHandler}
                               />

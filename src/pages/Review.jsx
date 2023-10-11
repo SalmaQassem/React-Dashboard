@@ -57,7 +57,6 @@ const Review = () => {
   const [filter, setFilter] = useState("بيانات المنشأة");
   const [filteredData, setFilteredData] = useState([]);
   const filterHandler = (e) => {
-    //console.log(e.target.id);
     setIsActive(e.target.id);
     setFilter(e.target.textContent);
   };

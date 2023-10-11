@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
 import Dashboard from "./pages/dashboard";
+import NewUser from "./pages/NewUser";
 import AddBuilding from "./pages/AddBuilding";
 import Review from "./pages/Review";
 import Contract from "./pages/Contract";
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       { index: true, element: <Dashboard /> },
+      { path: "NewUser", element: <NewUser /> },
       { path: "AddBuilding", element: <AddBuilding /> },
       { path: "Review", element: <Review /> },
       { path: "Contract", element: <Contract /> },

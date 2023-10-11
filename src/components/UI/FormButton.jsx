@@ -7,7 +7,7 @@ const FormButton = (props) => {
   return (
     <button className={`${styles.button} ${props.class}`} onClick={handleClick}>
       <span>{props.children}</span>
-      <div className={styles.icon}>{props.icon}</div>
+      {props.icon && <div className={styles.icon}>{props.icon}</div>}
     </button>
   );
 };

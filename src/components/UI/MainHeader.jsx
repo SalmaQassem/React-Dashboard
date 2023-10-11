@@ -2,7 +2,7 @@ import styles from "../../styles/_MainHeader.module.scss";
 
 const StyledHeader = (props) => {
   return (
-    <div className={styles.header}>
+    <div className={`${styles.header} ${props.class}`}>
       <h1>{props.text}</h1>
       <div className={styles.icon}>{props.icon}</div>
     </div>

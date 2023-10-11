@@ -19,7 +19,7 @@ const main = [
   { id: "1", name: "رسالة", icon: <IoIosChatbubbles />, url: "messages" },
 ];
 const usersOptions = [
-  { id: "0", name: "مستخدم جديد", icon: <FiUserPlus /> },
+  { id: "0", name: "مستخدم جديد", icon: <FiUserPlus />, url: "NewUser" },
   { id: "1", name: "صلاحيات المستخدم", icon: <FiUserCheck /> },
 ];
 const account = [{ id: "0", name: "حسابي", icon: <FaRegUserCircle /> }];
