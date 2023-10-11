@@ -32,7 +32,7 @@ const Review = () => {
             <p>غرف شقق للإيجار موسم الحج في العزيزية مكة</p>
             <div className={styles.filterItems}>
               <Link to="/dashboard/AddBuilding">تعديل بيانات المنشأة</Link>
-              <Link to="contract">تعاقد</Link>
+              <Link to="/dashboard/Contract">تعاقد</Link>
             </div>
           </div>
         </StyledContainer>
