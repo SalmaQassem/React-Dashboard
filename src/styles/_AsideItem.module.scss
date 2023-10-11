@@ -14,7 +14,10 @@
   background-color: $white;
   border-radius: 0.625rem;
   cursor: pointer;
-
+  &.active {
+    background-color: $grey-11;
+    color: $white;
+  }
   span {
     font-size: 1rem;
     flex: 1;
