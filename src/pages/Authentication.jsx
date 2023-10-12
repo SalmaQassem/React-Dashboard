@@ -33,8 +33,18 @@ export async function action({ request }) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(enteredData),
-  });*/
+  });
 
+  const ret = await response.json();*/
+  //console.log(res.accessToken);
+  /*const res = await fetch("https://zad.mqawilk.com/api/profile", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(ret.accessToken),
+  });
+  const userData = await res.json();*/
   const res = {
     accessToken: "kkk",
     user: {
@@ -50,6 +60,6 @@ export async function action({ request }) {
   };
   //const res = { message: "email or password invalid" };
 
+  //return res;
   return res;
-  //return response;
 }

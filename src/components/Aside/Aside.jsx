@@ -16,7 +16,7 @@ const main = [
     icon: <MdOutlineDashboardCustomize />,
     url: "",
   },
-  { id: "1", name: "رسالة", icon: <IoIosChatbubbles />, url: "/dashboard" },
+  { id: "1", name: "رسالة", icon: <IoIosChatbubbles />, url: "Messages" },
 ];
 const usersOptions = [
   { id: "0", name: "مستخدم جديد", icon: <FiUserPlus />, url: "NewUser" },
