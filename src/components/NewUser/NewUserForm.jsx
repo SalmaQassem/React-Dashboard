@@ -1,7 +1,7 @@
 import styles from "../../styles/_NewUserForm.module.scss";
-import { useState } from "react";
+import { useEffect } from "react";
 import RadioButton from "../UI/RadioButton";
-import { Form } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 import FormButton from "../UI/FormButton";
 
 const radioItems = [
@@ -9,9 +9,9 @@ const radioItems = [
     id: "0",
     title: "نوع المستخدم",
     radios: [
-      { id: "0", name: "input1", label: "أدمن" },
+      { id: "super_admin", name: "input1", label: "أدمن" },
       { id: "1", name: "input1", label: "مشرف" },
-      { id: "2", name: "input1", label: "مدخل بيانات" },
+      { id: "writer", name: "input1", label: "مدخل بيانات" },
     ],
   },
 ];
@@ -54,15 +54,18 @@ const inputs = [
   },
 ];
 const NewUserForm = () => {
-  const [input, setInput] = useState("");
-  const inputHandler = ({ target: { value } }) => {
-    setInput(value);
-  };
-  
-  const handleSubmit = () => {};
+  const data = useActionData();
+
+  useEffect(() => {
+    if (data && !data.message) {
+      alert(data.success);
+    } else {
+      console.log("error");
+    }
+  }, [data]);
   return (
     <div className={styles.addUser}>
-      <Form className={styles.form}>
+      <Form method="post" className={styles.form}>
         <div className={styles.radioButtons}>
           {radioItems.map((item) => {
             return (
@@ -77,7 +80,7 @@ const NewUserForm = () => {
                         icon="false"
                         value={radio.id}
                         label={radio.label}
-                        onChange={inputHandler}
+                        //onChange={inputHandler}
                       />
                     );
                   })}
@@ -98,7 +101,7 @@ const NewUserForm = () => {
             );
           })}
         </div>
-        <FormButton class={styles.submit} onClick={handleSubmit}>
+        <FormButton class={styles.submit} type="submit">
           تفعيل المستخدم
         </FormButton>
       </Form>

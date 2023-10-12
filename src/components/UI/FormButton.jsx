@@ -5,7 +5,13 @@ const FormButton = (props) => {
     props.onClick();
   };
   return (
-    <button className={`${styles.button} ${props.class}`} onClick={handleClick}>
+    <button
+      type={props.type}
+      className={
+        props.class ? `${styles.button} ${props.class}` : styles.button
+      }
+      onClick={props.onClick && handleClick}
+    >
       <span>{props.children}</span>
       {props.icon && <div className={styles.icon}>{props.icon}</div>}
     </button>

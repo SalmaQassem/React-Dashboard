@@ -3,7 +3,7 @@ import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
 import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
 import NewUser, { action as NewUserAction } from "./pages/NewUser";
-import AddBuilding from "./pages/AddBuilding";
+import AddBuilding, { action as AddBildingAction } from "./pages/AddBuilding";
 import Review from "./pages/Review";
 import Contract from "./pages/Contract";
 import UserPermits from "./pages/UserPermits";
@@ -39,7 +39,11 @@ const router = createBrowserRouter([
       { path: "NewUser", element: <NewUser />, action: NewUserAction },
       { path: "UserPermits", element: <UserPermits /> },
       { path: "Profile", element: <Profile /> },
-      { path: "AddBuilding", element: <AddBuilding /> },
+      {
+        path: "AddBuilding",
+        element: <AddBuilding />,
+        action: AddBildingAction,
+      },
       { path: "Review", element: <Review /> },
       { path: "Contract", element: <Contract /> },
     ],
