@@ -1,14 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
-import Dashboard from "./pages/dashboard";
-import NewUser from "./pages/NewUser";
+import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
+import NewUser, { action as NewUserAction } from "./pages/NewUser";
 import AddBuilding from "./pages/AddBuilding";
 import Review from "./pages/Review";
 import Contract from "./pages/Contract";
 import UserPermits from "./pages/UserPermits";
 import Profile from "./pages/Profle";
-import Messages from "./pages/Messages";
+import Messages, {
+  loader as MessagesLoader,
+  action as MessagesAction,
+} from "./pages/Messages";
 import { useEffect, useContext } from "react";
 import UserContext from "./store/user-context";
 
@@ -22,11 +25,20 @@ const router = createBrowserRouter([
     path: "dashboard",
     element: <Root />,
     children: [
-      { index: true, element: <Dashboard /> },
-      { path: "NewUser", element: <NewUser /> },
+      {
+        index: true,
+        element: <Dashboard />,
+        loader: dashboardLoader,
+      },
+      {
+        path: "Messages",
+        element: <Messages />,
+        loader: MessagesLoader,
+        action: MessagesAction,
+      },
+      { path: "NewUser", element: <NewUser />, action: NewUserAction },
       { path: "UserPermits", element: <UserPermits /> },
       { path: "Profile", element: <Profile /> },
-      { path: "Messages", element: <Messages /> },
       { path: "AddBuilding", element: <AddBuilding /> },
       { path: "Review", element: <Review /> },
       { path: "Contract", element: <Contract /> },

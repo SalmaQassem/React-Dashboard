@@ -17,3 +17,7 @@ const NewUser = () => {
 };
 
 export default NewUser;
+
+export function action(){
+  return "";
+}

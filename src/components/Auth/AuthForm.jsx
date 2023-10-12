@@ -2,34 +2,31 @@ import styles from "../../styles/_AuthForm.module.scss";
 import logo from "../../assets/images/logo.png";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineMail } from "react-icons/hi";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { Form, useActionData, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import UserContext from "../../store/user-context";
 import { useEffect, useContext } from "react";
+import { useState } from "react";
 
 const AuthForm = () => {
   const context = useContext(UserContext);
   const navigate = useNavigate();
   const data = useActionData();
-
+  const [isShown, setIsShown] = useState(false);
+  const showPassword = () => {
+    setIsShown((prevState) => {
+      return !prevState;
+    });
+  };
   useEffect(() => {
     if (data && !data.message) {
-      //const content = data.json();
-      const content = data;
-      if (data.status === 401) {
-        alert(content.message);
-      }
       //store token in cookies
-      Cookies.set("token", content.accessToken, {
+      Cookies.set("token", data.accessToken, {
         secure: true,
-        httpOnly: true,
       });
       //store user data in local storage
-      localStorage.setItem("userData", JSON.stringify(content.user), {
-        secure: true,
-        httpOnly: true,
-      });
+      localStorage.setItem("userData", JSON.stringify(data.user));
       //store user data in context
       const {
         id,
@@ -40,7 +37,7 @@ const AuthForm = () => {
         role,
         created_at,
         updated_at,
-      } = content.user;
+      } = data.user;
       context.setUserData(
         id,
         first_name,
@@ -84,9 +81,16 @@ const AuthForm = () => {
         <div className={styles.input}>
           <div className={styles.field}>
             <label htmlFor="password">كلمة المرور</label>
-            <input type="password" id="password" name="password" />
-            <div className={`${styles.showPass} ${styles.icon}`}>
-              <AiOutlineEyeInvisible />
+            <input
+              type={isShown ? "text" : "password"}
+              id="password"
+              name="password"
+            />
+            <div
+              className={`${styles.showPass} ${styles.icon}`}
+              onClick={showPassword}
+            >
+              {isShown ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
             </div>
           </div>
         </div>

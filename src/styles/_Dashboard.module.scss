@@ -6,6 +6,10 @@
   background-color: $white;
   color: $black;
 }
+%text {
+  font-size: 1.25rem;
+  flex: 1 0;
+}
 .dashboard {
   width: 100%;
   padding: 1.75rem 2.5rem;
@@ -14,8 +18,8 @@
     @include flex-variant(flex, $direction: row, $align: center, $gap: 2.5rem);
     font-family: "Cairo-Medium";
     .dateTime {
-      width: calc(16% - 1.5625rem);
-      flex-basis: calc(16% - 1.5625rem);
+      width: calc(25% - 1.5625rem);
+      flex-basis: calc(25% - 1.5625rem);
       @include flex-variant(
         flex,
         $direction: column,
@@ -27,7 +31,7 @@
           flex,
           $direction: row,
           $align: center,
-          $justify: space-between
+          $gap: 1rem
         );
         .icon {
           @include flex-variant(
@@ -38,16 +42,24 @@
           );
           font-size: 1.75rem;
         }
-        span {
-          font-size: 1.25rem;
-          flex: 1 0;
+        > span {
+          @extend %text;
           text-align: center;
+        }
+        .date {
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $justify: center,
+            $gap: 1rem
+          );
+          @extend %text;
         }
       }
     }
     .counters {
-      width: calc(84% - 1.5625rem);
-      flex-basis: calc(84% - 1.5625rem);
+      width: calc(75% - 1.5625rem);
+      flex-basis: calc(75% - 1.5625rem);
       @include flex-variant(flex, $direction: row, $gap: 1.5625rem);
       flex: 1 0;
       .card {

@@ -6,6 +6,8 @@ import { HiArrowSmLeft, HiArrowSmRight } from "react-icons/hi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { PiBookmarkSimpleBold } from "react-icons/pi";
 import StyledContainer from "../components/UI/StyledContainer";
+import { getAuthToken } from "../util/auth";
+import { useLoaderData } from "react-router-dom";
 
 const messages = [
   {
@@ -26,6 +28,7 @@ const messages = [
   },
 ];
 const Messages = () => {
+  const data = useLoaderData();
   const [currentMsg, setCurrentMsg] = useState(0);
   const showNext = () => {
     setCurrentMsg((prevState) => {
@@ -108,3 +111,23 @@ const Messages = () => {
 };
 
 export default Messages;
+
+export async function loader() {
+  let response;
+  const token = getAuthToken();
+  try {
+    response = await fetch("", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+  //console.log(response);
+  return response;
+}
+export async function action() {
+
+  return "";
+}

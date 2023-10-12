@@ -22,44 +22,22 @@ export default Authentication;
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function action({ request }) {
-  const data = await request.formData();
+  const formData = await request.formData();
   const enteredData = {
-    email: data.get("email"),
-    password: data.get("password"),
+    email: formData.get("email"),
+    password: formData.get("password"),
   };
-  /*const response = await fetch("https://zad.mqawilk.com/api/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(enteredData),
-  });
-
-  const ret = await response.json();*/
-  //console.log(res.accessToken);
-  /*const res = await fetch("https://zad.mqawilk.com/api/profile", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(ret.accessToken),
-  });
-  const userData = await res.json();*/
-  const res = {
-    accessToken: "kkk",
-    user: {
-      id: "0",
-      first_name: "أحمد",
-      last_name: "منتصر",
-      phone: 536,
-      email: "test@gmail.com",
-      role: "super_admin",
-      created_at: "",
-      updated_at: "",
-    },
-  };
-  //const res = { message: "email or password invalid" };
-
-  //return res;
-  return res;
+  let response;
+  try {
+    response = await fetch("https://zadapp.mqawilk.com/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(enteredData),
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+  return response;
 }

@@ -1,74 +1,16 @@
 import styles from "../../styles/_Houses.module.scss";
-import image from "../../assets/images/room.png";
+//import image from "../../assets/images/room.png";
 import { FaLocationDot } from "react-icons/fa6";
-import {FiUserCheck} from "react-icons/fi";
+import { FiUserCheck } from "react-icons/fi";
 
-const houses = [
-  {
-    id: "0",
-    house_name: "غرف شقق للإيجار",
-    total_room: "5",
-    street: "العزيزية السعودية",
-    house_owner_name: "عبد العزيز سعود",
-  },
-  {
-    id: "1",
-    house_name: "غرف شقق للإيجار",
-    total_room: "5",
-    street: "العزيزية السعودية",
-    house_owner_name: "عبد العزيز سعود",
-  },
-  {
-    id: "2",
-    house_name: "غرف شقق للإيجار",
-    total_room: "5",
-    street: "العزيزية السعودية",
-    house_owner_name: "عبد العزيز سعود",
-  },
-  {
-    id: "3",
-    house_name: "غرف شقق للإيجار",
-    total_room: "5",
-    street: "العزيزية السعودية",
-    house_owner_name: "عبد العزيز سعود",
-  },
-  {
-    id: "4",
-    house_name: "غرف شقق للإيجار",
-    total_room: "5",
-    street: "العزيزية السعودية",
-    house_owner_name: "عبد العزيز سعود",
-  },
-  {
-    id: "5",
-    house_name: "غرف شقق للإيجار",
-    total_room: "5",
-    street: "العزيزية السعودية",
-    house_owner_name: "عبد العزيز سعود",
-  },
-  {
-    id: "6",
-    house_name: "غرف شقق للإيجار",
-    total_room: "5",
-    street: "العزيزية السعودية",
-    house_owner_name: "عبد العزيز سعود",
-  },
-  {
-    id: "7",
-    house_name: "غرف شقق للإيجار",
-    total_room: "5",
-    street: "العزيزية السعودية",
-    house_owner_name: "عبد العزيز سعود",
-  },
-];
-const Houses = () => {
+const Houses = (props) => {
   return (
     <div className={styles.houses}>
-      {houses.map((item) => {
+      {props.houses.map((item) => {
         return (
           <div key={item.id} className={styles.card}>
             <div className={styles.image}>
-              <img src={image} alt="room" />
+              <img src={item.media} alt="room" />
             </div>
             <div className={styles.text}>
               <h2>{item.house_name}</h2>
@@ -86,7 +28,9 @@ const Houses = () => {
                 <div className={styles.data}>
                   <FiUserCheck />
                 </div>
-                <span className={styles.title}>{item.house_owner_name}</span>
+                <span
+                  className={styles.title}
+                >{`${item.user.first_name} ${item.user.last_name}`}</span>
               </div>
             </div>
           </div>
