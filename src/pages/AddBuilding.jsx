@@ -22,7 +22,7 @@ export default AddBuilding;
 
 export async function action({ request }) {
   const formData = await request.formData();
-  /* const enteredData = {
+   const enteredData = {
     buildingName: formData.get("buildingName"),
     buildingType: formData.get("buildingType"),
     roomNum: formData.get("roomNum"),
@@ -38,7 +38,7 @@ export async function action({ request }) {
     renterName: formData.get("renterName"),
     alarm: formData.get("input1"),
   };
-  console.log(enteredData);*/
+  console.log(enteredData);
   //console.log(formData.get("buildingName"));
   /*const enteredData = {
     email: formData.get("email"),

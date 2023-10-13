@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useState, useRef, useMemo, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
+import MapSearch from "./MapSearch";
 
 const center = [48.8566, 2.3522];
 
@@ -42,12 +43,13 @@ const DraggableMarker = () => {
 };
 const Map = () => {
   return (
-    <MapContainer center={center} zoom={13} scrollWheelZoom={false}>
+    <MapContainer center={center} zoom={13}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <DraggableMarker />
+      {/*<MapSearch/>*/}
     </MapContainer>
   );
 };

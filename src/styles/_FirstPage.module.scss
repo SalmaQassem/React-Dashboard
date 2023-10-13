@@ -1,0 +1,65 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+@use "./colors" as *;
+
+%flex {
+  @include flex-variant(flex, $direction: column, $gap: 1.25rem);
+}
+.form {
+  height: 100%;
+  flex: 1 0;
+  @include flex-variant(
+    flex,
+    $direction: column,
+    $justify: space-between,
+    $gap: 2.5rem
+  );
+  .inputs {
+    @extend %flex;
+    .input {
+      width: 65%;
+      height: 3.125rem;
+      padding: 0 0.9375rem;
+      @include flex-variant(flex, $direction: row, $align: center);
+      border: 0.0625rem solid $grey-9;
+      border-radius: 0.5rem;
+      background-color: $white;
+      input {
+        flex: 1 0;
+        font-family: "Cairo-Regular";
+        font-size: 1rem;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        &[type="number"] {
+          -moz-appearance: textfield;
+        }
+      }
+      .icon {
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $align: center,
+          $justify: center
+        );
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .radioButtons {
+    @include flex-variant(flex, $direction: row, $justify: space-between);
+    .radioButton {
+      @extend %flex;
+      .title {
+        font-family: "Cairo-ExtraBold";
+        font-size: 1.125rem;
+        color: $pink;
+      }
+      .content {
+        @include flex-variant(flex, $direction: row, $gap: 4rem);
+      }
+    }
+  }
+}

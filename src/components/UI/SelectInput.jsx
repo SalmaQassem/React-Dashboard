@@ -1,20 +1,17 @@
 import styles from "../../styles/_SelectInput.module.scss";
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import Select, { components } from "react-select";
-import BuildingContext from "../../store/building-context";
 
 const SelectInput = (props) => {
-  const context = useContext(BuildingContext);
   const [menuOpen, setMenuOpen] = useState(false);
+  const arrowIcon = props.icon;
+
   const handleMenuOpen = () => {
     setMenuOpen(true);
   };
   const handleMenuClose = () => {
     setMenuOpen(false);
   };
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const arrowIcon = props.icon;
   const DropdownIndicator = (props) => {
     return (
       <components.DropdownIndicator {...props}>
@@ -94,17 +91,11 @@ const SelectInput = (props) => {
           : state.isSelected && "#d11242",
     }),
   };
-  useEffect(() => {
-    if (selectedOption) {
-      context.setSecondPage(selectedOption.value);
-      //sessionStorage.setItem("selectedType", selectedOption.value);
-    }
-  }, [selectedOption]);
   return (
     <Select
-      defaultValue={selectedOption}
+      defaultValue={props.selected}
       {...props}
-      onChange={setSelectedOption}
+      onChange={props.selectHandler}
       menuIsOpen={menuOpen}
       onMenuOpen={handleMenuOpen}
       onMenuClose={handleMenuClose}

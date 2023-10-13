@@ -19,7 +19,7 @@ const buildings = [
 
 const Dashboard = () => {
   const data = useLoaderData();
-  console.log(data);
+  //console.log(data);
   const date = new Date(data.data[0]);
   const minute = String(date.getUTCMinutes()).padStart(2, "0");
   const hour = String(date.getUTCHours()).padStart(2, "0");

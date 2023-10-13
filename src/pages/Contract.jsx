@@ -1,49 +1,9 @@
-import { Form } from "react-router-dom";
 import styles from "../styles/_Contract.module.scss";
 import StyledContainer from "../components/UI/StyledContainer";
 import logo from "../assets/images/logo.png";
 import image from "../assets/images/Frame.png";
 //import vector from "../assets/images/Vector2.png";
-import { SlUser } from "react-icons/sl";
-import { FaRegCalendarAlt } from "react-icons/fa";
-import FormButton from "../components/UI/FormButton";
-import DateInput from "../components/UI/DateInput";
-const inputs = [
-  {
-    id: "hajjPrice",
-    type: "text",
-    name: "hajjPrice",
-    placeholder: "سعر الحاج",
-    icon: <SlUser />,
-  },
-  {
-    id: "startDate",
-    type: "date",
-    name: "startDate",
-    placeholder: "تاريخ البدء",
-    icon: <FaRegCalendarAlt />,
-  },
-  {
-    id: "endDate",
-    type: "date",
-    name: "endDate",
-    placeholder: "تاريخ الإنتهاء",
-    icon: <FaRegCalendarAlt />,
-  },
-  {
-    id: "contractDate",
-    type: "date",
-    name: "contractDate",
-    placeholder: "تاريخ العقد",
-    icon: <FaRegCalendarAlt />,
-  },
-  {
-    id: "notes",
-    type: "textArea",
-    name: "notes",
-    placeholder: "ملاحظات",
-  },
-];
+import ContractForm from "../components/AddBuilding/ContractForm";
 
 const Contract = () => {
   return (
@@ -60,34 +20,7 @@ const Contract = () => {
             <div className={styles.image}>
               <img src={image} alt="frame" />
             </div>
-            <Form className={styles.form}>
-              <div className={styles.inputs}>
-                {inputs.map((item) => {
-                  return item.type === "textArea" ? (
-                    <textarea
-                      key={item.id}
-                      className={styles.textArea}
-                      placeholder={item.placeholder}
-                    />
-                  ) : (
-                    <div key={item.id} className={styles.input}>
-                      {item.type === "date" ? (
-                        <DateInput placeholder={item.placeholder} />
-                      ) : (
-                        <input
-                          type={item.type}
-                          id={item.id}
-                          name={item.name}
-                          placeholder={item.placeholder}
-                        />
-                      )}
-                      <div className={styles.icon}>{item.icon}</div>
-                    </div>
-                  );
-                })}
-              </div>
-              <FormButton class={styles.button}>تصدير العقد</FormButton>
-            </Form>
+            <ContractForm />
           </div>
         </div>
       </StyledContainer>
@@ -97,3 +30,25 @@ const Contract = () => {
 };
 
 export default Contract;
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const enteredData = {
+    email: formData.get("email"),
+    password: formData.get("password"),
+  };
+  /*let response;
+  try {
+    response = await fetch("https://zadapp.mqawilk.com/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(enteredData),
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+  return response;*/
+  return "";
+}

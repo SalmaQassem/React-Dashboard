@@ -3,11 +3,14 @@ import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
 import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
 import NewUser, { action as NewUserAction } from "./pages/NewUser";
-import AddBuilding, { action as AddBildingAction } from "./pages/AddBuilding";
+import AddBuilding, { action as AddBuildingAction } from "./pages/AddBuilding";
 import Review from "./pages/Review";
-import Contract from "./pages/Contract";
-import UserPermits from "./pages/UserPermits";
-import Profile from "./pages/Profle";
+import Contract, { action as ContractAction } from "./pages/Contract";
+import UserPermits from "./pages/userPermits";
+import Profile, {
+  loader as ProfileLoader,
+  action as ProfileAction,
+} from "./pages/Profle";
 import Messages, {
   loader as MessagesLoader,
   action as MessagesAction,
@@ -38,14 +41,19 @@ const router = createBrowserRouter([
       },
       { path: "NewUser", element: <NewUser />, action: NewUserAction },
       { path: "UserPermits", element: <UserPermits /> },
-      { path: "Profile", element: <Profile /> },
+      {
+        path: "Profile",
+        element: <Profile />,
+        loader: ProfileLoader,
+        action: ProfileAction,
+      },
       {
         path: "AddBuilding",
         element: <AddBuilding />,
-        action: AddBildingAction,
+        action: AddBuildingAction,
       },
       { path: "Review", element: <Review /> },
-      { path: "Contract", element: <Contract /> },
+      { path: "Contract", element: <Contract />, action: ContractAction },
     ],
   },
 ]);

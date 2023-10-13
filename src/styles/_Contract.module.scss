@@ -1,17 +1,6 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
-@use "./colors" as *;
 
-%styles {
-  border: 0.0625rem solid $grey-9;
-  border-radius: 0.5rem;
-  font-family: "Cairo-Regular";
-  font-size: 1rem;
-}
-%font {
-  font-family: "Cairo-Regular";
-  font-size: 1rem;
-}
 .contract {
   //min-height: 150vh;
   padding-top: 1.75rem;
@@ -48,63 +37,6 @@
       width: calc(((100% - 0.9375rem) * 30) / 100);
       img {
         width: 100%;
-      }
-    }
-    .form {
-      width: calc(((100% - 0.9375rem) * 70) / 100);
-      @include flex-variant(
-        flex,
-        $direction: column,
-        //$justify: space-between,
-        $gap: 2.5rem
-      );
-      .inputs {
-        @include flex-variant(flex, $direction: column, $gap: 1.25rem);
-        .input {
-          height: 3.125rem;
-          width: 100%;
-          padding: 0 0.9375rem;
-          position: relative;
-          @extend %styles;
-          background-color: $white;
-          input {
-            width: calc(100% - 1.875rem);
-            height: 100%;
-            padding-left: 1.875rem;
-            position: absolute;
-            right: 0.9375rem;
-            top: 0;
-            z-index: 1;
-            @extend %font;
-            background-color: transparent;
-          }
-          .icon {
-            @include flex-variant(
-              flex,
-              $direction: row,
-              $align: center,
-              $justify: center
-            );
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 0.9375rem;
-            font-size: 1.5rem;
-            color: $pink;
-          }
-        }
-        .textArea {
-          width: 100%;
-          height: 14.375rem;
-          @extend %styles;
-          padding: 0.9375rem;
-          @extend %font;
-          resize: none;
-        }
-      }
-      .button {
-        width: 100%;
-        justify-content: center;
       }
     }
   }
