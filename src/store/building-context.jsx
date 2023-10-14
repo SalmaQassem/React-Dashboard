@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const BuildingContext = React.createContext({
+  id: "",
   house_name: "",
   type: "",
   total_room: "",
@@ -28,6 +29,7 @@ const BuildingContext = React.createContext({
   page: 0,
   setPage: () => {},
   setFormData: (
+    id,
     house_name,
     type,
     total_room,
@@ -58,6 +60,7 @@ const BuildingContext = React.createContext({
 export const BuildingContextProvider = (props) => {
   const [pageNumber, setPageNumber] = useState(0);
   const [data, setData] = useState({
+    id: "",
     house_name: "",
     type: "",
     total_room: "",
@@ -91,6 +94,7 @@ export const BuildingContextProvider = (props) => {
   return (
     <BuildingContext.Provider
       value={{
+        id: data.id,
         house_name: data.house_name,
         type: data.type,
         total_room: data.total_room,

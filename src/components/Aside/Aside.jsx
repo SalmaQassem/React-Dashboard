@@ -8,40 +8,56 @@ import AsideItem from "./AsideItem";
 import { useContext, useState } from "react";
 import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
-
-const main = [
-  {
-    id: "0",
-    name: "لوحة التحكم",
-    icon: <MdOutlineDashboardCustomize />,
-    url: "",
-  },
-  { id: "1", name: "رسالة", icon: <IoIosChatbubbles />, url: "Messages" },
-];
-const usersOptions = [
-  { id: "0", name: "مستخدم جديد", icon: <FiUserPlus />, url: "NewUser" },
-  {
-    id: "1",
-    name: "صلاحيات المستخدمين",
-    icon: <FiUserCheck />,
-    url: "UserPermits",
-  },
-];
-const account = [
-  { id: "0", name: "حسابي", icon: <FaRegUserCircle />, url: "Profile" },
-];
-const houses = [
-  { id: "0", name: "إضافة منشأة", icon: <LiaHotelSolid />, url: "AddBuilding" },
-];
+import { useTranslation } from "react-i18next";
 
 const Aside = () => {
+  const [t, i18n] = useTranslation("global");
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
   const [isActive, setIsActive] = useState("");
+  const main = [
+    {
+      id: "0",
+      name: t("body.dashboard"),
+      icon: <MdOutlineDashboardCustomize />,
+      url: "",
+    },
+    {
+      id: "1",
+      name: t("body.messages"),
+      icon: <IoIosChatbubbles />,
+      url: "Messages",
+    },
+  ];
+  const usersOptions = [
+    { id: "0", name: t("body.newUser"), icon: <FiUserPlus />, url: "NewUser" },
+    {
+      id: "1",
+      name: t("body.permissions"),
+      icon: <FiUserCheck />,
+      url: "UserPermits",
+    },
+  ];
+  const houses = [
+    {
+      id: "0",
+      name: t("body.addBuilding"),
+      icon: <LiaHotelSolid />,
+      url: "AddBuilding",
+    },
+  ];
+  const account = [
+    {
+      id: "0",
+      name: t("body.profile"),
+      icon: <FaRegUserCircle />,
+      url: "Profile",
+    },
+  ];
+
   const clickHandler = (text) => {
     setIsActive(text);
   };
-
   return (
     <aside
       className={
@@ -66,7 +82,7 @@ const Aside = () => {
       </div>
       {context.role === "super_admin" && (
         <div className={styles.section}>
-          <span>إدارة المستخدمين</span>
+          <span>{t("body.usersControl")}</span>
           <div className={styles.items}>
             {usersOptions.map((item) => {
               return (
@@ -84,7 +100,7 @@ const Aside = () => {
         </div>
       )}
       <div className={styles.section}>
-        <span>إدارة المنشأة</span>
+        <span>{t("body.buildingControl")}</span>
         <div className={styles.items}>
           {houses.map((item) => {
             return (
@@ -101,7 +117,7 @@ const Aside = () => {
         </div>
       </div>
       <div className={styles.section}>
-        <span>إدارة الحساب</span>
+        <span>{t("body.account")}</span>
         <div className={styles.items}>
           {account.map((item) => {
             return (

@@ -1,5 +1,5 @@
 import styles from "../../styles/_ImagesGallery.module.scss";
-import ImgsViewer from "react-images-viewer";
+//import ImgsViewer from "react-images-viewer";
 import { useState, useCallback } from "react";
 import image from "../../assets/images/room.png";
 
@@ -50,7 +50,7 @@ const ImagesGallery = () => {
           onClick={() => openImageViewer(0)}
         />
       </div>
-      {isViewerOpen && (
+      {/*isViewerOpen && (
         <ImgsViewer
           imgs={images}
           className={styles.viewer}
@@ -61,7 +61,7 @@ const ImagesGallery = () => {
           closeOnClickOutside={true}
           onClose={closeImageViewer}
         />
-      )}
+      )*/}
     </div>
   );
 };

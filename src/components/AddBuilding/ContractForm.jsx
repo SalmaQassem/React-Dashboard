@@ -49,13 +49,14 @@ const ContractForm = () => {
           return item.type === "textArea" ? (
             <textarea
               key={item.id}
+              name={item.name}
               className={styles.textArea}
               placeholder={item.placeholder}
             />
           ) : (
             <div key={item.id} className={styles.input}>
               {item.type === "date" ? (
-                <DateInput placeholder={item.placeholder} />
+                <DateInput placeholder={item.placeholder} name={item.name}/>
               ) : (
                 <input
                   type={item.type}

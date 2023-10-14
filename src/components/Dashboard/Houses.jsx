@@ -2,8 +2,10 @@ import styles from "../../styles/_Houses.module.scss";
 //import image from "../../assets/images/room.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { FiUserCheck } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 const Houses = (props) => {
+  const [t, i18n] = useTranslation("global");
   return (
     <div className={styles.houses}>
       {props.houses.map((item) => {
@@ -16,7 +18,7 @@ const Houses = (props) => {
               <h2>{item.house_name}</h2>
               <div className={`${styles.field} ${styles.rooms}`}>
                 <span className={styles.data}>{item.total_room}</span>
-                <p className={styles.title}>عدد الغرف لكل دور</p>
+                <p className={styles.title}>{t("body.floorRooms")}</p>
               </div>
               <div className={`${styles.field} ${styles.location}`}>
                 <div className={styles.data}>

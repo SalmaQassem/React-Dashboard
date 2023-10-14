@@ -7,6 +7,7 @@ const DateInput = (props) => {
   return (
     <DatePicker
       selected={date === "" ? null : date}
+      name={props.name}
       placeholderText={props.placeholder}
       onChange={(date) => setDate(date)}
     />

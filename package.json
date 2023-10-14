@@ -11,23 +11,19 @@
   },
   "dependencies": {
     "chart.js": "^4.4.0",
+    "i18next": "^23.5.1",
     "js-cookie": "^3.0.5",
-    "leaflet": "^1.9.4",
-    "leaflet-geosearch": "^3.10.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^4.20.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
+    "react-i18next": "^13.3.0",
     "react-icons": "^4.11.0",
-    "react-images-viewer": "^1.7.1",
-    "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.16.0",
     "react-select": "^5.7.7",
-    "react-simple-image-viewer": "^1.2.2",
     "sass": "^1.64.2",
-    "styled-components": "^6.0.7",
-    "use-leaflet": "^1.6.1"
+    "styled-components": "^6.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

@@ -12,11 +12,22 @@ import user from "../../assets/images/Ellipse.png";
 import { useContext } from "react";
 import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
+import { useTranslation } from "react-i18next";
 const NavBar = () => {
+  const [t, i18n] = useTranslation("global");
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
   const onBarsClick = () => {
     asideContext.setIsOpened();
+  };
+  const changeLanguage = () => {
+    if (i18n.language === "ar") {
+      i18n.changeLanguage("en");
+      sessionStorage.setItem("lang", "en");
+    } else {
+      i18n.changeLanguage("ar");
+      sessionStorage.setItem("lang", "ar");
+    }
   };
   return (
     <nav className={styles.nav}>
@@ -42,7 +53,10 @@ const NavBar = () => {
           </div>
           <div className={styles.tools}>
             <div className={styles.icons}>
-              <div className={`${styles.icon} ${styles.language}`}>
+              <div
+                className={`${styles.icon} ${styles.language}`}
+                onClick={changeLanguage}
+              >
                 <TfiWorld />
               </div>
               <div className={`${styles.icon} ${styles.resize}`}>
@@ -61,7 +75,11 @@ const NavBar = () => {
               </div>
               <div className={styles.text}>
                 <p>{`${context.first_name} ${context.last_name}`}</p>
-                <p>{context.role === "super_admin" ? "أدمن" : "مدخل بيانات"}</p>
+                <p>
+                  {context.role === "super_admin"
+                    ? t("body.adminRole")
+                    : t("body.writer")}
+                </p>
               </div>
             </div>
           </div>

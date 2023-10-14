@@ -22,137 +22,8 @@ import { FiPhoneCall } from "react-icons/fi";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useState } from "react";
-const firstPageInputs = [
-  {
-    id: "buildingName",
-    type: "text",
-    name: "buildingName",
-    placeholder: "إسم المنشأة",
-    icon: <LiaHotelSolid />,
-  },
-  {
-    id: "buildingType",
-    type: "select",
-    name: "buildingType",
-    placeholder: "نوع المنشأة",
-    icon: <IoMdArrowDropdownCircle />,
-    options: [
-      { value: "hotel", label: "فندق", icon: <BsBuildings /> },
-      { value: "build", label: "عمارة", icon: <RiHotelLine /> },
-    ],
-  },
-  {
-    id: "roomNum",
-    type: "text",
-    name: "roomNum",
-    placeholder: "عدد الغرف",
-    icon: <PiDoorOpenLight />,
-  },
-  {
-    id: "streetName",
-    type: "text",
-    name: "streetName",
-    placeholder: "الشارع أو الحي",
-    icon: <GoLocation />,
-  },
-  {
-    id: "actualPilgrims",
-    type: "text",
-    name: "actualPilgrims",
-    placeholder: "عدد الحجاج الفعلي",
-    icon: <FaKaaba />,
-  },
-  {
-    id: "writtenPilgrims",
-    type: "text",
-    name: "writtenPilgrims",
-    placeholder: "عدد الحجاج في التصريح",
-    icon: <AiOutlineFile />,
-  },
-  {
-    id: "paperNum",
-    type: "text",
-    name: "paperNum",
-    placeholder: "رقم التصريح",
-    icon: <AiOutlineFileProtect />,
-  },
-  {
-    id: "ownerName",
-    type: "text",
-    name: "ownerName",
-    placeholder: "اسم المالك",
-    icon: <FaBuildingUser />,
-  },
-  {
-    id: "phone",
-    type: "text",
-    name: "phone",
-    placeholder: "رقم الجوال",
-    icon: <FiPhoneCall />,
-  },
-  {
-    id: "licenseNum",
-    type: "text",
-    name: "licenseNum",
-    placeholder: "رقم رخصة البناء",
-    icon: <FaFileLines />,
-  },
-  {
-    id: "floorsNum",
-    type: "text",
-    name: "floorsNum",
-    placeholder: "عدد أدوار المبنى",
-    icon: <HiOutlineBuildingOffice2 />,
-  },
-  {
-    id: "ownerId",
-    type: "text",
-    name: "ownerId",
-    placeholder: "رقم هوية المالك أو السجل التجاري",
-    icon: <FaRegAddressCard />,
-  },
-  {
-    id: "renterName",
-    type: "text",
-    name: "renterName",
-    placeholder: "اسم المؤجر",
-    icon: <FaRegUserCircle />,
-  },
-];
-const radioItems = [
-  {
-    id: "0",
-    title: "يوجد شبكة إنذار",
-    radios: [
-      { id: "yes", name: "alarm_network", label: "نعم" },
-      { id: "no", name: "alarm_network", label: "لا" },
-    ],
-  },
-  {
-    id: "1",
-    title: "يوجد شبكة إطفاء",
-    radios: [
-      { id: "yes", name: "fire_network", label: "نعم" },
-      { id: "no", name: "fire_network", label: "لا" },
-    ],
-  },
-  {
-    id: "2",
-    title: "يوجد مضخة حريق",
-    radios: [
-      { id: "yes", name: "fire_pump", label: "نعم" },
-      { id: "no", name: "fire_pump", label: "لا" },
-    ],
-  },
-  {
-    id: "3",
-    title: "يوجد مولد كهربائي",
-    radios: [
-      { id: "yes", name: "generator", label: "نعم" },
-      { id: "no", name: "generator", label: "لا" },
-    ],
-  },
-];
+import { useTranslation } from "react-i18next";
+
 const FirstPage = () => {
   const context = useContext(BuildingContext);
   const [input, setInput] = useState([]);
@@ -162,6 +33,138 @@ const FirstPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [t, i18n] = useTranslation("global");
+  const firstPageInputs = [
+    {
+      id: "buildingName",
+      type: "text",
+      name: "buildingName",
+      placeholder: t("body.buildingName"),
+      icon: <LiaHotelSolid />,
+    },
+    {
+      id: "buildingType",
+      type: "select",
+      name: "buildingType",
+      placeholder: t("body.buildingType"),
+      icon: <IoMdArrowDropdownCircle />,
+      options: [
+        { value: "hotel", label: t("body.hotel"), icon: <BsBuildings /> },
+        { value: "build", label: t("body.building"), icon: <RiHotelLine /> },
+      ],
+    },
+    {
+      id: "roomNum",
+      type: "text",
+      name: "roomNum",
+      placeholder: t("body.roomsNum"),
+      icon: <PiDoorOpenLight />,
+    },
+    {
+      id: "streetName",
+      type: "text",
+      name: "streetName",
+      placeholder: t("body.street"),
+      icon: <GoLocation />,
+    },
+    {
+      id: "actualPilgrims",
+      type: "text",
+      name: "actualPilgrims",
+      placeholder: t("body.hajjajNum"),
+      icon: <FaKaaba />,
+    },
+    {
+      id: "writtenPilgrims",
+      type: "text",
+      name: "writtenPilgrims",
+      placeholder: t("body.hajjajInPermit"),
+      icon: <AiOutlineFile />,
+    },
+    {
+      id: "paperNum",
+      type: "text",
+      name: "paperNum",
+      placeholder: t("body.permitNum"),
+      icon: <AiOutlineFileProtect />,
+    },
+    {
+      id: "ownerName",
+      type: "text",
+      name: "ownerName",
+      placeholder: t("body.ownerName"),
+      icon: <FaBuildingUser />,
+    },
+    {
+      id: "phone",
+      type: "text",
+      name: "phone",
+      placeholder: t("body.phone"),
+      icon: <FiPhoneCall />,
+    },
+    {
+      id: "licenseNum",
+      type: "text",
+      name: "licenseNum",
+      placeholder: t("body.constructionLicense"),
+      icon: <FaFileLines />,
+    },
+    {
+      id: "floorsNum",
+      type: "text",
+      name: "floorsNum",
+      placeholder: t("body.buildingFloors"),
+      icon: <HiOutlineBuildingOffice2 />,
+    },
+    {
+      id: "ownerId",
+      type: "text",
+      name: "ownerId",
+      placeholder: t("body.ownerId"),
+      icon: <FaRegAddressCard />,
+    },
+    {
+      id: "renterName",
+      type: "text",
+      name: "renterName",
+      placeholder: t("body.lessorName"),
+      icon: <FaRegUserCircle />,
+    },
+  ];
+  const radioItems = [
+    {
+      id: "0",
+      title: t("body.alarmNetwork"),
+      radios: [
+        { id: "yes", name: "alarm_network", label: t("body.yes") },
+        { id: "no", name: "alarm_network", label: t("body.no") },
+      ],
+    },
+    {
+      id: "1",
+      title: t("body.fireNetwork"),
+      radios: [
+        { id: "yes", name: "fire_network", label: t("body.yes") },
+        { id: "no", name: "fire_network", label: t("body.no") },
+      ],
+    },
+    {
+      id: "2",
+      title: t("body.firePump"),
+      radios: [
+        { id: "yes", name: "fire_pump", label: t("body.yes") },
+        { id: "no", name: "fire_pump", label: t("body.no") },
+      ],
+    },
+    {
+      id: "3",
+      title: t("body.generator"),
+      radios: [
+        { id: "yes", name: "generator", label: t("body.yes") },
+        { id: "no", name: "generator", label: t("body.no") },
+      ],
+    },
+  ];
 
   const setSelectHandler = (option) => {
     setSelectedOption(option);

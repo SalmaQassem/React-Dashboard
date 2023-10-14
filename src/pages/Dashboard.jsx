@@ -10,16 +10,16 @@ import Chart from "../components/Dashboard/Chart";
 import Houses from "../components/Dashboard/Houses";
 import { useLoaderData } from "react-router-dom";
 import { getAuthToken } from "../util/auth";
-
-const buildings = [
-  { name: "عدد المنشأت", icon: <BsHouseDoor /> },
-  { name: "عدد المنشأت الجديدة", icon: <BsHouseCheck /> },
-  { name: "عدد المنشأت المؤجرة", icon: <BsHouseLock /> },
-];
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
+  const [t, i18n] = useTranslation("global");
+  const buildings = [
+    { name: t("body.buildingCount"), icon: <BsHouseDoor /> },
+    { name: t("body.newBuildings"), icon: <BsHouseCheck /> },
+    { name: t("body.rentedBuildings"), icon: <BsHouseLock /> },
+  ];
   const data = useLoaderData();
-  //console.log(data);
   const date = new Date(data.data[0]);
   const minute = String(date.getUTCMinutes()).padStart(2, "0");
   const hour = String(date.getUTCHours()).padStart(2, "0");
@@ -70,7 +70,7 @@ const Dashboard = () => {
         <Chart />
       </div>
       <div className={styles.houses}>
-        <h1>أخر سكن أو فندق تم إضافته</h1>
+        <h1>{t("body.lastAddedBuildings")}</h1>
         <Houses houses={data.allhoues} />
       </div>
     </div>

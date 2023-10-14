@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+/*import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useState, useRef, useMemo, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 import MapSearch from "./MapSearch";
@@ -49,9 +49,13 @@ const Map = () => {
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <DraggableMarker />
-      {/*<MapSearch/>*/}
+      <MapSearch />
     </MapContainer>
   );
 };
 
+export default Map;*/
+const Map = () => {
+  return <></>;
+};
 export default Map;

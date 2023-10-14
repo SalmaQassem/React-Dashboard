@@ -1,9 +1,10 @@
+import styles from "./styles/_App.module.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
 import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
 import NewUser, { action as NewUserAction } from "./pages/NewUser";
-import AddBuilding, { action as AddBuildingAction } from "./pages/AddBuilding";
+import AddBuilding from "./pages/AddBuilding";
 import Review from "./pages/Review";
 import Contract, { action as ContractAction } from "./pages/Contract";
 import UserPermits from "./pages/userPermits";
@@ -17,7 +18,8 @@ import Messages, {
 } from "./pages/Messages";
 import { useEffect, useContext } from "react";
 import UserContext from "./store/user-context";
-
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,17 +52,35 @@ const router = createBrowserRouter([
       {
         path: "AddBuilding",
         element: <AddBuilding />,
-        action: AddBuildingAction,
       },
       { path: "Review", element: <Review /> },
-      { path: "Contract", element: <Contract />, action: ContractAction },
+      {
+        path: "Contract",
+        element: <Contract />,
+        action: ContractAction,
+      },
     ],
   },
 ]);
 function App() {
+  const [t, i18n] = useTranslation("global");
   const context = useContext(UserContext);
+  const [classState, setClass] = useState("rtl");
+  useEffect(() => {
+    if (i18n.language === "en") {
+      setClass("ltr");
+    } else {
+      setClass("rtl");
+    }
+  }, [i18n.language]);
+
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
+    const storedLang = sessionStorage.getItem("lang");
+    //console.log(storedLang);
+    if (storedLang) {
+      i18n.changeLanguage(sessionStorage.getItem("lang"));
+    }
     if (storedUserData) {
       const {
         id,
@@ -87,7 +107,11 @@ function App() {
     }
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <div className={classState === "rtl" ? styles.rtl : styles.ltr}>
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
 export default App;

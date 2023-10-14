@@ -83,8 +83,10 @@ const SecondPage = () => {
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
-      let file = reader.result;
-      //console.log(typeof file);
+      let fileItem = reader.result;
+      const name = e.target.files[0].name;
+      const fileSize = e.target.files[0].size;
+      const type = e.target.files[0].type;
       if (selectedOption) {
         setTableData((prevState) => {
           return [
@@ -93,7 +95,12 @@ const SecondPage = () => {
               fileName: filesUploaded[0].name,
               label: selectedOption.label,
               type: selectedOption.value,
-              fileData: file,
+              fileData: {
+                file_name: name,
+                size: fileSize,
+                mime_type: type,
+                file: fileItem,
+              },
             },
           ];
         });

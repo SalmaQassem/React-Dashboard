@@ -8,6 +8,7 @@ import { PiBookmarkSimpleBold } from "react-icons/pi";
 import StyledContainer from "../components/UI/StyledContainer";
 import { getAuthToken } from "../util/auth";
 import { useLoaderData } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const messages = [
   {
@@ -28,6 +29,7 @@ const messages = [
   },
 ];
 const Messages = () => {
+  const [t, i18n] = useTranslation("global");
   const data = useLoaderData();
   const [currentMsg, setCurrentMsg] = useState(0);
   const showNext = () => {
@@ -98,9 +100,9 @@ const Messages = () => {
           <div className={styles.data}>
             <p>{messages[currentMsg].message}</p>
             <Form className={styles.sendBox}>
-              <textarea placeholder="اكتب هنا..."></textarea>
+              <textarea placeholder={t("body.writeHere")}></textarea>
               <button type="submit" className={styles.submit}>
-                إرسال
+                {t("body.send")}
               </button>
             </Form>
           </div>
@@ -128,6 +130,5 @@ export async function loader() {
   return response;
 }
 export async function action() {
-
   return "";
 }

@@ -3,59 +3,60 @@ import { useEffect } from "react";
 import RadioButton from "../UI/RadioButton";
 import { Form, useActionData } from "react-router-dom";
 import FormButton from "../UI/FormButton";
+import { useTranslation } from "react-i18next";
 
-const radioItems = [
-  {
-    id: "0",
-    title: "نوع المستخدم",
-    radios: [
-      { id: "super_admin", name: "input1", label: "أدمن" },
-      { id: "1", name: "input1", label: "مشرف" },
-      { id: "writer", name: "input1", label: "مدخل بيانات" },
-    ],
-  },
-];
-const inputs = [
-  {
-    id: "firstName",
-    type: "text",
-    name: "firstName",
-    label: "الإسم الأول",
-  },
-  {
-    id: "lastName",
-    type: "text",
-    name: "lastName",
-    label: "اسم العائلة",
-  },
-  {
-    id: "email",
-    type: "email",
-    name: "email",
-    label: "البريد الإلكتروني",
-  },
-  {
-    id: "password",
-    type: "password",
-    name: "password",
-    label: "إدخال كلمة السر",
-  },
-  {
-    id: "phone",
-    type: "number",
-    name: "phone",
-    label: "الجوال",
-  },
-  {
-    id: "confirmPassword",
-    type: "password",
-    name: "confirmPassword",
-    label: "تأكيد كلمة السر",
-  },
-];
 const NewUserForm = () => {
   const data = useActionData();
-
+  const [t, i18n] = useTranslation("global");
+  const radioItems = [
+    {
+      id: "0",
+      title: t("body.userType"),
+      radios: [
+        { id: "super_admin", name: "input1", label: t("body.adminRole") },
+        { id: "1", name: "input1", label: "مشرف" },
+        { id: "writer", name: "input1", label: t("body.writer") },
+      ],
+    },
+  ];
+  const inputs = [
+    {
+      id: "firstName",
+      type: "text",
+      name: "firstName",
+      label: t("body.firstName"),
+    },
+    {
+      id: "lastName",
+      type: "text",
+      name: "lastName",
+      label: t("body.lastName"),
+    },
+    {
+      id: "email",
+      type: "email",
+      name: "email",
+      label: t("body.email"),
+    },
+    {
+      id: "password",
+      type: "password",
+      name: "password",
+      label: t("body.password"),
+    },
+    {
+      id: "phone",
+      type: "number",
+      name: "phone",
+      label: t("body.phone"),
+    },
+    {
+      id: "confirmPassword",
+      type: "password",
+      name: "confirmPassword",
+      label: t("body.confirmPassword"),
+    },
+  ];
   useEffect(() => {
     if (data && !data.message) {
       alert(data.success);
@@ -102,7 +103,7 @@ const NewUserForm = () => {
           })}
         </div>
         <FormButton class={styles.submit} type="submit">
-          تفعيل المستخدم
+          {t("body.activateUser")}
         </FormButton>
       </Form>
     </div>
