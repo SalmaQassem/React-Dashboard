@@ -67,9 +67,10 @@ export async function action({ request }) {
     .toISOString()
     .replace("T", " ")
     .split(".")[0];
+
   const enteredData = {
     user_id: userId,
-    house_id: 80,
+    house_id: houseId,
     price_hajj: formData.get("hajjPrice"),
     start_date: startDate,
     end_date: endDate,

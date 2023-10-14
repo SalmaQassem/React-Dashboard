@@ -10,6 +10,7 @@ import { BsBuildingGear, BsArrowLeftCircle } from "react-icons/bs";
 import { FaBuildingShield } from "react-icons/fa6";
 import { SlUser } from "react-icons/sl";
 import { IoPricetagsOutline, IoClose } from "react-icons/io5";
+import { serialize } from "object-to-formdata";
 const secondPageInputs = [
   {
     id: "buildingComponents",
@@ -79,28 +80,19 @@ const SecondPage = () => {
     hiddenFileInput.current.click();
   };
   const handleChange = (e) => {
-    const filesUploaded = e.target.files;
+    const filesUploaded = e.target.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(filesUploaded);
     reader.onload = () => {
-      let fileItem = reader.result;
-      const name = e.target.files[0].name;
-      const fileSize = e.target.files[0].size;
-      const type = e.target.files[0].type;
       if (selectedOption) {
         setTableData((prevState) => {
           return [
             ...prevState,
             {
-              fileName: filesUploaded[0].name,
+              fileName: filesUploaded.name,
               label: selectedOption.label,
               type: selectedOption.value,
-              fileData: {
-                file_name: name,
-                size: fileSize,
-                mime_type: type,
-                file: fileItem,
-              },
+              fileData: reader.result,
             },
           ];
         });
@@ -111,9 +103,11 @@ const SecondPage = () => {
     setSelectedOption(option);
   };
   const formSubmitHandler = (data) => {
+    //console.log(tableData);
     const images = tableData.filter((item) => {
       return item.type === "image_bilud";
     });
+    //console.log(images);
     let imagesArr = [];
     if (images.length > 0) {
       imagesArr = images.map((item) => {

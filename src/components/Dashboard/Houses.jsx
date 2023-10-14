@@ -12,7 +12,10 @@ const Houses = (props) => {
         return (
           <div key={item.id} className={styles.card}>
             <div className={styles.image}>
-              <img src={item.media} alt="room" />
+              <img
+                src={item.media.length > 0 ? item.media[0].original_url : ""}
+                alt="room"
+              />
             </div>
             <div className={styles.text}>
               <h2>{item.house_name}</h2>

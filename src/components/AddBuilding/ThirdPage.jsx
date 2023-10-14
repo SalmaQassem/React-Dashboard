@@ -41,7 +41,7 @@ const ThirdPage = () => {
       //attached_file: context.attached_file.slice(),
     };
     const userToken = getAuthToken();
-    //console.log(enteredData);
+    console.log(enteredData);
     try {
       let response = await fetch(
         "https://zadapp.mqawilk.com/api/houses/store",

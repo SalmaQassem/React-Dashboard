@@ -24,7 +24,7 @@ const BuildingContext = React.createContext({
   institution_safty: "",
   price_hajj: "",
   price_years: "",
-  media: [],
+  media: "",
   attached_file: [],
   page: 0,
   setPage: () => {},
@@ -83,7 +83,7 @@ export const BuildingContextProvider = (props) => {
     institution_safty: "",
     price_hajj: "",
     price_years: "",
-    media: [],
+    media: "",
     attached_file: [],
   });
   const setPageHandler = () => {
@@ -117,7 +117,7 @@ export const BuildingContextProvider = (props) => {
         institution_safty: data.institution_safty,
         price_hajj: data.price_hajj,
         price_years: data.price_years,
-        media: data.media.slice(),
+        media: "",
         attached_file: data.attached_file.slice(),
         page: pageNumber,
         setPage: setPageHandler,
