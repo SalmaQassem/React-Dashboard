@@ -3,14 +3,23 @@ import styles from "../../styles/_Houses.module.scss";
 import { FaLocationDot } from "react-icons/fa6";
 import { FiUserCheck } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-
+import { useNavigate } from "react-router-dom";
 const Houses = (props) => {
   const [t, i18n] = useTranslation("global");
+  const navigate = useNavigate();
+  const handleClick = (e) => {
+    navigate(`Houses/${e.currentTarget.id}`);
+  };
   return (
     <div className={styles.houses}>
       {props.houses.map((item) => {
         return (
-          <div key={item.id} className={styles.card}>
+          <div
+            key={item.id}
+            className={styles.card}
+            id={item.id}
+            onClick={handleClick}
+          >
             <div className={styles.image}>
               <img
                 src={item.media.length > 0 ? item.media[0].original_url : ""}

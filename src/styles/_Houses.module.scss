@@ -13,11 +13,14 @@
     $wrap: wrap,
     $gap: 2.5rem
   );
+
   .card {
     width: calc((100% - (3 * 2.5rem)) / 4);
     background-color: $white;
     border-radius: 0.9375rem;
     box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
+    overflow: hidden;
+    cursor: pointer;
     .image {
       width: 100%;
       height: 12.5rem;
@@ -28,11 +31,8 @@
     }
     .text {
       padding: 0.9375rem;
-      @include flex-variant(
-        flex,
-        $direction: column,
-        $gap: 0.5rem
-      );
+      flex: 1;
+      @include flex-variant(flex, $direction: column, $gap: 0.5rem);
       font-family: "Cairo-SemiBold";
       h2 {
         font-family: "Cairo-Bold";

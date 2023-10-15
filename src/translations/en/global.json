@@ -82,6 +82,11 @@
     "contractDate": "contract date",
     "notes": "notes",
     "generateContract": "generate contract",
-    "uploadImage": "please upload building logo or personal image"
+    "uploadImage": "please upload building logo or personal image",
+    "buildingData": "building data",
+    "imagesAndVideos": "images and videos",
+    "attachments": "attachments",
+    "location": "building location",
+    "noData": "no data found"
   }
 }

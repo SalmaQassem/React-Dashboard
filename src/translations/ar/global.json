@@ -30,7 +30,7 @@
     "changePassword": "تغيير كلمة المرور",
     "phone": "رقم الجوال",
     "confirmPassword": "تأكيد كلمة المرور",
-    "retypePassword":"أعد كتابة كلمة المرور",
+    "retypePassword": "أعد كتابة كلمة المرور",
     "activateUser": "تفعيل المستخدم",
     "user": "فرد أو شركة",
     "deleteUser": "حذف مستخدم",
@@ -82,6 +82,11 @@
     "contractDate": "تاريخ العقد",
     "notes": "ملاحظات",
     "generateContract": "تصدير العقد",
-    "uploadImage": "رجاء رفع شعار المنشأة أو الصورة الشخصية"
+    "uploadImage": "رجاء رفع شعار المنشأة أو الصورة الشخصية",
+    "buildingData": "بيانات المنشأة",
+    "imagesAndVideos": "صور و فيديوهات",
+    "attachments": "مستندات",
+    "location": "موقع المنشأة",
+    "noData": "لا توجد بيانات"
   }
 }

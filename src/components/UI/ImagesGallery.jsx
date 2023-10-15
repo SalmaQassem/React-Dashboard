@@ -3,17 +3,9 @@ import styles from "../../styles/_ImagesGallery.module.scss";
 import { useState, useCallback } from "react";
 import image from "../../assets/images/room.png";
 
-const ImagesGallery = () => {
+const ImagesGallery = (props) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const images = [
-    { src: image, main: true },
-    { src: image },
-    { src: image },
-    { src: image },
-    { src: image },
-    { src: image },
-  ];
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -27,15 +19,15 @@ const ImagesGallery = () => {
   return (
     <div className={styles.gallery}>
       <div className={styles.imgsContainer}>
-        {images.length > 1 && (
+        {props.images.length > 1 && (
           <div className={styles.sideImages}>
-            {images.map((img, index) => {
+            {props.images.map((img, index) => {
               return (
                 index > 0 && (
                   <img
                     key={index}
-                    src={img.src}
-                    alt=""
+                    src={img.original_url}
+                    alt={`img-${index}`}
                     onClick={() => openImageViewer(index)}
                   />
                 )
@@ -43,12 +35,19 @@ const ImagesGallery = () => {
             })}
           </div>
         )}
-        <img
-          src={images[0].src}
-          alt=""
-          className={images.length > 1 ? styles.mainImg : styles.singleImg}
-          onClick={() => openImageViewer(0)}
-        />
+        <div
+          className={
+            props.images.length > 1
+              ? `${styles.largeImg} ${styles.mainImg}`
+              : `${styles.largeImg} ${styles.singleImg}`
+          }
+        >
+          <img
+            src={props.images[0].original_url}
+            alt="img-0"
+            onClick={() => openImageViewer(0)}
+          />
+        </div>
       </div>
       {/*isViewerOpen && (
         <ImgsViewer

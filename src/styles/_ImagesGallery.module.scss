@@ -1,5 +1,9 @@
 @use "../helpers/mixins" as *;
 
+%img-container {
+  overflow: hidden;
+  border-radius: 1.4375rem;
+}
 .gallery {
   width: 100%;
   padding-top: 1.75rem;
@@ -7,19 +11,26 @@
     width: 100%;
     height: 35.9375rem;
     @include flex-variant(flex, $direction: row, $align: center, $gap: 1.75rem);
-    .singleImg {
-      width: 100%;
-      height: 100%;
-    }
-    .mainImg {
-      width: calc(80% - 0.875rem);
-      height: 100%;
+    .largeImg {
+      @extend %img-container;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      &.singleImg {
+        width: 100%;
+        height: 100%;
+      }
+      &.mainImg {
+        width: calc(80% - 0.875rem);
+        height: 100%;
+      }
     }
     .sideImages {
       width: calc(20% - 0.875rem);
       height: 100%;
       @include flex-variant(flex, $direction: column, $gap: 1.75rem);
-      overflow: hidden;
+      @extend %img-container;
       img {
         width: 100%;
         flex: 1;

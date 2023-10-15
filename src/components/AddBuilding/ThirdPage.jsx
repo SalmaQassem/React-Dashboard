@@ -12,8 +12,36 @@ import { useTranslation } from "react-i18next";
 const ThirdPage = () => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
+  //console.log(context);
   const userData = useContext(UserContext);
   const navigate = useNavigate();
+
+  const sendData = async (data) => {
+    const userToken = getAuthToken();
+    const enteredData = data;
+    //console.log(enteredData);
+    try {
+      let response = await fetch(
+        "https://zadapp.mqawilk.com/api/houses/store",
+        {
+          method: "POST",
+          headers: {
+            //"Content-type": "multipart/form-data",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: enteredData,
+        }
+      );
+      const data = await response.json();
+      context.setFormData((prevData) => {
+        return { ...prevData, id: data.id };
+      });
+      navigate("/dashboard/Contract");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const saveData = async () => {
     /*const enteredData = {
       user_id: userData.id,
@@ -41,31 +69,43 @@ const ThirdPage = () => {
       price_years: context.price_years,
       media: context.media.slice(),
       attached_file: context.attached_file.slice(),
-    };
-    const userToken = getAuthToken();
-    console.log(enteredData);
-    try {
-      let response = await fetch(
-        "https://zadapp.mqawilk.com/api/houses/store",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify(enteredData),
-        }
-      );
-      const data = await response.json();
-      context.setFormData((prevData) => {
-        return { ...prevData, id: data.id };
-      });
-      //navigate("/dashboard/Review");
-      navigate("/dashboard/Contract");
-    } catch (error) {
-      console.log(error.message);
-    }*/
-    navigate("/dashboard/Contract");
+    };*/
+    //console.log(enteredData);
+    console.log(context.media.length);
+    console.log(context.media.slice());
+    const mediaImages = context.media.slice();
+    const formData = new FormData();
+    formData.append("user_id", userData.id);
+    formData.append("house_name", context.house_name);
+    formData.append("type", context.type);
+    formData.append("total_room", context.total_room);
+    formData.append("street", context.total_room);
+    formData.append("hajjaj_accsept", context.hajjaj_accsept);
+    formData.append("hajjaj_count", context.hajjaj_count);
+    formData.append("number_prrmit", +context.number_prrmit);
+    formData.append("house_owner_name", context.house_owner_name);
+    formData.append("phone", context.phone);
+    formData.append("build_number_prrmit", context.build_number_prrmit);
+    formData.append("total_floor", context.total_floor);
+    formData.append("owner_ip", context.owner_ip);
+    formData.append("lessor_name", context.lessor_name);
+    formData.append("alarm_network", context.alarm_network);
+    formData.append("fire_network", context.fire_network);
+    formData.append("fire_pump", context.fire_pump);
+    formData.append("generator", context.generator);
+    formData.append("bilud_component", context.bilud_component);
+    formData.append("institution_maintenance", context.institution_maintenance);
+    formData.append("institution_safty", context.institution_safty);
+    formData.append("price_hajj", context.price_hajj);
+    formData.append("price_years", context.price_years);
+    formData.append("media", mediaImages);
+    formData.append(
+      "attached_file",
+      context.attached_file.length > 0 ? context.attached_file.slice() : []
+    );
+
+    //console.log(formData.get("media"));
+    sendData(formData);
   };
 
   return (

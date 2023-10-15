@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
 import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
+import HousePage, { loader as HouseLoader } from "./pages/HousePage";
 import NewUser, { action as NewUserAction } from "./pages/NewUser";
 import AddBuilding from "./pages/AddBuilding";
 import Review from "./pages/Review";
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
         element: <Dashboard />,
         loader: dashboardLoader,
       },
+      { path: "Houses/:imageId", element: <HousePage />, loader: HouseLoader },
       {
         path: "Messages",
         element: <Messages />,

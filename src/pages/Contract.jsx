@@ -80,7 +80,7 @@ export async function action({ request }) {
     document_start: documentStart,
     notes: formData.get("notes"),
   };
-  //console.log(enteredData);
+  console.log(enteredData);
   const userToken = getAuthToken();
   let response;
   try {

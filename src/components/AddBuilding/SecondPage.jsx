@@ -125,11 +125,10 @@ const SecondPage = () => {
     let imagesArr = [];
     if (images.length > 0) {
       imagesArr = images.map((item) => {
-        const formData = new FormData();
-        formData.append("images", item.fileData);
-        return formData.get("images");
+        return item.fileData;
       });
     }
+    //console.log(imagesArr);
     const files = tableData.filter((item) => {
       return item.type !== "image_bilud";
     });
@@ -137,13 +136,10 @@ const SecondPage = () => {
     let filesArr = [];
     if (files.length > 0) {
       filesArr = files.map((item) => {
-        const formData = new FormData();
-        formData.append("files", item.fileData);
-        return formData.get("files");
+        return item.fileData;
       });
     }
-    console.log(imagesArr);
-    console.log(filesArr);
+
     context.setFormData((prevData) => {
       return {
         ...prevData,
@@ -152,8 +148,8 @@ const SecondPage = () => {
         institution_safty: data.institutionSafty,
         price_hajj: data.hajjPrice,
         price_years: data.yearsPrice,
-        media: imagesArr.length > 0 ? imagesArr.slice() : [],
-        attached_file: filesArr.length > 0 ? filesArr.slice() : [],
+        media: imagesArr.slice(),
+        attached_file: filesArr.slice(),
       };
     });
     context.setPage();
