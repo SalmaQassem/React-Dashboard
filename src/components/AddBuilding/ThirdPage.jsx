@@ -7,13 +7,15 @@ import UserContext from "../../store/user-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { getAuthToken } from "../../util/auth";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ThirdPage = () => {
+  const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
   const userData = useContext(UserContext);
   const navigate = useNavigate();
   const saveData = async () => {
-    const enteredData = {
+    /*const enteredData = {
       user_id: userData.id,
       house_name: context.house_name,
       type: context.type,
@@ -38,7 +40,7 @@ const ThirdPage = () => {
       price_hajj: context.price_hajj,
       price_years: context.price_years,
       media: context.media.slice(),
-      //attached_file: context.attached_file.slice(),
+      attached_file: context.attached_file.slice(),
     };
     const userToken = getAuthToken();
     console.log(enteredData);
@@ -62,12 +64,13 @@ const ThirdPage = () => {
       navigate("/dashboard/Contract");
     } catch (error) {
       console.log(error.message);
-    }
+    }*/
+    navigate("/dashboard/Contract");
   };
 
   return (
     <div className={styles.map}>
-      <p>تحديد المنشأة على الخريطة</p>
+      <p>{t("body.showOnMap")}</p>
       <div className={styles.mapItem}>
         <Map />
       </div>
@@ -77,7 +80,7 @@ const ThirdPage = () => {
         icon={<LiaHotelSolid />}
         onClick={saveData}
       >
-        حفظ تسجيل المنشأة
+        {t("body.saveRegistration")}
       </FormButton>
     </div>
   );

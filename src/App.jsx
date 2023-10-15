@@ -77,7 +77,6 @@ function App() {
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     const storedLang = sessionStorage.getItem("lang");
-    //console.log(storedLang);
     if (storedLang) {
       i18n.changeLanguage(sessionStorage.getItem("lang"));
     }

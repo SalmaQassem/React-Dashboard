@@ -5,7 +5,7 @@ import { FiUserPlus, FiUserCheck } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { LiaHotelSolid } from "react-icons/lia";
 import AsideItem from "./AsideItem";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,6 @@ const Aside = () => {
   const [t, i18n] = useTranslation("global");
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
-  const [isActive, setIsActive] = useState("");
   const main = [
     {
       id: "0",
@@ -55,9 +54,6 @@ const Aside = () => {
     },
   ];
 
-  const clickHandler = (text) => {
-    setIsActive(text);
-  };
   return (
     <aside
       className={
@@ -66,15 +62,22 @@ const Aside = () => {
     >
       <div className={styles.section}>
         <div className={styles.items}>
-          {main.map((item) => {
-            return (
+          {main.map((item, index) => {
+            return index === 0 ? (
               <AsideItem
                 key={item.id}
                 name={item.name}
                 icon={item.icon}
                 url={item.url}
-                isActive={isActive}
-                handleClick={clickHandler}
+                End={true}
+              />
+            ) : (
+              <AsideItem
+                key={item.id}
+                name={item.name}
+                icon={item.icon}
+                url={item.url}
+                End={false}
               />
             );
           })}
@@ -91,8 +94,6 @@ const Aside = () => {
                   name={item.name}
                   icon={item.icon}
                   url={item.url}
-                  isActive={isActive}
-                  handleClick={clickHandler}
                 />
               );
             })}
@@ -109,8 +110,6 @@ const Aside = () => {
                 name={item.name}
                 icon={item.icon}
                 url={item.url}
-                isActive={isActive}
-                handleClick={clickHandler}
               />
             );
           })}
@@ -126,8 +125,6 @@ const Aside = () => {
                 name={item.name}
                 icon={item.icon}
                 url={item.url}
-                isActive={isActive}
-                handleClick={clickHandler}
               />
             );
           })}

@@ -32,6 +32,8 @@ const Messages = () => {
   const [t, i18n] = useTranslation("global");
   const data = useLoaderData();
   const [currentMsg, setCurrentMsg] = useState(0);
+  const isEnglish = i18n.language === "en" ? "en" : "";
+
   const showNext = () => {
     setCurrentMsg((prevState) => {
       if (prevState < messages.length - 1) {
@@ -68,22 +70,22 @@ const Messages = () => {
               <div
                 className={
                   currentMsg === messages.length - 1
-                    ? `${styles.icon} ${styles.arrow}`
-                    : `${styles.icon} ${styles.arrow} ${styles.disable}`
+                    ? `${styles.icon} ${styles.prevArrow}`
+                    : `${styles.icon} ${styles.prevArrow} ${styles.disable}`
                 }
                 onClick={showPrev}
               >
-                <HiArrowSmRight />
+                {isEnglish !== "" ? <HiArrowSmLeft /> : <HiArrowSmRight />}
               </div>
               <div
                 className={
                   currentMsg === 0
-                    ? `${styles.icon} ${styles.arrow}`
-                    : `${styles.icon} ${styles.arrow} ${styles.disable}`
+                    ? `${styles.icon} ${styles.nextArrow}`
+                    : `${styles.icon} ${styles.nextArrow} ${styles.disable} `
                 }
                 onClick={showNext}
               >
-                <HiArrowSmLeft />
+                {isEnglish !== "" ? <HiArrowSmRight /> : <HiArrowSmLeft />}
               </div>
               <div className={styles.icon}>
                 <RiDeleteBin6Line />

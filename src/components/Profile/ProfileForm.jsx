@@ -3,49 +3,52 @@ import { Form, useActionData } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { TbCloudUpload } from "react-icons/tb";
 import FormButton from "../UI/FormButton";
-const inputs = [
-  {
-    id: "first_name",
-    type: "text",
-    name: "firstName",
-    label: "الإسم الأول",
-  },
-  {
-    id: "last_name",
-    type: "text",
-    name: "lastName",
-    label: "اسم العائلة",
-  },
-  {
-    id: "email",
-    type: "email",
-    name: "email",
-    label: "البريد الإلكتروني",
-  },
-  {
-    id: "phone",
-    type: "number",
-    name: "phone",
-    label: "الجوال",
-  },
-  {
-    id: "password",
-    type: "password",
-    name: "password",
-    label: "تغيير كلمة السر",
-  },
-  {
-    id: "confirmPassword",
-    type: "password",
-    name: "confirmPassword",
-    label: "أعد كلمة السر",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const ProfileForm = (props) => {
+  const [t, i18n] = useTranslation("global");
   const data = useActionData();
   const oldData = props.userData;
   const hiddenFileInput = useRef(null);
+  const inputs = [
+    {
+      id: "first_name",
+      type: "text",
+      name: "firstName",
+      label: t("body.firstName"),
+    },
+    {
+      id: "last_name",
+      type: "text",
+      name: "lastName",
+      label: t("body.lastName"),
+    },
+    {
+      id: "email",
+      type: "email",
+      name: "email",
+      label: t("body.email"),
+    },
+    {
+      id: "phone",
+      type: "number",
+      name: "phone",
+      label: t("body.phone"),
+    },
+    {
+      id: "password",
+      type: "password",
+      name: "password",
+      label: t("body.changePassword"),
+    },
+    {
+      id: "confirmPassword",
+      type: "password",
+      name: "confirmPassword",
+      label: t("body.retypePassword"),
+    },
+  ];
+
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
@@ -83,7 +86,7 @@ const ProfileForm = (props) => {
           })}
         </div>
         <div className={styles.image}>
-          <p>رجاء رفع شعار المنشأة أو الصورة الشخصية</p>
+          <p>{t("body.uploadImage")}</p>
           <div className={styles.selectFile}>
             <div className={styles.uploadImg} onClick={handleClick}>
               <TbCloudUpload />
@@ -100,7 +103,7 @@ const ProfileForm = (props) => {
           </div>
         </div>
         <FormButton class={styles.submit} type="submit">
-          حفظ التغييرات
+          {t("body.saveChanges")}
         </FormButton>
       </Form>
     </div>

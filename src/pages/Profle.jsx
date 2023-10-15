@@ -4,15 +4,17 @@ import ProfileForm from "../components/Profile/ProfileForm";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useLoaderData } from "react-router-dom";
 import { getAuthToken } from "../util/auth";
+import { useTranslation } from "react-i18next";
 let password = "";
 
 const Profile = () => {
+  const [t, i18n] = useTranslation("global");
   const data = useLoaderData();
   password = data[0]["password"];
   return (
     <div className={styles.profile}>
       <StyledHeader
-        text="حسابي"
+        text={t("body.profile")}
         icon={<FaRegUserCircle />}
         class={styles.header}
       />

@@ -20,7 +20,7 @@ const Dashboard = () => {
     { name: t("body.rentedBuildings"), icon: <BsHouseLock /> },
   ];
   const data = useLoaderData();
-  //console.log(data);
+  console.log(data);
   const date = new Date(data.data[0]);
   const minute = String(date.getUTCMinutes()).padStart(2, "0");
   const hour = String(date.getUTCHours()).padStart(2, "0");
@@ -54,7 +54,7 @@ const Dashboard = () => {
           })}
         </div>
         <div className={styles.counters}>
-          {data.newContenr.map((item, index) => {
+          {data.newContenr.length > 0 && data.newContenr.map((item, index) => {
             return (
               <div key={index} className={styles.card}>
                 <div className={styles.icon}>{buildings[index].icon}</div>

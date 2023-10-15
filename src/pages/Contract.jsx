@@ -8,12 +8,15 @@ import image from "../assets/images/Frame.png";
 //import vector from "../assets/images/Vector2.png";
 import ContractForm from "../components/AddBuilding/ContractForm";
 import { getAuthToken } from "../util/auth";
+import { useTranslation } from "react-i18next";
 
 let userId = "";
 let houseId = "";
 const Contract = () => {
+  const [t, i18n] = useTranslation("global");
   const userData = useContext(UserContext);
   const context = useContext(BuildingContext);
+
   useEffect(() => {
     userId = userData.id;
     houseId = context.id;
@@ -24,7 +27,7 @@ const Contract = () => {
       <StyledContainer>
         <div className={styles.contract}>
           <div className={styles.head}>
-            <h1>نموذج تعاقد</h1>
+            <h1>{t("body.contractForm")}</h1>
             <div className={styles.logo}>
               <img src={logo} alt="logo" />
             </div>

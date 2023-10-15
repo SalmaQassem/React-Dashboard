@@ -6,6 +6,12 @@
   font-family: "Cairo-ExtraBold";
   font-size: 1.125rem;
 }
+%arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 0.125rem solid $black;
+}
 .messages {
   height: 100%;
   @include flex-variant(flex, $direction: column);
@@ -56,11 +62,11 @@
           );
           cursor: pointer;
         }
-        .arrow {
-          width: 1.5rem;
-          height: 1.5rem;
-          border-radius: 50%;
-          border: 0.125rem solid $black;
+        .prevArrow {
+          @extend %arrow;
+        }
+        .nextArrow {
+          @extend %arrow;
         }
         .disable {
           color: $grey-11;
@@ -93,6 +99,7 @@
           resize: none;
           background-color: $black;
           &::placeholder {
+            text-transform: capitalize;
             color: $white;
           }
         }
@@ -102,6 +109,7 @@
           @extend %font;
           background-color: $white;
           border-radius: 0.9375rem;
+          text-transform: capitalize;
         }
       }
     }

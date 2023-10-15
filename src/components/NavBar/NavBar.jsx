@@ -45,7 +45,7 @@ const NavBar = () => {
           </div>
           <div className={styles.search}>
             <div className={styles.input}>
-              <input placeholder="بحث" />
+              <input placeholder={t("body.search")} />
               <div className={styles.searchIcon}>
                 <HiOutlineSearch />
               </div>

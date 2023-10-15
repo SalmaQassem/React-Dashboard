@@ -282,7 +282,7 @@ const FirstPage = () => {
         })}
       </div>
       <FormButton type="submit" icon={<BsArrowLeftCircle />}>
-        أكمل تسجيل المنشأة
+        {t("body.continue")}
       </FormButton>
     </form>
   );

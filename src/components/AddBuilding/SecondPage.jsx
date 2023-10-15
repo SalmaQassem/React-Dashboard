@@ -10,63 +10,10 @@ import { BsBuildingGear, BsArrowLeftCircle } from "react-icons/bs";
 import { FaBuildingShield } from "react-icons/fa6";
 import { SlUser } from "react-icons/sl";
 import { IoPricetagsOutline, IoClose } from "react-icons/io5";
-import { serialize } from "object-to-formdata";
-const secondPageInputs = [
-  {
-    id: "buildingComponents",
-    type: "text",
-    name: "buildingComponents",
-    placeholder: "مكونات المبنى",
-    icon: <LiaHotelSolid />,
-  },
-  {
-    id: "institutionMaintenance",
-    type: "text",
-    name: "institutionMaintenance",
-    placeholder: "المؤسسة القائمة بالصيانة",
-    icon: <BsBuildingGear />,
-  },
-  {
-    id: "institutionSafty",
-    type: "text",
-    name: "institutionSafty",
-    placeholder: "المؤسسة القائمة بوسائل السلامة",
-    icon: <FaBuildingShield />,
-  },
-  {
-    id: "hajjPrice",
-    type: "text",
-    name: "hajjPrice",
-    placeholder: "سعر الحاج",
-    icon: <SlUser />,
-  },
-  {
-    id: "yearsPrice",
-    type: "text",
-    name: "yearsPrice",
-    placeholder: "سعر العام",
-    icon: <IoPricetagsOutline />,
-  },
-  {
-    id: "attachedType",
-    type: "select",
-    name: "attachedType",
-    placeholder: "نوع المرفق",
-    icon: <IoMdArrowDropdownCircle />,
-    options: [
-      { value: "image_bilud", label: "صور المبنى" },
-      { value: "السجل التجاري", label: "السجل التجاري" },
-      { value: "السجل الضريبي", label: "السجل الضريبي" },
-      { value: "تصريح الحج", label: "تصريح الحج" },
-    ],
-  },
-];
-const tableHead = [
-  { id: "0", text: "م" },
-  { id: "1", text: "عنوان الملف" },
-  { id: "2", text: "نوع المرفق" },
-];
+import { useTranslation } from "react-i18next";
+
 const SecondPage = () => {
+  const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
   const [tableData, setTableData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -76,12 +23,81 @@ const SecondPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const secondPageInputs = [
+    {
+      id: "buildingComponents",
+      type: "text",
+      name: "buildingComponents",
+      placeholder: t("body.buildingComponents"),
+      icon: <LiaHotelSolid />,
+    },
+    {
+      id: "institutionMaintenance",
+      type: "text",
+      name: "institutionMaintenance",
+      placeholder: t("body.institutionMaintenance"),
+      icon: <BsBuildingGear />,
+    },
+    {
+      id: "institutionSafty",
+      type: "text",
+      name: "institutionSafty",
+      placeholder: t("body.institutionSafety"),
+      icon: <FaBuildingShield />,
+    },
+    {
+      id: "hajjPrice",
+      type: "text",
+      name: "hajjPrice",
+      placeholder: t("body.hajjPrice"),
+      icon: <SlUser />,
+    },
+    {
+      id: "yearsPrice",
+      type: "text",
+      name: "yearsPrice",
+      placeholder: t("body.yearPrice"),
+      icon: <IoPricetagsOutline />,
+    },
+    {
+      id: "attachedType",
+      type: "select",
+      name: "attachedType",
+      placeholder: t("body.attachmentType"),
+      icon: <IoMdArrowDropdownCircle />,
+      options: [
+        { value: "image_bilud", label: t("body.buildingImages") },
+        { value: "السجل التجاري", label: t("body.commercialRegistration") },
+        { value: "السجل الضريبي", label: t("body.taxRegistration") },
+        { value: "تصريح الحج", label: t("body.hajjPermit") },
+      ],
+    },
+  ];
+  const tableHead = [
+    { id: "0", text: "م" },
+    { id: "1", text: t("body.fileName") },
+    { id: "2", text: t("body.attachmentType") },
+  ];
+
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
   const handleChange = (e) => {
     const filesUploaded = e.target.files[0];
-    const reader = new FileReader();
+    if (selectedOption) {
+      setTableData((prevState) => {
+        return [
+          ...prevState,
+          {
+            fileName: filesUploaded.name,
+            label: selectedOption.label,
+            type: selectedOption.value,
+            fileData: filesUploaded,
+          },
+        ];
+      });
+    }
+    /*const reader = new FileReader();
     reader.readAsDataURL(filesUploaded);
     reader.onload = () => {
       if (selectedOption) {
@@ -97,33 +113,37 @@ const SecondPage = () => {
           ];
         });
       }
-    };
+    };*/
   };
   const setSelectHandler = (option) => {
     setSelectedOption(option);
   };
   const formSubmitHandler = (data) => {
-    //console.log(tableData);
     const images = tableData.filter((item) => {
       return item.type === "image_bilud";
     });
-    //console.log(images);
     let imagesArr = [];
     if (images.length > 0) {
       imagesArr = images.map((item) => {
-        return item.fileData;
+        const formData = new FormData();
+        formData.append("images", item.fileData);
+        return formData.get("images");
       });
     }
-
     const files = tableData.filter((item) => {
       return item.type !== "image_bilud";
     });
+
     let filesArr = [];
     if (files.length > 0) {
       filesArr = files.map((item) => {
-        return item.fileData;
+        const formData = new FormData();
+        formData.append("files", item.fileData);
+        return formData.get("files");
       });
     }
+    console.log(imagesArr);
+    console.log(filesArr);
     context.setFormData((prevData) => {
       return {
         ...prevData,
@@ -165,7 +185,7 @@ const SecondPage = () => {
         })}
         <div className={styles.selectFile}>
           <button type="button" onClick={handleClick}>
-            اختر الملف
+            {t("body.chooseFile")}
           </button>
           <input
             type="file"
@@ -176,7 +196,7 @@ const SecondPage = () => {
             ref={hiddenFileInput}
             style={{ display: "none" }}
           />
-          <p>الملفات المسموحة: jpg, pdf, docx, doc</p>
+          <p>{t("body.acceptedFormats")}: jpg, pdf, docx, doc</p>
         </div>
       </div>
       {tableData.length > 0 && (
@@ -205,7 +225,7 @@ const SecondPage = () => {
         </div>
       )}
       <FormButton type="submit" icon={<BsArrowLeftCircle />}>
-        أكمل تسجيل المنشأة
+        {t("body.continue")}
       </FormButton>
     </form>
   );
