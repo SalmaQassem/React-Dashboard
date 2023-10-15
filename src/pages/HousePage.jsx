@@ -17,8 +17,8 @@ const HousePage = () => {
   const [isActive, setIsActive] = useState("0");
   const [filter, setFilter] = useState("buildingType");
   const [filteredData, setFilteredData] = useState([]);
-  //console.log(data);
-  const imgs = data.media;
+  //console.log(data[0].media);
+  const imgs = data[0].media.length > 0 ? data[0].media : [];
   const infoItems = [
     { id: "0", name: t("body.buildingData"), category: "buildingType" },
     { id: "1", name: t("body.imagesAndVideos"), category: "imagesAndVideos" },
@@ -33,43 +33,43 @@ const HousePage = () => {
         {
           id: "0",
           title: t("body.buildingType"),
-          value: data.type,
+          value: data[0].type,
           icon: <RiHotelLine />,
         },
         {
           id: "1",
           title: t("body.roomsNum"),
-          value: data.total_room,
+          value: data[0].total_room,
           icon: <PiDoorOpenLight />,
         },
         {
           id: "2",
           title: t("body.hajjajNum"),
-          value: data.hajjaj_count,
+          value: data[0].hajjaj_count,
           icon: <FaKaaba />,
         },
         {
           id: "3",
           title: t("body.hajjajInPermit"),
-          value: data.hajjaj_accsept,
+          value: data[0].hajjaj_accsept,
           icon: <AiOutlineFile />,
         },
         {
           id: "4",
           title: t("body.permitNum"),
-          value: data.number_prrmit,
+          value: data[0].number_prrmit,
           icon: <AiOutlineFileProtect />,
         },
         {
           id: "5",
           title: t("body.ownerName"),
-          value: data.house_owner_name,
+          value: data[0].house_owner_name,
           icon: <FaBuildingUser />,
         },
         {
           id: "6",
           title: t("body.phone"),
-          value: data.phone,
+          value: data[0].phone,
           icon: <FiPhoneCall />,
         },
       ],
@@ -98,12 +98,12 @@ const HousePage = () => {
       return item.name === filter;
     });
     setFilteredData(items);
-  }, [filter]);
+  }, [filter, i18n.language]);
 
   return (
     <div className={styles.review}>
       <StyledContainer>
-        <ImagesGallery images={imgs}/>
+        <ImagesGallery images={imgs} />
       </StyledContainer>
       <div className={styles.reviewData}>
         <div className={styles.info}>
@@ -130,7 +130,7 @@ const HousePage = () => {
           </StyledContainer>
         </div>
         <div className={styles.data}>
-          <div className={styles.img} />
+          {/*/<div className={styles.img} />*/}
           <StyledContainer>
             <div className={styles.filteredData}>
               {filteredData.length === 0 ? (
