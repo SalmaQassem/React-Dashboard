@@ -6,7 +6,7 @@ import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
 import HousePage, { loader as HouseLoader } from "./pages/HousePage";
 import NewUser, { action as NewUserAction } from "./pages/NewUser";
 import AddBuilding from "./pages/AddBuilding";
-import Review from "./pages/Review";
+import Review, { loader as ReviewsLoader } from "./pages/Review";
 import Contract, { action as ContractAction } from "./pages/Contract";
 import UserPermits from "./pages/userPermits";
 import Profile, {
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
         path: "AddBuilding",
         element: <AddBuilding />,
       },
-      { path: "Review", element: <Review /> },
+      { path: "Review", element: <Review />, loader: ReviewsLoader },
       {
         path: "Contract",
         element: <Contract />,

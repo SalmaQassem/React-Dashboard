@@ -87,6 +87,10 @@
     "imagesAndVideos": "images and videos",
     "attachments": "attachments",
     "location": "building location",
-    "noData": "no data found"
+    "noData": "no data found",
+    "roomsAndHouses": "rooms and houses for rent",
+    "editBuilding": "edit building data",
+    "contract": "contract",
+    "file": "download file"
   }
 }

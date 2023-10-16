@@ -50,6 +50,7 @@
       .infoItem {
         padding: 2rem;
         @extend %font;
+        text-transform: capitalize;
         background-color: $pink;
         border-radius: 0.9375rem 2.5rem 0.9375rem 0.9375rem;
         border: 0.0625rem solid $white;
@@ -90,12 +91,16 @@
           width: 20%;
           @extend %font;
           color: $black;
-          overflow-wrap: break-word;  
+          text-transform: capitalize;
+          overflow-wrap: break-word;
         }
         .value {
           width: 10%;
           @extend %font;
           color: $grey-10;
+          a {
+            color: $grey-10;
+          }
         }
         .icon {
           width: 10%;

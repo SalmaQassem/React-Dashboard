@@ -2,7 +2,7 @@ import styles from "../styles/_Review.module.scss";
 import StyledContainer from "../components/UI/StyledContainer";
 import ImagesGallery from "../components/UI/ImagesGallery";
 import { getAuthToken } from "../util/auth";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { RiHotelLine } from "react-icons/ri";
@@ -17,8 +17,31 @@ const HousePage = () => {
   const [isActive, setIsActive] = useState("0");
   const [filter, setFilter] = useState("buildingType");
   const [filteredData, setFilteredData] = useState([]);
-  //console.log(data[0].media);
-  const imgs = data[0].media.length > 0 ? data[0].media : [];
+  const imgs =
+    data[0].media.length > 0
+      ? data[0].media.filter((item) => {
+          const type = item.mime_type.split("/")[1];
+          return type === "png" || type === "jpg";
+        })
+      : [];
+  const files =
+    data[0].media.length > 0
+      ? data[0].media.filter((item) => {
+          const type = item.mime_type.split("/")[1];
+          return type === "pdf";
+        })
+      : [];
+  const attachments =
+    files.length > 0
+      ? files.map((item, index) => {
+          return {
+            id: index,
+            title: t("body.file"),
+            value: <Link to={item.original_url} target="_blank">{item.file_name}</Link>,
+            icon: <AiOutlineFile />,
+          };
+        })
+      : [];
   const infoItems = [
     { id: "0", name: t("body.buildingData"), category: "buildingType" },
     { id: "1", name: t("body.imagesAndVideos"), category: "imagesAndVideos" },
@@ -33,7 +56,8 @@ const HousePage = () => {
         {
           id: "0",
           title: t("body.buildingType"),
-          value: data[0].type,
+          value:
+            data[0].type === "build" ? t("body.building") : t("body.hotel"),
           icon: <RiHotelLine />,
         },
         {
@@ -74,18 +98,10 @@ const HousePage = () => {
         },
       ],
     },
-    /*{
+    {
       name: "attachments",
-      data: [
-        { title: "", value: data.type },
-        { title: "", value: data.total_room },
-        { title: "", value: data.hajjaj_count },
-        { title: "", value: data.hajjaj_accsept },
-        { title: "", value: data.number_prrmit },
-        { title: "", value: data.house_owner_name },
-        { title: "", value: data.phone },
-      ],
-    },*/
+      data: attachments.slice(),
+    },
   ];
 
   const filterHandler = (e) => {

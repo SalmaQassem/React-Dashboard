@@ -11,6 +11,7 @@ import { FaBuildingShield } from "react-icons/fa6";
 import { SlUser } from "react-icons/sl";
 import { IoPricetagsOutline, IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 const SecondPage = () => {
   const [t, i18n] = useTranslation("global");
@@ -78,7 +79,6 @@ const SecondPage = () => {
     { id: "1", text: t("body.fileName") },
     { id: "2", text: t("body.attachmentType") },
   ];
-
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
@@ -119,7 +119,7 @@ const SecondPage = () => {
     setSelectedOption(option);
   };
   const formSubmitHandler = (data) => {
-    const images = tableData.filter((item) => {
+    /*const images = tableData.filter((item) => {
       return item.type === "image_bilud";
     });
     let imagesArr = [];
@@ -138,7 +138,13 @@ const SecondPage = () => {
       filesArr = files.map((item) => {
         return item.fileData;
       });
-    }
+    }*/
+    const mediaData =
+      tableData.length > 0
+        ? tableData.map((item) => {
+            return item.fileData;
+          })
+        : [];
 
     context.setFormData((prevData) => {
       return {
@@ -148,12 +154,22 @@ const SecondPage = () => {
         institution_safty: data.institutionSafty,
         price_hajj: data.hajjPrice,
         price_years: data.yearsPrice,
-        media: imagesArr.slice(),
-        attached_file: filesArr.slice(),
+        media: mediaData.slice(),
       };
     });
     context.setPage();
   };
+  const deleteHandler = (e) => {
+    const deleteIndex = e.currentTarget.id;
+
+    setTableData((prevState) => {
+      const newArr = prevState.filter((item) => {
+        return item !== prevState[deleteIndex];
+      });
+      return newArr;
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>
@@ -211,7 +227,12 @@ const SecondPage = () => {
                     <p className={styles.name}>{item.fileName}</p>
                     <p className={styles.type}>{item.label}</p>
                   </div>
-                  <button type="button" className={styles.delete}>
+                  <button
+                    type="button"
+                    id={index}
+                    className={styles.delete}
+                    onClick={deleteHandler}
+                  >
                     <IoClose />
                   </button>
                 </div>

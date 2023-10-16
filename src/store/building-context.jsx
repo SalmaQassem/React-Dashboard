@@ -25,7 +25,6 @@ const BuildingContext = React.createContext({
   price_hajj: "",
   price_years: "",
   media: [],
-  attached_file: [],
   page: 0,
   setPage: () => {},
   setFormData: (
@@ -84,7 +83,6 @@ export const BuildingContextProvider = (props) => {
     price_hajj: "",
     price_years: "",
     media: [],
-    attached_file: [],
   });
   const setPageHandler = () => {
     setPageNumber((prevPage) => {
@@ -118,7 +116,6 @@ export const BuildingContextProvider = (props) => {
         price_hajj: data.price_hajj,
         price_years: data.price_years,
         media: data.media.slice(),
-        attached_file: data.attached_file.slice(),
         page: pageNumber,
         setPage: setPageHandler,
         setFormData: setData,

@@ -12,15 +12,15 @@ import { useTranslation } from "react-i18next";
 const ThirdPage = () => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
-  //console.log(context);
+  console.log(context);
   const userData = useContext(UserContext);
   const navigate = useNavigate();
 
   const sendData = async (data) => {
     const userToken = getAuthToken();
     const enteredData = data;
-    //console.log(enteredData);
-    try {
+    console.log(enteredData);
+    /*try {
       let response = await fetch(
         "https://zadapp.mqawilk.com/api/houses/store",
         {
@@ -33,13 +33,11 @@ const ThirdPage = () => {
         }
       );
       const data = await response.json();
-      context.setFormData((prevData) => {
-        return { ...prevData, id: data.id };
-      });
-      navigate("/dashboard/Contract");
+      sessionStorage.setItem("houseId", data.id);
+      navigate("/dashboard/Review");
     } catch (error) {
       console.log(error.message);
-    }
+    }*/
   };
 
   const saveData = async () => {
@@ -71,8 +69,8 @@ const ThirdPage = () => {
       attached_file: context.attached_file.slice(),
     };*/
     //console.log(enteredData);
-    console.log(context.media.length);
-    console.log(context.media.slice());
+    //console.log(context.media.length);
+    //console.log(context.media.slice());
     const mediaImages = context.media.slice();
     const formData = new FormData();
     formData.append("user_id", userData.id);
@@ -99,12 +97,6 @@ const ThirdPage = () => {
     formData.append("price_hajj", context.price_hajj);
     formData.append("price_years", context.price_years);
     formData.append("media", mediaImages);
-    formData.append(
-      "attached_file",
-      context.attached_file.length > 0 ? context.attached_file.slice() : []
-    );
-
-    //console.log(formData.get("media"));
     sendData(formData);
   };
 

@@ -87,6 +87,10 @@
     "imagesAndVideos": "صور و فيديوهات",
     "attachments": "مستندات",
     "location": "موقع المنشأة",
-    "noData": "لا توجد بيانات"
+    "noData": "لا توجد بيانات",
+    "roomsAndHouses": "غرف وشقق للإيجار بالعزيزية مكة",
+    "editBuilding": "تعديل بيانات المنشأة",
+    "contract": "تعاقد",
+    "file": "تحميل الملف"
   }
 }
