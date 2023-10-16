@@ -6,11 +6,9 @@ import ContractFormHead from "../components/AddBuilding/ContractFormHead";
 import ContractForm from "../components/AddBuilding/ContractForm";
 import image from "../assets/images/Frame.png";
 
-let userId = "";
 let houseId = "";
 const EditContract = () => {
   const data = useLoaderData();
-  userId = data.user_id;
   houseId = data.id;
   return (
     <StyledContainer>
@@ -73,8 +71,6 @@ export async function action({ request }) {
     .split(".")[0];
 
   const enteredData = {
-    user_id: userId,
-    houes_id: houseId,
     price_hajj: formData.get("hajjPrice"),
     start_date: startDate,
     end_date: endDate,
@@ -85,14 +81,17 @@ export async function action({ request }) {
   const userToken = getAuthToken();
   let response;
   try {
-    response = await fetch("https://zadapp.mqawilk.com/api/document/store", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify(enteredData),
-    });
+    response = await fetch(
+      "https://zadapp.mqawilk.com/api/document/update/" + houseId,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify(enteredData),
+      }
+    );
   } catch (error) {
     console.log(error.message);
   }
