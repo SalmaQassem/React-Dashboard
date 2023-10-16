@@ -43,6 +43,9 @@
         flex: 1 0;
         font-family: "Cairo-Regular";
         font-size: 1rem;
+        &::placeholder {
+          text-transform: capitalize;
+        }
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
           -webkit-appearance: none;
@@ -111,6 +114,7 @@
           $gap: 1rem
         );
         .tableData {
+          @extend %width;
           @include flex-variant(
             flex,
             $direction: row,
@@ -129,7 +133,6 @@
             font-family: "Cairo-Bold";
             font-size: 1rem;
           }
-          @extend %width;
         }
         .delete {
           width: 3.75rem;
@@ -148,4 +151,7 @@
       }
     }
   }
+}
+.en {
+  margin: 0 0 0 auto;
 }

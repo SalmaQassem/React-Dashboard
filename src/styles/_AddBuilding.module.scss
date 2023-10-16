@@ -24,6 +24,5 @@
   .body {
     height: 100%;
     @include flex-variant(flex, $direction: column);
-
   }
 }

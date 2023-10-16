@@ -12,6 +12,7 @@
       $align: center,
       $gap: 0.625rem
     );
+    
 
     input {
       visibility: hidden;
@@ -44,6 +45,7 @@
       font-family: "Cairo-ExtraBold";
       font-size: 1rem;
       color: $black;
+      text-transform: capitalize;
       cursor: pointer;
     }
   }

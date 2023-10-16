@@ -11,6 +11,7 @@
     "usersControl": "users management",
     "newUser": "add new user",
     "permissions": "users permissions",
+    "contracts": "contracts",
     "buildingControl": "building management",
     "addBuilding": "add building",
     "account": "account management",
@@ -91,6 +92,8 @@
     "roomsAndHouses": "rooms and houses for rent",
     "editBuilding": "edit building data",
     "contract": "contract",
-    "file": "download file"
+    "file": "download file",
+    "edit": "edit",
+    "delete": "delete"
   }
 }

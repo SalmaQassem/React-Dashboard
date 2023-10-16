@@ -51,6 +51,7 @@ const NavBar = () => {
         const data = await response.json();
         const id = data.id;
         navigate(`Houses/${id}`);
+        searchRef.current.value = "";
       } catch (error) {
         console.log(error.message);
       }

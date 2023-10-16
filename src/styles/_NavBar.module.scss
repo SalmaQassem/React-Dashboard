@@ -58,16 +58,24 @@
       flex-grow: 1;
       .input {
         width: 20rem;
-        position: relative;
+        padding: 0.5rem 1.5rem;
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $align: center,
+          $justify: center,
+          $gap: 0.5rem
+        );
+        background-color: $white;
+        border: 0.0625rem solid $grey-1;
+        border-radius: 0.4375rem;
         input {
           width: 100%;
-          padding: 0.5rem 1.5rem;
-          border: 0.0625rem solid $grey-1;
-          border-radius: 0.4375rem;
           font-family: "Cairo-Bold";
           font-size: 1rem;
           &::placeholder {
             color: $grey-2;
+            text-transform: capitalize;
           }
         }
         .searchIcon {
@@ -77,10 +85,10 @@
             $align: center,
             $justify: center
           );
-          position: absolute;
+          /*position: absolute;
           top: 50%;
           left: 1.5rem;
-          transform: translateY(-50%);
+          transform: translateY(-50%);*/
           font-size: 1.25rem;
           color: $brown-1;
           cursor: pointer;

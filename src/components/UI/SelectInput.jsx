@@ -59,8 +59,13 @@ const SelectInput = (props) => {
     placeholder: (baseStyles) => ({
       ...baseStyles,
       margin: "0",
+      textTransform: "capitalize",
     }),
-    input: (baseStyles) => ({ ...baseStyles, margin: "0", padding: "0" }),
+    input: (baseStyles) => ({
+      ...baseStyles,
+      margin: "0",
+      padding: "0",
+    }),
     dropdownIndicator: (baseStyles) => ({
       ...baseStyles,
       padding: "0",
@@ -89,6 +94,7 @@ const SelectInput = (props) => {
         state.isFocused && !state.isSelected
           ? "#c3c3c3"
           : state.isSelected && "#d11242",
+      textTransform: "capitalize",
     }),
   };
   return (

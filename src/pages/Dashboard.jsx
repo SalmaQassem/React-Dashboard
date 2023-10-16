@@ -81,7 +81,7 @@ const Dashboard = () => {
 export default Dashboard;
 
 export async function loader() {
-  let response;
+  let response = "";
   const token = getAuthToken();
   try {
     response = await fetch("https://zadapp.mqawilk.com/api/review", {

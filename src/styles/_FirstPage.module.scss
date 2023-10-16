@@ -28,6 +28,9 @@
         flex: 1 0;
         font-family: "Cairo-Regular";
         font-size: 1rem;
+        &::placeholder {
+          text-transform: capitalize;
+        }
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
           -webkit-appearance: none;
@@ -56,10 +59,14 @@
         font-family: "Cairo-ExtraBold";
         font-size: 1.125rem;
         color: $pink;
+        text-transform: capitalize;
       }
       .content {
         @include flex-variant(flex, $direction: row, $gap: 4rem);
       }
     }
+  }
+  .en {
+    margin: 0 0 0 auto;
   }
 }

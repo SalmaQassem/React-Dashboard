@@ -43,7 +43,11 @@ const UserPermits = () => {
           />
           <FormButton
             type="button"
-            class={styles.submit}
+            class={
+              i18n.language === "en"
+                ? `${styles.submit} ${styles.en}`
+                : styles.submit
+            }
             onClick={onFirstFormSubmit}
           >
             {t("body.saveChanges")}

@@ -6,12 +6,15 @@ import { useState, useContext, useRef } from "react";
 import BuildingContext from "../../store/building-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
-import { BsBuildingGear, BsArrowLeftCircle } from "react-icons/bs";
+import {
+  BsBuildingGear,
+  BsArrowLeftCircle,
+  BsArrowRightCircle,
+} from "react-icons/bs";
 import { FaBuildingShield } from "react-icons/fa6";
 import { SlUser } from "react-icons/sl";
 import { IoPricetagsOutline, IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 
 const SecondPage = () => {
   const [t, i18n] = useTranslation("global");
@@ -241,7 +244,17 @@ const SecondPage = () => {
           </div>
         </div>
       )}
-      <FormButton type="submit" icon={<BsArrowLeftCircle />}>
+      <FormButton
+        type="submit"
+        class={i18n.language === "en" && styles.en}
+        icon={
+          i18n.language === "ar" ? (
+            <BsArrowLeftCircle />
+          ) : (
+            <BsArrowRightCircle />
+          )
+        }
+      >
         {t("body.continue")}
       </FormButton>
     </form>

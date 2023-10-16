@@ -16,6 +16,10 @@
         width: 18%;
         justify-content: center;
         background-color: $black;
+        text-transform: capitalize;
+        &.en {
+          margin: 0 0 0 auto;
+        }
       }
     }
   }

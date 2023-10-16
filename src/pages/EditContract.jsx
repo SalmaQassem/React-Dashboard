@@ -1,44 +1,53 @@
-import styles from "../styles/_Contract.module.scss";
-import StyledContainer from "../components/UI/StyledContainer";
-import { useContext, useEffect } from "react";
-import UserContext from "../store/user-context";
-import BuildingContext from "../store/building-context";
-import image from "../assets/images/Frame.png";
-//import vector from "../assets/images/Vector2.png";
-import ContractForm from "../components/AddBuilding/ContractForm";
+import styles from "../styles/_EditContract.module.scss";
 import { getAuthToken } from "../util/auth";
+import { useLoaderData } from "react-router-dom";
+import StyledContainer from "../components/UI/StyledContainer";
 import ContractFormHead from "../components/AddBuilding/ContractFormHead";
+import ContractForm from "../components/AddBuilding/ContractForm";
+import image from "../assets/images/Frame.png";
 
 let userId = "";
 let houseId = "";
-const Contract = () => {
-  const userData = useContext(UserContext);
-  const context = useContext(BuildingContext);
-
-  useEffect(() => {
-    userId = userData.id;
-    houseId = context.id;
-    //console.log(houseId);
-  });
+const EditContract = () => {
+  const data = useLoaderData();
+  userId = data.user_id;
+  houseId = data.id;
   return (
-    <>
-      <StyledContainer>
-        <div className={styles.contract}>
-          <ContractFormHead />
-          <div className={styles.body}>
-            <div className={styles.image}>
-              <img src={image} alt="frame" />
-            </div>
-            <ContractForm />
+    <StyledContainer>
+      <div className={styles.contract}>
+        <ContractFormHead />
+        <div className={styles.body}>
+          <div className={styles.image}>
+            <img src={image} alt="frame" />
           </div>
+          <ContractForm inputsData={data} />
         </div>
-      </StyledContainer>
-      {/*<img src={vector} alt="vector" className={styles.vector}/>*/}
-    </>
+      </div>
+    </StyledContainer>
   );
 };
-export default Contract;
 
+export default EditContract;
+
+export async function loader({ request, params }) {
+  const contractId = params.contractId;
+  const token = getAuthToken();
+  let response = "";
+  try {
+    response = await fetch(
+      "https://zad.mqawilk.com/api/document/show/" + contractId,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error.message);
+  }
+
+  return response;
+}
 export async function action({ request }) {
   const formData = await request.formData();
   const offset = new Date().getTimezoneOffset();
@@ -65,7 +74,7 @@ export async function action({ request }) {
 
   const enteredData = {
     user_id: userId,
-    house_id: houseId,
+    houes_id: houseId,
     price_hajj: formData.get("hajjPrice"),
     start_date: startDate,
     end_date: endDate,

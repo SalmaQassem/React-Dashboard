@@ -9,6 +9,11 @@ import AddBuilding from "./pages/AddBuilding";
 import Review, { loader as ReviewsLoader } from "./pages/Review";
 import Contract, { action as ContractAction } from "./pages/Contract";
 import UserPermits from "./pages/userPermits";
+import Contracts, { loader as ContractLoader } from "./pages/Contracts";
+import EditContract, {
+  loader as EditLoader,
+  action as EditAction,
+} from "./pages/EditContract";
 import Profile, {
   loader as ProfileLoader,
   action as ProfileAction,
@@ -45,6 +50,13 @@ const router = createBrowserRouter([
       },
       { path: "NewUser", element: <NewUser />, action: NewUserAction },
       { path: "UserPermits", element: <UserPermits /> },
+      { path: "Contracts", element: <Contracts />, loader: ContractLoader },
+      {
+        path: "EditContract/:contractId",
+        element: <EditContract />,
+        loader: EditLoader,
+        action: EditAction,
+      },
       {
         path: "Profile",
         element: <Profile />,

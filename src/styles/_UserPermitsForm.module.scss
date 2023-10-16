@@ -20,6 +20,7 @@
   .permit {
     @extend %permit;
     color: $black;
+    text-transform: capitalize;
     background-color: $grey-12;
     cursor: pointer;
   }
@@ -35,6 +36,7 @@
     color: $white;
     background-color: $pink;
     text-align: center;
+    text-transform: capitalize;
     .icon {
       width: 1.25rem;
       height: 1.25rem;
@@ -58,6 +60,7 @@
   .label {
     @extend %font;
     color: $black;
+    text-transform: capitalize;
   }
   input {
     width: 100%;

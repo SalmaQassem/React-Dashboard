@@ -27,7 +27,7 @@ export async function action({ request }) {
     email: formData.get("email"),
     password: formData.get("password"),
   };
-  let response;
+  let response = "";
   try {
     response = await fetch("https://zadapp.mqawilk.com/api/login", {
       method: "POST",

@@ -11,6 +11,7 @@
     "usersControl": "إدارة المستخدمين",
     "newUser": "إضافة مستخدم جديد",
     "permissions": "صلاحيات المستخدمين",
+    "contracts": "العقود",
     "buildingControl": "إدارة المنشأة",
     "addBuilding": "إضافة منشأة",
     "account": "إدارة الحساب",
@@ -91,6 +92,8 @@
     "roomsAndHouses": "غرف وشقق للإيجار بالعزيزية مكة",
     "editBuilding": "تعديل بيانات المنشأة",
     "contract": "تعاقد",
-    "file": "تحميل الملف"
+    "file": "تحميل الملف",
+    "edit": "تعديل",
+    "delete": "مسح"
   }
 }

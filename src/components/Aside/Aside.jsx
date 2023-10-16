@@ -4,6 +4,7 @@ import { IoIosChatbubbles } from "react-icons/io";
 import { FiUserPlus, FiUserCheck } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { LiaHotelSolid } from "react-icons/lia";
+import { AiOutlineFileDone } from "react-icons/ai";
 import AsideItem from "./AsideItem";
 import { useContext } from "react";
 import AsideContext from "../../store/aside-context";
@@ -35,6 +36,12 @@ const Aside = () => {
       name: t("body.permissions"),
       icon: <FiUserCheck />,
       url: "UserPermits",
+    },
+    {
+      id: "2",
+      name: t("body.contracts"),
+      icon: <AiOutlineFileDone />,
+      url: "Contracts",
     },
   ];
   const houses = [

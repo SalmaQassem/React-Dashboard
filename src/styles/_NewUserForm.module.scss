@@ -15,6 +15,7 @@
       @include flex-variant(flex, $direction: row, $justify: space-between);
       .radioButton {
         @include flex-variant(flex, $direction: column, $gap: 1.25rem);
+        text-transform: capitalize;
         .title {
           font-family: "Cairo-ExtraBold";
           font-size: 1.125rem;
@@ -39,6 +40,7 @@
           font-family: "Cairo-Bold";
           font-size: 1.125rem;
           color: $black;
+          text-transform: capitalize;
         }
         input {
           width: 100%;
@@ -63,8 +65,9 @@
     .submit {
       width: 50%;
       margin: 0 0 auto;
-      background-color: $black;
       justify-content: center;
+      background-color: $black;
+      text-transform: capitalize;
     }
   }
 }

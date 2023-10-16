@@ -10,7 +10,11 @@ import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { RiHotelLine } from "react-icons/ri";
 import { PiDoorOpenLight } from "react-icons/pi";
 import { GoLocation } from "react-icons/go";
-import { BsBuildings, BsArrowLeftCircle } from "react-icons/bs";
+import {
+  BsBuildings,
+  BsArrowLeftCircle,
+  BsArrowRightCircle,
+} from "react-icons/bs";
 import {
   FaKaaba,
   FaBuildingUser,
@@ -281,7 +285,17 @@ const FirstPage = () => {
           );
         })}
       </div>
-      <FormButton type="submit" icon={<BsArrowLeftCircle />}>
+      <FormButton
+        type="submit"
+        class={i18n.language === "en" && styles.en}
+        icon={
+          i18n.language === "ar" ? (
+            <BsArrowLeftCircle />
+          ) : (
+            <BsArrowRightCircle />
+          )
+        }
+      >
         {t("body.continue")}
       </FormButton>
     </form>

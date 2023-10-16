@@ -16,6 +16,7 @@
   .section {
     width: 100%;
     @include flex-variant(flex, $direction: column, $gap: 1rem);
+    text-transform: capitalize;
 
     > span {
       margin: 0 0.625rem;

@@ -2,7 +2,6 @@
 @use "../helpers/mixins" as *;
 
 .contract {
-  //min-height: 150vh;
   padding-top: 1.75rem;
   @include flex-variant(
     flex,
@@ -21,9 +20,3 @@
     }
   }
 }
-/*.vector {
-  position: absolute;
-  width: 17%;
-  right: 0;
-  bottom: 0;
-}*/
