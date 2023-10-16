@@ -14,12 +14,14 @@ import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
 import { useTranslation } from "react-i18next";
 import { getAuthToken } from "../../util/auth";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [t, i18n] = useTranslation("global");
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
   const searchRef = useRef();
+  const navigate = useNavigate();
   const onBarsClick = () => {
     asideContext.setIsOpened();
   };
@@ -34,7 +36,6 @@ const NavBar = () => {
   };
   const searchHandler = async () => {
     if (searchRef.current.value.trim() !== "") {
-      //console.log(searchRef.current.value.trim());
       const enteredData = searchRef.current.value.trim();
       const token = getAuthToken();
       let response;
@@ -47,6 +48,9 @@ const NavBar = () => {
           },
           body: JSON.stringify(enteredData),
         });
+        const data = await response.json();
+        const id = data.id;
+        navigate(`Houses/${id}`);
       } catch (error) {
         console.log(error.message);
       }
