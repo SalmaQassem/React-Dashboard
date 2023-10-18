@@ -2,7 +2,7 @@ import styles from "../../styles/_SecondPage.module.scss";
 import { useForm } from "react-hook-form";
 import SelectInput from "../UI/SelectInput";
 import FormButton from "../UI/FormButton";
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import BuildingContext from "../../store/building-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
@@ -20,6 +20,7 @@ const SecondPage = () => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
   const [tableData, setTableData] = useState([]);
+  const [images, setImages] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const hiddenFileInput = useRef(null);
   const {
@@ -85,9 +86,20 @@ const SecondPage = () => {
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
+  const dataURLtoFile = (dataUrl, fileName) => {
+    let arr = dataUrl.split(",");
+    let mime = arr[0].match(/:(.*?);/)[1];
+    let bstr = atob(arr[arr.length - 1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], fileName, { type: mime });
+  };
   const handleChange = (e) => {
     const filesUploaded = e.target.files[0];
-    if (selectedOption) {
+    if (selectedOption && filesUploaded) {
       setTableData((prevState) => {
         return [
           ...prevState,
@@ -95,60 +107,27 @@ const SecondPage = () => {
             fileName: filesUploaded.name,
             label: selectedOption.label,
             type: selectedOption.value,
-            fileData: filesUploaded,
           },
         ];
       });
-    }
-    /*const reader = new FileReader();
-    reader.readAsDataURL(filesUploaded);
-    reader.onload = () => {
-      if (selectedOption) {
-        setTableData((prevState) => {
-          return [
-            ...prevState,
-            {
-              fileName: filesUploaded.name,
-              label: selectedOption.label,
-              type: selectedOption.value,
-              fileData: reader.result,
-            },
-          ];
+
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const ret = dataURLtoFile(
+          reader.result,
+          filesUploaded.name + `.${filesUploaded.type.split("/")[1]}`
+        );
+        setImages((prevImages) => {
+          return [...prevImages, ret];
         });
-      }
-    };*/
+      });
+      reader.readAsDataURL(filesUploaded);
+    }
   };
   const setSelectHandler = (option) => {
     setSelectedOption(option);
   };
   const formSubmitHandler = (data) => {
-    /*const images = tableData.filter((item) => {
-      return item.type === "image_bilud";
-    });
-    let imagesArr = [];
-    if (images.length > 0) {
-      imagesArr = images.map((item) => {
-        return item.fileData;
-      });
-    }
-    //console.log(imagesArr);
-    const files = tableData.filter((item) => {
-      return item.type !== "image_bilud";
-    });
-
-    let filesArr = [];
-    if (files.length > 0) {
-      filesArr = files.map((item) => {
-        return item.fileData;
-      });
-    }*/
-    const mediaData =
-      tableData.length > 0
-        ? tableData.map((item) => {
-            return item.fileData;
-          })
-        : [];
-
     context.setFormData((prevData) => {
       return {
         ...prevData,
@@ -157,7 +136,7 @@ const SecondPage = () => {
         institution_safty: data.institutionSafty,
         price_hajj: data.hajjPrice,
         price_years: data.yearsPrice,
-        media: mediaData.slice(),
+        media: images.slice(),
       };
     });
     context.setPage();
@@ -172,7 +151,6 @@ const SecondPage = () => {
       return newArr;
     });
   };
-
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>
@@ -206,7 +184,7 @@ const SecondPage = () => {
             type="file"
             id="files"
             name="files"
-            accept=".jpg,.pdf,.docx,.doc"
+            accept=".jpg,.png,.pdf,.docx,.doc"
             onChange={handleChange}
             ref={hiddenFileInput}
             style={{ display: "none" }}

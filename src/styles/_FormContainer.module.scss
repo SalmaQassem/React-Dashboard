@@ -1,0 +1,15 @@
+@use "../helpers/mixins" as *;
+
+.container {
+  width: 43%;
+  height: 100%;
+  padding: 0 1.5625rem;
+  flex-basis: 43%;
+  @include flex-variant(
+    flex,
+    $direction: column,
+    $align: center,
+    $justify: center,
+    $gap: 3.125rem
+  );
+}

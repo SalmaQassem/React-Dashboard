@@ -1,0 +1,28 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+@use "./colors" as *;
+
+.head {
+  width: 100%;
+  @include flex-variant(
+    flex,
+    $direction: column,
+    $align: center,
+    $justify: center,
+    $gap: 1.125rem
+  );
+
+  .logo {
+    width: 13.5rem;
+    height: 4.0625rem;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .title {
+    font-size: 1.375rem;
+    font-family: "Cairo-ExtraBold";
+    letter-spacing: 0.125rem;
+  }
+}

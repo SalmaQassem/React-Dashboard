@@ -24,6 +24,7 @@ export default NewUser;
 export async function action({ request }) {
   const formData = await request.formData();
   const userToken = getAuthToken();
+  console.log(formData.get("input1"));
   const enteredData = {
     first_name: formData.get("firstName"),
     last_name: formData.get("lastName"),

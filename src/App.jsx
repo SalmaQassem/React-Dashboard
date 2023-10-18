@@ -2,6 +2,11 @@ import styles from "./styles/_App.module.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication, { action as AuthAction } from "./pages/Authentication";
 import Root from "./pages/Root";
+import ForgetPassword, {
+  action as ForgetPasswordAction,
+} from "./pages/ForgetPassword";
+import Code, { action as CodeAction } from "./pages/Code";
+import ResetPassword, { action as ResetAction } from "./pages/ResetPassword";
 import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
 import HousePage, { loader as HouseLoader } from "./pages/HousePage";
 import NewUser, { action as NewUserAction } from "./pages/NewUser";
@@ -17,7 +22,7 @@ import EditContract, {
 import Profile, {
   loader as ProfileLoader,
   action as ProfileAction,
-} from "./pages/Profle";
+} from "./pages/Profile";
 import Messages, {
   loader as MessagesLoader,
   action as MessagesAction,
@@ -31,6 +36,21 @@ const router = createBrowserRouter([
     path: "/",
     element: <Authentication />,
     action: AuthAction,
+  },
+  {
+    path: "ForgetPassword",
+    element: <ForgetPassword />,
+    action: ForgetPasswordAction,
+  },
+  {
+    path: "CheckCode",
+    element: <Code />,
+    action: CodeAction,
+  },
+  {
+    path: "ResetPassword",
+    element: <ResetPassword />,
+    action: ResetAction,
   },
   {
     path: "dashboard",

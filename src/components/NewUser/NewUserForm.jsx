@@ -14,7 +14,7 @@ const NewUserForm = () => {
       title: t("body.userType"),
       radios: [
         { id: "super_admin", name: "input1", label: t("body.adminRole") },
-        { id: "1", name: "input1", label: "مشرف" },
+        { id: "supervisor", name: "input1", label: t("body.supervisor") },
         { id: "writer", name: "input1", label: t("body.writer") },
       ],
     },

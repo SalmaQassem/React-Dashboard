@@ -5,6 +5,7 @@
   "body": {
     "adminRole": "admin",
     "writer": "data entry",
+    "supervisor": "supervisor",
     "search": "search",
     "dashboard": "dashboard",
     "messages": "messages",

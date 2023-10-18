@@ -12,15 +12,13 @@ import { useTranslation } from "react-i18next";
 const ThirdPage = () => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
-  console.log(context);
+  //console.log(context);
   const userData = useContext(UserContext);
   const navigate = useNavigate();
 
   const sendData = async (data) => {
     const userToken = getAuthToken();
-    const enteredData = data;
-    console.log(enteredData);
-    /*try {
+    try {
       let response = await fetch(
         "https://zadapp.mqawilk.com/api/houses/store",
         {
@@ -29,49 +27,18 @@ const ThirdPage = () => {
             //"Content-type": "multipart/form-data",
             Authorization: `Bearer ${userToken}`,
           },
-          body: enteredData,
+          body: data,
         }
       );
-      const data = await response.json();
-      sessionStorage.setItem("houseId", data.id);
+      const res = await response.json();
+      sessionStorage.setItem("houseId", res.id);
       navigate("/dashboard/Review");
     } catch (error) {
       console.log(error.message);
-    }*/
+    }
   };
 
   const saveData = async () => {
-    /*const enteredData = {
-      user_id: userData.id,
-      house_name: context.house_name,
-      type: context.type,
-      total_room: context.total_room,
-      street: context.street,
-      hajjaj_accsept: context.hajjaj_accsept, //عدد الحجاج الفعلي
-      hajjaj_count: context.hajjaj_count, //عدد الحجاج في التصريح
-      number_prrmit: +context.number_prrmit, //رقم التصريح
-      house_owner_name: context.house_owner_name,
-      phone: context.phone,
-      build_number_prrmit: context.build_number_prrmit, //رقم رخصة البناء
-      total_floor: context.total_floor,
-      owner_ip: context.owner_ip,
-      lessor_name: context.lessor_name,
-      alarm_network: context.alarm_network,
-      fire_network: context.fire_network,
-      fire_pump: context.fire_pump,
-      generator: context.generator,
-      bilud_component: context.bilud_component,
-      institution_maintenance: context.institution_maintenance,
-      institution_safty: context.institution_safty,
-      price_hajj: context.price_hajj,
-      price_years: context.price_years,
-      media: context.media.slice(),
-      attached_file: context.attached_file.slice(),
-    };*/
-    //console.log(enteredData);
-    //console.log(context.media.length);
-    //console.log(context.media.slice());
-    const mediaImages = context.media.slice();
     const formData = new FormData();
     formData.append("user_id", userData.id);
     formData.append("house_name", context.house_name);
@@ -96,7 +63,9 @@ const ThirdPage = () => {
     formData.append("institution_safty", context.institution_safty);
     formData.append("price_hajj", context.price_hajj);
     formData.append("price_years", context.price_years);
-    formData.append("media", mediaImages);
+    context.media.map((item) => {
+      return formData.append("media", item);
+    });
     sendData(formData);
   };
 

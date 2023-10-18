@@ -1,26 +1,26 @@
-import AuthForm from "../components/Auth/AuthForm";
 import InputForm from "../components/UI/InputForm";
+import ResetForm from "../components/ForgetPassword/ResetForm";
 
-const Authentication = () => {
+const ResetPassword = () => {
   return (
     <InputForm>
-      <AuthForm />
+      <ResetForm />
     </InputForm>
   );
 };
 
-export default Authentication;
-
-// eslint-disable-next-line react-refresh/only-export-components
+export default ResetPassword;
 export async function action({ request }) {
+  const otp = sessionStorage.getItem("otp");
   const formData = await request.formData();
   const enteredData = {
-    email: formData.get("email"),
+    code: otp,
     password: formData.get("password"),
+    password_confirmation: formData.get("confirmPassword"),
   };
   let response = "";
   try {
-    response = await fetch("https://zadapp.mqawilk.com/api/login", {
+    response = await fetch("https://zadapp.mqawilk.com/api/password/reset", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

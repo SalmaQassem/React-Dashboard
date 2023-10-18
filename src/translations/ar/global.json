@@ -5,6 +5,7 @@
   "body": {
     "adminRole": "أدمن",
     "writer": "مدخل بيانات",
+    "supervisor": "مشرف",
     "search": "بحث",
     "dashboard": "لوحة التحكم",
     "messages": "الرسائل",

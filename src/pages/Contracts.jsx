@@ -36,6 +36,7 @@ const Contracts = () => {
     });
     
     const contractId = e.currentTarget.dataset.contract;
+    console.log(contractId);
     const token = getAuthToken();
     try {
       const response = await fetch(

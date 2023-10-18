@@ -1,14 +1,16 @@
 import styles from "../../styles/_AuthForm.module.scss";
-import logo from "../../assets/images/logo.png";
 import { BiUser } from "react-icons/bi";
 import { HiOutlineMail } from "react-icons/hi";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
-import { Form, useActionData, useNavigate } from "react-router-dom";
+import { Form, Link, useActionData, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import UserContext from "../../store/user-context";
 import { useEffect, useContext } from "react";
 import { useState } from "react";
-
+import FormContainer from "../UI/FormContainer";
+import FormHeader from "../UI/FormHeader";
+import FormItem from "../UI/FormItem";
+import FormButton from "../UI/FormButton";
 const AuthForm = () => {
   const context = useContext(UserContext);
   const navigate = useNavigate();
@@ -18,6 +20,9 @@ const AuthForm = () => {
     setIsShown((prevState) => {
       return !prevState;
     });
+  };
+  const hidePassword = () => {
+    setIsShown(false);
   };
   useEffect(() => {
     if (data && !data.message) {
@@ -55,55 +60,46 @@ const AuthForm = () => {
   }, [data]);
 
   return (
-    <div className={styles.login}>
-      <div className={styles.head}>
-        <div className={styles.logo}>
-          <img src={logo} alt="logo" />
-        </div>
-        <h1 className={styles.title}>تسجيل الدخول</h1>
+    <FormContainer>
+      <FormHeader class={styles.authHead} text="تسجيل الدخول">
         <div className={styles.welcome}>
           <div className={styles.userIcon}>
             <BiUser />
           </div>
           <span>مرحبا بعودتك</span>
         </div>
-      </div>
+      </FormHeader>
       <Form method="post" className={styles.form}>
-        <div className={styles.input}>
-          <div className={styles.field}>
-            <label htmlFor="email">البريد الإلكتروني</label>
-            <input type="email" id="email" name="email" />
-            <div className={styles.icon}>
-              <HiOutlineMail />
-            </div>
-          </div>
-        </div>
-        <div className={styles.input}>
-          <div className={styles.field}>
-            <label htmlFor="password">كلمة المرور</label>
-            <input
-              type={isShown ? "text" : "password"}
-              id="password"
-              name="password"
-            />
-            <div
-              className={`${styles.showPass} ${styles.icon}`}
-              onClick={showPassword}
-            >
-              {isShown ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
-            </div>
-          </div>
-        </div>
+        <FormItem
+          label="البريد الإلكتروني"
+          id="email"
+          type="email"
+          name="email"
+          icon={<HiOutlineMail />}
+        />
+        <FormItem
+          //class={styles.pass}
+          label="كلمة المرور"
+          id="password"
+          type={isShown ? "text" : "password"}
+          name="password"
+          icon={isShown ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+          onMouseDown={showPassword}
+          onMouseUp={showPassword}
+          onMouseLeave={hidePassword}
+        />
         <div className={styles.forgetPass}>
           <div className={styles.checkbox}>
             <input type="checkbox" id="checkbox" name="checkbox" />
             <label htmlFor="checkbox">تذكرني</label>
           </div>
-          <div className={styles.text}>نسيت كلمة السر</div>
+          <Link to="ForgetPassword" className={styles.text}>
+            نسيت كلمة السر
+          </Link>
         </div>
-        <button type="submit">تسجيل الدخول</button>
+        <FormButton class={styles.loginButton}>تسجيل الدخول</FormButton>
       </Form>
-    </div>
+    </FormContainer>
   );
 };
 

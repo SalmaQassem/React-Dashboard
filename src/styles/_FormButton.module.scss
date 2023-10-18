@@ -13,13 +13,14 @@
     $justify: space-between,
     $gap: 1.25rem
   );
-  font-size: 1.125rem;
+  //font-size: 1.125rem;
+  font-size: 1.25rem;
   font-family: "Cairo-ExtraBold";
   color: $white;
   text-transform: capitalize;
   background-color: $pink;
   border-radius: 0.9375rem;
-
+  box-shadow: 0.125rem 0.25rem 0.25rem 0 $grey-3;
   .icon {
     @include flex-variant(
       flex,
