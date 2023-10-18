@@ -37,8 +37,23 @@ const HousePage = () => {
           return {
             id: index,
             title: t("body.file"),
-            value: <Link to={item.original_url} target="_blank">{item.file_name}</Link>,
+            value: (
+              <Link to={item.original_url} target="_blank">
+                {item.file_name}
+              </Link>
+            ),
             icon: <AiOutlineFile />,
+          };
+        })
+      : [];
+  const records =
+    data[0].documents.length > 0
+      ? data[0].documents.map((item, index) => {
+          return {
+            id: index,
+            price: item.price_hajj,
+            startDate: item.start_date,
+            endDate: item.end_date,
           };
         })
       : [];
@@ -47,7 +62,7 @@ const HousePage = () => {
     { id: "1", name: t("body.imagesAndVideos"), category: "imagesAndVideos" },
     { id: "2", name: t("body.attachments"), category: "attachments" },
     { id: "3", name: t("body.location"), category: "location" },
-    { id: "4", name: "سجل المنشأة", category: "location" },
+    { id: "4", name: t("body.buildingRecords"), category: "records" },
   ];
   const filteredItems = [
     {
@@ -102,6 +117,10 @@ const HousePage = () => {
       name: "attachments",
       data: attachments.slice(),
     },
+    {
+      name: "records",
+      data: records.slice(),
+    },
   ];
 
   const filterHandler = (e) => {
@@ -146,12 +165,12 @@ const HousePage = () => {
           </StyledContainer>
         </div>
         <div className={styles.data}>
-          {/*/<div className={styles.img} />*/}
+          {/*<div className={styles.img} />*/}
           <StyledContainer>
             <div className={styles.filteredData}>
               {filteredData.length === 0 ? (
                 <p className={styles.message}>{t("body.noData")}</p>
-              ) : (
+              ) : filter !== "records" ? (
                 filteredData[0].data.map((item) => {
                   return (
                     <div key={item.id} className={styles.item}>
@@ -161,6 +180,28 @@ const HousePage = () => {
                     </div>
                   );
                 })
+              ) : (
+                <>
+                  <p className={styles.tableTitle}>{t("body.allContracts")}</p>
+                  <div className={styles.table}>
+                    <div className={styles.tableHead}>
+                      <p>م</p>
+                      <p>{t("body.startDate")}</p>
+                      <p>{t("body.endDate")}</p>
+                      <p>{t("body.price")}</p>
+                    </div>
+                    {filteredData[0].data.map((item, index) => {
+                      return (
+                        <div key={item.id} className={styles.tableBody}>
+                          <p>{index + 1}</p>
+                          <p>{item.startDate}</p>
+                          <p>{item.endDate}</p>
+                          <p>{item.price}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
               )}
             </div>
           </StyledContainer>

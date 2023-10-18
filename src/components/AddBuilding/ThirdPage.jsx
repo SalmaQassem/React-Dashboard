@@ -17,6 +17,10 @@ const ThirdPage = () => {
   const navigate = useNavigate();
 
   const sendData = async (data) => {
+    for (var pair of data.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
+    console.log()
     const userToken = getAuthToken();
     try {
       let response = await fetch(
