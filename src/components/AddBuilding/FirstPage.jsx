@@ -250,15 +250,18 @@ const FirstPage = () => {
               icon={item.icon}
             />
           ) : (
-            <div key={item.id} className={styles.input}>
-              <input
-                type={item.type}
-                id={item.id}
-                {...register(item.name)}
-                placeholder={item.placeholder}
-              />
-              <div className={styles.icon}>{item.icon}</div>
-            </div>
+            <>
+              <div key={item.id} className={styles.input}>
+                <input
+                  type={item.type}
+                  id={item.id}
+                  placeholder={item.placeholder}
+                  aria-invalid={errors.name ? "true" : "false"}
+                  {...register(item.name, { required: true })}
+                />
+                <div className={styles.icon}>{item.icon}</div>
+              </div>
+            </>
           );
         })}
       </div>

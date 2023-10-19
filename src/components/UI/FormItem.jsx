@@ -16,7 +16,12 @@ const FormItem = (props) => {
     >
       <div className={styles.field}>
         <label htmlFor={props.id}>{props.label}</label>
-        <input type={props.type} id={props.id} name={props.name} />
+        <input
+          type={props.type}
+          id={props.id}
+          name={props.name}
+          required={props.required === "true"}
+        />
         <div
           className={
             props.onMouseDown ? `${styles.icon} ${styles.pass}` : styles.icon

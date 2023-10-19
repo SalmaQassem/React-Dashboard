@@ -75,6 +75,7 @@ const AuthForm = () => {
           id="email"
           type="email"
           name="email"
+          required="true"
           icon={<HiOutlineMail />}
         />
         <FormItem
@@ -87,6 +88,7 @@ const AuthForm = () => {
           onMouseDown={showPassword}
           onMouseUp={showPassword}
           onMouseLeave={hidePassword}
+          required="true"
         />
         <div className={styles.forgetPass}>
           <div className={styles.checkbox}>

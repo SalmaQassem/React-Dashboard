@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 const ProfileForm = (props) => {
   const [t, i18n] = useTranslation("global");
   const data = useActionData();
+  //console.log(data);
   const oldData = props.userData;
   const hiddenFileInput = useRef(null);
   const inputs = [

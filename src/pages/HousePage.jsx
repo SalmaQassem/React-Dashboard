@@ -7,10 +7,13 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { RiHotelLine } from "react-icons/ri";
 import { PiDoorOpenLight } from "react-icons/pi";
-import { AiOutlineFile, AiOutlineFileProtect } from "react-icons/ai";
+import {
+  AiOutlineFile,
+  AiOutlineFileProtect,
+  AiOutlineFileSearch,
+} from "react-icons/ai";
 import { FaKaaba, FaBuildingUser } from "react-icons/fa6";
 import { FiPhoneCall } from "react-icons/fi";
-
 const HousePage = () => {
   const data = useLoaderData();
   const [t, i18n] = useTranslation("global");
@@ -54,6 +57,7 @@ const HousePage = () => {
             price: item.price_hajj,
             startDate: item.start_date,
             endDate: item.end_date,
+            icon: <AiOutlineFileSearch />,
           };
         })
       : [];
@@ -189,6 +193,7 @@ const HousePage = () => {
                       <p>{t("body.startDate")}</p>
                       <p>{t("body.endDate")}</p>
                       <p>{t("body.price")}</p>
+                      <p>{t("body.show")}</p>
                     </div>
                     {filteredData[0].data.map((item, index) => {
                       return (
@@ -197,6 +202,7 @@ const HousePage = () => {
                           <p>{item.startDate}</p>
                           <p>{item.endDate}</p>
                           <p>{item.price}</p>
+                          <p className={styles.icon}>{item.icon}</p>
                         </div>
                       );
                     })}

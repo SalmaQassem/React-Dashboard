@@ -13,7 +13,7 @@
     "newUser": "إضافة مستخدم جديد",
     "permissions": "صلاحيات المستخدمين",
     "contracts": "العقود",
-    "buildingRecords":"سجل المنشأة",
+    "buildingRecords": "سجل المنشأة",
     "buildingControl": "إدارة المنشأة",
     "addBuilding": "إضافة منشأة",
     "account": "إدارة الحساب",
@@ -97,7 +97,8 @@
     "file": "تحميل الملف",
     "edit": "تعديل",
     "delete": "مسح",
-    "price":"السعر",
-    "allContracts":"جميع التعاقدات"
+    "price": "السعر",
+    "allContracts": "جميع التعاقدات",
+    "show": "عرض التعاقد"
   }
 }

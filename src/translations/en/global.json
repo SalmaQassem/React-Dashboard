@@ -98,6 +98,7 @@
     "edit": "edit",
     "delete": "delete",
     "price": "price",
-    "allContracts":"all contracts"
+    "allContracts":"all contracts",
+    "show": "show contract"
   }
 }
