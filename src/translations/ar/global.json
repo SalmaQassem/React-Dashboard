@@ -61,7 +61,7 @@
     "no": "لا",
     "alarmNetwork": "يوجد شبكة إنذار",
     "fireNetwork": "يوجد شبكة إطفاء الحريق",
-    "firePump": "يوجد مطخة حريق",
+    "firePump": "يوجد مضخة حريق",
     "generator": "يوجد مولد كهربائي",
     "buildingComponents": "مكونات المبنى",
     "institutionMaintenance": "المؤسسة القائمة بالصيانة",
@@ -99,6 +99,11 @@
     "delete": "مسح",
     "price": "السعر",
     "allContracts": "جميع التعاقدات",
-    "show": "عرض التعاقد"
+    "show": "عرض التعاقد",
+    "required": "مطلوب",
+    "buildingNameCase": "يجب ألا يقل عن",
+    "chars": "6 أحرف",
+    "nums": "10 أرقام",
+    "numss": "15 رقم"
   }
 }

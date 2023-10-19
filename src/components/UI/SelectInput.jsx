@@ -88,6 +88,10 @@ const SelectInput = (props) => {
       fontFamily: "Cairo-Regular",
       fontSize: "1rem",
     }),
+    singleValue: (provided, state) => ({
+      ...provided,
+      textTransform: "capitalize",
+    }),
     option: (provided, state) => ({
       ...provided,
       backgroundColor:
@@ -102,6 +106,7 @@ const SelectInput = (props) => {
       defaultValue={props.selected}
       {...props}
       onChange={props.selectHandler}
+      placeholder={props.placeholder}
       menuIsOpen={menuOpen}
       onMenuOpen={handleMenuOpen}
       onMenuClose={handleMenuClose}

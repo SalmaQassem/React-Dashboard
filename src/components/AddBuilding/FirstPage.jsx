@@ -30,6 +30,7 @@ import { useTranslation } from "react-i18next";
 
 const FirstPage = () => {
   const context = useContext(BuildingContext);
+  const [t, i18n] = useTranslation("global");
   const [input, setInput] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const {
@@ -37,7 +38,7 @@ const FirstPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [t, i18n] = useTranslation("global");
+
   const firstPageInputs = [
     {
       id: "buildingName",
@@ -45,6 +46,15 @@ const FirstPage = () => {
       name: "buildingName",
       placeholder: t("body.buildingName"),
       icon: <LiaHotelSolid />,
+      cases: { required: true, minLength: 6 },
+      error:
+        errors.buildingName && errors.buildingName.type === "required"
+          ? t("body.required")
+          : errors.buildingName &&
+            errors.buildingName.type === "minLength" &&
+            `${t("buildingName")} ${t("body.buildingNameCase")} ${t(
+              "body.chars"
+            )}`,
     },
     {
       id: "buildingType",
@@ -52,6 +62,7 @@ const FirstPage = () => {
       name: "buildingType",
       placeholder: t("body.buildingType"),
       icon: <IoMdArrowDropdownCircle />,
+      error: errors.buildingName && t("body.required"),
       options: [
         { value: "hotel", label: t("body.hotel"), icon: <BsBuildings /> },
         { value: "build", label: t("body.building"), icon: <RiHotelLine /> },
@@ -63,6 +74,11 @@ const FirstPage = () => {
       name: "roomNum",
       placeholder: t("body.roomsNum"),
       icon: <PiDoorOpenLight />,
+      cases: { required: true },
+      error:
+        errors.roomNum &&
+        errors.roomNum.type === "required" &&
+        t("body.required"),
     },
     {
       id: "streetName",
@@ -70,6 +86,11 @@ const FirstPage = () => {
       name: "streetName",
       placeholder: t("body.street"),
       icon: <GoLocation />,
+      cases: { required: true },
+      error:
+        errors.streetName &&
+        errors.streetName.type === "required" &&
+        t("body.required"),
     },
     {
       id: "actualPilgrims",
@@ -77,6 +98,11 @@ const FirstPage = () => {
       name: "actualPilgrims",
       placeholder: t("body.hajjajNum"),
       icon: <FaKaaba />,
+      cases: { required: true },
+      error:
+        errors.actualPilgrims &&
+        errors.actualPilgrims.type === "required" &&
+        t("body.required"),
     },
     {
       id: "writtenPilgrims",
@@ -84,6 +110,11 @@ const FirstPage = () => {
       name: "writtenPilgrims",
       placeholder: t("body.hajjajInPermit"),
       icon: <AiOutlineFile />,
+      cases: { required: true },
+      error:
+        errors.writtenPilgrims &&
+        errors.writtenPilgrims.type === "required" &&
+        t("body.required"),
     },
     {
       id: "paperNum",
@@ -91,6 +122,15 @@ const FirstPage = () => {
       name: "paperNum",
       placeholder: t("body.permitNum"),
       icon: <AiOutlineFileProtect />,
+      cases: { required: true, minLength: 10 },
+      error:
+        errors.paperNum && errors.paperNum.type === "required"
+          ? t("body.required")
+          : errors.paperNum &&
+            errors.paperNum.type === "minLength" &&
+            `${t("body.permitNum")} ${t("body.buildingNameCase")} ${t(
+              "body.nums"
+            )}`,
     },
     {
       id: "ownerName",
@@ -98,6 +138,15 @@ const FirstPage = () => {
       name: "ownerName",
       placeholder: t("body.ownerName"),
       icon: <FaBuildingUser />,
+      cases: { required: true, minLength: 6 },
+      error:
+        errors.ownerName && errors.ownerName.type === "required"
+          ? t("body.required")
+          : errors.ownerName &&
+            errors.ownerName.type === "minLength" &&
+            `${t("ownerName")} ${t("body.buildingNameCase")} ${t(
+              "body.chars"
+            )}`,
     },
     {
       id: "phone",
@@ -105,6 +154,15 @@ const FirstPage = () => {
       name: "phone",
       placeholder: t("body.phone"),
       icon: <FiPhoneCall />,
+      cases: { required: true, minLength: 10 },
+      error:
+        errors.phone && errors.phone.type === "required"
+          ? t("body.required")
+          : errors.phone &&
+            errors.phone.type === "minLength" &&
+            `${t("body.phone")} ${t("body.buildingNameCase")} ${t(
+              "body.chars"
+            )}`,
     },
     {
       id: "licenseNum",
@@ -112,6 +170,15 @@ const FirstPage = () => {
       name: "licenseNum",
       placeholder: t("body.constructionLicense"),
       icon: <FaFileLines />,
+      cases: { required: true, minLength: 15 },
+      error:
+        errors.licenseNum && errors.licenseNum.type === "required"
+          ? t("body.required")
+          : errors.licenseNum &&
+            errors.licenseNum.type === "minLength" &&
+            `${t("body.constructionLicense")} ${t("body.buildingNameCase")} ${t(
+              "body.numss"
+            )}`,
     },
     {
       id: "floorsNum",
@@ -119,13 +186,27 @@ const FirstPage = () => {
       name: "floorsNum",
       placeholder: t("body.buildingFloors"),
       icon: <HiOutlineBuildingOffice2 />,
+      cases: { required: true },
+      error:
+        errors.floorsNum &&
+        errors.floorsNum.type === "required" &&
+        t("body.required"),
     },
     {
       id: "ownerId",
-      type: "text",
+      type: "number",
       name: "ownerId",
       placeholder: t("body.ownerId"),
       icon: <FaRegAddressCard />,
+      cases: { required: true, minLength: 15 },
+      error:
+        errors.ownerId && errors.ownerId.type === "required"
+          ? t("body.required")
+          : errors.ownerId &&
+            errors.ownerId.type === "minLength" &&
+            `${t("body.ownerId")} ${t("body.buildingNameCase")} ${t(
+              "body.numss"
+            )}`,
     },
     {
       id: "renterName",
@@ -133,6 +214,15 @@ const FirstPage = () => {
       name: "renterName",
       placeholder: t("body.lessorName"),
       icon: <FaRegUserCircle />,
+      cases: { required: true, minLength: 6 },
+      error:
+        errors.renterName && errors.renterName.type === "required"
+          ? t("body.required")
+          : errors.renterName &&
+            errors.renterName.type === "minLength" &&
+            `${t("body.lessorName")} ${t("body.buildingNameCase")} ${t(
+              "body.nums"
+            )}`,
     },
   ];
   const radioItems = [
@@ -234,6 +324,7 @@ const FirstPage = () => {
         generator: generator,
       };
     });
+    console.log(context);
     context.setPage();
   };
   return (
@@ -241,27 +332,44 @@ const FirstPage = () => {
       <div className={styles.inputs}>
         {firstPageInputs.map((item) => {
           return item.type === "select" ? (
-            <SelectInput
-              key={item.id}
-              selected={selectedOption}
-              selectHandler={setSelectHandler}
-              options={item.options}
-              placeholder={item.placeholder}
-              icon={item.icon}
-            />
+            <div key={item.id}>
+              <SelectInput
+                selected={selectedOption}
+                name={item.name}
+                //register={{ ...register(item.name) }}
+                selectHandler={setSelectHandler}
+                options={item.options}
+                placeholder={item.placeholder}
+                icon={item.icon}
+              />
+              {/*<span className={styles.feedback}>{item.error}</span>*/}
+            </div>
           ) : (
-            <>
-              <div key={item.id} className={styles.input}>
+            <div key={item.id} className={styles.input}>
+              <div
+                className={
+                  item.error
+                    ? `${styles.inputItem} ${styles.invalid}`
+                    : styles.inputItem
+                }
+              >
                 <input
                   type={item.type}
                   id={item.id}
+                  className={
+                    item.error
+                      ? `${styles.inputField} ${styles.invalid}`
+                      : styles.inputField
+                  }
                   placeholder={item.placeholder}
-                  aria-invalid={errors.name ? "true" : "false"}
-                  {...register(item.name, { required: true })}
+                  {...register(item.name, item.cases)}
                 />
                 <div className={styles.icon}>{item.icon}</div>
               </div>
-            </>
+              {item.error && (
+                <span className={styles.feedback}>{item.error}</span>
+              )}
+            </div>
           );
         })}
       </div>

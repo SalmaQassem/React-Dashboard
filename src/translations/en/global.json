@@ -98,7 +98,12 @@
     "edit": "edit",
     "delete": "delete",
     "price": "price",
-    "allContracts":"all contracts",
-    "show": "show contract"
+    "allContracts": "all contracts",
+    "show": "show contract",
+    "required": "required",
+    "buildingNameCase": "must be not less than",
+    "chars": "6 characters",
+    "nums":"10 numbers",
+    "numss": "15 numbers"
   }
 }

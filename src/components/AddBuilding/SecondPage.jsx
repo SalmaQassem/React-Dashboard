@@ -15,6 +15,8 @@ import { FaBuildingShield } from "react-icons/fa6";
 import { SlUser } from "react-icons/sl";
 import { IoPricetagsOutline, IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const SecondPage = () => {
   const [t, i18n] = useTranslation("global");
@@ -35,6 +37,11 @@ const SecondPage = () => {
       name: "buildingComponents",
       placeholder: t("body.buildingComponents"),
       icon: <LiaHotelSolid />,
+      cases: { required: true },
+      error:
+        errors.buildingComponents &&
+        errors.buildingComponents.type === "required" &&
+        t("body.required"),
     },
     {
       id: "institutionMaintenance",
@@ -42,6 +49,11 @@ const SecondPage = () => {
       name: "institutionMaintenance",
       placeholder: t("body.institutionMaintenance"),
       icon: <BsBuildingGear />,
+      cases: { required: true },
+      error:
+        errors.institutionMaintenance &&
+        errors.institutionMaintenance.type === "required" &&
+        t("body.required"),
     },
     {
       id: "institutionSafty",
@@ -49,6 +61,11 @@ const SecondPage = () => {
       name: "institutionSafty",
       placeholder: t("body.institutionSafety"),
       icon: <FaBuildingShield />,
+      cases: { required: true },
+      error:
+        errors.institutionSafty &&
+        errors.institutionSafty.type === "required" &&
+        t("body.required"),
     },
     {
       id: "hajjPrice",
@@ -56,6 +73,11 @@ const SecondPage = () => {
       name: "hajjPrice",
       placeholder: t("body.hajjPrice"),
       icon: <SlUser />,
+      cases: { required: true },
+      error:
+        errors.hajjPrice &&
+        errors.hajjPrice.type === "required" &&
+        t("body.required"),
     },
     {
       id: "yearsPrice",
@@ -63,6 +85,11 @@ const SecondPage = () => {
       name: "yearsPrice",
       placeholder: t("body.yearPrice"),
       icon: <IoPricetagsOutline />,
+      cases: { required: true },
+      error:
+        errors.yearsPrice &&
+        errors.yearsPrice.type === "required" &&
+        t("body.required"),
     },
     {
       id: "attachedType",
@@ -70,6 +97,8 @@ const SecondPage = () => {
       name: "attachedType",
       placeholder: t("body.attachmentType"),
       icon: <IoMdArrowDropdownCircle />,
+      cases: { required: true },
+      error: errors.attachedType && t("body.required"),
       options: [
         { value: "image_bilud", label: t("body.buildingImages") },
         { value: "السجل التجاري", label: t("body.commercialRegistration") },
@@ -166,13 +195,29 @@ const SecondPage = () => {
             />
           ) : (
             <div key={item.id} className={styles.input}>
-              <input
-                type={item.type}
-                id={item.id}
-                {...register(item.name)}
-                placeholder={item.placeholder}
-              />
-              <div className={styles.icon}>{item.icon}</div>
+              <div
+                className={
+                  item.error
+                    ? `${styles.inputItem} ${styles.invalid}`
+                    : styles.inputItem
+                }
+              >
+                <input
+                  type={item.type}
+                  id={item.id}
+                  className={
+                    item.error
+                      ? `${styles.inputField} ${styles.invalid}`
+                      : styles.inputField
+                  }
+                  {...register(item.name, item.cases)}
+                  placeholder={item.placeholder}
+                />
+                <div className={styles.icon}>{item.icon}</div>
+              </div>
+              {item.error && (
+                <span className={styles.feedback}>{item.error}</span>
+              )}
             </div>
           );
         })}

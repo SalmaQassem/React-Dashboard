@@ -9,6 +9,9 @@
   font-family: "Cairo-Bold";
   font-size: 1.125rem;
 }
+%font-r {
+  font-family: "Cairo-Regular";
+}
 %width {
   & > p:first-child {
     width: calc(((100% - 3.75rem) * 3) / 100);
@@ -33,36 +36,61 @@
     @extend %flex;
     .input {
       width: 65%;
-      height: 3.125rem;
-      padding: 0 0.9375rem;
-      @include flex-variant(flex, $direction: row, $align: center);
-      border: 0.0625rem solid $grey-9;
-      border-radius: 0.5rem;
-      background-color: $white;
-      input {
-        flex: 1 0;
-        font-family: "Cairo-Regular";
-        font-size: 1rem;
-        &::placeholder {
-          text-transform: capitalize;
+      @include flex-variant(
+        flex,
+        $direction: column,
+        $justify: space-between,
+        $gap: 0.5rem
+      );
+      .inputItem {
+        width: 100%;
+        height: 3.125rem;
+        padding: 0 0.9375rem;
+        @include flex-variant(flex, $direction: row, $align: center);
+        border: 0.0625rem solid $grey-9;
+        border-radius: 0.5rem;
+        background-color: $white;
+        &.invalid {
+          border-color: red;
+          color: red;
         }
-        &::-webkit-outer-spin-button,
-        &::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
+        .inputField {
+          flex: 1 0;
+          @extend %font-r;
+          font-size: 1rem;
+          &::placeholder {
+            text-transform: capitalize;
+          }
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+          &[type="number"] {
+            -moz-appearance: textfield;
+          }
+          &.invalid {
+            &::placeholder {
+              color: red;
+            }
+          }
         }
-        &[type="number"] {
-          -moz-appearance: textfield;
+        .icon {
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $align: center,
+            $justify: center
+          );
+          font-size: 1.5rem;
         }
       }
-      .icon {
-        @include flex-variant(
-          flex,
-          $direction: row,
-          $align: center,
-          $justify: center
-        );
-        font-size: 1.5rem;
+      .feedback {
+        padding: 0 0.9375rem;
+        @extend %font-r;
+        text-transform: capitalize;
+        font-size: 0.875rem;
+        color: red;
       }
     }
     .selectFile {
