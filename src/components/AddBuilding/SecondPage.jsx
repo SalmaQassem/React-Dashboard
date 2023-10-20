@@ -139,8 +139,7 @@ const SecondPage = () => {
           },
         ];
       });
-
-      const reader = new FileReader();
+      /*const reader = new FileReader();
       reader.addEventListener("load", () => {
         const ret = dataURLtoFile(
           reader.result,
@@ -150,13 +149,14 @@ const SecondPage = () => {
           return [...prevImages, ret];
         });
       });
-      reader.readAsDataURL(filesUploaded);
+      reader.readAsDataURL(filesUploaded);*/
     }
   };
   const setSelectHandler = (option) => {
     setSelectedOption(option);
   };
   const formSubmitHandler = (data) => {
+    console.log(data);
     context.setFormData((prevData) => {
       return {
         ...prevData,

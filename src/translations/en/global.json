@@ -103,7 +103,8 @@
     "required": "required",
     "buildingNameCase": "must be not less than",
     "chars": "6 characters",
-    "nums":"10 numbers",
-    "numss": "15 numbers"
+    "nums": "10 numbers",
+    "numss": "15 numbers",
+    "upload personalimage": "please upload your personal photo"
   }
 }

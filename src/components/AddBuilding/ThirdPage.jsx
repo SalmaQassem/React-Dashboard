@@ -15,11 +15,10 @@ const ThirdPage = () => {
   //console.log(context);
   const userData = useContext(UserContext);
   const navigate = useNavigate();
-
   const sendData = async (data) => {
-    for (var pair of data.entries()) {
+    /*for (var pair of data.entries()) {
       console.log(pair[0] + ", " + pair[1]);
-    }
+    }*/
     const userToken = getAuthToken();
     try {
       let response = await fetch(
@@ -27,10 +26,10 @@ const ThirdPage = () => {
         {
           method: "POST",
           headers: {
-            //"Content-type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
           },
-          body: data,
+          body: JSON.stringify(data),
         }
       );
       const res = await response.json();
@@ -43,7 +42,7 @@ const ThirdPage = () => {
 
   const saveData = async () => {
     const formData = new FormData();
-    formData.append("user_id", userData.id);
+    /*formData.append("user_id", userData.id);
     formData.append("house_name", context.house_name);
     formData.append("type", context.type);
     formData.append("total_room", context.total_room);
@@ -68,8 +67,34 @@ const ThirdPage = () => {
     formData.append("price_years", context.price_years);
     context.media.map((item) => {
       return formData.append("media", item);
-    });
-    sendData(formData);
+    });*/
+    const enteredData = {
+      user_id: userData.id,
+      house_name: context.house_name,
+      type: context.type,
+      total_room: context.total_room,
+      street: context.total_room,
+      hajjaj_accsept: context.hajjaj_accsept,
+      hajjaj_count: context.hajjaj_count,
+      number_prrmit: context.number_prrmit,
+      house_owner_name: context.house_owner_name,
+      phone: context.phone,
+      build_number_prrmit: context.build_number_prrmit,
+      total_floor: context.total_floor,
+      owner_ip: context.owner_ip,
+      lessor_name: context.lessor_name,
+      alarm_network: context.alarm_network,
+      fire_network: context.fire_network,
+      fire_pump: context.fire_pump,
+      generator: context.generator,
+      bilud_component: context.bilud_component,
+      institution_maintenance: context.institution_maintenance,
+      institution_safty: context.institution_safty,
+      price_hajj: context.price_hajj,
+      price_years: context.price_years,
+      media: context.media.slice(),
+    };
+    sendData(enteredData);
   };
 
   return (

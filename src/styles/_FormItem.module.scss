@@ -1,12 +1,16 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/mediaQuery" as *;
 
 .input {
-  width: 85%;
+  width: 100%;
   height: 3.125rem;
   border: 0.1875rem solid $grey-6;
   border-radius: 0.3125rem;
+  @include mediaQuery($Tablet_min_width) {
+    width: 85%;
+  }
   .field {
     width: 100%;
     height: 100%;

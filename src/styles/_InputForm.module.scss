@@ -1,6 +1,7 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/mediaQuery" as *;
 
 .form {
   width: 100vw;
@@ -11,27 +12,36 @@
     position: relative;
     @include flex-variant(flex, $direction: row, $align: center);
     &::before {
-      content: "";
-      position: absolute;
-      left: 57%;
-      height: 100%;
-      width: 0.0625rem;
-      background-color: $grey-6;
+      display: none;
+    }
+    @include mediaQuery($largeScreen_min_width) {
+      &::before {
+        content: "";
+        position: absolute;
+        left: 57%;
+        height: 100%;
+        width: 0.0625rem;
+        background-color: $grey-6;
+      }
     }
     .image {
-      width: 57%;
-      height: 100%;
-      flex-basis: 57%;
-      @include flex-variant(
-        flex,
-        $direction: row,
-        $align: center,
-        $justify: center
-      );
-
-      img {
-        width: 85%;
-        height: 100%;
+      display: none;
+      @include mediaQuery($largeScreen_min_width) {
+        & {
+          width: 57%;
+          height: 100%;
+          flex-basis: 57%;
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $align: center,
+            $justify: center
+          );
+          img {
+            width: 85%;
+            height: 100%;
+          }
+        }
       }
     }
   }

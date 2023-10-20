@@ -16,6 +16,8 @@ const AuthForm = () => {
   const navigate = useNavigate();
   const data = useActionData();
   const [isShown, setIsShown] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const showPassword = () => {
     setIsShown((prevState) => {
       return !prevState;
@@ -31,7 +33,7 @@ const AuthForm = () => {
         secure: true,
       });
       //store user data in local storage
-      localStorage.setItem("userData", JSON.stringify(data.user));
+      sessionStorage.setItem("userData", JSON.stringify(data.user));
       //store user data in context
       const {
         id,
@@ -55,7 +57,19 @@ const AuthForm = () => {
       );
       navigate("/dashboard");
     } else {
-      //console.log(data);
+      if (data && data.message) {
+        alert("failed");
+        console.log(data);
+      }
+
+      if (data && data.errors) {
+        if (data.errors.email) {
+          setEmailError(data.errors.email);
+        }
+        if (data.errors.password) {
+          setPasswordError(data.errors.password);
+        }
+      }
     }
   }, [data]);
 
@@ -75,11 +89,10 @@ const AuthForm = () => {
           id="email"
           type="email"
           name="email"
-          required="true"
           icon={<HiOutlineMail />}
         />
+        {emailError && <span>{emailError}</span>}
         <FormItem
-          //class={styles.pass}
           label="كلمة المرور"
           id="password"
           type={isShown ? "text" : "password"}
@@ -88,8 +101,8 @@ const AuthForm = () => {
           onMouseDown={showPassword}
           onMouseUp={showPassword}
           onMouseLeave={hidePassword}
-          required="true"
         />
+        {passwordError && <span>{passwordError}</span>}
         <div className={styles.forgetPass}>
           <div className={styles.checkbox}>
             <input type="checkbox" id="checkbox" name="checkbox" />
@@ -99,7 +112,9 @@ const AuthForm = () => {
             نسيت كلمة السر
           </Link>
         </div>
-        <FormButton class={styles.loginButton}>تسجيل الدخول</FormButton>
+        <FormButton type="submit" class={styles.loginButton}>
+          تسجيل الدخول
+        </FormButton>
       </Form>
     </FormContainer>
   );

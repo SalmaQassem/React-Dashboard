@@ -109,12 +109,12 @@ function App() {
   }, [i18n.language]);
 
   useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
+    const storedUserData = sessionStorage.getItem("userData");
     const storedLang = sessionStorage.getItem("lang");
     if (storedLang) {
       i18n.changeLanguage(sessionStorage.getItem("lang"));
     }
-    if (storedUserData) {
+    if (storedUserData && storedUserData !== undefined) {
       const {
         id,
         first_name,

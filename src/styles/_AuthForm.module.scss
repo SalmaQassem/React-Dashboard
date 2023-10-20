@@ -1,6 +1,7 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/mediaQuery" as *;
 
 .authHead {
   .welcome {
@@ -29,7 +30,7 @@
     $gap: 3.125rem
   );
   .forgetPass {
-    width: 85%;
+    width: 100%;
     padding: 0 0.5rem;
     @include flex-variant(
       flex,
@@ -37,6 +38,9 @@
       $align: center,
       $justify: space-between
     );
+    @include mediaQuery($Tablet_min_width) {
+      width: 85%;
+    }
     .checkbox {
       @include flex-variant(
         flex,
@@ -45,7 +49,9 @@
         $gap: 1.25rem
       );
       input {
-        transform: scale(1.5);
+        width: 0.9375rem;
+        height: 0.9375rem;
+        border-radius: 0.3125rem;
         cursor: pointer;
       }
       label {
@@ -61,9 +67,12 @@
     }
   }
   .loginButton {
-    width: 85%;
+    width: 100%;
     margin: 0;
     justify-content: center;
     letter-spacing: 0.125rem;
+    @include mediaQuery($Tablet_min_width) {
+      width: 85%;
+    }
   }
 }

@@ -27,6 +27,7 @@ import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 const FirstPage = () => {
   const context = useContext(BuildingContext);
@@ -52,7 +53,7 @@ const FirstPage = () => {
           ? t("body.required")
           : errors.buildingName &&
             errors.buildingName.type === "minLength" &&
-            `${t("buildingName")} ${t("body.buildingNameCase")} ${t(
+            `${t("body.buildingName")} ${t("body.buildingNameCase")} ${t(
               "body.chars"
             )}`,
     },
@@ -122,7 +123,7 @@ const FirstPage = () => {
       name: "paperNum",
       placeholder: t("body.permitNum"),
       icon: <AiOutlineFileProtect />,
-      cases: { required: true, minLength: 10 },
+      cases: { required: true, minLength: 4 },
       error:
         errors.paperNum && errors.paperNum.type === "required"
           ? t("body.required")
@@ -144,7 +145,7 @@ const FirstPage = () => {
           ? t("body.required")
           : errors.ownerName &&
             errors.ownerName.type === "minLength" &&
-            `${t("ownerName")} ${t("body.buildingNameCase")} ${t(
+            `${t("body.ownerName")} ${t("body.buildingNameCase")} ${t(
               "body.chars"
             )}`,
     },
@@ -301,7 +302,6 @@ const FirstPage = () => {
     if (filter.length > 0) {
       generator = filter[0].data;
     }
-
     context.setFormData((prevData) => {
       return {
         ...prevData,
@@ -324,9 +324,11 @@ const FirstPage = () => {
         generator: generator,
       };
     });
-    console.log(context);
-    context.setPage();
+    //context.setPage();
   };
+  useEffect(() => {
+    console.log(context);
+  }, [context]);
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>
@@ -335,7 +337,7 @@ const FirstPage = () => {
             <div key={item.id}>
               <SelectInput
                 selected={selectedOption}
-                name={item.name}
+                //name={item.name}
                 //register={{ ...register(item.name) }}
                 selectHandler={setSelectHandler}
                 options={item.options}
