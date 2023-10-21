@@ -1,0 +1,20 @@
+@use "./variables/mediaQuery" as *;
+@use "../helpers/mixins" as *;
+
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0.6);
+  &.close {
+    display: none;
+  }
+  @include mediaQuery($XlargeScreen_min_width) {
+    & {
+      display: none;
+    }
+  }
+}

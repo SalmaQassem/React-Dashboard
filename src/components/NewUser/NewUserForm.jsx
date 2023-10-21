@@ -5,9 +5,14 @@ import { Form, useActionData } from "react-router-dom";
 import FormButton from "../UI/FormButton";
 import { TbCloudUpload } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
-//import Modal from "../UI/Modal";
+import { useForm } from "@inertiajs/inertia-react";
+
 const NewUserForm = () => {
   const data = useActionData();
+  //const { images } = usePage().props;
+  const { setData } = useForm({
+    image: null,
+  });
   //console.log(data);
   //const [showModal, setShowModal] = useState(false);
   const [firstNameErorr, setFirstNameError] = useState(null);
@@ -66,9 +71,50 @@ const NewUserForm = () => {
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
-  const handleChange = (e) => {
+  /*const dataURLtoFile = (dataUrl, fileName) => {
+    let arr = dataUrl.split(",");
+    let mime = arr[0].match(/:(.*?);/)[1];
+    let bstr = atob(arr[arr.length - 1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], fileName, { type: mime });
+  };*/
+  async function getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+    });
+  }
+  const handleChange = async (e) => {
+    let image = "";
     const imageUploaded = e.target.files[0];
-    console.log(imageUploaded);
+    const reader = new FileReader();
+    reader.addEventListener("load", (e) => {
+      image = e.target.result;
+      sessionStorage.setItem("image", image);
+      //console.log(image);
+    });
+    reader.readAsDataURL(imageUploaded);
+    //console.log(imageUploaded);
+    /*await getBase64(imageUploaded)
+      .then((res) => sessionStorage.setItem("image", res))
+      .catch((err) => console.log(err));*/
+    /*const image = e.target.files[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      sessionStorage.setItem("image", reader.result);
+    });
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }*/
   };
   useEffect(() => {
     if (data && !data.message) {
@@ -88,7 +134,7 @@ const NewUserForm = () => {
     }
   }, [data]);
   return (
-    <Form method="post" className={styles.form}>
+    <Form method="post" className={styles.form} enctype="multipart/form-data">
       <div className={styles.radioButtons}>
         {radioItems.map((item) => {
           return (

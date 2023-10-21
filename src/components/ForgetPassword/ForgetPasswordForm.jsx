@@ -3,22 +3,23 @@ import { Form } from "react-router-dom";
 import FormContainer from "../UI/FormContainer";
 import FormHeader from "../UI/FormHeader";
 import FormItem from "../UI/FormItem";
-import FormButton from "../UI/FormButton";
 import { HiOutlineMail } from "react-icons/hi";
-
+import AuthButton from "../UI/AuthButton";
+import { useTranslation } from "react-i18next";
 const ForgetPasswordForm = () => {
+  const [t, i18n] = useTranslation("global");
   return (
     <FormContainer class={styles.forgetPass}>
-      <FormHeader text="استرجاع كلمة المرور"></FormHeader>
+      <FormHeader text={t("body.forgetPassword")}></FormHeader>
       <Form method="post" className={styles.form}>
         <FormItem
-          label="البريد الإلكتروني"
+          label={t("body.email")}
           id="email"
           type="email"
           name="email"
           icon={<HiOutlineMail />}
         />
-        <FormButton class={styles.submit}>أرسل رمز التحقق</FormButton>
+        <AuthButton text={t("body.sendCode")} type="submit" />
       </Form>
     </FormContainer>
   );

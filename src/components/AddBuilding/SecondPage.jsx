@@ -139,6 +139,14 @@ const SecondPage = () => {
           },
         ];
       });
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        setImages((prevImages) => {
+          return [...prevImages, e.target.result];
+        });
+        //console.log(image);
+      });
+      reader.readAsDataURL(filesUploaded);
       /*const reader = new FileReader();
       reader.addEventListener("load", () => {
         const ret = dataURLtoFile(
@@ -155,6 +163,9 @@ const SecondPage = () => {
   const setSelectHandler = (option) => {
     setSelectedOption(option);
   };
+  useEffect(() => {
+    console.log(images);
+  }, [images]);
   const formSubmitHandler = (data) => {
     console.log(data);
     context.setFormData((prevData) => {
@@ -181,7 +192,11 @@ const SecondPage = () => {
     });
   };
   return (
-    <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
+    <form
+      onSubmit={handleSubmit(formSubmitHandler)}
+      className={styles.form}
+      encType="multipart/form-data"
+    >
       <div className={styles.inputs}>
         {secondPageInputs.map((item) => {
           return item.type === "select" ? (

@@ -1,5 +1,6 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/mediaQuery" as *;
 
 .root {
   min-height: 100vh;
@@ -7,13 +8,17 @@
   overflow: hidden;
 
   .content {
+    position: relative;
     @include flex-variant(flex, $direction: row, $grow: 1);
     .body {
-      width: 85%;
+      width: 100%;
       position: relative;
       background-color: $grey-3;
-      &.full {
-        width: 100%;
+      @include mediaQuery($XlargeScreen_min_width) {
+        & {
+          width: calc(100% - 17rem);
+          flex-basis: calc(100% - 17rem);
+        }
       }
     }
   }

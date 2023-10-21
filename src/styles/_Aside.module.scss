@@ -1,18 +1,28 @@
 @use "./colors" as *;
 @use "../helpers/mixins" as *;
 @use "../helpers/fonts" as *;
+@use "./variables/mediaQuery" as *;
 
 .aside {
-  width: 15%;
+  width: 17rem;
   padding: 2.5rem 1.25rem;
-  flex-basis: 15%;
   @include flex-variant(flex, $direction: column, $gap: 2.25rem);
+  flex-basis: 17rem;
+  position: absolute;
+  min-height: 100%;
+  z-index: 1000;
+  right: 0;
   font-family: "Cairo-Bold";
   background-color: $pink;
+  transition: 0.4s;
   &.close {
-    display: none;
+    right: -100%;
   }
-
+  @include mediaQuery($XlargeScreen_min_width) {
+    & {
+      position: initial;
+    }
+  }
   .section {
     width: 100%;
     @include flex-variant(flex, $direction: column, $gap: 1rem);

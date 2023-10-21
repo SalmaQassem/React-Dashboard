@@ -5,7 +5,7 @@ const RadioButton = ({ label, name, icon, ...rest }) => {
   return (
     <div className={styles.wrapper}>
       <label className={styles.radioLabel}>
-        <input type="radio" /*name={name}*/ {...rest} />
+        <input type="radio" name={name} {...rest} />
         <span className={styles.checkMark}>
           {icon === "true" && <BsCheck2 />}
         </span>

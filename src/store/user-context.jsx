@@ -9,6 +9,7 @@ const UserContext = React.createContext({
   role: "",
   created_at: "",
   updated_at: "",
+  image: "",
   setUserData: (
     id,
     first_name,
@@ -17,7 +18,8 @@ const UserContext = React.createContext({
     email,
     role,
     created_at,
-    updated_at
+    updated_at,
+    image
   ) => {},
 });
 
@@ -31,6 +33,7 @@ export const UserContextProvider = (props) => {
     role: "",
     created_at: "",
     updated_at: "",
+    image: "",
   });
   const setDataHandler = (
     id,
@@ -40,7 +43,8 @@ export const UserContextProvider = (props) => {
     email,
     role,
     created_at,
-    updated_at
+    updated_at,
+    image
   ) => {
     setData({
       id: id,
@@ -51,6 +55,7 @@ export const UserContextProvider = (props) => {
       role: role,
       created_at: created_at,
       updated_at: updated_at,
+      image: image,
     });
   };
   return (
@@ -64,6 +69,7 @@ export const UserContextProvider = (props) => {
         role: data.role,
         created_at: data.created_at,
         updated_at: data.updated_at,
+        image: data.image,
         setUserData: setDataHandler,
       }}
     >

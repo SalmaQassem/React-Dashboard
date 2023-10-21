@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@inertiajs/inertia-react": "^0.8.1",
     "chart.js": "^4.4.0",
     "i18next": "^23.5.1",
     "js-cookie": "^3.0.5",
     "object-to-formdata": "^4.5.1",
     "react": "^18.2.0",
+    "react-axios": "^2.0.6",
     "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^4.20.0",
     "react-dom": "^18.2.0",

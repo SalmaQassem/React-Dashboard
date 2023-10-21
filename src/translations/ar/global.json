@@ -105,6 +105,15 @@
     "chars": "6 أحرف",
     "nums": "10 أرقام",
     "numss": "15 رقم",
-    "upload personalimage": "برجاء رفع الصورة الشخصية"
+    "upload personalimage": "برجاء رفع الصورة الشخصية",
+    "welcome": "مرحبا بعودتك",
+    "login": "تسجيل الدخول",
+    "rememberMe": "تذكرني",
+    "forgetPassword": "نسيت كلمة المرور",
+    "sendCode": "أرسل رمز التحقق",
+    "verificationCode": "رمز التحقق",
+    "verify": "تحقق",
+    "newPassword": "كلمة المرور الجديدة",
+    "resetPassword": "إعادة تعيين كلمة المرور"
   }
 }

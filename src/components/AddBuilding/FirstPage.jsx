@@ -324,7 +324,7 @@ const FirstPage = () => {
         generator: generator,
       };
     });
-    //context.setPage();
+    context.setPage();
   };
   useEffect(() => {
     console.log(context);

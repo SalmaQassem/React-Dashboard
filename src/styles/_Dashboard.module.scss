@@ -1,6 +1,7 @@
 @use "../helpers/mixins" as *;
 @use "../helpers/fonts" as *;
 @use "./colors" as *;
+@use "./variables/mediaQuery" as *;
 
 %color {
   background-color: $white;
@@ -8,33 +9,59 @@
 }
 %text {
   font-size: 1.25rem;
-  flex: 1 0;
 }
 .dashboard {
   width: 100%;
   padding: 1.75rem 2.5rem;
   @include flex-variant(flex, $direction: column, $gap: 2.5rem);
   text-transform: capitalize;
-  
+
   .info {
-    @include flex-variant(flex, $direction: row, $align: center, $gap: 2.5rem);
+    @include flex-variant(
+      flex,
+      $direction: column,
+      $align: center,
+      $gap: 1.5625rem
+    );
     font-family: "Cairo-Medium";
+    @include mediaQuery($largeScreen_min_width) {
+      & {
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $align: center,
+          $gap: 1.5625rem
+        );
+      }
+    }
     .dateTime {
-      width: calc(25% - 1.5625rem);
-      flex-basis: calc(25% - 1.5625rem);
+      //width: calc(((100% - 1.5625rem) * 100) / 100);
+      //flex-basis: calc(((100% - 1.5625rem) * 100) / 100);
       @include flex-variant(
         flex,
         $direction: column,
         $justify: center,
         $gap: 1.5625rem
       );
+      @include mediaQuery($largeScreen_min_width) {
+        & {
+          width: calc(((100% - 1.5625rem) * 25) / 100);
+          flex-basis: calc(((100% - 1.5625rem) * 25) / 100);
+        }
+      }
       .item {
         @include flex-variant(
           flex,
           $direction: row,
           $align: center,
+          $justify: space-between,
           $gap: 1rem
         );
+        @include mediaQuery($largeScreen_min_width) {
+          & {
+            justify-content: center;
+          }
+        }
         .icon {
           @include flex-variant(
             flex,
@@ -47,6 +74,12 @@
         > span {
           @extend %text;
           text-align: center;
+
+          @include mediaQuery($largeScreen_min_width) {
+            & {
+              flex: 1 0;
+            }
+          }
         }
         .date {
           @include flex-variant(
@@ -55,26 +88,54 @@
             $justify: center,
             $gap: 1rem
           );
+
+          @include mediaQuery($largeScreen_min_width) {
+            & {
+              flex: 1 0;
+            }
+          }
+          > span {
+            @extend %text;
+          }
           @extend %text;
         }
       }
     }
     .counters {
-      width: calc(75% - 1.5625rem);
-      flex-basis: calc(75% - 1.5625rem);
-      @include flex-variant(flex, $direction: row, $gap: 1.5625rem);
+      width: 100%;
+      flex-basis: 100%;
+      @include flex-variant(
+        flex,
+        $direction: column,
+        $align: stretsh,
+        $gap: 1.5625rem
+      );
       flex: 1 0;
+      @include mediaQuery($smallScreen_min_width) {
+        @include flex-variant(flex, $direction: row, $gap: 1.5625rem);
+      }
+      @include mediaQuery($largeScreen_min_width) {
+        & {
+          width: calc(((100% - 1.5625rem) * 75) / 100);
+          flex-basis: calc(((100% - 1.5625rem) * 75) / 100);
+        }
+      }
       .card {
-        max-width: 20%;
+        width: 100%;
         padding: 0.9375rem;
-        @include flex-variant(
-          flex,
-          $direction: row,
-          $align: center,
-          $gap: 1.125rem
-        );
         flex: 1 0;
+        @include flex-variant(flex, $direction: row, $align: center);
         border-radius: 0.875rem;
+        @include mediaQuery($smallScreen_min_width) {
+          & {
+            width: calc((100% - calc(2 * 1.5625rem)) / 3);
+          }
+        }
+        @include mediaQuery($XlargeScreen_min_width) {
+          & {
+            width: calc(32% - calc(2 * 1.5625rem));
+          }
+        }
         .icon {
           width: 3.125rem;
           height: 3.125rem;

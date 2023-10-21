@@ -18,7 +18,6 @@ export async function action({ request }) {
     email: formData.get("email"),
     password: formData.get("password"),
   };
-  console.log(enteredData);
   let response = "";
   try {
     response = await fetch("https://zadapp.mqawilk.com/api/login", {

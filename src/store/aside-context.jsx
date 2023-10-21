@@ -6,7 +6,7 @@ const AsideContext = React.createContext({
 });
 
 export const AsideContextProvider = (props) => {
-  const [isAsideOpened, setIsAsideOpened] = useState(true);
+  const [isAsideOpened, setIsAsideOpened] = useState(false);
 
   const handleState = () => {
     setIsAsideOpened((prevState) => {

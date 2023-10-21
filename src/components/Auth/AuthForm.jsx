@@ -10,11 +10,13 @@ import { useState } from "react";
 import FormContainer from "../UI/FormContainer";
 import FormHeader from "../UI/FormHeader";
 import FormItem from "../UI/FormItem";
-import FormButton from "../UI/FormButton";
+import AuthButton from "../UI/AuthButton";
+import { useTranslation } from "react-i18next";
 const AuthForm = () => {
   const context = useContext(UserContext);
   const navigate = useNavigate();
   const data = useActionData();
+  const [t, i18n] = useTranslation("global");
   const [isShown, setIsShown] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -75,17 +77,17 @@ const AuthForm = () => {
 
   return (
     <FormContainer>
-      <FormHeader class={styles.authHead} text="تسجيل الدخول">
+      <FormHeader class={styles.authHead} text={t("body.login")}>
         <div className={styles.welcome}>
           <div className={styles.userIcon}>
             <BiUser />
           </div>
-          <span>مرحبا بعودتك</span>
+          <span>{t("body.welcome")}</span>
         </div>
       </FormHeader>
       <Form method="post" className={styles.form}>
         <FormItem
-          label="البريد الإلكتروني"
+          label={t("body.email")}
           id="email"
           type="email"
           name="email"
@@ -93,7 +95,7 @@ const AuthForm = () => {
         />
         {emailError && <span>{emailError}</span>}
         <FormItem
-          label="كلمة المرور"
+          label={t("body.password")}
           id="password"
           type={isShown ? "text" : "password"}
           name="password"
@@ -106,15 +108,13 @@ const AuthForm = () => {
         <div className={styles.forgetPass}>
           <div className={styles.checkbox}>
             <input type="checkbox" id="checkbox" name="checkbox" />
-            <label htmlFor="checkbox">تذكرني</label>
+            <label htmlFor="checkbox">{t("body.rememberMe")}</label>
           </div>
           <Link to="ForgetPassword" className={styles.text}>
-            نسيت كلمة السر
+            {t("body.forgetPassword")}
           </Link>
         </div>
-        <FormButton type="submit" class={styles.loginButton}>
-          تسجيل الدخول
-        </FormButton>
+        <AuthButton text={t("body.login")} type="submit" />
       </Form>
     </FormContainer>
   );

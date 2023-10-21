@@ -1,32 +1,27 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/mediaQuery" as *;
 
 .button {
-  width: 30%;
-  padding: 0.75rem 2.5rem;
-  margin-right: auto;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
   @include flex-variant(
     flex,
     $direction: row,
     $align: center,
-    $justify: space-between,
+    $justify: center,
     $gap: 1.25rem
   );
   font-size: 1.25rem;
   font-family: "Cairo-ExtraBold";
   color: $white;
+  letter-spacing: 0.125rem;
   text-transform: capitalize;
   background-color: $pink;
   border-radius: 0.9375rem;
   box-shadow: 0.125rem 0.25rem 0.25rem 0 $grey-3;
-  .icon {
-    @include flex-variant(
-      flex,
-      $direction: row,
-      $align: center,
-      $justify: center
-    );
-    font-size: 1.5rem;
+  @include mediaQuery($Tablet_min_width) {
+    width: 85%;
   }
 }

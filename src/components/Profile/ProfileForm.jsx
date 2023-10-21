@@ -1,14 +1,14 @@
 import styles from "../../styles/_ProfileForm.module.scss";
 import { Form, useActionData } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { TbCloudUpload } from "react-icons/tb";
 import FormButton from "../UI/FormButton";
 import { useTranslation } from "react-i18next";
-
+import UserContext from "../../store/user-context";
 const ProfileForm = (props) => {
+  const context = useContext(UserContext);
   const [t, i18n] = useTranslation("global");
   const data = useActionData();
-  //console.log(data);
   const oldData = props.userData;
   const hiddenFileInput = useRef(null);
   const inputs = [
@@ -59,11 +59,35 @@ const ProfileForm = (props) => {
   };
   useEffect(() => {
     if (data && !data.message) {
-      alert(data);
+      const {
+        id,
+        first_name,
+        last_name,
+        phone,
+        email,
+        role,
+        created_at,
+        updated_at,
+        image,
+      } = data;
+      context.setUserData(
+        id,
+        first_name,
+        last_name,
+        phone,
+        email,
+        role,
+        created_at,
+        updated_at,
+        image
+      );
+      sessionStorage.setItem("userData", JSON.stringify(data));
+      //alert("success");
     } else {
       console.log("error");
     }
   }, [data]);
+
   return (
     <div className={styles.profile}>
       <Form method="post" className={styles.form}>

@@ -3,22 +3,27 @@ import { Form } from "react-router-dom";
 import FormContainer from "../UI/FormContainer";
 import FormHeader from "../UI/FormHeader";
 import FormItem from "../UI/FormItem";
-import FormButton from "../UI/FormButton";
 import { MdOutlineVerifiedUser } from "react-icons/md";
+import AuthButton from "../UI/AuthButton";
+import { useTranslation } from "react-i18next";
 
 const CodeForm = () => {
+  const [t, i18n] = useTranslation("global");
   return (
     <FormContainer class={styles.code}>
-      <FormHeader class={styles.authHead} text="رمز التحقق"></FormHeader>
+      <FormHeader
+        class={styles.authHead}
+        text={t("body.verificationCode")}
+      ></FormHeader>
       <Form method="post" className={styles.form}>
         <FormItem
-          label="رمز التحقق"
+          label={t("body.verificationCode")}
           id="code"
           type="text"
           name="code"
           icon={<MdOutlineVerifiedUser />}
         />
-        <FormButton class={styles.submit}>تحقق</FormButton>
+        <AuthButton text={t("body.verify")} type="submit" />
       </Form>
     </FormContainer>
   );

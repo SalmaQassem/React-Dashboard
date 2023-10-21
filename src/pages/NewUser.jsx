@@ -4,6 +4,8 @@ import { FiUserPlus } from "react-icons/fi";
 import NewUserForm from "../components/NewUser/NewUserForm";
 import { getAuthToken } from "../util/auth";
 import { useTranslation } from "react-i18next";
+import { json } from "react-router-dom";
+import axios from "axios";
 
 const NewUser = () => {
   const [t, i18n] = useTranslation("global");
@@ -22,29 +24,56 @@ const NewUser = () => {
 export default NewUser;
 
 export async function action({ request }) {
-  const formData = await request.formData();
+  const data = await request.formData();
+  let img = sessionStorage.getItem("image");
+  console.log(img);
   const userToken = getAuthToken();
-  const enteredData = {
-    first_name: formData.get("firstName"),
-    last_name: formData.get("lastName"),
-    email: formData.get("email"),
-    password: formData.get("password"),
-    phone: formData.get("phone"),
-    role: formData.get("input1"),
-  };
-  let response;
-  try {
+  const formData = new FormData();
+  formData.append("first_name", data.get("firstName"));
+  formData.append("last_name", data.get("lastName"));
+  formData.append("email", data.get("email"));
+  formData.append("password", data.get("password"));
+  formData.append("phone", data.get("phone"));
+  formData.append("role", data.get("input1"));
+  formData.append("image", img);
+  /*const enteredData = {
+    first_name: data.get("firstName"),
+    last_name: data.get("lastName"),
+    email: data.get("email"),
+    password: data.get("password"),
+    phone: data.get("phone"),
+    role: data.get("input1"),
+    image: img,
+  };*/
+  //console.log(formData.get("first_name"));
+  let response = "";
+  await axios
+    .post("https://zadapp.mqawilk.com/api/register", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+    .then((response) => {
+      // handle the response
+      console.log(response);
+    })
+    .catch((error) => {
+      // handle errors
+      console.log(error);
+    });
+  /*try {
     response = await fetch("https://zadapp.mqawilk.com/api/register", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": " application/json",
         Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify(enteredData),
     });
   } catch (error) {
     console.log(error.message);
-  }
+  }*/
 
   return response;
 }

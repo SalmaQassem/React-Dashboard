@@ -39,7 +39,7 @@ export async function action({ request }) {
     password: pass,
   };
   const userToken = getAuthToken();
-  let response;
+  let response = "";
   try {
     response = await fetch("https://zadapp.mqawilk.com/api/profile/update", {
       method: "POST",
@@ -56,7 +56,7 @@ export async function action({ request }) {
 }
 
 export async function loader() {
-  let response;
+  let response = "";
   const token = getAuthToken();
   try {
     response = await fetch("https://zadapp.mqawilk.com/api/profile", {

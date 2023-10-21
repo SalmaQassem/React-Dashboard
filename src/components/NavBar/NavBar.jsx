@@ -59,60 +59,58 @@ const NavBar = () => {
   };
   return (
     <nav className={styles.nav}>
-      <StyledContainer>
-        <div className={styles.items}>
-          <div className={styles.title}>
-            <div className={styles.logo}>
-              <img src={logo} alt="logo" />
-            </div>
-            <div className={styles.bars} onClick={onBarsClick}>
-              <span />
-              <span />
-              <span />
-            </div>
+      <div className={styles.items}>
+        <div className={styles.title}>
+          <div className={styles.logo}>
+            <img src={logo} alt="logo" />
           </div>
-          <div className={styles.search}>
-            <div className={styles.input}>
-              <input placeholder={t("body.search")} ref={searchRef} />
-              <div className={styles.searchIcon} onClick={searchHandler}>
-                <HiOutlineSearch />
-              </div>
-            </div>
+          <div className={styles.bars} onClick={onBarsClick}>
+            <span />
+            <span />
+            <span />
           </div>
-          <div className={styles.tools}>
-            <div className={styles.icons}>
-              <div
-                className={`${styles.icon} ${styles.language}`}
-                onClick={changeLanguage}
-              >
-                <TfiWorld />
-              </div>
-              <div className={`${styles.icon} ${styles.resize}`}>
-                <HiArrowsPointingOut />
-              </div>
-              <div className={`${styles.icon} ${styles.mode}`}>
-                <HiOutlineSun />
-              </div>
-              <div className={`${styles.icon} ${styles.notification}`}>
-                <HiOutlineBellAlert />
-              </div>
-            </div>
-            <div className={styles.userInfo}>
-              <div className={styles.user}>
-                <img src={user} alt="user" />
-              </div>
-              <div className={styles.text}>
-                <p>{`${context.first_name} ${context.last_name}`}</p>
-                <p>
-                  {context.role === "super_admin"
-                    ? t("body.adminRole")
-                    : t("body.writer")}
-                </p>
-              </div>
+        </div>
+        <div className={styles.search}>
+          <div className={styles.input}>
+            <input placeholder={t("body.search")} ref={searchRef} />
+            <div className={styles.searchIcon} onClick={searchHandler}>
+              <HiOutlineSearch />
             </div>
           </div>
         </div>
-      </StyledContainer>
+        <div className={styles.tools}>
+          <div className={styles.icons}>
+            <div
+              className={`${styles.icon} ${styles.language}`}
+              onClick={changeLanguage}
+            >
+              <TfiWorld />
+            </div>
+            <div className={`${styles.icon} ${styles.resize}`}>
+              <HiArrowsPointingOut />
+            </div>
+            <div className={`${styles.icon} ${styles.mode}`}>
+              <HiOutlineSun />
+            </div>
+            <div className={`${styles.icon} ${styles.notification}`}>
+              <HiOutlineBellAlert />
+            </div>
+          </div>
+          <div className={styles.userInfo}>
+            <div className={styles.user}>
+              <img src={user} alt="user" />
+            </div>
+            <div className={styles.text}>
+              <p>{`${context.first_name} ${context.last_name}`}</p>
+              <p>
+                {context.role === "super_admin"
+                  ? t("body.adminRole")
+                  : t("body.writer")}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };

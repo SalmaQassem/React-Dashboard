@@ -105,6 +105,14 @@
     "chars": "6 characters",
     "nums": "10 numbers",
     "numss": "15 numbers",
-    "upload personalimage": "please upload your personal photo"
+    "upload personalimage": "please upload your personal photo",
+    "welcome": "welcome back",
+    "login": "login",
+    "rememberMe": "remember me",
+    "forgetPassword": "forget password",
+    "sendCode": "send verification code",
+    "verificationCode": "verification code",
+    "verify": "verify",
+    "newPassword": "new password"
   }
 }
