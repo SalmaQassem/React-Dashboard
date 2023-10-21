@@ -1,18 +1,22 @@
 import styles from "../../styles/_AsideItem.module.scss";
 import { NavLink } from "react-router-dom";
-const AsideItem = ({ name, icon, url, End }) => {
-
+const AsideItem = (props) => {
+  const clickHandler = () => {
+    props.onClick();
+  };
   return (
-    <NavLink
-      to={url}
-      className={({ isActive }) =>
-        isActive ? `${styles.item} ${styles.active}` : styles.item
-      }
-      end={End}
-    >
-      <span>{name}</span>
-      <div className={styles.icon}>{icon}</div>
-    </NavLink>
+    <div className={styles.link} onClick={clickHandler}>
+      <NavLink
+        to={props.url}
+        className={({ isActive }) =>
+          isActive ? `${styles.item} ${styles.active}` : styles.item
+        }
+        end={props.End}
+      >
+        <span>{props.name}</span>
+        <div className={styles.icon}>{props.icon}</div>
+      </NavLink>
+    </div>
   );
 };
 

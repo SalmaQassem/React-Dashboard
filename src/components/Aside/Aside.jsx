@@ -60,7 +60,11 @@ const Aside = () => {
       url: "Profile",
     },
   ];
-
+  const clickLinkHandler = () => {
+    if (asideContext.isOpened) {
+      asideContext.setIsOpened(false);
+    }
+  };
   return (
     <aside
       className={
@@ -77,6 +81,7 @@ const Aside = () => {
                 icon={item.icon}
                 url={item.url}
                 End={true}
+                onClick={clickLinkHandler}
               />
             ) : (
               <AsideItem
@@ -85,6 +90,7 @@ const Aside = () => {
                 icon={item.icon}
                 url={item.url}
                 End={false}
+                onClick={clickLinkHandler}
               />
             );
           })}
@@ -101,6 +107,7 @@ const Aside = () => {
                   name={item.name}
                   icon={item.icon}
                   url={item.url}
+                  onClick={clickLinkHandler}
                 />
               );
             })}
@@ -117,6 +124,7 @@ const Aside = () => {
                 name={item.name}
                 icon={item.icon}
                 url={item.url}
+                onClick={clickLinkHandler}
               />
             );
           })}
@@ -132,6 +140,7 @@ const Aside = () => {
                 name={item.name}
                 icon={item.icon}
                 url={item.url}
+                onClick={clickLinkHandler}
               />
             );
           })}

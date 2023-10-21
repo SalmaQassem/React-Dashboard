@@ -52,7 +52,7 @@ const BuildingContext = React.createContext({
     price_hajj,
     price_years,
     media,
-    attached_file
+    page
   ) => {},
 });
 
@@ -83,6 +83,7 @@ export const BuildingContextProvider = (props) => {
     price_hajj: "",
     price_years: "",
     media: [],
+    page: 0,
   });
   const setPageHandler = () => {
     setPageNumber((prevPage) => {

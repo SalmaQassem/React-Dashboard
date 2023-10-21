@@ -8,6 +8,7 @@ import { LiaHotelSolid } from "react-icons/lia";
 import { getAuthToken } from "../../util/auth";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 const ThirdPage = () => {
   const [t, i18n] = useTranslation("global");
@@ -15,21 +16,40 @@ const ThirdPage = () => {
   //console.log(context);
   const userData = useContext(UserContext);
   const navigate = useNavigate();
+
   const sendData = async (data) => {
-    /*for (var pair of data.entries()) {
+    for (var pair of data.entries()) {
       console.log(pair[0] + ", " + pair[1]);
-    }*/
+    }
     const userToken = getAuthToken();
-    try {
+    await axios
+      .post("https://zadapp.mqawilk.com/api/houses/store", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        context.setFormData((prev) => {
+          return [...prev, { page: 0 }];
+        });
+        navigate("/dashboard/Review");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    /*try {
       let response = await fetch(
         "https://zadapp.mqawilk.com/api/houses/store",
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${userToken}`,
           },
-          body: JSON.stringify(data),
+          body: data,
         }
       );
       const res = await response.json();
@@ -37,12 +57,12 @@ const ThirdPage = () => {
       navigate("/dashboard/Review");
     } catch (error) {
       console.log(error.message);
-    }
+    }*/
   };
 
   const saveData = async () => {
     const formData = new FormData();
-    /*formData.append("user_id", userData.id);
+    formData.append("user_id", userData.id);
     formData.append("house_name", context.house_name);
     formData.append("type", context.type);
     formData.append("total_room", context.total_room);
@@ -65,10 +85,51 @@ const ThirdPage = () => {
     formData.append("institution_safty", context.institution_safty);
     formData.append("price_hajj", context.price_hajj);
     formData.append("price_years", context.price_years);
-    context.media.map((item) => {
-      return formData.append("media", item);
+    //console.log(context.media);
+    /*Promise.all(
+      context.media.map(
+        (uploadedFile) =>
+          new Promise((resolve) => {
+            const fileReader = new FileReader();
+            fileReader.onload = (file) => {
+              resolve(file.target.result.split(",")[1]);
+            };
+            fileReader.readAsDataURL(uploadedFile);
+          })
+      )
+    ).then((convertedFile) => {
+      // Send base64Images to server
+      //formData.append("media", convertedFile);
+      filesArray.push(convertedFile);
     });*/
-    const enteredData = {
+    /*const filesArray = [];
+    context.media.map((file) => {
+      const reader = new FileReader();
+      reader.addEventListener(
+        "load",
+        () => {
+          // convert image file to base64 string
+          const file = reader.result;
+          filesArray.push(file);
+          //console.log(file);
+        },
+        false
+      );
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    });*/
+
+    /*const reader = new FileReader();
+    reader.addEventListener("load", (e) => {
+      const uploadedFile = e.target.result;
+      formData.append("media", uploadedFile);
+    });
+    context.media.forEach((item) => {
+      //formData.append("media", item);
+      reader.readAsDataURL(item);
+    });*/
+    /*const enteredData = {
       user_id: userData.id,
       house_name: context.house_name,
       type: context.type,
@@ -93,8 +154,8 @@ const ThirdPage = () => {
       price_hajj: context.price_hajj,
       price_years: context.price_years,
       media: context.media.slice(),
-    };
-    sendData(enteredData);
+    };*/
+    sendData(formData);
   };
 
   return (

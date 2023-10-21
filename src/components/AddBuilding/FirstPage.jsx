@@ -123,14 +123,14 @@ const FirstPage = () => {
       name: "paperNum",
       placeholder: t("body.permitNum"),
       icon: <AiOutlineFileProtect />,
-      cases: { required: true, minLength: 4 },
+      cases: { required: true, minLength: 3 },
       error:
         errors.paperNum && errors.paperNum.type === "required"
           ? t("body.required")
           : errors.paperNum &&
             errors.paperNum.type === "minLength" &&
             `${t("body.permitNum")} ${t("body.buildingNameCase")} ${t(
-              "body.nums"
+              "body.numsss"
             )}`,
     },
     {
@@ -326,9 +326,7 @@ const FirstPage = () => {
     });
     context.setPage();
   };
-  useEffect(() => {
-    console.log(context);
-  }, [context]);
+
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>

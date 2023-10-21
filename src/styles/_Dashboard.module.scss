@@ -107,7 +107,7 @@
       @include flex-variant(
         flex,
         $direction: column,
-        $align: stretsh,
+        //$align: stretsh,
         $gap: 1.5625rem
       );
       flex: 1 0;
@@ -123,7 +123,6 @@
       .card {
         width: 100%;
         padding: 0.9375rem;
-        flex: 1 0;
         @include flex-variant(flex, $direction: row, $align: center);
         border-radius: 0.875rem;
         @include mediaQuery($smallScreen_min_width) {

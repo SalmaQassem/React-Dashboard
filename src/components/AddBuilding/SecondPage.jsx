@@ -136,21 +136,14 @@ const SecondPage = () => {
             fileName: filesUploaded.name,
             label: selectedOption.label,
             type: selectedOption.value,
+            file: filesUploaded,
           },
         ];
       });
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        setImages((prevImages) => {
-          return [...prevImages, e.target.result];
-        });
-        //console.log(image);
-      });
-      reader.readAsDataURL(filesUploaded);
       /*const reader = new FileReader();
       reader.addEventListener("load", () => {
         const ret = dataURLtoFile(
-          reader.result,
+          e.target.result,
           filesUploaded.name + `.${filesUploaded.type.split("/")[1]}`
         );
         setImages((prevImages) => {
@@ -163,11 +156,25 @@ const SecondPage = () => {
   const setSelectHandler = (option) => {
     setSelectedOption(option);
   };
-  useEffect(() => {
+  /*useEffect(() => {
     console.log(images);
-  }, [images]);
+  }, [images]);*/
   const formSubmitHandler = (data) => {
-    console.log(data);
+    const files = tableData.map((item) => {
+      return item.file;
+    });
+    /*let uploadedFiles = [];
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.addEventListener("load", (e) => {
+        const image = e.target.result;
+        uploadedFiles.append(image);
+        //console.log(uploadedFiles);
+      });
+    });*/
+    //console.log(files);
+    //console.log(data);
     context.setFormData((prevData) => {
       return {
         ...prevData,
@@ -176,7 +183,7 @@ const SecondPage = () => {
         institution_safty: data.institutionSafty,
         price_hajj: data.hajjPrice,
         price_years: data.yearsPrice,
-        media: images.slice(),
+        media: files.slice(),
       };
     });
     context.setPage();

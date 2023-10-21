@@ -5,16 +5,9 @@ import { Form, useActionData } from "react-router-dom";
 import FormButton from "../UI/FormButton";
 import { TbCloudUpload } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
-import { useForm } from "@inertiajs/inertia-react";
 
 const NewUserForm = () => {
   const data = useActionData();
-  //const { images } = usePage().props;
-  const { setData } = useForm({
-    image: null,
-  });
-  //console.log(data);
-  //const [showModal, setShowModal] = useState(false);
   const [firstNameErorr, setFirstNameError] = useState(null);
   const [t, i18n] = useTranslation("global");
   const hiddenFileInput = useRef(null);
@@ -99,22 +92,8 @@ const NewUserForm = () => {
     reader.addEventListener("load", (e) => {
       image = e.target.result;
       sessionStorage.setItem("image", image);
-      //console.log(image);
     });
     reader.readAsDataURL(imageUploaded);
-    //console.log(imageUploaded);
-    /*await getBase64(imageUploaded)
-      .then((res) => sessionStorage.setItem("image", res))
-      .catch((err) => console.log(err));*/
-    /*const image = e.target.files[0];
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
-      sessionStorage.setItem("image", reader.result);
-    });
-
-    if (image) {
-      reader.readAsDataURL(image);
-    }*/
   };
   useEffect(() => {
     if (data && !data.message) {
@@ -134,7 +113,7 @@ const NewUserForm = () => {
     }
   }, [data]);
   return (
-    <Form method="post" className={styles.form} enctype="multipart/form-data">
+    <Form method="post" className={styles.form} encType="multipart/form-data">
       <div className={styles.radioButtons}>
         {radioItems.map((item) => {
           return (

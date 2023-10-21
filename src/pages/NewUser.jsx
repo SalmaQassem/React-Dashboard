@@ -4,7 +4,6 @@ import { FiUserPlus } from "react-icons/fi";
 import NewUserForm from "../components/NewUser/NewUserForm";
 import { getAuthToken } from "../util/auth";
 import { useTranslation } from "react-i18next";
-import { json } from "react-router-dom";
 import axios from "axios";
 
 const NewUser = () => {
@@ -36,16 +35,6 @@ export async function action({ request }) {
   formData.append("phone", data.get("phone"));
   formData.append("role", data.get("input1"));
   formData.append("image", img);
-  /*const enteredData = {
-    first_name: data.get("firstName"),
-    last_name: data.get("lastName"),
-    email: data.get("email"),
-    password: data.get("password"),
-    phone: data.get("phone"),
-    role: data.get("input1"),
-    image: img,
-  };*/
-  //console.log(formData.get("first_name"));
   let response = "";
   await axios
     .post("https://zadapp.mqawilk.com/api/register", formData, {
@@ -55,11 +44,9 @@ export async function action({ request }) {
       },
     })
     .then((response) => {
-      // handle the response
       console.log(response);
     })
     .catch((error) => {
-      // handle errors
       console.log(error);
     });
   /*try {
