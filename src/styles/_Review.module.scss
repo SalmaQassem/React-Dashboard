@@ -25,6 +25,14 @@
   font-size: 2rem;
   color: $grey-7;
 }
+%flex-center {
+  @include flex-variant(
+    flex,
+    $direction: row,
+    $align: center,
+    $justify: center
+  );
+}
 .review {
   @include flex-variant(flex, $direction: column, $gap: 1.75rem);
 
@@ -42,9 +50,10 @@
 
     .filterItems {
       width: 30%;
-      @include flex-variant(flex, $direction: row, $align: center, $gap: 1rem);
+      @include flex-variant(flex, $direction: row, $align: stretch, $gap: 1rem);
       a {
         padding: 0.75rem 0.75rem;
+        @extend %flex-center;
         flex: 1 0;
         @extend %font;
         background-color: $black;
@@ -61,13 +70,16 @@
       @include flex-variant(
         flex,
         $direction: row,
-        $align: center,
+        $align: stretch,
         $justify: center,
         $gap: 1rem
       );
       .infoItem {
         padding: 2rem;
+        flex: 1 0;
+        @extend %flex-center;
         @extend %font;
+        text-align: center;
         text-transform: capitalize;
         background-color: $pink;
         border-radius: 0.9375rem 2.5rem 0.9375rem 0.9375rem;

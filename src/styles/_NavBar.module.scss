@@ -121,7 +121,6 @@
           $align: center,
           $gap: 1.5625rem
         );
-        color: $white;
         .icon {
           @include flex-variant(
             flex,
@@ -130,6 +129,7 @@
             $justify: center
           );
           font-size: 1.5rem;
+          color: $white;
           cursor: pointer;
         }
       }

@@ -1,16 +1,25 @@
 import styles from "../../styles/_NewUserForm.module.scss";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import RadioButton from "../UI/RadioButton";
-import { Form, useActionData } from "react-router-dom";
 import FormButton from "../UI/FormButton";
 import { TbCloudUpload } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { getAuthToken } from "../../util/auth";
+import axios from "axios";
 
 const NewUserForm = () => {
-  const data = useActionData();
-  const [firstNameErorr, setFirstNameError] = useState(null);
   const [t, i18n] = useTranslation("global");
+  const [input, setInput] = useState({});
+  const [image, setImage] = useState(null);
   const hiddenFileInput = useRef(null);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
   const radioItems = [
     {
       id: "0",
@@ -28,7 +37,6 @@ const NewUserForm = () => {
       type: "text",
       name: "firstName",
       label: t("body.firstName"),
-      error: firstNameErorr && <span>{firstNameErorr}</span>,
     },
     {
       id: "lastName",
@@ -61,6 +69,9 @@ const NewUserForm = () => {
       label: t("body.confirmPassword"),
     },
   ];
+  const inputHandler = ({ target: { value, name } }) => {
+    setInput({ title: name, data: value });
+  };
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
@@ -75,7 +86,7 @@ const NewUserForm = () => {
     }
     return new File([u8arr], fileName, { type: mime });
   };*/
-  async function getBase64(file) {
+  /*async function getBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -84,36 +95,47 @@ const NewUserForm = () => {
       };
       reader.onerror = reject;
     });
-  }
+  }*/
   const handleChange = async (e) => {
-    let image = "";
-    const imageUploaded = e.target.files[0];
-    const reader = new FileReader();
+    setImage(e.target.files[0]);
+    /*const reader = new FileReader();
     reader.addEventListener("load", (e) => {
-      image = e.target.result;
-      sessionStorage.setItem("image", image);
+      const image = e.target.result;
+      setImage(image);
     });
-    reader.readAsDataURL(imageUploaded);
+    reader.readAsDataURL(e.target.files[0]);*/
   };
-  useEffect(() => {
-    if (data && !data.message) {
-      //setShowModal(true);
-      console.log(data);
-    } else {
-      if (data && data.errors) {
-        console.log(data.errors);
-        /*if (data.errors.first_name) {
-          if (i18n.language === "ar") {
-            setFirstNameError(data.errors.first_name.ar);
-          } else {
-            setFirstNameError(data.errors.first_name.en);
-          }
-        }*/
-      }
+  const formSubmitHandler = async (data) => {
+    const userToken = getAuthToken();
+    const formData = new FormData();
+    formData.append("first_name", data.firstName);
+    formData.append("last_name", data.lastName);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("phone", data.phone);
+    formData.append("role", input.data);
+    formData.append("image", image);
+
+    try {
+      const response = await axios.post(
+        "https://zadapp.mqawilk.com/api/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error.message);
     }
-  }, [data]);
+  };
   return (
-    <Form method="post" className={styles.form} encType="multipart/form-data">
+    <form
+      onSubmit={handleSubmit(formSubmitHandler)}
+      className={styles.form} /*encType="multipart/form-data"*/
+    >
       <div className={styles.radioButtons}>
         {radioItems.map((item) => {
           return (
@@ -128,7 +150,7 @@ const NewUserForm = () => {
                       icon="false"
                       value={radio.id}
                       label={radio.label}
-                      //onChange={inputHandler}
+                      onChange={inputHandler}
                     />
                   );
                 })}
@@ -144,7 +166,7 @@ const NewUserForm = () => {
               <label htmlFor={item.id} className={styles.label}>
                 {item.label}
               </label>
-              <input type={item.type} id={item.id} name={item.name} />
+              <input type={item.type} id={item.id} {...register(item.name)} />
               {item.error && item.error}
             </div>
           );
@@ -170,7 +192,7 @@ const NewUserForm = () => {
       <FormButton class={styles.submit} type="submit">
         {t("body.activateUser")}
       </FormButton>
-    </Form>
+    </form>
   );
 };
 

@@ -115,6 +115,9 @@
     "verificationCode": "رمز التحقق",
     "verify": "تحقق",
     "newPassword": "كلمة المرور الجديدة",
-    "resetPassword": "إعادة تعيين كلمة المرور"
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "number": "يجب أن يكون رقم",
+    "notifications": "الإشعارات",
+    "addedBuilding": "قام  بإضافة سكن جديد"
   }
 }

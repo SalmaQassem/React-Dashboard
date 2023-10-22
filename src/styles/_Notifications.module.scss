@@ -1,0 +1,91 @@
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./colors" as *;
+@use "./variables/mediaQuery" as *;
+
+.notification {
+  width: 100%;
+  padding: 1.75rem 2.5rem;
+  @include flex-variant(flex, $direction: column);
+  text-transform: capitalize;
+  .body {
+    .list {
+      @include flex-variant(
+        flex,
+        $direction: column,
+        $justify: center,
+        $gap: 1.5rem
+      );
+      .listItem {
+        padding: 0.625rem 1.75rem;
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $justify: space-between,
+          $align: center,
+          $gap: 1rem
+        );
+        font-family: "Cairo-Regular";
+        font-size: 1rem;
+        border-radius: 0.625rem;
+        background-color: $white;
+        box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
+        cursor: pointer;
+        .text {
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $align: center,
+            $gap: 1rem
+          );
+          .dot {
+            width: 0.625rem;
+            height: 0.625rem;
+            border-radius: 50%;
+            background-color: $pink-2;
+          }
+          .img {
+            width: 4.375rem;
+            height: 4.375rem;
+            border: 0.1875rem solid $white;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0.05rem 0.25rem 0 $grey-4;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .info {
+            @include flex-variant(
+              flex,
+              $direction: row,
+              $align: center,
+              $gap: 0.5rem
+            );
+            .user {
+              @include flex-variant(flex, $direction: column, $gap: 0.875rem);
+              font-family: "Cairo-Bold";
+              .name {
+                font-size: 1.125rem;
+                line-height: 1;
+              }
+              .role {
+                font-size: 1rem;
+                line-height: 1;
+              }
+            }
+            .action {
+              color: $grey-5;
+              font-size: 1rem;
+            }
+          }
+        }
+
+        .date {
+          color: $grey-5;
+        }
+      }
+    }
+  }
+}

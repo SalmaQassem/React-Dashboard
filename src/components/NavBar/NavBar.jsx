@@ -1,5 +1,5 @@
 import styles from "../../styles/_NavBar.module.scss";
-import StyledContainer from "../UI/StyledContainer";
+//import StyledContainer from "../UI/StyledContainer";
 import logo from "../../assets/images/logo.png";
 import { HiOutlineSearch } from "react-icons/hi";
 import { TfiWorld } from "react-icons/tfi";
@@ -14,7 +14,7 @@ import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
 import { useTranslation } from "react-i18next";
 import { getAuthToken } from "../../util/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [t, i18n] = useTranslation("global");
@@ -92,9 +92,14 @@ const NavBar = () => {
             <div className={`${styles.icon} ${styles.mode}`}>
               <HiOutlineSun />
             </div>
-            <div className={`${styles.icon} ${styles.notification}`}>
-              <HiOutlineBellAlert />
-            </div>
+            {context.role === "super_admin" && (
+              <Link
+                to="Notifications"
+                className={`${styles.icon} ${styles.notification}`}
+              >
+                <HiOutlineBellAlert />
+              </Link>
+            )}
           </div>
           <div className={styles.userInfo}>
             <div className={styles.user}>

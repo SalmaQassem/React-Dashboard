@@ -2,7 +2,7 @@ import styles from "../../styles/_SecondPage.module.scss";
 import { useForm } from "react-hook-form";
 import SelectInput from "../UI/SelectInput";
 import FormButton from "../UI/FormButton";
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext, useRef } from "react";
 import BuildingContext from "../../store/building-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
@@ -15,14 +15,11 @@ import { FaBuildingShield } from "react-icons/fa6";
 import { SlUser } from "react-icons/sl";
 import { IoPricetagsOutline, IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 
-const SecondPage = () => {
+const SecondPage = (props) => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
   const [tableData, setTableData] = useState([]);
-  const [images, setImages] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const hiddenFileInput = useRef(null);
   const {
@@ -37,6 +34,8 @@ const SecondPage = () => {
       name: "buildingComponents",
       placeholder: t("body.buildingComponents"),
       icon: <LiaHotelSolid />,
+      value:
+        props.state === "edit" ? props.secondPageData.bilud_component : null,
       cases: { required: true },
       error:
         errors.buildingComponents &&
@@ -49,6 +48,10 @@ const SecondPage = () => {
       name: "institutionMaintenance",
       placeholder: t("body.institutionMaintenance"),
       icon: <BsBuildingGear />,
+      value:
+        props.state === "edit"
+          ? props.secondPageData.institution_maintenance
+          : null,
       cases: { required: true },
       error:
         errors.institutionMaintenance &&
@@ -61,6 +64,8 @@ const SecondPage = () => {
       name: "institutionSafty",
       placeholder: t("body.institutionSafety"),
       icon: <FaBuildingShield />,
+      value:
+        props.state === "edit" ? props.secondPageData.institution_safty : null,
       cases: { required: true },
       error:
         errors.institutionSafty &&
@@ -73,6 +78,7 @@ const SecondPage = () => {
       name: "hajjPrice",
       placeholder: t("body.hajjPrice"),
       icon: <SlUser />,
+      value: props.state === "edit" ? props.secondPageData.price_hajj : null,
       cases: { required: true },
       error:
         errors.hajjPrice &&
@@ -85,6 +91,7 @@ const SecondPage = () => {
       name: "yearsPrice",
       placeholder: t("body.yearPrice"),
       icon: <IoPricetagsOutline />,
+      value: props.state === "edit" ? props.secondPageData.price_years : null,
       cases: { required: true },
       error:
         errors.yearsPrice &&
@@ -156,10 +163,8 @@ const SecondPage = () => {
   const setSelectHandler = (option) => {
     setSelectedOption(option);
   };
-  /*useEffect(() => {
-    console.log(images);
-  }, [images]);*/
   const formSubmitHandler = (data) => {
+    console.log(context);
     const files = tableData.map((item) => {
       return item.file;
     });
@@ -186,7 +191,9 @@ const SecondPage = () => {
         media: files.slice(),
       };
     });
-    context.setPage();
+    context.setPage((prevNum) => {
+      return prevNum + 1;
+    });
   };
   const deleteHandler = (e) => {
     const deleteIndex = e.currentTarget.id;
@@ -232,6 +239,7 @@ const SecondPage = () => {
                       ? `${styles.inputField} ${styles.invalid}`
                       : styles.inputField
                   }
+                  defaultValue={item.value && item.value}
                   {...register(item.name, item.cases)}
                   placeholder={item.placeholder}
                 />

@@ -2,17 +2,34 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
 
-.option {
-  @include flex-variant(
-    flex,
-    $direction: row,
-    $align: center,
-    $justify: space-between
-  );
-  text-transform: capitalize;
-  cursor: pointer;
-  
-  .icon {
-    font-size: 1.5rem;
+%color-red {
+  color: $red;
+}
+.select {
+  width: 65%;
+  &.invalid {
+    > div {
+      border-color: $red;
+      @extend %color-red;
+      > div {
+        > div {
+          @extend %color-red;
+        }
+      }
+    }
+  }
+  .option {
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $justify: space-between
+    );
+    text-transform: capitalize;
+    cursor: pointer;
+
+    .icon {
+      font-size: 1.5rem;
+    }
   }
 }

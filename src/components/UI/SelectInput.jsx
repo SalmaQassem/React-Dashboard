@@ -38,14 +38,18 @@ const SelectInput = (props) => {
     }),
     control: (baseStyles) => ({
       ...baseStyles,
-      width: "65%",
+      width: "100%",
       height: "3.125rem",
       padding: "0 0.9375rem",
       fontFamily: "Cairo-Regular",
       fontSize: "1rem",
+      //border: "none",
       borderRadius: "0.5rem",
       border: "0.0625rem solid #4e4b4b",
       boxShadow: "none",
+      "&.invalid": {
+        borderColor: "red",
+      },
       "&:hover": {
         border: "0.0625rem solid #4e4b4b",
       },
@@ -77,7 +81,7 @@ const SelectInput = (props) => {
     }),
     menu: (baseStyles) => ({
       ...baseStyles,
-      width: "65%",
+      width: "100%",
       top: "3.125rem",
       overflow: "hidden",
       margin: "0.125rem 0",
@@ -88,7 +92,7 @@ const SelectInput = (props) => {
       fontFamily: "Cairo-Regular",
       fontSize: "1rem",
     }),
-    singleValue: (provided, state) => ({
+    singleValue: (provided) => ({
       ...provided,
       textTransform: "capitalize",
     }),
@@ -103,8 +107,11 @@ const SelectInput = (props) => {
   };
   return (
     <Select
-      defaultValue={props.selected}
       {...props}
+      className={
+        props.isError ? `${styles.select} ${styles.invalid}` : styles.select
+      }
+      defaultValue={props.selected}
       onChange={props.selectHandler}
       placeholder={props.placeholder}
       menuIsOpen={menuOpen}

@@ -9,7 +9,7 @@ import Code, { action as CodeAction } from "./pages/Code";
 import ResetPassword, { action as ResetAction } from "./pages/ResetPassword";
 import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
 import HousePage, { loader as HouseLoader } from "./pages/HousePage";
-import NewUser, { action as NewUserAction } from "./pages/NewUser";
+import NewUser from "./pages/NewUser";
 import AddBuilding from "./pages/AddBuilding";
 import Review, { loader as ReviewsLoader } from "./pages/Review";
 import Contract, { action as ContractAction } from "./pages/Contract";
@@ -19,6 +19,9 @@ import EditContract, {
   loader as EditLoader,
   action as EditAction,
 } from "./pages/EditContract";
+import EditBuilding, {
+  loader as EditBuildingLoader,
+} from "./pages/EditBuilding";
 import Profile, {
   loader as ProfileLoader,
   action as ProfileAction,
@@ -27,6 +30,9 @@ import Messages, {
   loader as MessagesLoader,
   action as MessagesAction,
 } from "./pages/Messages";
+import Notifications, {
+  loader as NotificationsLoader,
+} from "./pages/Notifications";
 import { useEffect, useContext } from "react";
 import UserContext from "./store/user-context";
 import { useTranslation } from "react-i18next";
@@ -68,7 +74,7 @@ const router = createBrowserRouter([
         loader: MessagesLoader,
         action: MessagesAction,
       },
-      { path: "NewUser", element: <NewUser />, action: NewUserAction },
+      { path: "NewUser", element: <NewUser /> },
       { path: "UserPermits", element: <UserPermits /> },
       { path: "Contracts", element: <Contracts />, loader: ContractLoader },
       {
@@ -89,9 +95,19 @@ const router = createBrowserRouter([
       },
       { path: "Review", element: <Review />, loader: ReviewsLoader },
       {
+        path: "EditBuilding",
+        element: <EditBuilding />,
+        loader: EditBuildingLoader,
+      },
+      {
         path: "Contract",
         element: <Contract />,
         action: ContractAction,
+      },
+      {
+        path: "Notifications",
+        element: <Notifications />,
+        loader: NotificationsLoader,
       },
     ],
   },

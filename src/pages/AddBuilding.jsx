@@ -12,7 +12,7 @@ const AddBuilding = () => {
       <StyledContainer>
         <div className={styles.body}>
           <MainHeader text={t("body.addBuilding")} icon={<LiaHotelSolid />} />
-          <AddBuildingForm />
+          <AddBuildingForm state="add" />
         </div>
       </StyledContainer>
     </div>

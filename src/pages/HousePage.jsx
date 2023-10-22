@@ -16,26 +16,27 @@ import { FaKaaba, FaBuildingUser } from "react-icons/fa6";
 import { FiPhoneCall } from "react-icons/fi";
 const HousePage = () => {
   const data = useLoaderData();
+  console.log(data);
   const [t, i18n] = useTranslation("global");
   const [isActive, setIsActive] = useState("0");
   const [filter, setFilter] = useState("buildingType");
   const [filteredData, setFilteredData] = useState([]);
   const imgs =
-    data[0].media.length > 0
+    data[0].media && data[0].media.length > 0
       ? data[0].media.filter((item) => {
           const type = item.mime_type.split("/")[1];
           return type === "png" || type === "jpg";
         })
       : [];
   const files =
-    data[0].media.length > 0
+    data[0].media && data[0].media.length > 0
       ? data[0].media.filter((item) => {
           const type = item.mime_type.split("/")[1];
           return type === "pdf";
         })
       : [];
   const attachments =
-    files.length > 0
+    files && files.length > 0
       ? files.map((item, index) => {
           return {
             id: index,
@@ -50,7 +51,7 @@ const HousePage = () => {
         })
       : [];
   const records =
-    data[0].documents.length > 0
+    data[0].documents && data[0].documents.length > 0
       ? data[0].documents.map((item, index) => {
           return {
             id: index,

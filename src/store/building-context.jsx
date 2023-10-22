@@ -85,11 +85,11 @@ export const BuildingContextProvider = (props) => {
     media: [],
     page: 0,
   });
-  const setPageHandler = () => {
+  /*const setPageHandler = () => {
     setPageNumber((prevPage) => {
       return prevPage + 1;
     });
-  };
+  };*/
   return (
     <BuildingContext.Provider
       value={{
@@ -118,7 +118,7 @@ export const BuildingContextProvider = (props) => {
         price_years: data.price_years,
         media: data.media.slice(),
         page: pageNumber,
-        setPage: setPageHandler,
+        setPage: setPageNumber,
         setFormData: setData,
       }}
     >

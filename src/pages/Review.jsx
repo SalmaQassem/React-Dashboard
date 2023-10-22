@@ -10,14 +10,17 @@ import { AiOutlineFile, AiOutlineFileProtect } from "react-icons/ai";
 import { getAuthToken } from "../util/auth";
 import { useTranslation } from "react-i18next";
 import { FiPhoneCall } from "react-icons/fi";
+import { useContext } from "react";
+import BuildingContext from "../store/building-context";
 
 const Review = () => {
   const data = useLoaderData();
+  const context = useContext(BuildingContext);
   const [t, i18n] = useTranslation("global");
   const [isActive, setIsActive] = useState("0");
   const [filter, setFilter] = useState("buildingType");
   const [filteredData, setFilteredData] = useState([]);
-  const imgs = data[0].media.length > 0 ? data[0].media : [];
+  //const imgs = data[0].media.length > 0 ? data[0].media : [];
   const infoItems = [
     { id: "0", name: t("body.buildingData"), category: "buildingType" },
     { id: "1", name: t("body.imagesAndVideos"), category: "imagesAndVideos" },
@@ -98,6 +101,10 @@ const Review = () => {
     setFilteredData(items);
   }, [filter, i18n.language]);
 
+  useEffect(() => {
+    if(context)
+    context.setPage(0);
+  });
   return (
     <div className={styles.review}>
       <StyledContainer>
@@ -108,7 +115,7 @@ const Review = () => {
           <div className={styles.filters}>
             <p>{t("body.roomsAndHouses")}</p>
             <div className={styles.filterItems}>
-              <Link to="/dashboard/AddBuilding">{t("body.editBuilding")}</Link>
+              <Link to="/dashboard/EditBuilding">{t("body.editBuilding")}</Link>
               <Link to="/dashboard/Contract">{t("body.contract")}</Link>
             </div>
           </div>

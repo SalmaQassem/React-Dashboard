@@ -113,6 +113,9 @@
     "sendCode": "send verification code",
     "verificationCode": "verification code",
     "verify": "verify",
-    "newPassword": "new password"
+    "newPassword": "new password",
+    "number": "must be number",
+    "notifications": "notifications",
+    "addedBuilding": "added new house"
   }
 }

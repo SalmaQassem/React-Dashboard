@@ -10,31 +10,34 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
-const ThirdPage = () => {
+const ThirdPage = (props) => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
-  //console.log(context);
   const userData = useContext(UserContext);
   const navigate = useNavigate();
 
   const sendData = async (data) => {
-    for (var pair of data.entries()) {
+    /*for (var pair of data.entries()) {
       console.log(pair[0] + ", " + pair[1]);
-    }
+    }*/
     const userToken = getAuthToken();
     await axios
-      .post("https://zadapp.mqawilk.com/api/houses/store", data, {
+      .post(props.url, data, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${userToken}`,
         },
       })
-      .then((response) => {
+      .then(async (response) => {
         console.log(response);
-        context.setFormData((prev) => {
-          return [...prev, { page: 0 }];
-        });
-        navigate("/dashboard/Review");
+        const res = response.data;
+        if (props.state === "edit") {
+          alert("success");
+          navigate("/dashboard");
+        } else {
+          sessionStorage.setItem("houseId", res.id);
+          navigate("/dashboard/Review");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -61,7 +64,7 @@ const ThirdPage = () => {
   };
 
   const saveData = async () => {
-    const formData = new FormData();
+    /*const formData = new FormData();
     formData.append("user_id", userData.id);
     formData.append("house_name", context.house_name);
     formData.append("type", context.type);
@@ -85,7 +88,8 @@ const ThirdPage = () => {
     formData.append("institution_safty", context.institution_safty);
     formData.append("price_hajj", context.price_hajj);
     formData.append("price_years", context.price_years);
-    //console.log(context.media);
+    formData.append("media", []);
+    //console.log(context.media);*/
     /*Promise.all(
       context.media.map(
         (uploadedFile) =>
@@ -129,7 +133,7 @@ const ThirdPage = () => {
       //formData.append("media", item);
       reader.readAsDataURL(item);
     });*/
-    /*const enteredData = {
+    const enteredData = {
       user_id: userData.id,
       house_name: context.house_name,
       type: context.type,
@@ -154,8 +158,8 @@ const ThirdPage = () => {
       price_hajj: context.price_hajj,
       price_years: context.price_years,
       media: context.media.slice(),
-    };*/
-    sendData(formData);
+    };
+    sendData(enteredData);
   };
 
   return (
