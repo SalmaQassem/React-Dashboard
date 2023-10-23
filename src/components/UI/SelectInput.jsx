@@ -1,11 +1,28 @@
 import styles from "../../styles/_SelectInput.module.scss";
 import { useState } from "react";
 import Select, { components } from "react-select";
+import { Controller } from "react-hook-form";
 
-const SelectInput = (props) => {
+const SelectInput = ({
+  name,
+  isError,
+  control,
+  options,
+  placeholder,
+  icon,
+  selectedItem,
+  setSelect,
+  value,
+}) => {
+  console.log(isError);
   const [menuOpen, setMenuOpen] = useState(false);
-  const arrowIcon = props.icon;
+  const arrowIcon = icon;
+  //const [selectedOptions, setSelectedOptions] = useState(null);
 
+  const handleChange = (option) => {
+    //console.log(option);
+    setSelect(option);
+  };
   const handleMenuOpen = () => {
     setMenuOpen(true);
   };
@@ -106,21 +123,48 @@ const SelectInput = (props) => {
     }),
   };
   return (
-    <Select
-      {...props}
-      className={
-        props.isError ? `${styles.select} ${styles.invalid}` : styles.select
-      }
-      defaultValue={props.selected}
-      onChange={props.selectHandler}
-      placeholder={props.placeholder}
-      menuIsOpen={menuOpen}
-      onMenuOpen={handleMenuOpen}
-      onMenuClose={handleMenuClose}
-      components={{ DropdownIndicator, Option }}
-      styles={customStyles}
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, ...field } }) => (
+        <Select
+          className={
+            isError !== undefined
+              ? `${styles.select} ${styles.invalid}`
+              : styles.select
+          }
+          options={options}
+          {...field}
+          onChange={handleChange}
+          menuIsOpen={menuOpen}
+          onMenuOpen={handleMenuOpen}
+          onMenuClose={handleMenuClose}
+          components={{ DropdownIndicator, Option }}
+          placeholder={placeholder}
+          icon={icon}
+          //selected={selectedItem}
+          //value={value}
+          styles={customStyles}
+          //setSelected={setItem}
+          //value={props.value && props.value}
+        />
+      )}
     />
   );
 };
 
 export default SelectInput;
+/*<Select
+      {...props}
+      className={
+        props.isError ? `${styles.select} ${styles.invalid}` : styles.select
+      }
+      defaultValue={props.selected}
+      //onChange={props.selectHandler}
+      placeholder={props.placeholder}
+      //menuIsOpen={menuOpen}
+      //onMenuOpen={handleMenuOpen}
+      //onMenuClose={handleMenuClose}
+      components={{ DropdownIndicator, Option }}
+      styles={customStyles}
+    />*/

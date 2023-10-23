@@ -20,6 +20,7 @@ const NavBar = () => {
   const [t, i18n] = useTranslation("global");
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
+  console.log(context.image);
   const searchRef = useRef();
   const navigate = useNavigate();
   const onBarsClick = () => {
@@ -103,7 +104,10 @@ const NavBar = () => {
           </div>
           <div className={styles.userInfo}>
             <div className={styles.user}>
-              <img src={user} alt="user" />
+              <img
+                src={`https://zadapp.mqawilk.com/public/images/${context.image}`}
+                alt="user"
+              />
             </div>
             <div className={styles.text}>
               <p>{`${context.first_name} ${context.last_name}`}</p>

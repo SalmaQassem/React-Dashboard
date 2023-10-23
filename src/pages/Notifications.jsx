@@ -33,7 +33,7 @@ const Notifications = () => {
                 <div className={styles.text}>
                   <span className={styles.dot} />
                   <div className={styles.img}>
-                    <img src={user} alt="user-img" />
+                    <img src={`https://zadapp.mqawilk.com/public/images/${item.user.image}`} alt="user-img" />
                   </div>
                   <div className={styles.info}>
                     <div className={styles.user}>

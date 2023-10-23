@@ -9,17 +9,7 @@ import ContractForm from "../components/AddBuilding/ContractForm";
 import { getAuthToken } from "../util/auth";
 import ContractFormHead from "../components/AddBuilding/ContractFormHead";
 
-let userId = "";
-let houseId = "";
 const Contract = () => {
-  const userData = useContext(UserContext);
-  const context = useContext(BuildingContext);
-
-  useEffect(() => {
-    userId = userData.id;
-    houseId = context.id;
-    //console.log(houseId);
-  });
   return (
     <>
       <StyledContainer>
@@ -64,8 +54,8 @@ export async function action({ request }) {
     .split(".")[0];
 
   const enteredData = {
-    user_id: userId,
-    house_id: houseId,
+    user_id: sessionStorage.getItem("userId"),
+    house_id: sessionStorage.getItem("houseId"),
     price_hajj: formData.get("hajjPrice"),
     start_date: startDate,
     end_date: endDate,

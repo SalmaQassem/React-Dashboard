@@ -21,50 +21,29 @@ const ThirdPage = (props) => {
       console.log(pair[0] + ", " + pair[1]);
     }*/
     const userToken = getAuthToken();
-    await axios
-      .post(props.url, data, {
+    try {
+      const response = await axios.post(props.url, data, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${userToken}`,
         },
-      })
-      .then(async (response) => {
-        console.log(response);
-        const res = response.data;
-        if (props.state === "edit") {
-          alert("success");
-          navigate("/dashboard");
-        } else {
-          sessionStorage.setItem("houseId", res.id);
-          navigate("/dashboard/Review");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
       });
-
-    /*try {
-      let response = await fetch(
-        "https://zadapp.mqawilk.com/api/houses/store",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: data,
-        }
-      );
-      const res = await response.json();
-      sessionStorage.setItem("houseId", res.id);
-      navigate("/dashboard/Review");
+      const res = response.data;
+      if (props.state === "edit") {
+        alert("success");
+        navigate("/dashboard");
+      } else {
+        sessionStorage.setItem("houseId", res.id);
+        sessionStorage.setItem("userId", res.user_id);
+        navigate("/dashboard/Review");
+      }
     } catch (error) {
       console.log(error.message);
-    }*/
+    }
   };
 
   const saveData = async () => {
-    /*const formData = new FormData();
+    const formData = new FormData();
     formData.append("user_id", userData.id);
     formData.append("house_name", context.house_name);
     formData.append("type", context.type);
@@ -88,8 +67,11 @@ const ThirdPage = (props) => {
     formData.append("institution_safty", context.institution_safty);
     formData.append("price_hajj", context.price_hajj);
     formData.append("price_years", context.price_years);
-    formData.append("media", []);
-    //console.log(context.media);*/
+    context.media.forEach((file) => {
+      formData.append("media", file);
+    });
+    //formData.append("media", []);
+    //console.log(context.media);
     /*Promise.all(
       context.media.map(
         (uploadedFile) =>
@@ -133,7 +115,7 @@ const ThirdPage = (props) => {
       //formData.append("media", item);
       reader.readAsDataURL(item);
     });*/
-    const enteredData = {
+    /*const enteredData = {
       user_id: userData.id,
       house_name: context.house_name,
       type: context.type,
@@ -158,8 +140,8 @@ const ThirdPage = (props) => {
       price_hajj: context.price_hajj,
       price_years: context.price_years,
       media: context.media.slice(),
-    };
-    sendData(enteredData);
+    };*/
+    sendData(formData);
   };
 
   return (

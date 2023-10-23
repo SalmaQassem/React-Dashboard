@@ -98,12 +98,6 @@ const NewUserForm = () => {
   }*/
   const handleChange = async (e) => {
     setImage(e.target.files[0]);
-    /*const reader = new FileReader();
-    reader.addEventListener("load", (e) => {
-      const image = e.target.result;
-      setImage(image);
-    });
-    reader.readAsDataURL(e.target.files[0]);*/
   };
   const formSubmitHandler = async (data) => {
     const userToken = getAuthToken();

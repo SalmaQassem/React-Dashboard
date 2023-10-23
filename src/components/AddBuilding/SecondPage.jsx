@@ -2,7 +2,7 @@ import styles from "../../styles/_SecondPage.module.scss";
 import { useForm } from "react-hook-form";
 import SelectInput from "../UI/SelectInput";
 import FormButton from "../UI/FormButton";
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import BuildingContext from "../../store/building-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
@@ -15,18 +15,47 @@ import { FaBuildingShield } from "react-icons/fa6";
 import { SlUser } from "react-icons/sl";
 import { IoPricetagsOutline, IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const SecondPage = (props) => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
   const [tableData, setTableData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
-  const hiddenFileInput = useRef(null);
+  /*const setSelected = (value) => {
+    setSelectedOption(value);
+  };*/
+  const hiddenFileInput = useRef();
+  const schema = yup.object({
+    buildingComponents: yup.string().required(t("body.required")),
+    institutionMaintenance: yup.string().required(t("body.required")),
+    institutionSafty: yup.string().required(t("body.required")),
+    hajjPrice: yup
+      .number()
+      .typeError(t("body.required"))
+      .required(t("body.required")),
+    yearsPrice: yup
+      .number()
+      .typeError(t("body.required"))
+      .required(t("body.required")),
+    /*attachedType: yup
+      .object()
+      .shape({
+        label: yup.string().required(t("body.required")),
+        value: yup.string().required(t("body.required")),
+      })
+      .required(t("body.required")),*/
+  });
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  //const { ref, ...rest } = register("files");
   const secondPageInputs = [
     {
       id: "buildingComponents",
@@ -36,11 +65,7 @@ const SecondPage = (props) => {
       icon: <LiaHotelSolid />,
       value:
         props.state === "edit" ? props.secondPageData.bilud_component : null,
-      cases: { required: true },
-      error:
-        errors.buildingComponents &&
-        errors.buildingComponents.type === "required" &&
-        t("body.required"),
+      error: errors.buildingComponents,
     },
     {
       id: "institutionMaintenance",
@@ -52,11 +77,7 @@ const SecondPage = (props) => {
         props.state === "edit"
           ? props.secondPageData.institution_maintenance
           : null,
-      cases: { required: true },
-      error:
-        errors.institutionMaintenance &&
-        errors.institutionMaintenance.type === "required" &&
-        t("body.required"),
+      error: errors.institutionMaintenance,
     },
     {
       id: "institutionSafty",
@@ -66,24 +87,16 @@ const SecondPage = (props) => {
       icon: <FaBuildingShield />,
       value:
         props.state === "edit" ? props.secondPageData.institution_safty : null,
-      cases: { required: true },
-      error:
-        errors.institutionSafty &&
-        errors.institutionSafty.type === "required" &&
-        t("body.required"),
+      error: errors.institutionSafty,
     },
     {
       id: "hajjPrice",
-      type: "text",
+      type: "number",
       name: "hajjPrice",
       placeholder: t("body.hajjPrice"),
       icon: <SlUser />,
       value: props.state === "edit" ? props.secondPageData.price_hajj : null,
-      cases: { required: true },
-      error:
-        errors.hajjPrice &&
-        errors.hajjPrice.type === "required" &&
-        t("body.required"),
+      error: errors.hajjPrice,
     },
     {
       id: "yearsPrice",
@@ -92,11 +105,7 @@ const SecondPage = (props) => {
       placeholder: t("body.yearPrice"),
       icon: <IoPricetagsOutline />,
       value: props.state === "edit" ? props.secondPageData.price_years : null,
-      cases: { required: true },
-      error:
-        errors.yearsPrice &&
-        errors.yearsPrice.type === "required" &&
-        t("body.required"),
+      error: errors.yearsPrice,
     },
     {
       id: "attachedType",
@@ -104,8 +113,7 @@ const SecondPage = (props) => {
       name: "attachedType",
       placeholder: t("body.attachmentType"),
       icon: <IoMdArrowDropdownCircle />,
-      cases: { required: true },
-      error: errors.attachedType && t("body.required"),
+      error: errors.attachedType,
       options: [
         { value: "image_bilud", label: t("body.buildingImages") },
         { value: "السجل التجاري", label: t("body.commercialRegistration") },
@@ -122,7 +130,7 @@ const SecondPage = (props) => {
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
-  const dataURLtoFile = (dataUrl, fileName) => {
+  /*const dataURLtoFile = (dataUrl, fileName) => {
     let arr = dataUrl.split(",");
     let mime = arr[0].match(/:(.*?);/)[1];
     let bstr = atob(arr[arr.length - 1]);
@@ -132,17 +140,20 @@ const SecondPage = (props) => {
       u8arr[n] = bstr.charCodeAt(n);
     }
     return new File([u8arr], fileName, { type: mime });
-  };
+  };*/
   const handleChange = (e) => {
+    //console.log(selectedOption);
+    //console.log(e.target.files[0]);
     const filesUploaded = e.target.files[0];
     if (selectedOption && filesUploaded) {
+      console.log("enter");
       setTableData((prevState) => {
         return [
           ...prevState,
           {
             fileName: filesUploaded.name,
-            label: selectedOption.label,
-            type: selectedOption.value,
+            label: selectedOption,
+            type: selectedOption,
             file: filesUploaded,
           },
         ];
@@ -161,13 +172,16 @@ const SecondPage = (props) => {
     }
   };
   const setSelectHandler = (option) => {
+    //console.log(option);
     setSelectedOption(option);
   };
   const formSubmitHandler = (data) => {
-    console.log(context);
+    //console.log(context);
+    //console.log(data.attachedType.value);
     const files = tableData.map((item) => {
       return item.file;
     });
+    console.log(files);
     /*let uploadedFiles = [];
     files.forEach((file) => {
       const reader = new FileReader();
@@ -205,23 +219,38 @@ const SecondPage = (props) => {
       return newArr;
     });
   };
+  useEffect(() => {
+    console.log(selectedOption);
+  }, [selectedOption]);
   return (
     <form
       onSubmit={handleSubmit(formSubmitHandler)}
       className={styles.form}
-      encType="multipart/form-data"
+      /*encType="multipart/form-data"*/
     >
       <div className={styles.inputs}>
         {secondPageInputs.map((item) => {
           return item.type === "select" ? (
-            <SelectInput
-              key={item.id}
-              selected={selectedOption}
-              selectHandler={setSelectHandler}
-              options={item.options}
-              placeholder={item.placeholder}
-              icon={item.icon}
-            />
+            <div key={item.id} className={styles.selectItem}>
+              <SelectInput
+                key={item.id}
+                name={item.name}
+                isError={item.error}
+                control={control}
+                options={item.options}
+                placeholder={item.placeholder}
+                icon={item.icon}
+                selectedItem={selectedOption}
+                setSelect={setSelectHandler}
+                //onChange={setSelectHandler}
+              />
+              {/*item.error?.message ||
+                (item.error?.label.message && (
+                  <span className={styles.feedback}>
+                    {item.error?.message || item.error?.label.message}
+                  </span>
+                ))*/}
+            </div>
           ) : (
             <div key={item.id} className={styles.input}>
               <div
@@ -240,31 +269,36 @@ const SecondPage = (props) => {
                       : styles.inputField
                   }
                   defaultValue={item.value && item.value}
-                  {...register(item.name, item.cases)}
+                  {...register(item.name)}
                   placeholder={item.placeholder}
                 />
                 <div className={styles.icon}>{item.icon}</div>
               </div>
               {item.error && (
-                <span className={styles.feedback}>{item.error}</span>
+                <span className={styles.feedback}>{item.error?.message}</span>
               )}
             </div>
           );
         })}
-        <div className={styles.selectFile}>
-          <button type="button" onClick={handleClick}>
-            {t("body.chooseFile")}
-          </button>
-          <input
-            type="file"
-            id="files"
-            name="files"
-            accept=".jpg,.png,.pdf,.docx,.doc"
-            onChange={handleChange}
-            ref={hiddenFileInput}
-            style={{ display: "none" }}
-          />
-          <p>{t("body.acceptedFormats")}: jpg, pdf, docx, doc</p>
+        <div>
+          <div className={styles.selectFile}>
+            <button
+              type="button"
+              className={styles.filesButton}
+              onClick={handleClick}
+            >
+              {t("body.chooseFile")}
+            </button>
+            <input
+              type="file"
+              id="files"
+              ref={hiddenFileInput}
+              //{...rest}
+              accept=".jpg,.png,.pdf,.docx,.doc"
+              style={{ display: "none" }}
+            />
+            <p>{t("body.acceptedFormats")}: jpg, pdf, docx, doc</p>
+          </div>
         </div>
       </div>
       {tableData.length > 0 && (
@@ -315,3 +349,22 @@ const SecondPage = (props) => {
 };
 
 export default SecondPage;
+{
+  /*<div>
+              <label className={styles.filesButton} htmlFor="files">
+                {t("body.chooseFile")}
+                <input
+                  //{...register("files", { onChange: { handleChange } })}
+                  onChange={handleChange}
+                  type="file"
+                  id="files"
+                  hidden
+                />
+              </label>
+      </div>*/
+}
+{
+  /*errors.files && (
+            <span className={styles.feedback}>{errors.files?.message}</span>
+          )*/
+}

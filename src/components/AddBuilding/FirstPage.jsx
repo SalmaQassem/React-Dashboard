@@ -1,9 +1,9 @@
 import styles from "../../styles/_FirstPage.module.scss";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import SelectInput from "../UI/SelectInput";
 import RadioButton from "../UI/RadioButton";
 import FormButton from "../UI/FormButton";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import BuildingContext from "../../store/building-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
@@ -38,25 +38,29 @@ const FirstPage = (props) => {
     {
       buildingName: yup.string().required(t("body.required")),
       /*buildingType: yup
-        .mixed()
-        .required()
-        .oneOf(["hotel", "build"])
-        .label(t("body.required")),*/
-      /*buildingType: yup.object({
-        value: yup
-          .string()
-          .required(t("body.required"))
-          .oneOf(["hotel", "build"]),
-      }),*/
-      //buildingType: yup.string().required().oneOf(["hotel", "build"]),
-      roomNum: yup.number().typeError(t("body.required")).required(),
+        .object()
+        .shape({
+          label: yup.string().required(t("body.required")),
+          value: yup.string().required(t("body.required")),
+        })
+        .required(t("body.required")),*/
+      roomNum: yup
+        .number()
+        .typeError(t("body.required"))
+        .required(t("body.required")),
       streetName: yup.string().required(t("body.required")),
-      actualPilgrims: yup.number().typeError(t("body.required")).required(),
-      writtenPilgrims: yup.number().typeError(t("body.required")).required(),
+      actualPilgrims: yup
+        .number()
+        .typeError(t("body.required"))
+        .required(t("body.required")),
+      writtenPilgrims: yup
+        .number()
+        .typeError(t("body.required"))
+        .required(t("body.required")),
       paperNum: yup
         .number()
         .typeError(t("body.required"))
-        .required()
+        .required(t("body.required"))
         .test(
           "len",
           `${t("body.permitNum")} ${t("body.buildingNameCase")} ${t(
@@ -83,7 +87,7 @@ const FirstPage = (props) => {
       licenseNum: yup
         .number()
         .typeError(t("body.required"))
-        .required()
+        .required(t("body.required"))
         .test(
           "len",
           `${t("body.constructionLicense")} ${t("body.buildingNameCase")} ${t(
@@ -95,7 +99,7 @@ const FirstPage = (props) => {
       ownerId: yup
         .number()
         .typeError(t("body.required"))
-        .required()
+        .required(t("body.required"))
         .test(
           "len",
           `${t("body.ownerId")} ${t("body.buildingNameCase")} ${t(
@@ -133,14 +137,6 @@ const FirstPage = (props) => {
       icon: <LiaHotelSolid />,
       value: props.state === "edit" ? props.firstPageData.house_name : null,
       error: errors.buildingName,
-      /*error:
-        errors.buildingName && errors.buildingName.type === "required"
-          ? t("body.required")
-          : errors.buildingName &&
-            errors.buildingName.type === "min" &&
-            `${t("body.buildingName")} ${t("body.buildingNameCase")} ${t(
-              "body.chars"
-            )}`,*/
     },
     {
       id: "buildingType",
@@ -149,9 +145,7 @@ const FirstPage = (props) => {
       placeholder: t("body.buildingType"),
       icon: <IoMdArrowDropdownCircle />,
       value: props.state === "edit" ? props.firstPageData.type : null,
-      error: errors["buildingType"]?.message,
-      //error: errors.buildingType,
-      /*error: errors.buildingName && t("body.required"),*/
+      error: errors.buildingType,
       options: [
         { value: "hotel", label: t("body.hotel"), icon: <BsBuildings /> },
         { value: "build", label: t("body.building"), icon: <RiHotelLine /> },
@@ -165,7 +159,6 @@ const FirstPage = (props) => {
       icon: <PiDoorOpenLight />,
       value: props.state === "edit" ? props.firstPageData.total_room : null,
       error: errors.roomNum,
-      //error: errors.roomNum && t("body.required"),
     },
     {
       id: "streetName",
@@ -175,7 +168,6 @@ const FirstPage = (props) => {
       icon: <GoLocation />,
       value: props.state === "edit" ? props.firstPageData.street : null,
       error: errors.streetName,
-      //error: errors.streetName && t("body.required"),
     },
     {
       id: "actualPilgrims",
@@ -185,7 +177,6 @@ const FirstPage = (props) => {
       icon: <FaKaaba />,
       value: props.state === "edit" ? props.firstPageData.hajjaj_count : null,
       error: errors.actualPilgrims,
-      //error: errors.actualPilgrims && t("body.required"),
     },
     {
       id: "writtenPilgrims",
@@ -195,7 +186,6 @@ const FirstPage = (props) => {
       icon: <AiOutlineFile />,
       value: props.state === "edit" ? props.firstPageData.hajjaj_accsept : null,
       error: errors.writtenPilgrims,
-      //error: errors.writtenPilgrims && t("body.required"),
     },
     {
       id: "paperNum",
@@ -205,14 +195,6 @@ const FirstPage = (props) => {
       icon: <AiOutlineFileProtect />,
       value: props.state === "edit" ? props.firstPageData.number_prrmit : null,
       error: errors.paperNum,
-      /*error:
-        errors.paperNum && errors.paperNum.type === "required"
-          ? t("body.required")
-          : errors.paperNum &&
-            errors.paperNum.type === "min" &&
-            `${t("body.permitNum")} ${t("body.buildingNameCase")} ${t(
-              "body.numsss"
-            )}`,*/
     },
     {
       id: "ownerName",
@@ -223,14 +205,6 @@ const FirstPage = (props) => {
       value:
         props.state === "edit" ? props.firstPageData.house_owner_name : null,
       error: errors.ownerName,
-      /*error:
-        errors.ownerName && errors.ownerName.type === "required"
-          ? t("body.required")
-          : errors.ownerName &&
-            errors.ownerName.type === "minLength" &&
-            `${t("body.ownerName")} ${t("body.buildingNameCase")} ${t(
-              "body.chars"
-            )}`,*/
     },
     {
       id: "phone",
@@ -240,14 +214,6 @@ const FirstPage = (props) => {
       icon: <FiPhoneCall />,
       value: props.state === "edit" ? props.firstPageData.phone : null,
       error: errors.phone,
-      /*error:
-        errors.phone && errors.phone.type === "required"
-          ? t("body.required")
-          : errors.phone &&
-            errors.phone.type === "minLength" &&
-            `${t("body.phone")} ${t("body.buildingNameCase")} ${t(
-              "body.nums"
-            )}`,*/
     },
     {
       id: "licenseNum",
@@ -258,14 +224,6 @@ const FirstPage = (props) => {
       value:
         props.state === "edit" ? props.firstPageData.build_number_prrmit : null,
       error: errors.licenseNum,
-      /*error:
-        errors.licenseNum && errors.licenseNum.type === "required"
-          ? t("body.required")
-          : errors.licenseNum &&
-            errors.licenseNum.type === "minLength" &&
-            `${t("body.constructionLicense")} ${t("body.buildingNameCase")} ${t(
-              "body.numss"
-            )}`,*/
     },
     {
       id: "floorsNum",
@@ -275,11 +233,6 @@ const FirstPage = (props) => {
       icon: <HiOutlineBuildingOffice2 />,
       value: props.state === "edit" ? props.firstPageData.total_floor : null,
       error: errors.floorsNum,
-      //cases: { required: true },
-      /*error:
-        errors.floorsNum &&
-        errors.floorsNum.type === "required" &&
-        t("body.required"),*/
     },
     {
       id: "ownerId",
@@ -289,14 +242,6 @@ const FirstPage = (props) => {
       icon: <FaRegAddressCard />,
       value: props.state === "edit" ? props.firstPageData.owner_ip : null,
       error: errors.ownerId,
-      /*error:
-        errors.ownerId && errors.ownerId.type === "required"
-          ? t("body.required")
-          : errors.ownerId &&
-            errors.ownerId.type === "minLength" &&
-            `${t("body.ownerId")} ${t("body.buildingNameCase")} ${t(
-              "body.numss"
-            )}`,*/
     },
     {
       id: "renterName",
@@ -306,14 +251,6 @@ const FirstPage = (props) => {
       icon: <FaRegUserCircle />,
       value: props.state === "edit" ? props.firstPageData.lessor_name : null,
       error: errors.renterName,
-      /*error:
-        errors.renterName && errors.renterName.type === "required"
-          ? t("body.required")
-          : errors.renterName &&
-            errors.renterName.type === "minLength" &&
-            `${t("body.lessorName")} ${t("body.buildingNameCase")} ${t(
-              "body.nums"
-            )}`,*/
     },
   ];
   const radioItems = [
@@ -365,11 +302,13 @@ const FirstPage = (props) => {
     });
   };
   const formSubmitHandler = (data) => {
+    //console.log(data);
     let alarm = props.state === "edit" ? props.firstPageData.alarm_network : "";
     let fire = props.state === "edit" ? props.firstPageData.fire_network : "";
     let pump = props.state === "edit" ? props.firstPageData.fire_pump : "";
     let generator = props.state === "edit" ? props.firstPageData.generator : "";
     const select = selectedOption ? selectedOption.value : "";
+    //const select = data.buildingType.value;
     let filter = input.filter((item) => {
       return item.title === "alarm_network";
     });
@@ -423,34 +362,30 @@ const FirstPage = (props) => {
       return prevNum + 1;
     });
   };
-
+  /*useEffect(() => {
+    console.log(selectedOption);
+  }, [selectedOption]);*/
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>
         {firstPageInputs.map((item) => {
           return item.type === "select" ? (
             <div key={item.id} className={styles.selectItem}>
-              <Controller
+              <SelectInput
                 name={item.name}
+                isError={item.error}
                 control={control}
-                render={({ onChange, value }) => (
-                  <SelectInput
-                    isError={item.error ? true : false}
-                    //selected={selectedOption}
-                    value={item.options.find((c) => c.value === value)}
-                    onChange={(val) => onChange(val.value)}
-                    options={item.options}
-                    //value={item.options.find((c) => c.value === value)}
-                    selectHandler={setSelectHandler}
-                    //selectHandler={(val) => onChange(val.value)}
-                    placeholder={item.placeholder}
-                    icon={item.icon}
-                  />
-                )}
-              ></Controller>
-              {item.error && (
-                <span className={styles.feedback}>{item.error}</span>
-              )}
+                options={item.options}
+                placeholder={item.placeholder}
+                icon={item.icon}
+                selectedItem={selectedOption}
+                setSelect={setSelectHandler}
+              />
+              {/*item.error !== undefined && (
+                <span className={styles.feedback}>
+                  {item.error?.message || item.error?.label.message}
+                </span>
+              )*/}
             </div>
           ) : (
             <div key={item.id} className={styles.input}>

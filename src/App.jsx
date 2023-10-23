@@ -140,6 +140,7 @@ function App() {
         role,
         created_at,
         updated_at,
+        image,
       } = JSON.parse(storedUserData);
       context.setUserData(
         id,
@@ -149,7 +150,8 @@ function App() {
         email,
         role,
         created_at,
-        updated_at
+        updated_at,
+        image
       );
     } else {
       //console.log("empty");

@@ -6,7 +6,6 @@ import BuildingContext from "../../store/building-context";
 //import AsideContext from "../../store/aside-context";
 
 const AddBuildingForm = (props) => {
-  console.log(props.state);
   const context = useContext(BuildingContext);
   const houseId = sessionStorage.getItem("houseId");
   //const asideContext = useContext(AsideContext);
