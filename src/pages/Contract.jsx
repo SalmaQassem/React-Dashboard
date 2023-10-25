@@ -1,15 +1,14 @@
 import styles from "../styles/_Contract.module.scss";
 import StyledContainer from "../components/UI/StyledContainer";
-import { useContext, useEffect } from "react";
-import UserContext from "../store/user-context";
-import BuildingContext from "../store/building-context";
 import image from "../assets/images/Frame.png";
 //import vector from "../assets/images/Vector2.png";
 import ContractForm from "../components/AddBuilding/ContractForm";
 import { getAuthToken } from "../util/auth";
 import ContractFormHead from "../components/AddBuilding/ContractFormHead";
+import { useTranslation } from "react-i18next";
 
 const Contract = () => {
+  const [t, i18n] = useTranslation("global");
   return (
     <>
       <StyledContainer>
@@ -19,7 +18,7 @@ const Contract = () => {
             <div className={styles.image}>
               <img src={image} alt="frame" />
             </div>
-            <ContractForm />
+            <ContractForm state="add" message={t("body.contractSuccess")} />
           </div>
         </div>
       </StyledContainer>
@@ -28,7 +27,6 @@ const Contract = () => {
   );
 };
 export default Contract;
-
 export async function action({ request }) {
   const formData = await request.formData();
   const offset = new Date().getTimezoneOffset();
@@ -62,7 +60,7 @@ export async function action({ request }) {
     document_start: documentStart,
     notes: formData.get("notes"),
   };
-  console.log(enteredData);
+  //console.log(enteredData);
   const userToken = getAuthToken();
   let response;
   try {

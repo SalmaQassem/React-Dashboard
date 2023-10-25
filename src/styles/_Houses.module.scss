@@ -6,22 +6,6 @@
 %style {
   color: $grey-8;
 }
-%font {
-  font-size: 2rem;
-  color: $pink;
-  cursor: pointer;
-}
-%listItem {
-  width: 1.875rem;
-  height: 1.875rem;
-  @include flex-variant(
-    flex,
-    $direction: row,
-    $justify: center,
-    $align: center
-  );
-  color: $pink;
-}
 .housesContainer {
   @include flex-variant(flex, $direction: column, $gap: 2.5rem);
   .houses {
@@ -112,47 +96,5 @@
       }
     }
   }
-  .pagination {
-    @include flex-variant(
-      flex,
-      $direction: row,
-      $align: center,
-      $justify: center,
-      $gap: 1rem
-    );
-    font-family: "Cairo-Bold";
-    font-size: 1.1875rem;
-    @include mediaQuery($Tablet_min_width) {
-      & {
-        gap: 2rem;
-      }
-    }
-    .pageBreak {
-      @extend %listItem;
-    }
-    .pageNumber {
-      padding: 0.625rem;
-      @extend %listItem;
-      border-radius: 50%;
 
-      &.active {
-        background-color: $pink;
-        color: $white;
-      }
-      .link {
-        cursor: pointer;
-      }
-    }
-    .prev {
-      @extend %listItem;
-      @extend %font;
-    }
-    .next {
-      @extend %listItem;
-      @extend %font;
-    }
-    .disable {
-      color: $grey-7;
-    }
-  }
 }

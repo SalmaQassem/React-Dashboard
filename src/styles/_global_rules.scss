@@ -1,9 +1,15 @@
 @use "./variables/mediaQuery" as *;
 @use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./colors" as *;
 
 %reset {
   margin: 0;
   padding: 0;
+}
+%font {
+  font-family: "Cairo-Regular";
+  text-transform: capitalize;
 }
 html {
   @extend %reset;
@@ -37,10 +43,6 @@ button {
   cursor: pointer;
 }
 
-.leaflet-container {
-  height: 100%;
-}
-
 #viewerBackdrop {
   > div {
     min-width: 50vw;
@@ -65,4 +67,37 @@ button {
 }
 .react-datepicker-popper {
   z-index: 2 !important;
+}
+
+.leaflet-container {
+  height: 100%;
+}
+
+.leaflet-control-geosearch {
+  form {
+    min-width: 15rem;
+    max-width: 25rem;
+    padding: 0 !important;
+  }
+  input {
+    padding: 0 1.5rem 0 0 !important;
+    @extend %font;
+    &::placeholder {
+      @extend %font;
+      font-size: 0.875rem;
+    }
+  }
+  button {
+    padding: 0 0.5rem !important;
+    @extend %font;
+    font-size: 1rem !important;
+  }
+  > div {
+    @extend %font;
+    font-size: 0.875rem;
+  }
+}
+
+.leaflet-control-geosearch .leaflet-bar-part {
+  //display: none;
 }

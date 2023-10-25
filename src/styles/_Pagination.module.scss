@@ -1,0 +1,67 @@
+@use "./colors" as *;
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./variables/mediaQuery" as *;
+
+%listItem {
+  width: 1.875rem;
+  height: 1.875rem;
+  @include flex-variant(
+    flex,
+    $direction: row,
+    $justify: center,
+    $align: center
+  );
+  color: $pink;
+}
+%font {
+  font-size: 2rem;
+  color: $pink;
+  cursor: pointer;
+}
+.pagination {
+  @include flex-variant(
+    flex,
+    $direction: row,
+    $align: center,
+    $justify: center,
+    $gap: 1rem
+  );
+  font-family: "Cairo-Bold";
+  font-size: 1.1875rem;
+  @include mediaQuery($Tablet_min_width) {
+    & {
+      gap: 2rem;
+    }
+  }
+  .pageBreak {
+    @extend %listItem;
+    a {
+      cursor: pointer;
+    }
+  }
+  .pageNumber {
+    padding: 0.625rem;
+    @extend %listItem;
+    border-radius: 50%;
+
+    &.active {
+      background-color: $pink;
+      color: $white;
+    }
+    .link {
+      cursor: pointer;
+    }
+  }
+  .prev {
+    @extend %listItem;
+    @extend %font;
+  }
+  .next {
+    @extend %listItem;
+    @extend %font;
+  }
+  .disable {
+    color: $grey-7;
+  }
+}

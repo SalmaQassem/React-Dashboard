@@ -116,6 +116,16 @@
     "newPassword": "new password",
     "number": "must be number",
     "notifications": "notifications",
-    "addedBuilding": "added new house"
+    "addedBuilding": "added new house",
+    "success": "done!",
+    "contractSuccess": "the contract has been added successfully",
+    "close": "close",
+    "newUserSuccess": "new user has been added successfully",
+    "editContractSuccess": "the contract has been updated successfully",
+    "deleteContract": "are you sure you want to  delete this contract?",
+    "submit": "submit",
+    "cancel": "cancel",
+    "enterLocation": "enter location",
+    "locationNotFound": "location not  found"
   }
 }

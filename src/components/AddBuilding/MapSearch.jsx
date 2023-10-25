@@ -1,20 +1,8 @@
-import { OpenStreetMapProvider, GeoSearchControl } from "leaflet-geosearch";
-//import {useLeaf}
-import { useEffect } from "react";
+import { useGeoSearchControl } from "./GeoSearch";
 
 const MapSearch = () => {
-  const { map } = useLeaflet();
-  const provider = new OpenStreetMapProvider();
-  useEffect(() => {
-    const searchControl = new GeoSearchControl({
-      provider,
-    });
-
-    map.addControl(searchControl);
-    return () => map.removeControl(searchControl);
-  }, []);
-
-  return <></>;
+  const searchControlRef = useGeoSearchControl();
+  return <div ref={searchControlRef} />;
 };
 
 export default MapSearch;

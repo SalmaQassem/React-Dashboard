@@ -96,7 +96,7 @@
     "contract": "تعاقد",
     "file": "تحميل الملف",
     "edit": "تعديل",
-    "delete": "مسح",
+    "delete": "إزالة",
     "price": "السعر",
     "allContracts": "جميع التعاقدات",
     "show": "عرض التعاقد",
@@ -118,6 +118,16 @@
     "resetPassword": "إعادة تعيين كلمة المرور",
     "number": "يجب أن يكون رقم",
     "notifications": "الإشعارات",
-    "addedBuilding": "قام  بإضافة سكن جديد"
+    "addedBuilding": "قام  بإضافة سكن جديد",
+    "success": "تم!",
+    "contractSuccess": "تم إضافة العقد بنجاح",
+    "close": "إغلاق",
+    "newUserSuccess": "تم إضافة مستخدم بنجاح",
+    "editContractSuccess": "تم تعديل العقد بنجاح",
+    "deleteContract": "هل أنت متأكد من إزالة هذا العقد؟",
+    "submit": "تأكيد",
+    "cancel": "إلغاء",
+    "enterLocation": "أدخل العنوان",
+    "locationNotFound": "لا يوجد عنوان"
   }
 }

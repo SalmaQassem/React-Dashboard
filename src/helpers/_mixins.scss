@@ -7,7 +7,7 @@
   $gap: false,
   $grow: false
 ) {
-  display: $display;
+  display: $display !important;
 
   @if $direction {
     flex-direction: $direction;

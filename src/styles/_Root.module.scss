@@ -6,7 +6,16 @@
   min-height: 100vh;
   @include flex-variant(flex, $direction: column);
   overflow: hidden;
-
+  .rootOverlay {
+    @include mediaQuery($XlargeScreen_min_width) {
+      & {
+        display: none;
+      }
+    }
+    &.close {
+      display: none;
+    }
+  }
   .content {
     position: relative;
     @include flex-variant(flex, $direction: row, $grow: 1);

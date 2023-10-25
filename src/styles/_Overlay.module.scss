@@ -9,12 +9,4 @@
   left: 0;
   z-index: 11;
   background-color: rgba(0, 0, 0, 0.6);
-  &.close {
-    display: none;
-  }
-  @include mediaQuery($XlargeScreen_min_width) {
-    & {
-      display: none;
-    }
-  }
 }

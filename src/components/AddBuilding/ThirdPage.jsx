@@ -70,51 +70,9 @@ const ThirdPage = (props) => {
     context.media.forEach((file) => {
       formData.append("media", file);
     });
-    //formData.append("media", []);
-    //console.log(context.media);
-    /*Promise.all(
-      context.media.map(
-        (uploadedFile) =>
-          new Promise((resolve) => {
-            const fileReader = new FileReader();
-            fileReader.onload = (file) => {
-              resolve(file.target.result.split(",")[1]);
-            };
-            fileReader.readAsDataURL(uploadedFile);
-          })
-      )
-    ).then((convertedFile) => {
-      // Send base64Images to server
-      //formData.append("media", convertedFile);
-      filesArray.push(convertedFile);
-    });*/
-    /*const filesArray = [];
-    context.media.map((file) => {
-      const reader = new FileReader();
-      reader.addEventListener(
-        "load",
-        () => {
-          // convert image file to base64 string
-          const file = reader.result;
-          filesArray.push(file);
-          //console.log(file);
-        },
-        false
-      );
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    });*/
-
-    /*const reader = new FileReader();
-    reader.addEventListener("load", (e) => {
-      const uploadedFile = e.target.result;
-      formData.append("media", uploadedFile);
-    });
-    context.media.forEach((item) => {
-      //formData.append("media", item);
-      reader.readAsDataURL(item);
-    });*/
+    formData.append("lat", context.lat);
+    formData.append("lang", context.lang);
+    formData.append("addresse", context.addresse);
     /*const enteredData = {
       user_id: userData.id,
       house_name: context.house_name,

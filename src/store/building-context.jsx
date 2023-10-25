@@ -25,6 +25,9 @@ const BuildingContext = React.createContext({
   price_hajj: "",
   price_years: "",
   media: [],
+  lat: "",
+  lang: "",
+  addresse: "",
   page: 0,
   setPage: () => {},
   setFormData: (
@@ -52,6 +55,9 @@ const BuildingContext = React.createContext({
     price_hajj,
     price_years,
     media,
+    lat,
+    lang,
+    addresse,
     page
   ) => {},
 });
@@ -83,13 +89,11 @@ export const BuildingContextProvider = (props) => {
     price_hajj: "",
     price_years: "",
     media: [],
+    lat: "",
+    lang: "",
+    addresse: "",
     page: 0,
   });
-  /*const setPageHandler = () => {
-    setPageNumber((prevPage) => {
-      return prevPage + 1;
-    });
-  };*/
   return (
     <BuildingContext.Provider
       value={{
@@ -117,6 +121,9 @@ export const BuildingContextProvider = (props) => {
         price_hajj: data.price_hajj,
         price_years: data.price_years,
         media: data.media.slice(),
+        lat: data.lat,
+        lang: data.lang,
+        addresse: data.addresse,
         page: pageNumber,
         setPage: setPageNumber,
         setFormData: setData,

@@ -1,0 +1,78 @@
+@use "./colors" as *;
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./variables/mediaQuery" as *;
+
+.modal {
+  width: 32rem;
+  padding: 1rem 1.75rem;
+  @include flex-variant(
+    flex,
+    $direction: column,
+    $align: center,
+    $gap: 0.75rem
+  );
+  position: fixed;
+  z-index: 1000;
+  background-color: $white;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-family: "Cairo-Regular";
+  text-transform: capitalize;
+  color: $grey-1;
+  box-shadow: 0 0 0.25rem 0 rgba(0, 0, 0, 0.25);
+  .icon {
+    width: 4rem;
+    height: 4rem;
+    padding: 0.9375rem;
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $justify: center
+    );
+    font-size: 1.75rem;
+    color: $green-1;
+    border: 0.125rem solid $green-1;
+    border-radius: 50%;
+    &.deleteIcon {
+      padding: 0;
+      font-size: 3.25rem;
+      border: none;
+      color: $red-1;
+    }
+  }
+
+  .head {
+    font-family: "Cairo-Bold";
+    font-size: 1.75rem;
+  }
+  .message {
+    font-size: 1.125rem;
+  }
+  .buttons {
+    width: 100%;
+    margin-top: 1rem;
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $justify: flex-end,
+      $gap: 1.25rem
+    );
+    button {
+      padding: 0.5rem 1.25rem;
+      font-family: "Cairo-Bold";
+      text-transform: capitalize;
+      color: $white;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+    }
+    .deleteButton {
+      background-color: $red-1;
+    }
+    .cancelButton {
+      background-color: $grey-1;
+    }
+  }
+}

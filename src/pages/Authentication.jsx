@@ -27,7 +27,6 @@ export async function action({ request }) {
       },
       body: JSON.stringify(enteredData),
     });
-    console.log(response.status);
   } catch (error) {
     console.log(error.message);
   }

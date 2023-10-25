@@ -13,7 +13,7 @@ const NewUser = () => {
         icon={<FiUserPlus />}
         class={styles.header}
       />
-      <NewUserForm />
+      <NewUserForm state="add" />
     </div>
   );
 };

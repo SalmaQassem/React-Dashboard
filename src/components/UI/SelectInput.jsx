@@ -14,7 +14,6 @@ const SelectInput = ({
   setSelect,
   value,
 }) => {
-  console.log(isError);
   const [menuOpen, setMenuOpen] = useState(false);
   const arrowIcon = icon;
   //const [selectedOptions, setSelectedOptions] = useState(null);

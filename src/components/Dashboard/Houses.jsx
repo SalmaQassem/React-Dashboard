@@ -1,4 +1,5 @@
 import styles from "../../styles/_Houses.module.scss";
+import classes from "../../styles/_Pagination.module.scss";
 //import image from "../../assets/images/room.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { FiUserCheck } from "react-icons/fi";
@@ -101,17 +102,17 @@ const Houses = (props) => {
         }
         onPageChange={handlePageClick}
         breakLabel="..."
-        breakClassName={styles.pageBreak}
+        breakClassName={classes.pageBreak}
         pageCount={pageCount}
         pageRangeDisplayed={3}
         marginPagesDisplayed={0}
-        containerClassName={styles.pagination}
-        pageClassName={styles.pageNumber}
-        pageLinkClassName={styles.link}
-        previousLinkClassName={styles.prev}
-        nextLinkClassName={styles.next}
-        disabledLinkClassName={styles.disable}
-        activeClassName={styles.active}
+        containerClassName={classes.pagination}
+        pageClassName={classes.pageNumber}
+        pageLinkClassName={classes.link}
+        previousLinkClassName={classes.prev}
+        nextLinkClassName={classes.next}
+        disabledLinkClassName={classes.disable}
+        activeClassName={classes.active}
         renderOnZeroPageCount={null}
       />
     </div>

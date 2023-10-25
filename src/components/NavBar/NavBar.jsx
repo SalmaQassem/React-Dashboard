@@ -20,7 +20,6 @@ const NavBar = () => {
   const [t, i18n] = useTranslation("global");
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
-  console.log(context.image);
   const searchRef = useRef();
   const navigate = useNavigate();
   const onBarsClick = () => {

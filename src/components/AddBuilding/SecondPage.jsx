@@ -2,7 +2,7 @@ import styles from "../../styles/_SecondPage.module.scss";
 import { useForm } from "react-hook-form";
 import SelectInput from "../UI/SelectInput";
 import FormButton from "../UI/FormButton";
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext, useRef } from "react";
 import BuildingContext from "../../store/building-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
@@ -146,14 +146,13 @@ const SecondPage = (props) => {
     //console.log(e.target.files[0]);
     const filesUploaded = e.target.files[0];
     if (selectedOption && filesUploaded) {
-      console.log("enter");
       setTableData((prevState) => {
         return [
           ...prevState,
           {
             fileName: filesUploaded.name,
-            label: selectedOption,
-            type: selectedOption,
+            label: selectedOption.label,
+            type: selectedOption.value,
             file: filesUploaded,
           },
         ];
@@ -181,7 +180,6 @@ const SecondPage = (props) => {
     const files = tableData.map((item) => {
       return item.file;
     });
-    console.log(files);
     /*let uploadedFiles = [];
     files.forEach((file) => {
       const reader = new FileReader();
@@ -219,9 +217,6 @@ const SecondPage = (props) => {
       return newArr;
     });
   };
-  useEffect(() => {
-    console.log(selectedOption);
-  }, [selectedOption]);
   return (
     <form
       onSubmit={handleSubmit(formSubmitHandler)}
@@ -294,6 +289,7 @@ const SecondPage = (props) => {
               id="files"
               ref={hiddenFileInput}
               //{...rest}
+              onChange={handleChange}
               accept=".jpg,.png,.pdf,.docx,.doc"
               style={{ display: "none" }}
             />

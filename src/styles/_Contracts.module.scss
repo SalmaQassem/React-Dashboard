@@ -43,53 +43,56 @@
 }
 .contracts {
   padding: 1.75rem 2.5rem;
-  .table {
-    width: 100%;
-    .head {
+  .items {
+    @include flex-variant(flex, $direction: column, $gap: 2.1875rem);
+    .table {
       width: 100%;
-      padding: 0.75rem 1.5rem;
-      @extend %flex;
-      @extend %font;
-      color: $white;
-      text-align: center;
-      border-radius: 0.75rem;
-      background-color: $grey-9;
-      @extend %width;
-    }
-    .tableBody {
-      padding: 0.75rem 1.5rem;
-      @include flex-variant(flex, $direction: column, $gap: 1rem);
-      border: 0.0625rem solid $grey-10;
-      border-radius: 0.75rem 0.75rem 0 0;
-      .item {
-        .tableData {
-          @extend %width;
-          @extend %flex;
-          text-align: center;
-          .num {
-            @extend %font;
-          }
-          .name {
-            color: $pink;
-            @extend %font;
-          }
-          .type {
-            font-family: "Cairo-Bold";
-            font-size: 1rem;
-          }
-          .delete {
-            width: 3.75rem;
-            height: 3rem;
-            @include flex-variant(
-              flex,
-              $direction: row,
-              $justify: center,
-              $align: center
-            );
-            background-color: $black;
-            color: $white;
-            font-size: 1.5rem;
-            border-radius: 0.9375rem;
+      .head {
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+        @extend %flex;
+        @extend %font;
+        color: $white;
+        text-align: center;
+        border-radius: 0.75rem;
+        background-color: $grey-9;
+        @extend %width;
+      }
+      .tableBody {
+        padding: 0.75rem 1.5rem;
+        @include flex-variant(flex, $direction: column, $gap: 1rem);
+        border: 0.0625rem solid $grey-10;
+        border-radius: 0.75rem 0.75rem 0 0;
+        .item {
+          .tableData {
+            @extend %width;
+            @extend %flex;
+            text-align: center;
+            .num {
+              @extend %font;
+            }
+            .name {
+              color: $pink;
+              @extend %font;
+            }
+            .type {
+              font-family: "Cairo-Bold";
+              font-size: 1rem;
+            }
+            .delete {
+              width: 3.75rem;
+              height: 3rem;
+              @include flex-variant(
+                flex,
+                $direction: row,
+                $justify: center,
+                $align: center
+              );
+              background-color: $black;
+              color: $white;
+              font-size: 1.5rem;
+              border-radius: 0.9375rem;
+            }
           }
         }
       }

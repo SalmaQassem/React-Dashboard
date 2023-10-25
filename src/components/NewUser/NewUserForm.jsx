@@ -7,12 +7,21 @@ import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { getAuthToken } from "../../util/auth";
 import axios from "axios";
+import Modal from "../UI/Modal";
+import { AnimatePresence } from "framer-motion";
+import { FaCheck } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const NewUserForm = () => {
+const NewUserForm = (props) => {
   const [t, i18n] = useTranslation("global");
   const [input, setInput] = useState({});
   const [image, setImage] = useState(null);
   const hiddenFileInput = useRef(null);
+  const navigate = useNavigate();
+  const [isModalOpened, setIsModalOpened] = useState({
+    state: false,
+    first: 0,
+  });
   const {
     register,
     handleSubmit,
@@ -121,72 +130,93 @@ const NewUserForm = () => {
           },
         }
       );
+      const data = await response.data;
+      if (data.success) {
+        setIsModalOpened((prevState) => {
+          return { ...prevState, state: true };
+        });
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 500);
+      }
+      //console.log(data);
     } catch (error) {
       console.log(error.message);
     }
   };
   return (
-    <form
-      onSubmit={handleSubmit(formSubmitHandler)}
-      className={styles.form} /*encType="multipart/form-data"*/
-    >
-      <div className={styles.radioButtons}>
-        {radioItems.map((item) => {
-          return (
-            <div key={item.id} className={styles.radioButton}>
-              <p className={styles.title}>{item.title}</p>
-              <div className={styles.content}>
-                {item.radios.map((radio) => {
-                  return (
-                    <RadioButton
-                      key={radio.id}
-                      name={radio.name}
-                      icon="false"
-                      value={radio.id}
-                      label={radio.label}
-                      onChange={inputHandler}
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <div className={styles.inputs}>
-        {inputs.map((item) => {
-          return (
-            <div key={item.id} className={styles.input}>
-              <label htmlFor={item.id} className={styles.label}>
-                {item.label}
-              </label>
-              <input type={item.type} id={item.id} {...register(item.name)} />
-              {item.error && item.error}
-            </div>
-          );
-        })}
-      </div>
-      <div className={styles.image}>
-        <p>{t("body.uploadImage")}</p>
-        <div className={styles.selectFile}>
-          <div className={styles.uploadImg} onClick={handleClick}>
-            <TbCloudUpload />
-          </div>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            accept="image/*"
-            onChange={handleChange}
-            ref={hiddenFileInput}
-            style={{ display: "none" }}
+    <>
+      <AnimatePresence>
+        {isModalOpened.state && (
+          /*isModalOpened.first === 0 &&*/ <Modal
+            head={t("body.success")}
+            message={t("body.newUserSuccess")}
+            buttonText={t("body.close")}
+            icon={<FaCheck />}
+            state={props.state}
+            setOpened={setIsModalOpened}
           />
+        )}
+      </AnimatePresence>
+      <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
+        <div className={styles.radioButtons}>
+          {radioItems.map((item) => {
+            return (
+              <div key={item.id} className={styles.radioButton}>
+                <p className={styles.title}>{item.title}</p>
+                <div className={styles.content}>
+                  {item.radios.map((radio) => {
+                    return (
+                      <RadioButton
+                        key={radio.id}
+                        name={radio.name}
+                        icon="false"
+                        value={radio.id}
+                        label={radio.label}
+                        onChange={inputHandler}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
-      </div>
-      <FormButton class={styles.submit} type="submit">
-        {t("body.activateUser")}
-      </FormButton>
-    </form>
+        <div className={styles.inputs}>
+          {inputs.map((item) => {
+            return (
+              <div key={item.id} className={styles.input}>
+                <label htmlFor={item.id} className={styles.label}>
+                  {item.label}
+                </label>
+                <input type={item.type} id={item.id} {...register(item.name)} />
+                {item.error && item.error}
+              </div>
+            );
+          })}
+        </div>
+        <div className={styles.image}>
+          <p>{t("body.uploadImage")}</p>
+          <div className={styles.selectFile}>
+            <div className={styles.uploadImg} onClick={handleClick}>
+              <TbCloudUpload />
+            </div>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              onChange={handleChange}
+              ref={hiddenFileInput}
+              style={{ display: "none" }}
+            />
+          </div>
+        </div>
+        <FormButton class={styles.submit} type="submit">
+          {t("body.activateUser")}
+        </FormButton>
+      </form>
+    </>
   );
 };
 

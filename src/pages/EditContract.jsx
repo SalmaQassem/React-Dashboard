@@ -5,11 +5,13 @@ import StyledContainer from "../components/UI/StyledContainer";
 import ContractFormHead from "../components/AddBuilding/ContractFormHead";
 import ContractForm from "../components/AddBuilding/ContractForm";
 import image from "../assets/images/Frame.png";
+import { useTranslation } from "react-i18next";
 
 let houseId = "";
 const EditContract = () => {
   const data = useLoaderData();
   houseId = data.id;
+  const [t, i18n] = useTranslation("global");
   return (
     <StyledContainer>
       <div className={styles.contract}>
@@ -18,7 +20,11 @@ const EditContract = () => {
           <div className={styles.image}>
             <img src={image} alt="frame" />
           </div>
-          <ContractForm inputsData={data} />
+          <ContractForm
+            inputsData={data}
+            state="edit"
+            message={t("body.editContractSuccess")}
+          />
         </div>
       </div>
     </StyledContainer>
@@ -26,7 +32,6 @@ const EditContract = () => {
 };
 
 export default EditContract;
-
 export async function loader({ request, params }) {
   const contractId = params.contractId;
   const token = getAuthToken();
@@ -77,9 +82,9 @@ export async function action({ request }) {
     document_start: documentStart,
     notes: formData.get("notes"),
   };
-  console.log(enteredData);
+  //console.log(enteredData);
   const userToken = getAuthToken();
-  let response;
+  let response = "";
   try {
     response = await fetch(
       "https://zadapp.mqawilk.com/api/document/update/" + houseId,

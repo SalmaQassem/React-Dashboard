@@ -16,7 +16,6 @@ import { FaKaaba, FaBuildingUser } from "react-icons/fa6";
 import { FiPhoneCall } from "react-icons/fi";
 const HousePage = () => {
   const data = useLoaderData();
-  console.log(data);
   const [t, i18n] = useTranslation("global");
   const [isActive, setIsActive] = useState("0");
   const [filter, setFilter] = useState("buildingType");
