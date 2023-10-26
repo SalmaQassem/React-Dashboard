@@ -2,7 +2,7 @@ import styles from "../../styles/_SecondPage.module.scss";
 import { useForm } from "react-hook-form";
 import SelectInput from "../UI/SelectInput";
 import FormButton from "../UI/FormButton";
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useEffect } from "react";
 import BuildingContext from "../../store/building-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
@@ -21,12 +21,13 @@ import * as yup from "yup";
 const SecondPage = (props) => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
+  const [fileError, setFileError] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   /*const setSelected = (value) => {
     setSelectedOption(value);
   };*/
-  const hiddenFileInput = useRef();
+
   const schema = yup.object({
     buildingComponents: yup.string().required(t("body.required")),
     institutionMaintenance: yup.string().required(t("body.required")),
@@ -39,23 +40,39 @@ const SecondPage = (props) => {
       .number()
       .typeError(t("body.required"))
       .required(t("body.required")),
-    /*attachedType: yup
-      .object()
-      .shape({
-        label: yup.string().required(t("body.required")),
-        value: yup.string().required(t("body.required")),
+    filesInput: yup
+      .mixed()
+      .test("file", t("body.required"), (value) => {
+        if (value.length > 0) {
+          return true;
+        }
+        return false;
       })
-      .required(t("body.required")),*/
+      .test("type", t("body.filesType"), (value) => {
+        if (
+          value.length > 0 &&
+          (value[0].type === "application/pdf" ||
+            value[0].type === "application/docx" ||
+            value[0].type === "application/doc" ||
+            value[0].type === "image/jpg" ||
+            value[0].type === "image/jpeg" ||
+            value[0].type === "image/png")
+        ) {
+          return true;
+        }
+        return false;
+      }),
   });
   const {
     register,
     handleSubmit,
+    watch,
     control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-  //const { ref, ...rest } = register("files");
+
   const secondPageInputs = [
     {
       id: "buildingComponents",
@@ -127,49 +144,8 @@ const SecondPage = (props) => {
     { id: "1", text: t("body.fileName") },
     { id: "2", text: t("body.attachmentType") },
   ];
-  const handleClick = () => {
-    hiddenFileInput.current.click();
-  };
-  /*const dataURLtoFile = (dataUrl, fileName) => {
-    let arr = dataUrl.split(",");
-    let mime = arr[0].match(/:(.*?);/)[1];
-    let bstr = atob(arr[arr.length - 1]);
-    let n = bstr.length;
-    let u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], fileName, { type: mime });
-  };*/
-  const handleChange = (e) => {
-    //console.log(selectedOption);
-    //console.log(e.target.files[0]);
-    const filesUploaded = e.target.files[0];
-    if (selectedOption && filesUploaded) {
-      setTableData((prevState) => {
-        return [
-          ...prevState,
-          {
-            fileName: filesUploaded.name,
-            label: selectedOption.label,
-            type: selectedOption.value,
-            file: filesUploaded,
-          },
-        ];
-      });
-      /*const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        const ret = dataURLtoFile(
-          e.target.result,
-          filesUploaded.name + `.${filesUploaded.type.split("/")[1]}`
-        );
-        setImages((prevImages) => {
-          return [...prevImages, ret];
-        });
-      });
-      reader.readAsDataURL(filesUploaded);*/
-    }
-  };
+  const watchedFiles = watch("filesInput");
+
   const setSelectHandler = (option) => {
     //console.log(option);
     setSelectedOption(option);
@@ -217,12 +193,38 @@ const SecondPage = (props) => {
       return newArr;
     });
   };
+  useEffect(() => {
+    if (watchedFiles) {
+      if (selectedOption && watchedFiles.length > 0) {
+        if (
+          watchedFiles[0].type === "application/pdf" ||
+          watchedFiles[0].type === "application/docx" ||
+          watchedFiles[0].type === "application/doc" ||
+          watchedFiles[0].type === "image/jpg" ||
+          watchedFiles[0].type === "image/jpeg" ||
+          watchedFiles[0].type === "image/png"
+        ) {
+          setFileError(false);
+          setTableData((prevState) => {
+            return [
+              ...prevState,
+              {
+                fileName: watchedFiles[0].name,
+                label: selectedOption.label,
+                type: selectedOption.value,
+                file: watchedFiles[0],
+              },
+            ];
+          });
+        } else {
+          setFileError(true);
+        }
+      }
+    }
+  }, [watchedFiles]);
+
   return (
-    <form
-      onSubmit={handleSubmit(formSubmitHandler)}
-      className={styles.form}
-      /*encType="multipart/form-data"*/
-    >
+    <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>
         {secondPageInputs.map((item) => {
           return item.type === "select" ? (
@@ -277,24 +279,23 @@ const SecondPage = (props) => {
         })}
         <div>
           <div className={styles.selectFile}>
-            <button
-              type="button"
-              className={styles.filesButton}
-              onClick={handleClick}
-            >
+            <label htmlFor="files" className={styles.filesButton}>
               {t("body.chooseFile")}
-            </button>
-            <input
-              type="file"
-              id="files"
-              ref={hiddenFileInput}
-              //{...rest}
-              onChange={handleChange}
-              accept=".jpg,.png,.pdf,.docx,.doc"
-              style={{ display: "none" }}
-            />
+              <input
+                type="file"
+                id="files"
+                {...register("filesInput")}
+                accept=".jpg,.png,.pdf,.docx,.doc"
+              />
+            </label>
             <p>{t("body.acceptedFormats")}: jpg, pdf, docx, doc</p>
           </div>
+          {fileError && (
+            <span className={styles.feedback}>{t("body.filesType")}</span>
+          )}
+          {errors.filesInput && (
+            <span className={styles.feedback}>{errors.filesInput.message}</span>
+          )}
         </div>
       </div>
       {tableData.length > 0 && (
@@ -345,22 +346,3 @@ const SecondPage = (props) => {
 };
 
 export default SecondPage;
-{
-  /*<div>
-              <label className={styles.filesButton} htmlFor="files">
-                {t("body.chooseFile")}
-                <input
-                  //{...register("files", { onChange: { handleChange } })}
-                  onChange={handleChange}
-                  type="file"
-                  id="files"
-                  hidden
-                />
-              </label>
-      </div>*/
-}
-{
-  /*errors.files && (
-            <span className={styles.feedback}>{errors.files?.message}</span>
-          )*/
-}

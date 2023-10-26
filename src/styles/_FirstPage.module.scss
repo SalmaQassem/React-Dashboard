@@ -1,6 +1,7 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/global" as *;
 
 %flex {
   @include flex-variant(flex, $direction: column, $gap: 1.25rem);
@@ -13,7 +14,7 @@
     flex,
     $direction: column,
     $justify: space-between,
-    $gap: 0.5rem
+    $gap: $input_gap
   );
 }
 .form {
@@ -78,18 +79,11 @@
         }
       }
     }
-    .feedback {
-      padding: 0 0.9375rem;
-      @extend %font;
-      text-transform: capitalize;
-      font-size: 0.875rem;
-      color: $red;
-    }
   }
   .radioButtons {
     @include flex-variant(flex, $direction: row, $justify: space-between);
     .radioButton {
-      @extend %flex;
+      @extend %flex-column;
       .title {
         font-family: "Cairo-ExtraBold";
         font-size: 1.125rem;
@@ -100,6 +94,13 @@
         @include flex-variant(flex, $direction: row, $gap: 4rem);
       }
     }
+  }
+  .feedback {
+    padding: 0 0.9375rem;
+    @extend %font;
+    text-transform: capitalize;
+    font-size: 0.875rem;
+    color: $red;
   }
   .en {
     margin: 0 0 0 auto;

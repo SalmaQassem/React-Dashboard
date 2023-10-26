@@ -128,6 +128,10 @@
     "submit": "تأكيد",
     "cancel": "إلغاء",
     "enterLocation": "أدخل العنوان",
-    "locationNotFound": "لا يوجد عنوان"
+    "locationNotFound": "لا يوجد عنوان",
+    "emailValidation": "يرجى إدخال عنوان بريد إلكتروني صالح",
+    "passwordMatch": "كلمة المرور غير متطابقة",
+    "imageType": "امتداد الصورة غير مدعوم, الامتدادات المدعومة هي: jpeg, jpg, png",
+    "filesType": "امتداد الملف غير مدعوم, الامتدادات المدعومة هي: pdf, docx, doc, jpeg, jpg, png"
   }
 }

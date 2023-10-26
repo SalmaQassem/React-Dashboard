@@ -32,7 +32,10 @@ import * as yup from "yup";
 const FirstPage = (props) => {
   const context = useContext(BuildingContext);
   const [t, i18n] = useTranslation("global");
-  const [input, setInput] = useState([]);
+  const [alarm, setAlarm] = useState(null);
+  const [fireNetwork, setFireNetwork] = useState(null);
+  const [firePump, setFirePump] = useState(null);
+  const [generator, setGenerator] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const schema = yup.object(
     {
@@ -116,12 +119,17 @@ const FirstPage = (props) => {
             "body.chars"
           )}`
         ),
+      alarm_network: yup.string().required(t("body.required")),
+      fire_network: yup.string().required(t("body.required")),
+      fire_pump: yup.string().required(t("body.required")),
+      generator: yup.string().required(t("body.required")),
     },
     { abortEarly: false }
   );
   const {
     register,
     handleSubmit,
+    watch,
     control,
     formState: { errors },
   } = useForm({
@@ -258,6 +266,7 @@ const FirstPage = (props) => {
       id: "0",
       title: t("body.alarmNetwork"),
       value: props.state === "edit" ? props.firstPageData.alarm_network : null,
+      error: errors.alarm_network,
       radios: [
         { id: "yes", name: "alarm_network", label: t("body.yes") },
         { id: "no", name: "alarm_network", label: t("body.no") },
@@ -267,6 +276,7 @@ const FirstPage = (props) => {
       id: "1",
       title: t("body.fireNetwork"),
       value: props.state === "edit" ? props.firstPageData.fire_network : null,
+      error: errors.fire_network,
       radios: [
         { id: "yes", name: "fire_network", label: t("body.yes") },
         { id: "no", name: "fire_network", label: t("body.no") },
@@ -276,6 +286,7 @@ const FirstPage = (props) => {
       id: "2",
       title: t("body.firePump"),
       value: props.state === "edit" ? props.firstPageData.fire_pump : null,
+      error: errors.fire_pump,
       radios: [
         { id: "yes", name: "fire_pump", label: t("body.yes") },
         { id: "no", name: "fire_pump", label: t("body.no") },
@@ -285,57 +296,32 @@ const FirstPage = (props) => {
       id: "3",
       title: t("body.generator"),
       value: props.state === "edit" ? props.firstPageData.generator : null,
+      error: errors.generator,
       radios: [
         { id: "yes", name: "generator", label: t("body.yes") },
         { id: "no", name: "generator", label: t("body.no") },
       ],
     },
   ];
-
+  const Alarm = watch("alarm_network");
+  const FireNetwork = watch("fire_network");
+  const FirePump = watch("fire_pump");
+  const Generator = watch("generator");
   const setSelectHandler = (option) => {
     //console.log(option);
     setSelectedOption(option);
   };
-  const inputHandler = ({ target: { value, name } }) => {
-    setInput((prevState) => {
-      return [...prevState, { title: name, data: value }];
-    });
-  };
   const formSubmitHandler = (data) => {
-    //console.log(data);
-    let alarm = props.state === "edit" ? props.firstPageData.alarm_network : "";
-    let fire = props.state === "edit" ? props.firstPageData.fire_network : "";
-    let pump = props.state === "edit" ? props.firstPageData.fire_pump : "";
-    let generator = props.state === "edit" ? props.firstPageData.generator : "";
+    let alarmValue =
+      props.state === "edit" ? props.firstPageData.alarm_network : alarm;
+    let fireValue =
+      props.state === "edit" ? props.firstPageData.fire_network : fireNetwork;
+    let pumpValue =
+      props.state === "edit" ? props.firstPageData.fire_pump : firePump;
+    let generatorValue =
+      props.state === "edit" ? props.firstPageData.generator : generator;
     const select = selectedOption ? selectedOption.value : "";
     //const select = data.buildingType.value;
-    let filter = input.filter((item) => {
-      return item.title === "alarm_network";
-    });
-    if (filter.length > 0) {
-      alarm = filter[0].data;
-    }
-
-    filter = input.filter((item) => {
-      return item.title === "fire_network";
-    });
-    if (filter.length > 0) {
-      fire = filter[0].data;
-    }
-
-    filter = input.filter((item) => {
-      return item.title === "fire_pump";
-    });
-    if (filter.length > 0) {
-      pump = filter[0].data;
-    }
-
-    filter = input.filter((item) => {
-      return item.title === "generator";
-    });
-    if (filter.length > 0) {
-      generator = filter[0].data;
-    }
     context.setFormData((prevData) => {
       return {
         ...prevData,
@@ -352,16 +338,40 @@ const FirstPage = (props) => {
         total_floor: data.floorsNum,
         owner_ip: data.ownerId,
         lessor_name: data.renterName,
-        alarm_network: alarm,
-        fire_network: fire,
-        fire_pump: pump,
-        generator: generator,
+        alarm_network: alarmValue,
+        fire_network: fireValue,
+        fire_pump: pumpValue,
+        generator: generatorValue,
       };
     });
     context.setPage((prevNum) => {
       return prevNum + 1;
     });
   };
+  useEffect(() => {
+    if (Alarm) {
+      setAlarm(Alarm);
+    }
+  }, [Alarm]);
+
+  useEffect(() => {
+    if (FireNetwork) {
+      setFireNetwork(FireNetwork);
+    }
+  }, [FireNetwork]);
+
+  useEffect(() => {
+    if (FirePump) {
+      setFirePump(FirePump);
+    }
+  }, [FirePump]);
+
+  useEffect(() => {
+    if (Generator) {
+      setGenerator(Generator);
+    }
+  }, [Generator]);
+
   /*useEffect(() => {
     console.log(selectedOption);
   }, [selectedOption]);*/
@@ -427,16 +437,19 @@ const FirstPage = (props) => {
                   return (
                     <RadioButton
                       key={radio.id}
-                      name={radio.name}
-                      value={radio.id}
+                      radioName={radio.name}
+                      register={register}
                       icon="true"
+                      value={radio.id}
                       label={radio.label}
                       checked={item.value === radio.id}
-                      onChange={inputHandler}
                     />
                   );
                 })}
               </div>
+              {item.error && (
+                <span className={styles.feedback}>{item.error.message}</span>
+              )}
             </div>
           );
         })}

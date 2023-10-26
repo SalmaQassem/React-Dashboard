@@ -41,22 +41,18 @@
         color: $black;
         text-transform: capitalize;
       }
-      input {
+      .inputItem {
         width: 100%;
         height: 3.125rem;
         padding: 0 0.9375rem;
-        font-family: "Cairo-Regular";
-        font-size: 1rem;
         border: 0.0625rem solid $grey-9;
         border-radius: 0.5rem;
         background-color: $white;
-        &::-webkit-outer-spin-button,
-        &::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-        &[type="number"] {
-          -moz-appearance: textfield;
+        font-family: "Cairo-Regular";
+        font-size: 1rem;
+        &.invalid {
+          border-color: $red;
+          color: $red;
         }
       }
     }
@@ -73,6 +69,7 @@
       .uploadImg {
         width: 13.3125rem;
         height: 8.75rem;
+        position: relative;
         @include flex-variant(
           flex,
           $direction: row,
@@ -82,9 +79,29 @@
         color: $black;
         font-size: 5.625rem;
         border: 0.125rem dashed $black;
-        cursor: pointer;
+        svg {
+          position: absolute;
+          z-index: 1;
+        }
+        .imageLabel {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          z-index: 2;
+          cursor: pointer;
+          input {
+            display: none;
+          }
+        }
       }
     }
+  }
+  .feedback {
+    padding: 0 0.9375rem;
+    font-family: "Cairo-Regular";
+    text-transform: capitalize;
+    font-size: 0.875rem;
+    color: $red;
   }
   .submit {
     width: 50%;

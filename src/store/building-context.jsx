@@ -27,7 +27,7 @@ const BuildingContext = React.createContext({
   media: [],
   lat: "",
   lang: "",
-  addresse: "",
+  adresse: "",
   page: 0,
   setPage: () => {},
   setFormData: (
@@ -57,7 +57,7 @@ const BuildingContext = React.createContext({
     media,
     lat,
     lang,
-    addresse,
+    adresse,
     page
   ) => {},
 });
@@ -91,7 +91,7 @@ export const BuildingContextProvider = (props) => {
     media: [],
     lat: "",
     lang: "",
-    addresse: "",
+    adresse: "",
     page: 0,
   });
   return (
@@ -123,7 +123,7 @@ export const BuildingContextProvider = (props) => {
         media: data.media.slice(),
         lat: data.lat,
         lang: data.lang,
-        addresse: data.addresse,
+        adresse: data.adresse,
         page: pageNumber,
         setPage: setPageNumber,
         setFormData: setData,

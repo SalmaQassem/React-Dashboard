@@ -27,7 +27,7 @@ export const useGeoSearchControl = () => {
       if (data) {
         console.log(data);
         context.setFormData((prev) => {
-          return { ...prev, addresse: data.location.label };
+          return { ...prev, adresse: data.location.label };
         });
       }
     });

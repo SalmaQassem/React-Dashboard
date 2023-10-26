@@ -113,6 +113,10 @@
         color: $white;
         background-color: $pink;
         border-radius: 0.375rem;
+        cursor: pointer;
+        input {
+          display: none;
+        }
       }
       p {
         @extend %font;

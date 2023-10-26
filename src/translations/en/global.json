@@ -126,6 +126,9 @@
     "submit": "submit",
     "cancel": "cancel",
     "enterLocation": "enter location",
-    "locationNotFound": "location not  found"
+    "locationNotFound": "location not  found",
+    "emailValidation": "please enter a valid email address",
+    "passwordMatch": "confirm password doesn't match",
+    "imageType": "image extension is not supported, accepted extensions: jpeg, jpg, png"
   }
 }

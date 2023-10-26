@@ -1,5 +1,5 @@
 import styles from "../../styles/_NewUserForm.module.scss";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import RadioButton from "../UI/RadioButton";
 import FormButton from "../UI/FormButton";
 import { TbCloudUpload } from "react-icons/tb";
@@ -11,28 +11,78 @@ import Modal from "../UI/Modal";
 import { AnimatePresence } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const NewUserForm = (props) => {
   const [t, i18n] = useTranslation("global");
-  const [input, setInput] = useState({});
+  const [radioInput, setRadioInput] = useState(null);
   const [image, setImage] = useState(null);
-  const hiddenFileInput = useRef(null);
   const navigate = useNavigate();
   const [isModalOpened, setIsModalOpened] = useState({
     state: false,
     first: 0,
   });
+  const schema = yup.object().shape({
+    firstName: yup.string().required(t("body.required")),
+    lastName: yup.string().required(t("body.required")),
+    email: yup
+      .string()
+      .required(t("body.required"))
+      .email(t("body.emailValidation"))
+      .matches(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        t("body.emailValidation")
+      ),
+
+    password: yup.string().required(t("body.required")),
+    phone: yup
+      .string()
+      .required(t("body.required"))
+      .min(
+        10,
+        `${t("body.phone")} ${t("body.buildingNameCase")} ${t("body.nums")}`
+      ),
+    input1: yup.string().required(t("body.required")),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], t("body.passwordMatch"))
+      .required(t("body.required")),
+    userImage: yup
+      .mixed()
+      .test("file", t("body.required"), (value) => {
+        if (value.length > 0) {
+          return true;
+        }
+        return false;
+      })
+      .test("type", t("body.imageType"), (value) => {
+        if (
+          value.length > 0 &&
+          (value[0].type === "image/jpeg" ||
+            value[0].type === "image/jpg" ||
+            value[0].type === "image/png")
+        ) {
+          return true;
+        }
+        return false;
+      }),
+  });
   const {
     register,
+    watch,
     handleSubmit,
-    control,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const watchedValue = watch("input1");
+  const watchedImage = watch("userImage");
 
   const radioItems = [
     {
       id: "0",
       title: t("body.userType"),
+      error: errors.input1,
       radios: [
         { id: "super_admin", name: "input1", label: t("body.adminRole") },
         { id: "supervisor", name: "input1", label: t("body.supervisor") },
@@ -46,68 +96,44 @@ const NewUserForm = (props) => {
       type: "text",
       name: "firstName",
       label: t("body.firstName"),
+      error: errors.firstName,
     },
     {
       id: "lastName",
       type: "text",
       name: "lastName",
       label: t("body.lastName"),
+      error: errors.lastName,
     },
     {
       id: "email",
       type: "email",
       name: "email",
       label: t("body.email"),
+      error: errors.email,
     },
     {
       id: "password",
       type: "password",
       name: "password",
       label: t("body.password"),
+      error: errors.password,
     },
     {
       id: "phone",
-      type: "number",
+      type: "string",
       name: "phone",
       label: t("body.phone"),
+      error: errors.phone,
     },
     {
       id: "confirmPassword",
       type: "password",
       name: "confirmPassword",
       label: t("body.confirmPassword"),
+      error: errors.confirmPassword,
     },
   ];
-  const inputHandler = ({ target: { value, name } }) => {
-    setInput({ title: name, data: value });
-  };
-  const handleClick = () => {
-    hiddenFileInput.current.click();
-  };
-  /*const dataURLtoFile = (dataUrl, fileName) => {
-    let arr = dataUrl.split(",");
-    let mime = arr[0].match(/:(.*?);/)[1];
-    let bstr = atob(arr[arr.length - 1]);
-    let n = bstr.length;
-    let u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], fileName, { type: mime });
-  };*/
-  /*async function getBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-    });
-  }*/
-  const handleChange = async (e) => {
-    setImage(e.target.files[0]);
-  };
   const formSubmitHandler = async (data) => {
     const userToken = getAuthToken();
     const formData = new FormData();
@@ -116,7 +142,7 @@ const NewUserForm = (props) => {
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("phone", data.phone);
-    formData.append("role", input.data);
+    formData.append("role", radioInput);
     formData.append("image", image);
 
     try {
@@ -139,11 +165,23 @@ const NewUserForm = (props) => {
           navigate("/dashboard");
         }, 500);
       }
-      //console.log(data);
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  useEffect(() => {
+    if (watchedValue) {
+      setRadioInput(watchedValue);
+    }
+  }, [watchedValue]);
+  useEffect(() => {
+    if (watchedImage) {
+      if (watchedImage.length > 0) {
+        setImage(watchedImage[0]);
+      }
+    }
+  }, [watchedImage]);
   return (
     <>
       <AnimatePresence>
@@ -164,20 +202,24 @@ const NewUserForm = (props) => {
             return (
               <div key={item.id} className={styles.radioButton}>
                 <p className={styles.title}>{item.title}</p>
-                <div className={styles.content}>
+                <div className={styles.content} id={item.radios[0].name}>
                   {item.radios.map((radio) => {
                     return (
                       <RadioButton
                         key={radio.id}
-                        name={radio.name}
+                        radioName={radio.name}
+                        register={register}
                         icon="false"
                         value={radio.id}
                         label={radio.label}
-                        onChange={inputHandler}
+                        checked={item.value === radio.id}
                       />
                     );
                   })}
                 </div>
+                {item.error && (
+                  <span className={styles.feedback}>{item.error.message}</span>
+                )}
               </div>
             );
           })}
@@ -189,8 +231,19 @@ const NewUserForm = (props) => {
                 <label htmlFor={item.id} className={styles.label}>
                   {item.label}
                 </label>
-                <input type={item.type} id={item.id} {...register(item.name)} />
-                {item.error && item.error}
+                <input
+                  type={item.type}
+                  id={item.id}
+                  className={
+                    item.error
+                      ? `${styles.inputItem} ${styles.invalid}`
+                      : styles.inputItem
+                  }
+                  {...register(item.name)}
+                />
+                {item.error && (
+                  <span className={styles.feedback}>{item.error?.message}</span>
+                )}
               </div>
             );
           })}
@@ -198,19 +251,21 @@ const NewUserForm = (props) => {
         <div className={styles.image}>
           <p>{t("body.uploadImage")}</p>
           <div className={styles.selectFile}>
-            <div className={styles.uploadImg} onClick={handleClick}>
+            <div className={styles.uploadImg}>
               <TbCloudUpload />
+              <label htmlFor="userImage" className={styles.imageLabel}>
+                <input
+                  type="file"
+                  id="userImage"
+                  accept="image/*"
+                  {...register("userImage")}
+                />
+              </label>
             </div>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-              ref={hiddenFileInput}
-              style={{ display: "none" }}
-            />
           </div>
+          {errors.userImage && (
+            <span className={styles.feedback}>{errors.userImage.message}</span>
+          )}
         </div>
         <FormButton class={styles.submit} type="submit">
           {t("body.activateUser")}
