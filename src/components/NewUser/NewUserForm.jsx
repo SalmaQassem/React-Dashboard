@@ -113,18 +113,18 @@ const NewUserForm = (props) => {
       error: errors.email,
     },
     {
-      id: "password",
-      type: "password",
-      name: "password",
-      label: t("body.password"),
-      error: errors.password,
-    },
-    {
       id: "phone",
       type: "string",
       name: "phone",
       label: t("body.phone"),
       error: errors.phone,
+    },
+    {
+      id: "password",
+      type: "password",
+      name: "password",
+      label: t("body.password"),
+      error: errors.password,
     },
     {
       id: "confirmPassword",

@@ -24,9 +24,6 @@ const SecondPage = (props) => {
   const [fileError, setFileError] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
-  /*const setSelected = (value) => {
-    setSelectedOption(value);
-  };*/
 
   const schema = yup.object({
     buildingComponents: yup.string().required(t("body.required")),
@@ -62,12 +59,20 @@ const SecondPage = (props) => {
         }
         return false;
       }),
+    attachedType: yup
+      .object()
+      .shape({
+        label: yup.string().required(t("body.required")),
+        value: yup.string().required(t("body.required")),
+      })
+      .required(t("body.required")),
   });
   const {
     register,
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -144,30 +149,13 @@ const SecondPage = (props) => {
     { id: "1", text: t("body.fileName") },
     { id: "2", text: t("body.attachmentType") },
   ];
+  const selectValue = watch("attachedType");
   const watchedFiles = watch("filesInput");
 
-  const setSelectHandler = (option) => {
-    //console.log(option);
-    setSelectedOption(option);
-  };
   const formSubmitHandler = (data) => {
-    //console.log(context);
-    //console.log(data.attachedType.value);
     const files = tableData.map((item) => {
       return item.file;
     });
-    /*let uploadedFiles = [];
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.addEventListener("load", (e) => {
-        const image = e.target.result;
-        uploadedFiles.append(image);
-        //console.log(uploadedFiles);
-      });
-    });*/
-    //console.log(files);
-    //console.log(data);
     context.setFormData((prevData) => {
       return {
         ...prevData,
@@ -193,6 +181,11 @@ const SecondPage = (props) => {
       return newArr;
     });
   };
+  useEffect(() => {
+    if (selectValue) {
+      setSelectedOption(selectValue);
+    }
+  }, [selectValue]);
   useEffect(() => {
     if (watchedFiles) {
       if (selectedOption && watchedFiles.length > 0) {
@@ -222,7 +215,24 @@ const SecondPage = (props) => {
       }
     }
   }, [watchedFiles]);
-
+  useEffect(() => {
+    if (props.state === "edit") {
+      let selected = {};
+      if (props.firstPageData.type === "hotel") {
+        selected = {
+          value: "hotel",
+          label: t("body.hotel"),
+        };
+      } else {
+        selected = {
+          value: "build",
+          label: t("body.building"),
+        };
+      }
+      setValue("attachedType", selected);
+      setSelectedOption(selected);
+    }
+  }, []);
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>
@@ -230,23 +240,18 @@ const SecondPage = (props) => {
           return item.type === "select" ? (
             <div key={item.id} className={styles.selectItem}>
               <SelectInput
-                key={item.id}
-                name={item.name}
-                isError={item.error}
-                control={control}
+                selectName={item.name}
                 options={item.options}
                 placeholder={item.placeholder}
                 icon={item.icon}
-                selectedItem={selectedOption}
-                setSelect={setSelectHandler}
-                //onChange={setSelectHandler}
+                control={control}
+                isError={item.error}
               />
-              {/*item.error?.message ||
-                (item.error?.label.message && (
-                  <span className={styles.feedback}>
-                    {item.error?.message || item.error?.label.message}
-                  </span>
-                ))*/}
+              {item.error !== undefined && (
+                <span className={styles.feedback}>
+                  {item.error?.message || item.error?.label.message}
+                </span>
+              )}
             </div>
           ) : (
             <div key={item.id} className={styles.input}>
@@ -290,7 +295,7 @@ const SecondPage = (props) => {
             </label>
             <p>{t("body.acceptedFormats")}: jpg, pdf, docx, doc</p>
           </div>
-          {fileError && (
+          {fileError && !errors.filesInput && (
             <span className={styles.feedback}>{t("body.filesType")}</span>
           )}
           {errors.filesInput && (

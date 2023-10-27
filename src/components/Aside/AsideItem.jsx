@@ -1,6 +1,11 @@
 import styles from "../../styles/_AsideItem.module.scss";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import ModeContext from "../../store/mode-context";
+
 const AsideItem = (props) => {
+  const mainMode = useContext(ModeContext);
+  const modeType = mainMode.mode === "dark" ? styles.dark : "";
   const clickHandler = () => {
     props.onClick();
   };
@@ -9,7 +14,9 @@ const AsideItem = (props) => {
       <NavLink
         to={props.url}
         className={({ isActive }) =>
-          isActive ? `${styles.item} ${styles.active}` : styles.item
+          isActive
+            ? `${styles.item} ${styles.active} ${modeType}`
+            : `${styles.item} ${modeType}`
         }
         end={props.End}
       >

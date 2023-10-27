@@ -125,6 +125,7 @@
         padding: 0.9375rem;
         @include flex-variant(flex, $direction: row, $align: center);
         border-radius: 0.875rem;
+        box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
         @include mediaQuery($smallScreen_min_width) {
           & {
             width: calc((100% - calc(2 * 1.5625rem)) / 3);
@@ -196,6 +197,7 @@
     padding: 1.75rem 1.25rem;
     border-radius: 0.9375rem;
     background-color: $white;
+    box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
   }
   .houses {
     h1 {

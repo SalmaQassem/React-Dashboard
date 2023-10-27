@@ -3,10 +3,21 @@ import RadioButton from "../UI/RadioButton";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 const UserPermitsForm = (props) => {
   const [t, i18n] = useTranslation("global");
   const [userPermits, setUserPermits] = useState([]);
+  const schema = yup.object().shape({});
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
+
   const selectPermitHandler = (e) => {
     setUserPermits((prevState) => {
       if (prevState.includes(e.target.textContent)) {
@@ -25,10 +36,12 @@ const UserPermitsForm = (props) => {
     <>
       <div className={styles.radioButtons}>
         <RadioButton
-          name="input"
+          radioName={"input"}
+          register={register}
           icon="true"
           label={props.type}
-          onChange={props.inputHandler}
+          //checked={item.value === radio.id}
+          //onChange={props.inputHandler}
         />
       </div>
       <div className={styles.permits}>

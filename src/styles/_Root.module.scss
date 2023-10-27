@@ -6,6 +6,7 @@
   min-height: 100vh;
   @include flex-variant(flex, $direction: column);
   overflow: hidden;
+  background-color: $white;
   .rootOverlay {
     @include mediaQuery($XlargeScreen_min_width) {
       & {
@@ -23,6 +24,9 @@
       width: 100%;
       position: relative;
       background-color: $grey-3;
+      &.dark {
+        background-color: $white-1;
+      }
       @include mediaQuery($XlargeScreen_min_width) {
         & {
           width: calc(100% - 17rem);

@@ -32,7 +32,7 @@ const ProfileForm = (props) => {
     },
     {
       id: "phone",
-      type: "number",
+      type: "text",
       name: "phone",
       label: t("body.phone"),
     },
@@ -55,7 +55,6 @@ const ProfileForm = (props) => {
   };
   const handleChange = (e) => {
     const imageUploaded = e.target.files;
-    console.log(imageUploaded);
   };
   useEffect(() => {
     if (data && !data.message) {

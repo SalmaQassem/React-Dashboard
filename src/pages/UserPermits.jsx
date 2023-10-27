@@ -9,7 +9,7 @@ import { Form } from "react-router-dom";
 
 const UserPermits = () => {
   const [t, i18n] = useTranslation("global");
-  const [input, setInput] = useState("");
+  //const [input, setInput] = useState("");
   const adminPermits = [
     { id: "0", name: t("body.deleteUser") },
     { id: "1", name: t("body.addUser") },
@@ -21,9 +21,9 @@ const UserPermits = () => {
     { id: "2", name: t("body.deleteContent") },
   ];
 
-  const radioInputHandler = ({ target: { value } }) => {
+  /*const radioInputHandler = ({ target: { value } }) => {
     setInput(value);
-  };
+  };*/
 
   const onFirstFormSubmit = () => {};
   const onSecondFormSubmit = () => {};
@@ -39,7 +39,7 @@ const UserPermits = () => {
           <UserPermitsForm
             type={t("body.adminRole")}
             permits={adminPermits}
-            inputHandler={radioInputHandler}
+            //inputHandler={radioInputHandler}
           />
           <FormButton
             type="button"
@@ -57,7 +57,7 @@ const UserPermits = () => {
           <UserPermitsForm
             type={t("body.user")}
             permits={clientPermits}
-            inputHandler={radioInputHandler}
+            //inputHandler={radioInputHandler}
           />
           <FormButton
             type="button"

@@ -35,7 +35,7 @@ export async function action({ request }) {
     first_name: formData.get("firstName"),
     last_name: formData.get("lastName"),
     email: formData.get("email"),
-    phone: +formData.get("phone"),
+    phone: formData.get("phone"),
     password: pass,
   };
   const userToken = getAuthToken();

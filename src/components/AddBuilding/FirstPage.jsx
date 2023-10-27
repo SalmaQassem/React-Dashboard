@@ -40,13 +40,13 @@ const FirstPage = (props) => {
   const schema = yup.object(
     {
       buildingName: yup.string().required(t("body.required")),
-      /*buildingType: yup
+      buildingType: yup
         .object()
         .shape({
           label: yup.string().required(t("body.required")),
           value: yup.string().required(t("body.required")),
         })
-        .required(t("body.required")),*/
+        .required(t("body.required")),
       roomNum: yup
         .number()
         .typeError(t("body.required"))
@@ -131,6 +131,7 @@ const FirstPage = (props) => {
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -152,11 +153,19 @@ const FirstPage = (props) => {
       name: "buildingType",
       placeholder: t("body.buildingType"),
       icon: <IoMdArrowDropdownCircle />,
-      value: props.state === "edit" ? props.firstPageData.type : null,
+      //value: props.state === "edit" ? props.firstPageData.type : null,
       error: errors.buildingType,
       options: [
-        { value: "hotel", label: t("body.hotel"), icon: <BsBuildings /> },
-        { value: "build", label: t("body.building"), icon: <RiHotelLine /> },
+        {
+          value: "hotel",
+          label: t("body.hotel"),
+          icon: <BsBuildings />,
+        },
+        {
+          value: "build",
+          label: t("body.building"),
+          icon: <RiHotelLine />,
+        },
       ],
     },
     {
@@ -303,30 +312,26 @@ const FirstPage = (props) => {
       ],
     },
   ];
+  const selectValue = watch("buildingType");
   const Alarm = watch("alarm_network");
   const FireNetwork = watch("fire_network");
   const FirePump = watch("fire_pump");
   const Generator = watch("generator");
-  const setSelectHandler = (option) => {
-    //console.log(option);
-    setSelectedOption(option);
-  };
+
   const formSubmitHandler = (data) => {
-    let alarmValue =
+    /*let alarmValue =
       props.state === "edit" ? props.firstPageData.alarm_network : alarm;
     let fireValue =
       props.state === "edit" ? props.firstPageData.fire_network : fireNetwork;
     let pumpValue =
       props.state === "edit" ? props.firstPageData.fire_pump : firePump;
     let generatorValue =
-      props.state === "edit" ? props.firstPageData.generator : generator;
-    const select = selectedOption ? selectedOption.value : "";
-    //const select = data.buildingType.value;
+      props.state === "edit" ? props.firstPageData.generator : generator;*/
     context.setFormData((prevData) => {
       return {
         ...prevData,
         house_name: data.buildingName,
-        type: select,
+        type: selectedOption.value,
         total_room: data.roomNum,
         street: data.streetName,
         hajjaj_count: data.actualPilgrims,
@@ -338,16 +343,19 @@ const FirstPage = (props) => {
         total_floor: data.floorsNum,
         owner_ip: data.ownerId,
         lessor_name: data.renterName,
-        alarm_network: alarmValue,
-        fire_network: fireValue,
-        fire_pump: pumpValue,
-        generator: generatorValue,
+        alarm_network: alarm,
+        fire_network: fireNetwork,
+        fire_pump: firePump,
+        generator: generator,
       };
     });
     context.setPage((prevNum) => {
       return prevNum + 1;
     });
   };
+  useEffect(() => {
+    setSelectedOption(selectValue);
+  }, [selectValue]);
   useEffect(() => {
     if (Alarm) {
       setAlarm(Alarm);
@@ -372,9 +380,26 @@ const FirstPage = (props) => {
     }
   }, [Generator]);
 
-  /*useEffect(() => {
-    console.log(selectedOption);
-  }, [selectedOption]);*/
+  useEffect(() => {
+    if (props.state === "edit") {
+      let selected = {};
+      if (props.firstPageData.type === "hotel") {
+        selected = {
+          value: "hotel",
+          label: t("body.hotel"),
+          icon: <BsBuildings />,
+        };
+      } else {
+        selected = {
+          value: "build",
+          label: t("body.building"),
+          icon: <RiHotelLine />,
+        };
+      }
+      setValue("buildingType", selected);
+      //setSelectedOption(selected);
+    }
+  }, []);
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>
@@ -382,20 +407,18 @@ const FirstPage = (props) => {
           return item.type === "select" ? (
             <div key={item.id} className={styles.selectItem}>
               <SelectInput
-                name={item.name}
-                isError={item.error}
-                control={control}
+                selectName={item.name}
                 options={item.options}
                 placeholder={item.placeholder}
                 icon={item.icon}
-                selectedItem={selectedOption}
-                setSelect={setSelectHandler}
+                control={control}
+                isError={item.error}
               />
-              {/*item.error !== undefined && (
+              {item.error !== undefined && (
                 <span className={styles.feedback}>
                   {item.error?.message || item.error?.label.message}
                 </span>
-              )*/}
+              )}
             </div>
           ) : (
             <div key={item.id} className={styles.input}>

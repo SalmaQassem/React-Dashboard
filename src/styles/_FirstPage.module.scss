@@ -84,6 +84,7 @@
     @include flex-variant(flex, $direction: row, $justify: space-between);
     .radioButton {
       @extend %flex-column;
+      justify-content: stretch;
       .title {
         font-family: "Cairo-ExtraBold";
         font-size: 1.125rem;

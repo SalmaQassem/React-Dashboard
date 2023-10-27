@@ -8,20 +8,26 @@ import {
   HiOutlineSun,
   HiOutlineBellAlert,
 } from "react-icons/hi2";
-import user from "../../assets/images/Ellipse.png";
+//import user from "../../assets/images/Ellipse.png";
 import { useContext, useRef } from "react";
 import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
 import { useTranslation } from "react-i18next";
 import { getAuthToken } from "../../util/auth";
 import { Link, useNavigate } from "react-router-dom";
+import FullScreenContext from "../../store/fullScreen-context";
+import ModeContext from "../../store/mode-context";
 
 const NavBar = () => {
   const [t, i18n] = useTranslation("global");
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
+  const screenContext = useContext(FullScreenContext);
+  const modeContext = useContext(ModeContext);
   const searchRef = useRef();
   const navigate = useNavigate();
+  const modeType = modeContext.mode === "dark" ? styles.dark : "";
+
   const onBarsClick = () => {
     asideContext.setIsOpened();
   };
@@ -57,8 +63,11 @@ const NavBar = () => {
       }
     }
   };
+  const handleMode = () => {
+    modeContext.setMode();
+  };
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.nav} ${modeType}`}>
       <div className={styles.items}>
         <div className={styles.title}>
           <div className={styles.logo}>
@@ -71,7 +80,7 @@ const NavBar = () => {
           </div>
         </div>
         <div className={styles.search}>
-          <div className={styles.input}>
+          <div className={`${styles.input} ${modeType}`}>
             <input placeholder={t("body.search")} ref={searchRef} />
             <div className={styles.searchIcon} onClick={searchHandler}>
               <HiOutlineSearch />
@@ -81,22 +90,25 @@ const NavBar = () => {
         <div className={styles.tools}>
           <div className={styles.icons}>
             <div
-              className={`${styles.icon} ${styles.language}`}
+              className={`${styles.icon} ${styles.language} ${modeType}`}
               onClick={changeLanguage}
             >
               <TfiWorld />
             </div>
-            <div className={`${styles.icon} ${styles.resize}`}>
+            <button
+              className={`${styles.icon} ${modeType}`}
+              onClick={screenContext.handle.enter}
+            >
               <HiArrowsPointingOut />
-            </div>
-            <div className={`${styles.icon} ${styles.mode}`}>
+            </button>
+            <button
+              className={`${styles.icon} ${modeType}`}
+              onClick={handleMode}
+            >
               <HiOutlineSun />
-            </div>
+            </button>
             {context.role === "super_admin" && (
-              <Link
-                to="Notifications"
-                className={`${styles.icon} ${styles.notification}`}
-              >
+              <Link to="Notifications" className={`${styles.icon} ${modeType}`}>
                 <HiOutlineBellAlert />
               </Link>
             )}
@@ -108,7 +120,7 @@ const NavBar = () => {
                 alt="user"
               />
             </div>
-            <div className={styles.text}>
+            <div className={`${styles.text} ${modeType}`}>
               <p>{`${context.first_name} ${context.last_name}`}</p>
               <p>
                 {context.role === "super_admin"

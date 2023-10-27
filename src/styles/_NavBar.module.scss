@@ -10,7 +10,9 @@
   z-index: 100;
   background-color: $black;
   box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
-
+  &.dark {
+    background-color: $white;
+  }
   .items {
     width: 100%;
     @include flex-variant(
@@ -50,7 +52,7 @@
         cursor: pointer;
         @include mediaQuery($XlargeScreen_min_width) {
           & {
-            display: none;
+            display: none !important;
           }
         }
         span {
@@ -84,6 +86,9 @@
         background-color: $white;
         border: 0.0625rem solid $grey-1;
         border-radius: 0.4375rem;
+        &.dark {
+          border-color: $grey-13;
+        }
         input {
           width: 100%;
           font-family: "Cairo-Bold";
@@ -128,9 +133,13 @@
             $align: center,
             $justify: center
           );
-          font-size: 1.5rem;
           color: $white;
+          font-size: 1.5rem;
+          background-color: transparent;
           cursor: pointer;
+          &.dark {
+            color: $black;
+          }
         }
       }
       .userInfo {
@@ -155,6 +164,9 @@
           color: $white;
           font-family: "Cairo-Bold";
           font-size: 1rem;
+          &.dark {
+            color: $black;
+          }
         }
       }
     }

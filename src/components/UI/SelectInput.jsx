@@ -2,26 +2,19 @@ import styles from "../../styles/_SelectInput.module.scss";
 import { useState } from "react";
 import Select, { components } from "react-select";
 import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const SelectInput = ({
-  name,
-  isError,
   control,
+  selectName,
   options,
   placeholder,
   icon,
-  selectedItem,
-  setSelect,
-  value,
+  isError,
 }) => {
+  const [t, i18n] = useTranslation("global");
   const [menuOpen, setMenuOpen] = useState(false);
-  const arrowIcon = icon;
-  //const [selectedOptions, setSelectedOptions] = useState(null);
 
-  const handleChange = (option) => {
-    //console.log(option);
-    setSelect(option);
-  };
   const handleMenuOpen = () => {
     setMenuOpen(true);
   };
@@ -31,7 +24,7 @@ const SelectInput = ({
   const DropdownIndicator = (props) => {
     return (
       <components.DropdownIndicator {...props}>
-        {arrowIcon}
+        {icon}
       </components.DropdownIndicator>
     );
   };
@@ -59,7 +52,7 @@ const SelectInput = ({
       padding: "0 0.9375rem",
       fontFamily: "Cairo-Regular",
       fontSize: "1rem",
-      //border: "none",
+
       borderRadius: "0.5rem",
       border: "0.0625rem solid #4e4b4b",
       boxShadow: "none",
@@ -123,47 +116,27 @@ const SelectInput = ({
   };
   return (
     <Controller
-      name={name}
+      name={selectName}
       control={control}
-      render={({ field: { onChange, ...field } }) => (
+      render={({ field }) => (
         <Select
           className={
             isError !== undefined
               ? `${styles.select} ${styles.invalid}`
               : styles.select
           }
-          options={options}
           {...field}
-          onChange={handleChange}
+          options={options}
+          placeholder={placeholder}
+          icon={icon}
+          components={{ DropdownIndicator, Option }}
+          styles={customStyles}
           menuIsOpen={menuOpen}
           onMenuOpen={handleMenuOpen}
           onMenuClose={handleMenuClose}
-          components={{ DropdownIndicator, Option }}
-          placeholder={placeholder}
-          icon={icon}
-          //selected={selectedItem}
-          //value={value}
-          styles={customStyles}
-          //setSelected={setItem}
-          //value={props.value && props.value}
         />
       )}
-    />
+    ></Controller>
   );
 };
-
 export default SelectInput;
-/*<Select
-      {...props}
-      className={
-        props.isError ? `${styles.select} ${styles.invalid}` : styles.select
-      }
-      defaultValue={props.selected}
-      //onChange={props.selectHandler}
-      placeholder={props.placeholder}
-      //menuIsOpen={menuOpen}
-      //onMenuOpen={handleMenuOpen}
-      //onMenuClose={handleMenuClose}
-      components={{ DropdownIndicator, Option }}
-      styles={customStyles}
-    />*/

@@ -10,11 +10,13 @@ import { useContext } from "react";
 import AsideContext from "../../store/aside-context";
 import UserContext from "../../store/user-context";
 import { useTranslation } from "react-i18next";
+import ModeContext from "../../store/mode-context";
 
 const Aside = () => {
   const [t, i18n] = useTranslation("global");
   const asideContext = useContext(AsideContext);
   const context = useContext(UserContext);
+  const mainMode = useContext(ModeContext);
   const main = [
     {
       id: "0",
@@ -65,10 +67,13 @@ const Aside = () => {
       asideContext.setIsOpened(false);
     }
   };
+  const modeType = mainMode.mode === "dark" ? styles.dark : "";
   return (
     <aside
       className={
-        asideContext.isOpened ? styles.aside : `${styles.aside} ${styles.close}`
+        asideContext.isOpened
+          ? `${styles.aside} ${modeType}`
+          : `${styles.aside} ${styles.close} ${modeType}`
       }
     >
       <div className={styles.section}>

@@ -16,8 +16,15 @@
     color: $black;
     background-color: $white;
     border-radius: 0.625rem;
-
     cursor: pointer;
+    &.dark {
+      background-color: $pink;
+      color: $white;
+      &.active {
+        background-color: $white;
+        color: $black;
+      }
+    }
     &.active {
       background-color: $grey-11;
       color: $white;

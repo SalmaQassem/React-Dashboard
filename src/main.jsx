@@ -4,6 +4,8 @@ import "./styles/main.scss";
 import { UserContextProvider } from "./store/user-context.jsx";
 import { BuildingContextProvider } from "./store/building-context.jsx";
 import { AsideContextProvider } from "./store/aside-context.jsx";
+import { FullScreenContextProvider } from "./store/fullScreen-context.jsx";
+import { ModeContextProvider } from "./store/mode-context.jsx";
 import global_en from "../src/translations/en/global.json";
 import global_ar from "../src/translations/ar/global.json";
 import i18next from "i18next";
@@ -20,12 +22,16 @@ i18next.init({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <I18nextProvider i18n={i18next}>
-    <AsideContextProvider>
-      <UserContextProvider>
-        <BuildingContextProvider>
-          <App />
-        </BuildingContextProvider>
-      </UserContextProvider>
-    </AsideContextProvider>
+    <ModeContextProvider>
+      <FullScreenContextProvider>
+        <AsideContextProvider>
+          <UserContextProvider>
+            <BuildingContextProvider>
+              <App />
+            </BuildingContextProvider>
+          </UserContextProvider>
+        </AsideContextProvider>
+      </FullScreenContextProvider>
+    </ModeContextProvider>
   </I18nextProvider>
 );
