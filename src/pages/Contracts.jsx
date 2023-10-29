@@ -15,17 +15,24 @@ import {
 import { AnimatePresence } from "framer-motion";
 import Modal from "../components/UI/Modal";
 import { FiAlertTriangle } from "react-icons/fi";
+import { FaCheck } from "react-icons/fa";
 import axios from "axios";
+import NoData from "../components/UI/NoData";
+import { PiFolderNotchOpenFill } from "react-icons/pi";
 
 const Contracts = () => {
   const data = useLoaderData();
   const [tableData, setTableData] = useState(data);
   const [t, i18n] = useTranslation("global");
-  const [isModalOpened, setIsModalOpened] = useState({
+  const [deleteModal, setDeleteModal] = useState({
     state: false,
     first: 0,
     index: null,
     contractId: null,
+  });
+  const [successModal, setsuccessModal] = useState({
+    state: false,
+    first: 0,
   });
   const [itemOffset, setItemOffset] = useState({ offset: 0, newCounter: 1 });
   const items = Array.from(Array(data.length).keys());
@@ -51,7 +58,7 @@ const Contracts = () => {
   const deleteHandler = async (e) => {
     const contract = e.currentTarget.dataset.contract;
     const deleteIndex = e.currentTarget.id;
-    setIsModalOpened((prevState) => {
+    setDeleteModal((prevState) => {
       return {
         ...prevState,
         state: true,
@@ -61,45 +68,36 @@ const Contracts = () => {
     });
   };
   const submitDeleteHandler = async () => {
-    //console.log(isModalOpened.index);
-    //console.log(isModalOpened.contractId);
     setTableData((prevState) => {
       const newArr = prevState.filter((item) => {
-        return item !== prevState[isModalOpened.index];
+        return item !== prevState[deleteModal.index];
       });
       return newArr;
     });
 
     const token = getAuthToken();
     try {
-      const response = await fetch(
+      const response = await axios.delete(
         "https://zadapp.mqawilk.com/api/document/delete/" +
-          isModalOpened.contractId,
+          deleteModal.contractId,
         {
-          method: "POST",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      const data = await response.data;
+      if (data.success) {
+        setsuccessModal((prevState) => {
+          return { ...prevState, state: true };
+        });
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 500);
+      }
     } catch (error) {
       console.log(error.message);
     }
-    /*try {
-      const response = await axios.post(
-        "https://zadapp.mqawilk.com/api/document/delete/" +
-          isModalOpened.contractId,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    } catch (error) {
-      console.log(error.message);
-    }*/
   };
 
   const handlePageClick = (event) => {
@@ -160,16 +158,27 @@ const Contracts = () => {
   return (
     <>
       <AnimatePresence>
-        {isModalOpened.state && (
-          /*isModalOpened.first === 0 &&*/ <Modal
+        {deleteModal.state && (
+          /*deleteModal.first === 0 &&*/ <Modal
             head={t("body.delete")}
             message={t("body.deleteContract")}
             deleteText={t("body.submit")}
             cancelText={t("body.cancel")}
             icon={<FiAlertTriangle />}
             state="delete"
-            setOpened={setIsModalOpened}
+            setOpened={setDeleteModal}
             submitDelete={submitDeleteHandler}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {successModal.state && (
+          /*successModal.first === 0 &&*/ <Modal
+            head={t("body.success")}
+            message={t("body.submitDeleteContract")}
+            icon={<FaCheck />}
+            state="submitDelete"
+            setOpened={setsuccessModal}
           />
         )}
       </AnimatePresence>
@@ -179,39 +188,47 @@ const Contracts = () => {
           icon={<AiOutlineFileDone />}
           class={styles.header}
         />
-        <div className={styles.items}>
-          <Items currentItems={currentItems} />
-          <ReactPaginate
-            nextLabel={
-              i18n.language === "ar" ? (
-                <MdKeyboardDoubleArrowLeft />
-              ) : (
-                <MdKeyboardDoubleArrowRight />
-              )
-            }
-            previousLabel={
-              i18n.language === "ar" ? (
-                <MdKeyboardDoubleArrowRight />
-              ) : (
-                <MdKeyboardDoubleArrowLeft />
-              )
-            }
-            onPageChange={handlePageClick}
-            breakLabel="..."
-            breakClassName={classes.pageBreak}
-            pageCount={pageCount}
-            pageRangeDisplayed={3}
-            marginPagesDisplayed={0}
-            containerClassName={classes.pagination}
-            pageClassName={classes.pageNumber}
-            pageLinkClassName={classes.link}
-            previousLinkClassName={classes.prev}
-            nextLinkClassName={classes.next}
-            disabledLinkClassName={classes.disable}
-            activeClassName={classes.active}
-            renderOnZeroPageCount={null}
+        {currentItems.length > 0 ? (
+          <div className={styles.items}>
+            <Items currentItems={currentItems} />
+            <ReactPaginate
+              nextLabel={
+                i18n.language === "ar" ? (
+                  <MdKeyboardDoubleArrowLeft />
+                ) : (
+                  <MdKeyboardDoubleArrowRight />
+                )
+              }
+              previousLabel={
+                i18n.language === "ar" ? (
+                  <MdKeyboardDoubleArrowRight />
+                ) : (
+                  <MdKeyboardDoubleArrowLeft />
+                )
+              }
+              onPageChange={handlePageClick}
+              breakLabel="..."
+              breakClassName={classes.pageBreak}
+              pageCount={pageCount}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={0}
+              containerClassName={classes.pagination}
+              pageClassName={classes.pageNumber}
+              pageLinkClassName={classes.link}
+              previousLinkClassName={classes.prev}
+              nextLinkClassName={classes.next}
+              disabledLinkClassName={classes.disable}
+              activeClassName={classes.active}
+              renderOnZeroPageCount={null}
+            />
+          </div>
+        ) : (
+          <NoData
+            message={t("body.noData")}
+            icon={<PiFolderNotchOpenFill />}
+            subMessage={t("body.noContracts")}
           />
-        </div>
+        )}
       </div>
     </>
   );
@@ -219,7 +236,7 @@ const Contracts = () => {
 
 export default Contracts;
 export async function loader() {
-  let response;
+  let response = "";
   const token = getAuthToken();
   try {
     response = await fetch("https://zadapp.mqawilk.com/api/document/index", {

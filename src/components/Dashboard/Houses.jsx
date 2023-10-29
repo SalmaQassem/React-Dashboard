@@ -1,6 +1,5 @@
 import styles from "../../styles/_Houses.module.scss";
 import classes from "../../styles/_Pagination.module.scss";
-//import image from "../../assets/images/room.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { FiUserCheck } from "react-icons/fi";
 import { useTranslation } from "react-i18next";

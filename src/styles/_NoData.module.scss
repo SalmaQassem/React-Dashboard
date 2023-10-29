@@ -1,0 +1,45 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+@use "./colors" as *;
+
+.dataError {
+  @include flex-variant(flex, $direction: column, $align: center, $gap: 2rem);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  .icon {
+    width: 16rem;
+    height: 16rem;
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $justify: center
+    );
+    border-radius: 50%;
+    background-color: $grey-14;
+    font-size: 7rem;
+    color: $grey-2;
+  }
+  .text {
+    @include flex-variant(
+      flex,
+      $direction: column,
+      $align: center,
+      $gap: 0.75rem
+    );
+    text-transform: capitalize;
+    .message {
+      font-family: "Cairo-Bold";
+      font-size: 1.375rem;
+      letter-spacing: 0.05rem;
+      color: $black;
+    }
+    .subMessage {
+      font-family: "Cairo-Regular";
+      font-size: 1.125rem;
+      letter-spacing: 0.05rem;
+    }
+  }
+}

@@ -55,7 +55,7 @@ const Modal = ({
         </div>
         <h1 className={styles.head}>{head}</h1>
         <p className={styles.message}>{message}</p>
-        {state !== "add" && state !== "edit" && (
+        {state !== "add" && state !== "edit" && state !== "submitDelete" && (
           <div className={styles.buttons}>
             {state === "delete" && (
               <>

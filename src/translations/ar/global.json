@@ -127,11 +127,17 @@
     "deleteContract": "هل أنت متأكد من إزالة هذا العقد؟",
     "submit": "تأكيد",
     "cancel": "إلغاء",
+    "submitDeleteContract": "تم إزالة العقد بنجاح",
     "enterLocation": "أدخل العنوان",
     "locationNotFound": "لا يوجد عنوان",
     "emailValidation": "يرجى إدخال عنوان بريد إلكتروني صالح",
     "passwordMatch": "كلمة المرور غير متطابقة",
     "imageType": "امتداد الصورة غير مدعوم, الامتدادات المدعومة هي: jpeg, jpg, png",
-    "filesType": "امتداد الملف غير مدعوم, الامتدادات المدعومة هي: pdf, docx, doc, jpeg, jpg, png"
+    "filesType": "امتداد الملف غير مدعوم, الامتدادات المدعومة هي: pdf, docx, doc, jpeg, jpg, png",
+    "noContracts": "لم نستطيع العثور على أى عقود منشأه",
+    "noNotificatons": "لم نستطيع العثور على أى إشعارات",
+    "friendsList": "قائمة الأصدقاء",
+    "chats": "المحادثات",
+    "groups": "المجموعات"
   }
 }

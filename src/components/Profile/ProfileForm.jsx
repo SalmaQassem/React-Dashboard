@@ -5,6 +5,7 @@ import { TbCloudUpload } from "react-icons/tb";
 import FormButton from "../UI/FormButton";
 import { useTranslation } from "react-i18next";
 import UserContext from "../../store/user-context";
+
 const ProfileForm = (props) => {
   const context = useContext(UserContext);
   const [t, i18n] = useTranslation("global");

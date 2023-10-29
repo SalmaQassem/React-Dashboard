@@ -1,50 +1,19 @@
 import styles from "../styles/_Messages.module.scss";
-//import { useState } from "react";
-//import { Form } from "react-router-dom";
-//import { HiArrowSmLeft, HiArrowSmRight } from "react-icons/hi";
-//import { RiDeleteBin6Line } from "react-icons/ri";
-//import { PiBookmarkSimpleBold } from "react-icons/pi";
-//import StyledContainer from "../components/UI/StyledContainer";
 import { useTranslation } from "react-i18next";
 import MainHeader from "../components/UI/MainHeader";
 import { IoIosChatbubbles } from "react-icons/io";
-//import Conversations from "../components/Chat/Conversations";
 import FilterList from "../components/Chat/FilterList";
 import { getAuthToken } from "../util/auth";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
-const Messages = () => {
+const Conversations = () => {
   const [t, i18n] = useTranslation("global");
-  const friends = useLoaderData();
+  const conversations = useLoaderData();
+  console.log(conversations);
   const navigate = useNavigate();
-  //const [active, setActive] = useState("friends");
 
-  //const [currentMsg, setCurrentMsg] = useState(0);
-  //const isEnglish = i18n.language === "en" ? "en" : "";
-  /*const showNext = () => {
-    setCurrentMsg((prevState) => {
-      if (prevState < messages.length - 1) {
-        return prevState + 1;
-      } else {
-        return prevState;
-      }
-    });
-  };
-  const showPrev = () => {
-    setCurrentMsg((prevState) => {
-      if (prevState > 0) {
-        return prevState - 1;
-      } else {
-        return prevState;
-      }
-    });
-  };*/
-
-  /*const chooseHandler = (e) => {
-    setActive(e.currentTarget.id);
-  };*/
   const clickHandler = (e) => {
-    navigate(`/dashboard/Chat/new/${e.currentTarget.id}`);
+    navigate(`/dashboard/Chat/past/${e.currentTarget.id}`);
   };
 
   return (
@@ -53,9 +22,9 @@ const Messages = () => {
       <div className={styles.body}>
         <FilterList />
         <div className={styles.list}>
-          {friends &&
-            friends.length > 0 &&
-            friends.map((item) => {
+          {conversations &&
+            conversations.chats.length > 0 &&
+            conversations.chats.map((item, index) => {
               return (
                 <div
                   key={item.id}
@@ -66,7 +35,7 @@ const Messages = () => {
                   <div className={styles.text}>
                     <div className={styles.img}>
                       <img
-                        src={`https://zadapp.mqawilk.com/public/images/${item.image}`}
+                        src={`https://zadapp.mqawilk.com/public/images/${item.participants[0].image}`}
                         alt="user-img"
                       />
                     </div>
@@ -74,8 +43,8 @@ const Messages = () => {
                       <div className={styles.user}>
                         <p
                           className={styles.name}
-                        >{`${item.first_name} ${item.last_name}`}</p>
-                        <p>{item.email}</p>
+                        >{`${item.participants[0].first_name} ${item.participants[0].last_name}`}</p>
+                        <p>{item.last_message.body}</p>
                       </div>
                     </div>
                   </div>
@@ -88,12 +57,13 @@ const Messages = () => {
   );
 };
 
-export default Messages;
+export default Conversations;
+
 export async function loader({ request }) {
   let response = "";
   const token = getAuthToken();
   try {
-    response = await fetch("https://zadapp.mqawilk.com/api/allMyfrinds", {
+    response = await fetch("https://zadapp.mqawilk.com/api/frindes", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

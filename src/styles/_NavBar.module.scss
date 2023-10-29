@@ -164,6 +164,7 @@
           color: $white;
           font-family: "Cairo-Bold";
           font-size: 1rem;
+          text-transform: capitalize;
           &.dark {
             color: $black;
           }

@@ -26,10 +26,10 @@ import Profile, {
   loader as ProfileLoader,
   action as ProfileAction,
 } from "./pages/Profile";
-import Messages, {
-  loader as MessagesLoader,
-  action as MessagesAction,
-} from "./pages/Messages";
+import Messages, { loader as MessagesLoader } from "./pages/Messages";
+import Conversations, {
+  loader as ConversationsLoader,
+} from "./pages/Conversations";
 import Notifications, {
   loader as NotificationsLoader,
 } from "./pages/Notifications";
@@ -37,6 +37,8 @@ import { useEffect, useContext } from "react";
 import UserContext from "./store/user-context";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import Chat, { loader as ChatLoader } from "./pages/Chat";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -72,8 +74,13 @@ const router = createBrowserRouter([
         path: "Messages",
         element: <Messages />,
         loader: MessagesLoader,
-        action: MessagesAction,
       },
+      {
+        path: "Conversations",
+        element: <Conversations />,
+        loader: ConversationsLoader,
+      },
+      { path: "Chat/:mode/:userId", element: <Chat />, loader: ChatLoader },
       { path: "NewUser", element: <NewUser /> },
       { path: "UserPermits", element: <UserPermits /> },
       { path: "Contracts", element: <Contracts />, loader: ContractLoader },

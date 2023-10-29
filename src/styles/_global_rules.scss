@@ -2,6 +2,7 @@
 @use "../helpers/mixins" as *;
 @use "../helpers/fonts" as *;
 @use "./colors" as *;
+@use "./placeholders" as *;
 
 %reset {
   margin: 0;
@@ -20,6 +21,17 @@ html {
 
 body {
   @extend %reset;
+  overflow: overlay;
+
+  &::-webkit-scrollbar-track {
+    @extend %track;
+  }
+  &::-webkit-scrollbar {
+    @extend %scrollbar;
+  }
+  &::-webkit-scrollbar-thumb {
+    @extend %thumb;
+  }
 }
 
 * {
@@ -28,7 +40,7 @@ body {
   user-select: none;
   outline: none;
   border: none;
-  //text-transform: capitalize;
+  //scrollbar-gutter: stable;
 }
 
 ul {
@@ -98,6 +110,22 @@ button {
   }
 }
 
-.leaflet-control-geosearch .leaflet-bar-part {
-  //display: none;
+%arrow {
+  padding: 0.9375rem;
+  line-height: 3.75rem;
+}
+#ReactSimpleImageViewer {
+  padding: 0 3.75rem;
+  z-index: 9999;
+  > span:first-of-type {
+    font-size: 2.5rem;
+    top: 0.9375rem;
+    right: 0.9375rem;
+  }
+  > span:nth-of-type(2) {
+    @extend %arrow;
+  }
+  > span:nth-of-type(3) {
+    @extend %arrow;
+  }
 }
