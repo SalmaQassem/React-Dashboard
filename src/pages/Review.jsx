@@ -5,13 +5,18 @@ import { Link, useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { RiHotelLine } from "react-icons/ri";
 import { PiDoorOpenLight } from "react-icons/pi";
-import { FaKaaba, FaBuildingUser } from "react-icons/fa6";
-import { AiOutlineFile, AiOutlineFileProtect } from "react-icons/ai";
+import { FaKaaba, FaBuildingUser, FaLocationDot } from "react-icons/fa6";
+import {
+  AiOutlineFile,
+  AiOutlineFileProtect,
+  AiOutlineFileSearch,
+} from "react-icons/ai";
 import { getAuthToken } from "../util/auth";
 import { useTranslation } from "react-i18next";
 import { FiPhoneCall } from "react-icons/fi";
 import { useContext } from "react";
 import BuildingContext from "../store/building-context";
+import MapView from "../components/UI/MapView";
 
 const Review = () => {
   const data = useLoaderData();
@@ -21,12 +26,53 @@ const Review = () => {
   const [filter, setFilter] = useState("buildingType");
   const [filteredData, setFilteredData] = useState([]);
   //const imgs = data[0].media.length > 0 ? data[0].media : [];
+  const imgs =
+    data[0].media && data[0].media.length > 0
+      ? data[0].media.filter((item) => {
+          const type = item.mime_type.split("/")[1];
+          return type === "png" || type === "jpg";
+        })
+      : [];
+  const files =
+    data[0].media && data[0].media.length > 0
+      ? data[0].media.filter((item) => {
+          const type = item.mime_type.split("/")[1];
+          return type === "pdf";
+        })
+      : [];
+  const attachments =
+    files && files.length > 0
+      ? files.map((item, index) => {
+          return {
+            id: index,
+            title: t("body.file"),
+            value: (
+              <Link to={item.original_url} target="_blank">
+                {item.file_name}
+              </Link>
+            ),
+            icon: <AiOutlineFile />,
+          };
+        })
+      : [];
+  const records =
+    data[0].documents && data[0].documents.length > 0
+      ? data[0].documents.map((item, index) => {
+          return {
+            id: index,
+            price: item.price_hajj,
+            startDate: item.start_date,
+            endDate: item.end_date,
+            icon: <AiOutlineFileSearch />,
+          };
+        })
+      : [];
   const infoItems = [
     { id: "0", name: t("body.buildingData"), category: "buildingType" },
     { id: "1", name: t("body.imagesAndVideos"), category: "imagesAndVideos" },
     { id: "2", name: t("body.attachments"), category: "attachments" },
     { id: "3", name: t("body.location"), category: "location" },
-    { id: "4", name: "سجل المنشأة", category: "location" },
+    { id: "4", name: t("body.buildingRecords"), category: "records" },
   ];
   const filteredItems = [
     {
@@ -79,13 +125,20 @@ const Review = () => {
     },
     {
       name: "attachments",
+      data: attachments.slice(),
+    },
+    {
+      name: "records",
+      data: records.slice(),
+    },
+    {
+      name: "location",
       data: [
         {
           id: "0",
-          title: t("body.buildingType"),
-          value:
-            data[0].type === "build" ? t("body.building") : t("body.hotel"),
-          icon: <RiHotelLine />,
+          title: t("body.buildingAddress"),
+          value: data[0].adresse,
+          icon: <FaLocationDot />,
         },
       ],
     },
@@ -102,8 +155,7 @@ const Review = () => {
   }, [filter, i18n.language]);
 
   useEffect(() => {
-    if(context)
-    context.setPage(0);
+    if (context) context.setPage(0);
   });
   return (
     <div className={styles.review}>
@@ -147,7 +199,64 @@ const Review = () => {
           {/*<div className={styles.img} />*/}
           <StyledContainer>
             <div className={styles.filteredData}>
-              {filteredData.length === 0 ? (
+              {(filteredData.length === 0 ||
+                !filteredData[0].data ||
+                filteredData[0].data.length === 0) && (
+                <p className={styles.message}>{t("body.noData")}</p>
+              )}
+              {filter !== "records" &&
+              filteredData.length > 0 &&
+              filteredData[0].data &&
+              filteredData[0].data.length > 0 ? (
+                <>
+                  {filteredData[0].data.map((item) => {
+                    return (
+                      <div key={item.id} className={styles.item}>
+                        <p className={styles.name}>{item.title}</p>
+                        <p className={styles.value}>{item.value}</p>
+                        <div className={styles.icon}>{item.icon}</div>
+                      </div>
+                    );
+                  })}
+                  {filter === "location" && (
+                    <div className={styles.map}>
+                      <MapView center={[data[0].lat, data[0].lang]} />
+                    </div>
+                  )}
+                </>
+              ) : (
+                filter === "records" &&
+                filteredData.length > 0 &&
+                filteredData[0].data &&
+                filteredData[0].data.length > 0 && (
+                  <>
+                    <p className={styles.tableTitle}>
+                      {t("body.allContracts")}
+                    </p>
+                    <div className={styles.table}>
+                      <div className={styles.tableHead}>
+                        <p>م</p>
+                        <p>{t("body.startDate")}</p>
+                        <p>{t("body.endDate")}</p>
+                        <p>{t("body.price")}</p>
+                        <p>{t("body.show")}</p>
+                      </div>
+                      {filteredData[0].data.map((item, index) => {
+                        return (
+                          <div key={item.id} className={styles.tableBody}>
+                            <p>{index + 1}</p>
+                            <p>{item.startDate}</p>
+                            <p>{item.endDate}</p>
+                            <p>{item.price}</p>
+                            <p className={styles.icon}>{item.icon}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>
+                )
+              )}
+              {/*filteredData.length === 0 ? (
                 <p className={styles.message}>{t("body.noData")}</p>
               ) : (
                 filteredData[0].data.map((item) => {
@@ -159,7 +268,7 @@ const Review = () => {
                     </div>
                   );
                 })
-              )}
+              )*/}
             </div>
           </StyledContainer>
         </div>

@@ -12,8 +12,10 @@ import {
   AiOutlineFileProtect,
   AiOutlineFileSearch,
 } from "react-icons/ai";
-import { FaKaaba, FaBuildingUser } from "react-icons/fa6";
+import { FaKaaba, FaBuildingUser, FaLocationDot } from "react-icons/fa6";
 import { FiPhoneCall } from "react-icons/fi";
+import MapView from "../components/UI/MapView";
+
 const HousePage = () => {
   const data = useLoaderData();
   const [t, i18n] = useTranslation("global");
@@ -125,6 +127,17 @@ const HousePage = () => {
       name: "records",
       data: records.slice(),
     },
+    {
+      name: "location",
+      data: [
+        {
+          id: "0",
+          title: t("body.buildingAddress"),
+          value: data[0].adresse,
+          icon: <FaLocationDot />,
+        },
+      ],
+    },
   ];
 
   const filterHandler = (e) => {
@@ -137,7 +150,7 @@ const HousePage = () => {
       return item.name === filter;
     });
     setFilteredData(items);
-  }, [filter, i18n.language]);
+  }, [filter]);
 
   return (
     <div className={styles.review}>
@@ -172,42 +185,62 @@ const HousePage = () => {
           {/*<div className={styles.img} />*/}
           <StyledContainer>
             <div className={styles.filteredData}>
-              {filteredData.length === 0 ? (
+              {(filteredData.length === 0 ||
+                !filteredData[0].data ||
+                filteredData[0].data.length === 0) && (
                 <p className={styles.message}>{t("body.noData")}</p>
-              ) : filter !== "records" ? (
-                filteredData[0].data.map((item) => {
-                  return (
-                    <div key={item.id} className={styles.item}>
-                      <p className={styles.name}>{item.title}</p>
-                      <p className={styles.value}>{item.value}</p>
-                      <div className={styles.icon}>{item.icon}</div>
-                    </div>
-                  );
-                })
-              ) : (
+              )}
+              {filter !== "records" &&
+              filteredData.length > 0 &&
+              filteredData[0].data &&
+              filteredData[0].data.length > 0 ? (
                 <>
-                  <p className={styles.tableTitle}>{t("body.allContracts")}</p>
-                  <div className={styles.table}>
-                    <div className={styles.tableHead}>
-                      <p>م</p>
-                      <p>{t("body.startDate")}</p>
-                      <p>{t("body.endDate")}</p>
-                      <p>{t("body.price")}</p>
-                      <p>{t("body.show")}</p>
+                  {filteredData[0].data.map((item) => {
+                    return (
+                      <div key={item.id} className={styles.item}>
+                        <p className={styles.name}>{item.title}</p>
+                        <p className={styles.value}>{item.value}</p>
+                        <div className={styles.icon}>{item.icon}</div>
+                      </div>
+                    );
+                  })}
+                  {filter === "location" && (
+                    <div className={styles.map}>
+                      <MapView center={[data[0].lat, data[0].lang]} />
                     </div>
-                    {filteredData[0].data.map((item, index) => {
-                      return (
-                        <div key={item.id} className={styles.tableBody}>
-                          <p>{index + 1}</p>
-                          <p>{item.startDate}</p>
-                          <p>{item.endDate}</p>
-                          <p>{item.price}</p>
-                          <p className={styles.icon}>{item.icon}</p>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  )}
                 </>
+              ) : (
+                filter === "records" &&
+                filteredData.length > 0 &&
+                filteredData[0].data &&
+                filteredData[0].data.length > 0 && (
+                  <>
+                    <p className={styles.tableTitle}>
+                      {t("body.allContracts")}
+                    </p>
+                    <div className={styles.table}>
+                      <div className={styles.tableHead}>
+                        <p>م</p>
+                        <p>{t("body.startDate")}</p>
+                        <p>{t("body.endDate")}</p>
+                        <p>{t("body.price")}</p>
+                        <p>{t("body.show")}</p>
+                      </div>
+                      {filteredData[0].data.map((item, index) => {
+                        return (
+                          <div key={item.id} className={styles.tableBody}>
+                            <p>{index + 1}</p>
+                            <p>{item.startDate}</p>
+                            <p>{item.endDate}</p>
+                            <p>{item.price}</p>
+                            <p className={styles.icon}>{item.icon}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>
+                )
               )}
             </div>
           </StyledContainer>

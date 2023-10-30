@@ -119,14 +119,14 @@
           $gap: 1.75rem
         );
         .name {
-          width: 20%;
+          width: 15%;
           @extend %font;
           color: $black;
           text-transform: capitalize;
           overflow-wrap: break-word;
         }
         .value {
-          width: 10%;
+          min-width: 15%;
           @extend %font;
           color: $grey-10;
           a {
@@ -137,6 +137,13 @@
           width: 10%;
           @extend %icon;
         }
+      }
+      .map {
+        width: 100%;
+        height: 30rem;
+        border: 0.0625rem solid #fff;
+        border-radius: 0.9375rem;
+        overflow: hidden;
       }
       .tableTitle {
         text-transform: capitalize;

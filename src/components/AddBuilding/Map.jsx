@@ -35,7 +35,7 @@ const Map = () => {
         }}
         position={position}
         ref={markerRef}
-      ></Marker>
+      />
     );
   };
 

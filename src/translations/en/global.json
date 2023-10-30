@@ -78,6 +78,7 @@
     "continue": "continue building registration",
     "acceptedFormats": "accepted formats",
     "showOnMap": "show building on map",
+    "buildingAddress": "bulilding address",
     "saveRegistration": "save building registration",
     "contractForm": "contract form",
     "startDate": "start date",
