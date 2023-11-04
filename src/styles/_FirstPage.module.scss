@@ -2,106 +2,72 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
 @use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
+@import "./placeholders";
 
 %flex {
-  @include flex-variant(flex, $direction: column, $gap: 1.25rem);
-}
-%font {
-  font-family: "Cairo-Regular";
+  @include flex-variant(flex, $direction: column, $gap: $gap-20);
 }
 %flex-column {
   @include flex-variant(
     flex,
     $direction: column,
     $justify: space-between,
-    $gap: $input_gap
+    $gap: $gap-16
   );
 }
 .form {
-  height: 100%;
-  flex: 1 0;
-  @include flex-variant(
-    flex,
-    $direction: column,
-    $justify: space-between,
-    $gap: 2.5rem
-  );
+  @extend %formStyle;
   .inputs {
+    width: 100%;
     @extend %flex;
     .selectItem {
       width: 100%;
       @extend %flex-column;
     }
     .input {
-      width: 65%;
+      width: 100%;
+      @include mediaQuery($medScreen_min_width) {
+        width: 65%;
+      }
       @extend %flex-column;
       .inputItem {
-        width: 100%;
-        height: 3.125rem;
-        padding: 0 0.9375rem;
+        @extend %inputStyle;
         @include flex-variant(flex, $direction: row, $align: center);
-        border: 0.0625rem solid $grey-9;
-        border-radius: 0.5rem;
-        background-color: $white;
-        &.invalid {
-          border-color: $red;
-          color: $red;
-        }
         .inputField {
-          flex: 1 0;
-          @extend %font;
-          font-size: 1rem;
-          &::placeholder {
-            text-transform: capitalize;
-          }
-          &::-webkit-outer-spin-button,
-          &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-          }
-          &[type="number"] {
-            -moz-appearance: textfield;
-          }
-          &.invalid {
-            &::placeholder {
-              color: $red;
-            }
-          }
+          @extend %inputFieldStyle;
         }
         .icon {
-          @include flex-variant(
-            flex,
-            $direction: row,
-            $align: center,
-            $justify: center
-          );
-          font-size: 1.5rem;
+          @extend %iconStyle;
         }
       }
     }
   }
   .radioButtons {
-    @include flex-variant(flex, $direction: row, $justify: space-between);
+    width: 100%;
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $justify: space-between,
+      $gap: $gap-32,
+      $wrap: wrap
+    );
     .radioButton {
       @extend %flex-column;
       justify-content: stretch;
       .title {
         font-family: "Cairo-ExtraBold";
-        font-size: 1.125rem;
+        font-size: $f-s-18;
         color: $pink;
         text-transform: capitalize;
       }
       .content {
-        @include flex-variant(flex, $direction: row, $gap: 4rem);
+        @include flex-variant(flex, $direction: row, $gap: $gap-64);
       }
     }
   }
   .feedback {
-    padding: 0 0.9375rem;
-    @extend %font;
-    text-transform: capitalize;
-    font-size: 0.875rem;
-    color: $red;
+    @extend %feedbackStyle;
   }
   .en {
     margin: 0 0 0 auto;

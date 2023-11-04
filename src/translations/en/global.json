@@ -3,6 +3,7 @@
     "message": "welcome"
   },
   "body": {
+    "logOut": "logout",
     "adminRole": "admin",
     "writer": "data entry",
     "supervisor": "supervisor",
@@ -136,6 +137,10 @@
     "noNotificatons": "we couldn't find any notifications",
     "friendsList": "friends list",
     "chats": "chats",
-    "groups": "groups"
+    "groups": "groups",
+    "changeLanguage": "arabic / english",
+    "resize": "full screen",
+    "darkLight": "dark / light",
+    "tableIndex": "#"
   }
 }

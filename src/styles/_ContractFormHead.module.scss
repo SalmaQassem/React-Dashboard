@@ -1,24 +1,24 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
 
 .head {
   width: 100%;
-  @include flex-variant(
-    flex,
-    $direction: row,
-    $align: center,
-    $justify: center,
-    $gap: 1.75rem
-  );
+  @include flex-row-center($gap: $gap-28);
   text-transform: capitalize;
   h1 {
     font-family: "Cairo-Bold";
-    font-size: 2.1875rem;
+    font-size: $f-s-35;
   }
   .logo {
     width: 10.8125rem;
+    display: none;
     img {
       width: 100%;
+    }
+    @include mediaQuery($medScreen_min_width) {
+      display: block;
     }
   }
 }

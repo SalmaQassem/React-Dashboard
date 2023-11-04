@@ -1,0 +1,90 @@
+@use "./colors" as *;
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
+
+%icon {
+  @include flex-row-center;
+  background-color: transparent;
+  color: $white;
+  font-size: $f-s-24;
+  text-transform: capitalize;
+  cursor: pointer;
+  &.dark {
+    color: $black;
+  }
+}
+.settings {
+  width: 3.75rem;
+  height: 3.75rem;
+  @include flex-row-center;
+  position: fixed;
+  right: $padding-40;
+  bottom: $padding-28;
+  z-index: 1000;
+  border-radius: 50%;
+  background-color: $grey-7;
+  color: $white;
+  font-size: $f-s-20;
+  box-shadow: $boxShadow-2;
+  @include mediaQuery($largeScreen_min_width) {
+    & {
+      display: none !important;
+    }
+  }
+  &.en {
+    left: $padding-40;
+    right: initial;
+  }
+}
+.collapseIcons {
+  width: 16.25rem;
+  padding: $padding-16;
+  @include flex-variant(flex, $direction: column, $gap: $gap-15);
+  position: fixed;
+  right: 6.5rem;
+  bottom: $padding-28;
+  z-index: 1000;
+  background-color: $grey-12;
+  border-radius: $b-r-14;
+  box-shadow: $boxShadow-2;
+  overflow: hidden;
+  @include mediaQuery($largeScreen_min_width) {
+    & {
+      display: none !important;
+    }
+  }
+  &.en {
+    left: 6.5rem;
+    right: initial;
+  }
+  .icon {
+    @extend %icon;
+    justify-content: flex-start;
+    gap: $gap-16;
+    font-family: "Cairo-SemiBold";
+    font-size: $f-s-16;
+    color: $black;
+    svg {
+      font-size: $f-s-24;
+    }
+  }
+}
+
+.icons {
+  display: none !important;
+  @include mediaQuery($largeScreen_min_width) {
+    & {
+      @include flex-variant(
+        flex,
+        $direction: row,
+        $align: center,
+        $gap: $gap-25
+      );
+    }
+  }
+  .icon {
+    @extend %icon;
+  }
+}

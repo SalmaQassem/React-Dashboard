@@ -14,7 +14,7 @@ const AddBuildingForm = (props) => {
   }, []);
   return (
     <>
-      {context.page === 0 && (
+      {context.page === 2 && (
         <FirstPage
           state={props.state}
           firstPageData={props.state === "edit" && props.firstPageData}
@@ -26,7 +26,7 @@ const AddBuildingForm = (props) => {
           secondPageData={props.state === "edit" && props.secondPageData}
         />
       )}
-      {context.page === 2 && (
+      {context.page === 0 && (
         <ThirdPage
           state={props.state}
           url={

@@ -1,3 +1,5 @@
+@use "./variables/global" as *;
+
 .profile {
-  padding: 1.75rem 2.5rem;
+  padding: $main-padding;
 }

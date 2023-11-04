@@ -6,8 +6,14 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { PiBookmarkSimpleBold } from "react-icons/pi";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import Pusher from "pusher-js";
+import { useState } from "react";
 
 const Chat = () => {
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  let allMessages = [];
   const params = useParams();
   const adminId = JSON.parse(sessionStorage.getItem("userData")).id;
   const adminImg = JSON.parse(sessionStorage.getItem("userData")).image;
@@ -40,10 +46,29 @@ const Chat = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher(import.meta.env.VITE_APP_KEY, {
+      cluster: import.meta.env.VITE_CLUSTER_KEY,
+    });
+
+    const channel = pusher.subscribe(
+      `${import.meta.env.VITE_CHANEEL_NAME}.${adminId}`
+    );
+
+    channel.bind(import.meta.env.VITE_EVENT_NAME, function (data) {
+      allMessages.push(data);
+      setMessages((prev) => {
+        return [...prev, allMessages];
+      });
+    });
+  }, []);
+
   const formSubmitHandler = async (formData) => {
     const enteredData = {
       user_id: params.mode === "past" ? data.chats.participants[0].id : data.id,
-      message: formData.sentMessage,
+      message: message,
     };
     const token = getAuthToken();
     try {
@@ -90,7 +115,31 @@ const Chat = () => {
         <StyledContainer>
           <div className={styles.data}>
             <div className={styles.messages}>
-              {data.message &&
+              {messages.length > 0 &&
+                messages.map((msg, index) => {
+                  return (
+                    <div
+                      key={index}
+                      /*className={
+                        msg.user_id === adminId
+                          ? `${styles.message} ${styles.right}`
+                          : `${styles.message} ${styles.left}`
+                      }*/
+                    >
+                      {/*<div className={styles.img}>
+                        <img
+                          src={
+                            msg.user_id === adminId
+                              ? `https://zadapp.mqawilk.com/public/images/${adminImg}`
+                              : `https://zadapp.mqawilk.com/public/images/${image}`
+                          }
+                        />
+                        </div>*/}
+                      <span>{msg.body}</span>
+                    </div>
+                  );
+                })}
+              {/*data.message &&
                 data.message.length > 0 &&
                 data.message.map((msg, index) => {
                   return (
@@ -114,7 +163,7 @@ const Chat = () => {
                       <span>{msg.body}</span>
                     </div>
                   );
-                })}
+                })*/}
             </div>
             <form
               onSubmit={handleSubmit(formSubmitHandler)}

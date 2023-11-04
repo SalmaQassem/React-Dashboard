@@ -1,20 +1,25 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
 
 .contract {
-  //min-height: 150vh;
-  padding-top: 1.75rem;
+  padding: $main-padding;
   @include flex-variant(
     flex,
     $direction: column,
     $align: center,
-    $gap: 1.75rem
+    $gap: $gap-28
   );
   .body {
     width: 100%;
-    @include flex-variant(flex, $direction: row, $gap: 1.75rem);
+    @include flex-row-center($gap: $padding-28);
     .image {
-      width: calc(((100% - 0.9375rem) * 30) / 100);
+      display: none;
+      @include mediaQuery($largeScreen_min_width) {
+        display: block;
+        width: calc(((100% - $padding-28) * 40) / 100);
+      }
       img {
         width: 100%;
       }

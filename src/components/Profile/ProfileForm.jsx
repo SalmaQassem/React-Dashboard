@@ -101,6 +101,7 @@ const ProfileForm = (props) => {
                 <input
                   type={item.type}
                   id={item.id}
+                  className={styles.inputItem}
                   defaultValue={
                     item.id !== "password" ? oldData[`${item.id}`] : ""
                   }

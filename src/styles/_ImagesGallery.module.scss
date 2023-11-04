@@ -1,52 +1,83 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
 
 %img-container {
   overflow: hidden;
-  border-radius: 1.4375rem;
+  border-radius: $b-r-23;
   cursor: pointer;
 }
 %arrow {
-  @include flex-variant(
-    flex,
-    $direction: row,
-    $align: center,
-    $justify: center
-  );
-  font-size: 3.75rem;
+  @include flex-row-center();
+  font-size: $f-s-60;
   background-color: transparent;
   color: $white;
 }
 .gallery {
   width: 100%;
-  padding-top: 1.75rem;
+  padding-top: $padding-28;
   .imgsContainer {
     width: 100%;
     height: 35.9375rem;
-    @include flex-variant(flex, $direction: row, $align: center, $gap: 1.75rem);
+    @include flex-variant(
+      flex,
+      $direction: column,
+      $justify: center,
+      $gap: $gap-28
+    );
+    @include mediaQuery($largeScreen_min_width) {
+      @include flex-variant(
+        flex,
+        $direction: row,
+        $align: center,
+        $gap: $gap-28
+      );
+    }
     .largeImg {
+      width: 100%;
+      height: 80%;
       @extend %img-container;
+      order: 1;
+      @include mediaQuery($largeScreen_min_width){
+        width: calc(((100% - $gap-28) * 80) / 100);
+        height: 100%;
+        order: 2;
+      }
       img {
         width: 100%;
         height: 100%;
       }
       &.singleImg {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      /*&.mainImg {
         width: 100%;
         height: 100%;
-      }
-      &.mainImg {
-        width: calc(80% - 0.875rem);
-        height: 100%;
-      }
+      }*/
     }
     .sideImages {
-      width: calc(20% - 0.875rem);
-      height: 100%;
-      @include flex-variant(flex, $direction: column, $gap: 1.75rem);
+      width: 100%;
+      height: 20%;
+      @include flex-variant(flex, $direction: row, $gap: $gap-28);
+      order: 2;
+      @include mediaQuery($largeScreen_min_width) {
+        width: calc(((100% - $gap-28) * 20) / 100);
+        height: 100%;
+        @include flex-variant(flex, $direction: column,$justify:flex-start,$gap: $gap-28);
+        order: 1;
+      }
       .img {
-        max-height: calc(((100% - 5.25rem) * 25) / 100);
+        //max-height: calc(((100% - (3 * $gap-28)) * 25) / 100);
+        width: calc(((100% - (3 * $gap-28)) * 25) / 100);
+        height: 100%;
         @extend %img-container;
-        flex: 1;
+        @include mediaQuery($largeScreen_min_width){
+          width: 100%;
+          height: calc(((100% - (3 * $gap-28)) * 25) / 100);
+          //flex: 1;
+        }
         img {
           width: 100%;
           height: 100%;

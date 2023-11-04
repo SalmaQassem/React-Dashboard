@@ -145,9 +145,10 @@ const SecondPage = (props) => {
     },
   ];
   const tableHead = [
-    { id: "0", text: "م" },
+    { id: "0", text: t("body.tableIndex") },
     { id: "1", text: t("body.fileName") },
     { id: "2", text: t("body.attachmentType") },
+    { id: "3", text: "" },
   ];
   const selectValue = watch("attachedType");
   const watchedFiles = watch("filesInput");
@@ -314,11 +315,9 @@ const SecondPage = (props) => {
             {tableData.map((item, index) => {
               return (
                 <div key={index} className={styles.item}>
-                  <div className={styles.tableData}>
-                    <p className={styles.num}>{index + 1}</p>
-                    <p className={styles.name}>{item.fileName}</p>
-                    <p className={styles.type}>{item.label}</p>
-                  </div>
+                  <p className={styles.num}>{index + 1}</p>
+                  <p className={styles.name}>{item.fileName}</p>
+                  <p className={styles.type}>{item.label}</p>
                   <button
                     type="button"
                     id={index}

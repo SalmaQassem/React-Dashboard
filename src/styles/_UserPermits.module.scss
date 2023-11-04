@@ -1,24 +1,32 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
+@use "./placeholders" as *;
 
 .userPermits {
-  padding: 1.75rem 2.5rem;
+  padding: $main-padding;
   .forms {
-    @include flex-variant(flex, $direction: column, $gap: 1.25rem);
+    @include flex-variant(flex, $direction: column, $gap: $gap-32);
     .form {
-      @include flex-variant(
-        flex,
-        $direction: column,
-        $justify: center,
-        $gap: 1.75rem
-      );
+      width: 100% !important;
+      @extend %mainForm;
+
       .submit {
-        width: 18%;
-        justify-content: center;
-        background-color: $black;
-        text-transform: capitalize;
+        width: 100%;
+        @extend %submit;
+        margin: 0 auto 0 0;
         &.en {
           margin: 0 0 0 auto;
+        }
+        @include mediaQuery($smallScreen_min_width) {
+          width: 45%;
+        }
+        @include mediaQuery($medScreen_min_width) {
+          width: 35%;
+        }
+        @include mediaQuery($largeScreen_min_width) {
+          width: 25%;
         }
       }
     }

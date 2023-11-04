@@ -1,0 +1,44 @@
+@use "./colors" as *;
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
+
+.search {
+  @include mediaQuery($medScreen_min_width) {
+    & {
+      flex: 1 0;
+    }
+  }
+  .input {
+    max-width: 16rem;
+    padding: $padding-8 $padding-24;
+    @include flex-row-center($gap: $gap-8);
+    background-color: $white;
+    border: $border-1 solid $grey-1;
+    border-radius: $b-r-7;
+    &.dark {
+      border-color: $grey-13;
+    }
+    @include mediaQuery($XlargeScreen_min_width) {
+      & {
+        min-width: 20rem;
+      }
+    }
+    input {
+      width: 100%;
+      font-family: "Cairo-Bold";
+      font-size: $f-s-16;
+      &::placeholder {
+        color: $grey-2;
+        text-transform: capitalize;
+      }
+    }
+    .searchIcon {
+      @include flex-row-center;
+      font-size: $f-s-20;
+      color: $brown-1;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,21 +1,26 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
 
 .map {
   height: 100%;
   width: 100%;
-  @include flex-variant(flex, $direction: column, $gap: 2.5rem);
+  @include flex-variant(flex, $direction: column, $gap: $gap-40);
   p {
     font-family: "Cairo-Regular";
-    font-size: 1rem;
+    font-size: $f-s-16;
     color: $grey-10;
   }
   .mapItem {
     width: 100%;
-    height: 43.75rem;
-    padding: 0.1875rem;
+    height: 30rem;
+    padding: $padding-3;
     background-color: $white;
+    @include mediaQuery($smallScreen_min_width) {
+      height: 43.75rem;
+    }
   }
   .save {
     margin: 0 auto;

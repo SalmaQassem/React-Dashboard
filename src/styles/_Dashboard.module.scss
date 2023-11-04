@@ -2,18 +2,19 @@
 @use "../helpers/fonts" as *;
 @use "./colors" as *;
 @use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
 
 %color {
   background-color: $white;
   color: $black;
 }
 %text {
-  font-size: 1.25rem;
+  font-size: $f-s-20;
 }
 .dashboard {
   width: 100%;
-  padding: 1.75rem 2.5rem;
-  @include flex-variant(flex, $direction: column, $gap: 2.5rem);
+  padding: $main-padding;
+  @include flex-variant(flex, $direction: column, $gap: $gap-40);
   text-transform: capitalize;
 
   .info {
@@ -21,7 +22,7 @@
       flex,
       $direction: column,
       $align: center,
-      $gap: 1.5625rem
+      $gap: $gap-25
     );
     font-family: "Cairo-Medium";
     @include mediaQuery($largeScreen_min_width) {
@@ -30,23 +31,21 @@
           flex,
           $direction: row,
           $align: center,
-          $gap: 1.5625rem
+          $gap: $gap-25
         );
       }
     }
     .dateTime {
-      //width: calc(((100% - 1.5625rem) * 100) / 100);
-      //flex-basis: calc(((100% - 1.5625rem) * 100) / 100);
       @include flex-variant(
         flex,
         $direction: column,
         $justify: center,
-        $gap: 1.5625rem
+        $gap: $gap-25
       );
       @include mediaQuery($largeScreen_min_width) {
         & {
-          width: calc(((100% - 1.5625rem) * 25) / 100);
-          flex-basis: calc(((100% - 1.5625rem) * 25) / 100);
+          width: calc(((100% - $gap-25) * 25) / 100);
+          flex-basis: calc(((100% - $gap-25) * 25) / 100);
         }
       }
       .item {
@@ -55,7 +54,7 @@
           $direction: row,
           $align: center,
           $justify: space-between,
-          $gap: 1rem
+          $gap: $gap-16
         );
         @include mediaQuery($largeScreen_min_width) {
           & {
@@ -63,13 +62,8 @@
           }
         }
         .icon {
-          @include flex-variant(
-            flex,
-            $direction: row,
-            $align: center,
-            $justify: center
-          );
-          font-size: 1.75rem;
+          @include flex-row-center();
+          font-size: $f-s-28;
         }
         > span {
           @extend %text;
@@ -86,7 +80,7 @@
             flex,
             $direction: row,
             $justify: center,
-            $gap: 1rem
+            $gap: $gap-16
           );
 
           @include mediaQuery($largeScreen_min_width) {
@@ -104,48 +98,38 @@
     .counters {
       width: 100%;
       flex-basis: 100%;
-      @include flex-variant(
-        flex,
-        $direction: column,
-        //$align: stretsh,
-        $gap: 1.5625rem
-      );
+      @include flex-variant(flex, $direction: column, $gap: $gap-25);
       flex: 1 0;
       @include mediaQuery($smallScreen_min_width) {
-        @include flex-variant(flex, $direction: row, $gap: 1.5625rem);
+        @include flex-variant(flex, $direction: row, $gap: $gap-25);
       }
       @include mediaQuery($largeScreen_min_width) {
         & {
-          width: calc(((100% - 1.5625rem) * 75) / 100);
-          flex-basis: calc(((100% - 1.5625rem) * 75) / 100);
+          width: calc(((100% - $gap-25) * 75) / 100);
+          flex-basis: calc(((100% - $gap-25) * 75) / 100);
         }
       }
       .card {
         width: 100%;
-        padding: 0.9375rem;
+        padding: $padding-15;
         @include flex-variant(flex, $direction: row, $align: center);
-        border-radius: 0.875rem;
-        box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
+        border-radius: $b-r-14;
+        box-shadow: $boxShadow-1;
         @include mediaQuery($smallScreen_min_width) {
           & {
-            width: calc((100% - calc(2 * 1.5625rem)) / 3);
+            width: calc((100% - calc(2 * $gap-25)) / 3);
           }
         }
         @include mediaQuery($XlargeScreen_min_width) {
           & {
-            width: calc(32% - calc(2 * 1.5625rem));
+            width: calc(32% - calc(2 * $gap-25));
           }
         }
         .icon {
           width: 3.125rem;
           height: 3.125rem;
-          @include flex-variant(
-            flex,
-            $direction: row,
-            $align: center,
-            $justify: center
-          );
-          font-size: 1.5rem;
+          @include flex-row-center();
+          font-size: $f-s-24;
           background-color: $grey-3;
           border-radius: 50%;
         }
@@ -159,10 +143,10 @@
           flex: 1 0;
           text-align: center;
           p {
-            font-size: 1.25rem;
+            font-size: $f-s-20;
           }
           span {
-            font-size: 1.75rem;
+            font-size: $f-s-28;
             font-family: "Cairo-ExtraBold";
           }
         }
@@ -194,16 +178,16 @@
   .chart {
     width: 100%;
     height: 22.8125rem;
-    padding: 1.75rem 1.25rem;
-    border-radius: 0.9375rem;
+    padding: $padding-28 $padding-20;
+    border-radius: $b-r-15;
     background-color: $white;
-    box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
+    box-shadow: $boxShadow-1;
   }
   .houses {
     h1 {
-      margin-bottom: 1.75rem;
+      margin-bottom: $m-28;
       font-family: "Cairo-ExtraBold";
-      font-size: 1.1875rem;
+      font-size: $f-s-18;
     }
   }
 }

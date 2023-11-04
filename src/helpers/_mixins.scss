@@ -26,7 +26,8 @@
   }
 
   @if $gap {
-    gap: $gap;
+    row-gap: $gap;
+    column-gap: $gap;
   }
   @if $grow {
     flex-grow: $grow;
@@ -35,6 +36,17 @@
 
 @mixin mediaQuery($screen) {
   @media (#{$screen}) {
-      @content;
+    @content;
   }
+}
+
+@mixin flex-row-center($gap: false, $wrap: false) {
+  @include flex-variant(
+    flex,
+    $direction: row,
+    $align: center,
+    $justify: center,
+    $gap: $gap,
+    $wrap: $wrap
+  );
 }

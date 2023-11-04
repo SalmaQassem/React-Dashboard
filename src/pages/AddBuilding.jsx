@@ -9,12 +9,10 @@ const AddBuilding = () => {
   const [t, i18n] = useTranslation("global");
   return (
     <div className={styles.page}>
-      <StyledContainer>
-        <div className={styles.body}>
-          <MainHeader text={t("body.addBuilding")} icon={<LiaHotelSolid />} />
-          <AddBuildingForm state="add" />
-        </div>
-      </StyledContainer>
+      <div className={styles.body}>
+        <MainHeader text={t("body.addBuilding")} icon={<LiaHotelSolid />} />
+        <AddBuildingForm state="add" />
+      </div>
     </div>
   );
 };

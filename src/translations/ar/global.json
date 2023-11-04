@@ -3,6 +3,7 @@
     "message": "مرحبا"
   },
   "body": {
+    "logOut": "تسجيل خروج",
     "adminRole": "أدمن",
     "writer": "مدخل بيانات",
     "supervisor": "مشرف",
@@ -139,6 +140,10 @@
     "noNotificatons": "لم نستطيع العثور على أى إشعارات",
     "friendsList": "قائمة الأصدقاء",
     "chats": "المحادثات",
-    "groups": "المجموعات"
+    "groups": "المجموعات",
+    "changeLanguage": "العربية / الإنجليزية",
+    "resize": "شاشة كاملة",
+    "darkLight": "وضع الظلام / وضع الإضاءة",
+    "tableIndex": "م"
   }
 }

@@ -3,6 +3,7 @@
 @use "../helpers/fonts" as *;
 @use "./colors" as *;
 @use "./placeholders" as *;
+@use "./variables/global" as *;
 
 %reset {
   margin: 0;
@@ -40,7 +41,6 @@ body {
   user-select: none;
   outline: none;
   border: none;
-  //scrollbar-gutter: stable;
 }
 
 ul {
@@ -67,7 +67,6 @@ button {
 .react-datepicker-wrapper {
   width: 100%;
   height: 100%;
-  //position: absolute;
   .react-datepicker__input-container {
     width: 100%;
     height: 100%;
@@ -83,6 +82,7 @@ button {
 
 .leaflet-container {
   height: 100%;
+  z-index: 1;
 }
 
 .leaflet-control-geosearch {
@@ -92,35 +92,35 @@ button {
     padding: 0 !important;
   }
   input {
-    padding: 0 1.5rem 0 0 !important;
+    padding: 0 $padding-24 0 0 !important;
     @extend %font;
     &::placeholder {
       @extend %font;
-      font-size: 0.875rem;
+      font-size: $f-s-14;
     }
   }
   button {
-    padding: 0 0.5rem !important;
+    padding: 0 $padding-8 !important;
     @extend %font;
-    font-size: 1rem !important;
+    font-size: $f-s-16 !important;
   }
   > div {
     @extend %font;
-    font-size: 0.875rem;
+    font-size: $f-s-14;
   }
 }
 
 %arrow {
-  padding: 0.9375rem;
+  padding: $padding-15;
   line-height: 3.75rem;
 }
 #ReactSimpleImageViewer {
-  padding: 0 3.75rem;
+  padding: 0 $padding-60;
   z-index: 9999;
   > span:first-of-type {
-    font-size: 2.5rem;
-    top: 0.9375rem;
-    right: 0.9375rem;
+    font-size: $f-s-40;
+    top: $padding-15;
+    right: $padding-15;
   }
   > span:nth-of-type(2) {
     @extend %arrow;

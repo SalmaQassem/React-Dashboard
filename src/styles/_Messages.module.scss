@@ -1,62 +1,73 @@
 @use "./colors" as *;
 @use "../helpers/mixins" as *;
 @use "../helpers/fonts" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
 
 %font {
   font-family: "Cairo-ExtraBold";
-  font-size: 1.125rem;
+  font-size: $f-s-18;
 }
 %arrow {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
-  border: 0.125rem solid $black;
+  border: $b-2 solid $black;
 }
 %flex {
   @include flex-variant(
     flex,
     $direction: column,
     $justify: center,
-    $gap: 1.5rem
+    $gap: $gap-24
   );
 }
 .messages {
   height: 100%;
-  padding: 1.75rem 2.5rem;
-  //@include flex-variant(flex, $direction: column, $gap);
+  padding: $main-padding;
   .body {
     @extend %flex;
 
     .list {
       @extend %flex;
       .listItem {
-        padding: 0.625rem 1.75rem;
+        padding: $padding-10 $padding-28;
         @include flex-variant(
           flex,
           $direction: row,
           $justify: space-between,
           $align: center,
-          $gap: 1rem
+          $gap: $gap-16
         );
         font-family: "Cairo-Regular";
-        font-size: 1rem;
-        border-radius: 0.625rem;
+        font-size: $f-s-16;
+        border-radius: $b-r-10;
         background-color: $white;
-        box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
+        box-shadow: $boxShadow-1;
         cursor: pointer;
+
         .text {
+          width: 100%;
           @include flex-variant(
             flex,
-            $direction: row,
+            $direction: column,
             $align: center,
-            $gap: 1rem
+            $gap: $gap-24
           );
+
+          @include mediaQuery($Tablet_min_width) {
+            & {
+              flex-direction: row;
+              gap: $gap-16;
+            }
+          }
           .img {
             width: 4.375rem;
             height: 4.375rem;
-            border: 0.1875rem solid $white;
+            flex-shrink: 0;
+            border: $b-3 solid $white;
             border-radius: 50%;
-            box-shadow: 0 0.05rem 0.25rem 0 $grey-4;
+            box-shadow: $boxShadow-1;
             overflow: hidden;
             img {
               width: 100%;
@@ -69,24 +80,35 @@
               flex,
               $direction: row,
               $align: center,
-              $gap: 0.5rem
+              $gap: $gap-8
             );
             .user {
-              @include flex-variant(flex, $direction: column, $gap: 0.875rem);
+              width: 100%;
+              @include flex-variant(
+                flex,
+                $direction: column,
+                $align: center,
+                $gap: $gap-14
+              );
               font-family: "Cairo-Bold";
+              @include mediaQuery($Tablet_min_width) {
+                & {
+                  align-items: flex-start;
+                }
+              }
               .name {
-                font-size: 1.125rem;
+                font-size: $f-s-18;
                 line-height: 1;
                 text-transform: capitalize;
               }
               .role {
-                font-size: 1rem;
+                font-size: $f-s-16;
                 line-height: 1;
               }
             }
             .action {
               color: $grey-5;
-              font-size: 1rem;
+              font-size: $f-s-16;
             }
           }
         }

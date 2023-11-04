@@ -1,1 +1,76 @@
-$input_gap: 1rem;
+@use "../colors" as *;
+
+//shadow
+$boxShadow-1: 0 0.25rem 0.25rem 0 $grey-4;
+$boxShadow-2: 0 0 0.3rem 0 $grey-4;
+
+//gap
+$gap-5: 0.3125rem;
+$gap-8: 0.5rem;
+$gap-12: 0.75rem;
+$gap-14: 0.875rem;
+$gap-15: 0.9375rem;
+$gap-16: 1rem;
+$gap-18: 1.125rem;
+$gap-20: 1.25rem;
+$gap-24: 1.5rem;
+$gap-25: 1.5625rem;
+$gap-28: 1.75rem;
+$gap-30: 1.875rem;
+$gap-32: 2rem;
+$gap-35: 2.1875rem;
+$gap-40: 2.5rem;
+$gap-50: 3.125rem;
+$gap-60: 3.75rem;
+$gap-64: 4rem;
+
+//border
+$border-1: 0.0625rem;
+$b-2: 0.125rem;
+$b-3: 0.1875rem;
+
+//border radius
+$b-r-1: 0.0625rem;
+$b-r-2: 0.125rem;
+$b-r-6: 0.375rem;
+$b-r-7: 0.4375rem;
+$b-r-8: 0.5rem;
+$b-r-10: 0.625rem;
+$b-r-12: 0.75rem;
+$b-r-14: 0.875rem;
+$b-r-15: 0.9375rem;
+$b-r-23: 1.4375rem;
+
+//padding
+$padding-3: 0.1875rem;
+$padding-8: 0.5rem;
+$padding-10: 0.625rem;
+$padding-12: 0.75rem;
+$padding-15: 0.9375rem;
+$padding-16: 1rem;
+$padding-20: 1.25rem;
+$padding-24: 1.5rem;
+$padding-28: 1.75rem;
+$padding-40: 2.5rem;
+$padding-60: 3.75rem;
+$main-padding: $padding-28 $padding-40;
+
+//margin
+$m-15: 0.9375rem;
+$m-28: 1.75rem;
+$m-35: 2.1875rem;
+
+//font size
+$f-s-14: 0.875rem;
+$f-s-16: 1rem;
+$f-s-18: 1.125rem;
+$f-s-20: 1.25rem;
+$f-s-22: 1.375rem;
+$f-s-24: 1.5rem;
+$f-s-28: 1.75rem;
+$f-s-32: 2rem;
+$f-s-35: 2.1875rem;
+$f-s-36: 2.25rem;
+$f-s-40: 2.5rem;
+$f-s-60: 3.755rem;
+$f-s-90: 5.625rem;

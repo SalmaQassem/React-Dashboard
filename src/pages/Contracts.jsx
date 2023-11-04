@@ -118,34 +118,32 @@ const Contracts = () => {
               {currentItems.map((item, index) => {
                 return (
                   <div key={index} className={styles.item}>
-                    <div className={styles.tableData}>
-                      <p className={styles.num}>
-                        {itemOffset.newCounter + index}
-                      </p>
-                      <p className={styles.name}>{item.price_hajj}</p>
-                      <p className={styles.name}>{item.start_date}</p>
-                      <p className={styles.name}>{item.end_date}</p>
-                      <p className={styles.name}>{item.document_start}</p>
-                      <p className={styles.type}>{item.notes}</p>
-                      <button
-                        type="button"
-                        id={index}
-                        data-contract={item.id}
-                        className={styles.delete}
-                        onClick={editHandler}
-                      >
-                        <AiOutlineEdit />
-                      </button>
-                      <button
-                        type="button"
-                        id={index}
-                        data-contract={item.id}
-                        className={styles.delete}
-                        onClick={deleteHandler}
-                      >
-                        <IoClose />
-                      </button>
-                    </div>
+                    <p className={styles.num}>
+                      {itemOffset.newCounter + index}
+                    </p>
+                    <p className={styles.name}>{item.price_hajj}</p>
+                    <p className={styles.name}>{item.start_date}</p>
+                    <p className={styles.name}>{item.end_date}</p>
+                    <p className={styles.name}>{item.document_start}</p>
+                    <p className={styles.type}>{item.notes}</p>
+                    <button
+                      type="button"
+                      id={index}
+                      data-contract={item.id}
+                      className={styles.delete}
+                      onClick={editHandler}
+                    >
+                      <AiOutlineEdit />
+                    </button>
+                    <button
+                      type="button"
+                      id={index}
+                      data-contract={item.id}
+                      className={styles.delete}
+                      onClick={deleteHandler}
+                    >
+                      <IoClose />
+                    </button>
                   </div>
                 );
               })}

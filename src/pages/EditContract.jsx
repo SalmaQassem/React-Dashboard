@@ -1,7 +1,8 @@
-import styles from "../styles/_EditContract.module.scss";
+//import styles from "../styles/_EditContract.module.scss";
+import styles from "../styles/_Contract.module.scss";
 import { getAuthToken } from "../util/auth";
 import { useLoaderData } from "react-router-dom";
-import StyledContainer from "../components/UI/StyledContainer";
+//import StyledContainer from "../components/UI/StyledContainer";
 import ContractFormHead from "../components/AddBuilding/ContractFormHead";
 import ContractForm from "../components/AddBuilding/ContractForm";
 import image from "../assets/images/Frame.png";
@@ -13,21 +14,19 @@ const EditContract = () => {
   houseId = data.id;
   const [t, i18n] = useTranslation("global");
   return (
-    <StyledContainer>
-      <div className={styles.contract}>
-        <ContractFormHead />
-        <div className={styles.body}>
-          <div className={styles.image}>
-            <img src={image} alt="frame" />
-          </div>
-          <ContractForm
-            inputsData={data}
-            state="edit"
-            message={t("body.editContractSuccess")}
-          />
+    <div className={styles.contract}>
+      <ContractFormHead />
+      <div className={styles.body}>
+        <div className={styles.image}>
+          <img src={image} alt="frame" />
         </div>
+        <ContractForm
+          inputsData={data}
+          state="edit"
+          message={t("body.editContractSuccess")}
+        />
       </div>
-    </StyledContainer>
+    </div>
   );
 };
 

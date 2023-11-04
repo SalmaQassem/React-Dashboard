@@ -20,10 +20,10 @@ const UserPermitsForm = (props) => {
 
   const selectPermitHandler = (e) => {
     setUserPermits((prevState) => {
-      if (prevState.includes(e.target.textContent)) {
+      if (prevState.includes(e.target.id)) {
         return [...prevState];
       }
-      return [...prevState, e.target.textContent];
+      return [...prevState, e.target.id];
     });
   };
   const removeItem = (e) => {
@@ -45,10 +45,11 @@ const UserPermitsForm = (props) => {
         />
       </div>
       <div className={styles.permits}>
-        {props.permits.map((item) => {
+        {props.permits.map((item, index) => {
           return (
             <div
               key={item.id}
+              id={index}
               className={styles.permit}
               onClick={selectPermitHandler}
             >
@@ -69,7 +70,7 @@ const UserPermitsForm = (props) => {
                 >
                   <IoClose />
                 </div>
-                <span className={styles.text}>{item}</span>
+                <span className={styles.text}>{props.permits[item].name}</span>
               </div>
             );
           })}

@@ -1,0 +1,92 @@
+@use "./colors" as *;
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+@use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
+
+%listItem {
+  padding: 0 $padding-16;
+  @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-16);
+}
+%text {
+  font-size: $f-s-16;
+  text-transform: capitalize;
+  color: $black;
+}
+.dropBoxContainer {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 10000;
+  border-radius: $b-r-15;
+  overflow: hidden;
+  @include mediaQuery($smallScreen_min_width) {
+    & {
+      min-width: 11.875rem;
+      left: 50%;
+      transform: translate(-50%);
+    }
+  }
+  &.en {
+    right: 0;
+    left: initial;
+  }
+  .dropBox {
+    width: 100%;
+    margin-top: $m-15;
+    padding: $padding-16 0;
+    @include flex-variant(
+      flex,
+      $direction: column,
+      $justify: center,
+      $gap: $gap-15
+    );
+    background-color: $grey-12;
+    border-radius: $b-r-15;
+    cursor: default;
+
+    .userInfo {
+      @extend %listItem;
+      font-family: "Cairo-SemiBold";
+      font-size: $f-s-16;
+      text-transform: capitalize;
+      color: $black;
+      @include mediaQuery($smallScreen_min_width) {
+        & {
+          display: none !important;
+        }
+      }
+      & > div:first-of-type {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+      p {
+        font-family: "Cairo-Bold";
+        @extend %text;
+      }
+    }
+    .item {
+      @extend %listItem;
+      font-family: "Cairo-SemiBold";
+      @extend %text;
+      background-color: transparent;
+
+      .icon {
+        width: 2.5rem;
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $justify: center,
+          $align: center
+        );
+        font-size: $f-s-20;
+        @include mediaQuery($smallScreen_min_width) {
+          & {
+            width: initial;
+            justify-content: flex-start;
+          }
+        }
+      }
+    }
+  }
+}

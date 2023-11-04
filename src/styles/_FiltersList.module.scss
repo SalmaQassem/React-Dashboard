@@ -1,26 +1,37 @@
 @use "./colors" as *;
 @use "../helpers/mixins" as *;
 @use "../helpers/fonts" as *;
+@use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
 
 .filtersList {
-  @include flex-variant(flex, $direction: row, $align: center, $gap: 3.75rem);
+  @include flex-row-center($gap: $gap-32, $wrap: wrap);
+  row-gap: $gap-15;
+  @include mediaQuery($medScreen_min_width) {
+    & {
+      @include flex-variant(
+        flex,
+        $direction: row,
+        $align: center,
+        $justify: flex-start,
+        $gap: $gap-60
+      );
+    }
+  }
   .item {
-    @include flex-variant(flex, $direction: row, $align: center, $gap: 0.5rem);
+    @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-8);
     font-family: "Cairo-ExtraBold";
-    font-size: 1.125rem;
+    font-size: $f-s-18;
+    text-transform: capitalize;
+    white-space: nowrap;
     cursor: pointer;
     color: $black;
     &.active {
       color: $pink;
     }
     .icon {
-      @include flex-variant(
-        flex,
-        $direction: row,
-        $align: center,
-        $justify: center
-      );
-      font-size: 1.25rem;
+      @include flex-row-center();
+      font-size: $f-s-20;
     }
   }
 }

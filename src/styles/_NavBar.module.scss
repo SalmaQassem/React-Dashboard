@@ -2,14 +2,15 @@
 @use "../helpers/mixins" as *;
 @use "../helpers/fonts" as *;
 @use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
 
 .nav {
   width: 100%;
-  padding: 0.9375rem 2.5rem;
+  padding: $padding-15 $padding-40;
   position: relative;
   z-index: 100;
   background-color: $black;
-  box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
+  box-shadow: $boxShadow-1;
   &.dark {
     background-color: $white;
   }
@@ -19,11 +20,17 @@
       flex,
       $direction: row,
       $align: center,
-      $justify: space-between //$gap: 3.125rem
+      $justify: space-between,
+      $gap: $gap-30
     );
     @include mediaQuery($XlargeScreen_min_width) {
       & {
-        gap: 3.125rem;
+        gap: $gap-16;
+      }
+    }
+    @include mediaQuery($XlargeScreen_min_width) {
+      & {
+        gap: $gap-50;
       }
     }
 
@@ -32,10 +39,16 @@
         flex,
         $direction: row,
         $align: center,
-        $gap: 1.875rem
+        $gap: $gap-30
       );
       .logo {
         width: 10.8125rem;
+        display: none;
+        @include mediaQuery($largeScreen_min_width) {
+          & {
+            display: block;
+          }
+        }
         img {
           width: 100%;
           height: 100%;
@@ -47,7 +60,7 @@
           flex,
           $direction: column,
           $justify: center,
-          $gap: 0.5rem
+          $gap: $gap-8
         );
         cursor: pointer;
         @include mediaQuery($XlargeScreen_min_width) {
@@ -59,114 +72,35 @@
           width: 100%;
           height: 0.0625rem;
           background-color: $white;
-          border-radius: 0.125rem;
+          border-radius: $b-r-2;
           &:nth-of-type(2) {
             width: 50%;
           }
         }
       }
     }
-
-    .search {
-      @include mediaQuery($XlargeScreen_min_width) {
+    .userInfo {
+      position: relative;
+      cursor: pointer;
+      flex: 1 0;
+      @include mediaQuery($smallScreen_min_width) {
         & {
-          flex-grow: 1;
+          flex: 0;
         }
       }
-      .input {
-        width: 20rem;
-        padding: 0.5rem 1.5rem;
+      .userIcon {
+        padding: $padding-15 0;
         @include flex-variant(
           flex,
           $direction: row,
           $align: center,
-          $justify: center,
-          $gap: 0.5rem
+          $justify: flex-end
         );
-        background-color: $white;
-        border: 0.0625rem solid $grey-1;
-        border-radius: 0.4375rem;
-        &.dark {
-          border-color: $grey-13;
-        }
-        input {
-          width: 100%;
-          font-family: "Cairo-Bold";
-          font-size: 1rem;
-          &::placeholder {
-            color: $grey-2;
-            text-transform: capitalize;
-          }
-        }
-        .searchIcon {
-          @include flex-variant(
-            flex,
-            $direction: row,
-            $align: center,
-            $justify: center
-          );
-          font-size: 1.25rem;
-          color: $brown-1;
-          cursor: pointer;
-        }
-      }
-    }
-
-    .tools {
-      @include flex-variant(flex, $direction: row, $align: center, $gap: 1rem);
-      @include mediaQuery($XlargeScreen_min_width) {
-        & {
-          gap: 3.125rem;
-        }
-      }
-      .icons {
-        @include flex-variant(
-          flex,
-          $direction: row,
-          $align: center,
-          $gap: 1.5625rem
-        );
-        .icon {
-          @include flex-variant(
-            flex,
-            $direction: row,
-            $align: center,
-            $justify: center
-          );
-          color: $white;
-          font-size: 1.5rem;
-          background-color: transparent;
-          cursor: pointer;
-          &.dark {
-            color: $black;
-          }
-        }
-      }
-      .userInfo {
-        @include flex-variant(
-          flex,
-          $direction: row,
-          $align: center,
-          $gap: 0.9375rem
-        );
-        .user {
-          width: 3.625rem;
-          height: 3.625rem;
-          border-radius: 50%;
-          overflow: hidden;
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-        .text {
-          color: $white;
-          font-family: "Cairo-Bold";
-          font-size: 1rem;
-          text-transform: capitalize;
-          &.dark {
-            color: $black;
+        color: $white;
+        font-size: $f-s-36;
+        @include mediaQuery($smallScreen_min_width) {
+          & {
+            display: none !important;
           }
         }
       }

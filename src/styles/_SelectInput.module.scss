@@ -1,12 +1,17 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
 
 %color-red {
   color: $red;
 }
 .select {
-  width: 65%;
+  width: 100%;
+  @include mediaQuery($medScreen_min_width) {
+    width: 65%;
+  }
   &.invalid {
     > div {
       border-color: $red;
@@ -29,7 +34,7 @@
     cursor: pointer;
 
     .icon {
-      font-size: 1.5rem;
+      font-size: $f-s-24;
     }
   }
 }
