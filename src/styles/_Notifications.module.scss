@@ -2,10 +2,28 @@
 @use "../helpers/fonts" as *;
 @use "./colors" as *;
 @use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
 
+%flex {
+  @include flex-variant(
+    flex,
+    $direction: column,
+    $align: center,
+    $gap: $gap-16
+  );
+  @include mediaQuery($smallScreen_min_width) {
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $justify: space-between,
+      $align: center,
+      $gap: $gap-16
+    );
+  }
+}
 .notification {
   width: 100%;
-  padding: 1.75rem 2.5rem;
+  padding: $main-padding;
   @include flex-variant(flex, $direction: column);
   text-transform: capitalize;
   .body {
@@ -14,42 +32,40 @@
         flex,
         $direction: column,
         $justify: center,
-        $gap: 1.5rem
+        $gap: $gap-24
       );
       .listItem {
-        padding: 0.625rem 1.75rem;
-        @include flex-variant(
-          flex,
-          $direction: row,
-          $justify: space-between,
-          $align: center,
-          $gap: 1rem
-        );
+        padding: $padding-10 $padding-28;
+        @extend %flex;
         font-family: "Cairo-Regular";
-        font-size: 1rem;
-        border-radius: 0.625rem;
+        font-size: $f-s-16;
+        border-radius: $b-r-10;
         background-color: $white;
-        box-shadow: 0 0.25rem 0.25rem 0 $grey-4;
+        box-shadow: $boxShadow-1;
         cursor: pointer;
+
         .text {
-          @include flex-variant(
-            flex,
-            $direction: row,
-            $align: center,
-            $gap: 1rem
-          );
+          width: 100%;
+          @extend %flex;
+          @include mediaQuery($smallScreen_min_width) {
+            width: fit-content;
+          }
           .dot {
+            display: none;
             width: 0.625rem;
             height: 0.625rem;
             border-radius: 50%;
             background-color: $pink-2;
+            @include mediaQuery($smallScreen_min_width) {
+              display: block;
+            }
           }
           .img {
             width: 4.375rem;
             height: 4.375rem;
-            border: 0.1875rem solid $white;
+            border: $b-3 solid $white;
             border-radius: 50%;
-            box-shadow: 0 0.05rem 0.25rem 0 $grey-4;
+            box-shadow: $boxShadow-1;
             overflow: hidden;
             img {
               width: 100%;
@@ -58,27 +74,23 @@
             }
           }
           .info {
-            @include flex-variant(
-              flex,
-              $direction: row,
-              $align: center,
-              $gap: 0.5rem
-            );
+            @include flex-row-center($wrap: wrap, $gap: $gap-8);
+            text-align: center;
             .user {
-              @include flex-variant(flex, $direction: column, $gap: 0.875rem);
+              @include flex-variant(flex, $direction: column, $gap: $gap-14);
               font-family: "Cairo-Bold";
               .name {
-                font-size: 1.125rem;
+                font-size: $f-s-18;
                 line-height: 1;
               }
               .role {
-                font-size: 1rem;
+                font-size: $f-s-16;
                 line-height: 1;
               }
             }
             .action {
               color: $grey-5;
-              font-size: 1rem;
+              font-size: $f-s-16;
             }
           }
         }

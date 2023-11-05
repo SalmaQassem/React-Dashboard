@@ -42,7 +42,7 @@ const Contracts = () => {
   const pageCount = Math.ceil(items.length / itemsPerPage);
   const navigate = useNavigate();
   const tableHead = [
-    { id: "0", text: "م" },
+    { id: "0", text: t("body.tableIndex") },
     { id: "1", text: t("body.hajjPrice") },
     { id: "2", text: t("body.startDate") },
     { id: "3", text: t("body.endDate") },

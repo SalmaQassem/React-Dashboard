@@ -3,12 +3,10 @@ import SecondPage from "./SecondPage";
 import ThirdPage from "./ThirdPage";
 import { useContext, useEffect } from "react";
 import BuildingContext from "../../store/building-context";
-//import AsideContext from "../../store/aside-context";
 
 const AddBuildingForm = (props) => {
   const context = useContext(BuildingContext);
   const houseId = sessionStorage.getItem("houseId");
-  //const asideContext = useContext(AsideContext);
   useEffect(() => {
     context.setPage(0);
   }, []);

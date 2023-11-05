@@ -189,29 +189,33 @@ const SecondPage = (props) => {
   }, [selectValue]);
   useEffect(() => {
     if (watchedFiles) {
-      if (selectedOption && watchedFiles.length > 0) {
-        if (
-          watchedFiles[0].type === "application/pdf" ||
-          watchedFiles[0].type === "application/docx" ||
-          watchedFiles[0].type === "application/doc" ||
-          watchedFiles[0].type === "image/jpg" ||
-          watchedFiles[0].type === "image/jpeg" ||
-          watchedFiles[0].type === "image/png"
-        ) {
-          setFileError(false);
-          setTableData((prevState) => {
-            return [
-              ...prevState,
-              {
-                fileName: watchedFiles[0].name,
-                label: selectedOption.label,
-                type: selectedOption.value,
-                file: watchedFiles[0],
-              },
-            ];
-          });
-        } else {
-          setFileError(true);
+      const { length, ...files } = watchedFiles;
+      if (selectedOption && length > 0) {
+        for (let key in Object.keys(files)) {
+          if (
+            files[key].type === "application/pdf" ||
+            files[key].type === "application/docx" ||
+            files[key].type === "application/doc" ||
+            files[key].type === "image/jpg" ||
+            files[key].type === "image/jpeg" ||
+            files[key].type === "image/png"
+          ) {
+            setFileError(false);
+            setTableData((prevState) => {
+              return [
+                ...prevState,
+                {
+                  fileName: files[key].name,
+                  label: selectedOption.label,
+                  type: selectedOption.value,
+                  file: files[key],
+                },
+              ];
+            });
+          } else {
+            setFileError(true);
+            break;
+          }
         }
       }
     }
@@ -289,6 +293,7 @@ const SecondPage = (props) => {
               {t("body.chooseFile")}
               <input
                 type="file"
+                multiple
                 id="files"
                 {...register("filesInput")}
                 accept=".jpg,.png,.pdf,.docx,.doc"

@@ -25,7 +25,6 @@ export const useGeoSearchControl = () => {
 
     map.on("geosearch/showlocation", (data) => {
       if (data) {
-        console.log(data);
         context.setFormData((prev) => {
           return { ...prev, adresse: data.location.label };
         });

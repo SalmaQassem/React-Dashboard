@@ -1,21 +1,16 @@
 @use "./colors" as *;
 @use "../helpers/mixins" as *;
+@use "./variables/global" as *;
 
 .link {
   width: 100%;
   .item {
     width: 100%;
-    padding: 0.5rem 1rem;
-    @include flex-variant(
-      flex,
-      $direction: row,
-      $align: center,
-      $gap: 0.5rem,
-      $justify: center
-    );
+    padding: $padding-8 $padding-16;
+    @include flex-row-center($gap: $gap-8);
     color: $black;
     background-color: $white;
-    border-radius: 0.625rem;
+    border-radius: $b-r-10;
     cursor: pointer;
     &.dark {
       background-color: $pink;
@@ -30,19 +25,14 @@
       color: $white;
     }
     span {
-      font-size: 1rem;
+      font-size: $f-s-16;
       flex: 1;
       white-space: nowrap;
     }
 
     .icon {
-      @include flex-variant(
-        flex,
-        $direction: row,
-        $align: center,
-        $justify: center
-      );
-      font-size: 1.5rem;
+      @include flex-row-center();
+      font-size: $f-s-24;
     }
   }
 }

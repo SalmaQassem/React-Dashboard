@@ -25,12 +25,12 @@ const Review = () => {
   const [isActive, setIsActive] = useState("0");
   const [filter, setFilter] = useState("buildingType");
   const [filteredData, setFilteredData] = useState([]);
-  //const imgs = data[0].media.length > 0 ? data[0].media : [];
+
   const imgs =
     data[0].media && data[0].media.length > 0
       ? data[0].media.filter((item) => {
           const type = item.mime_type.split("/")[1];
-          return type === "png" || type === "jpg";
+          return type === "png" || type === "jpg" || type === "jpeg";
         })
       : [];
   const files =
@@ -160,7 +160,7 @@ const Review = () => {
   return (
     <div className={styles.review}>
       <StyledContainer>
-        <ImagesGallery images={[]} />
+        <ImagesGallery images={imgs} />
       </StyledContainer>
       <div className={styles.reviewData}>
         <StyledContainer>

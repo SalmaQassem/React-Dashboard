@@ -2,6 +2,7 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
 @use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
 
 .button {
   width: 100%;

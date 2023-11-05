@@ -2,42 +2,43 @@
 @use "../helpers/mixins" as *;
 @use "../helpers/fonts" as *;
 @use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
 
 .modal {
-  width: 32rem;
-  padding: 1rem 1.75rem;
+  width: 90%;
+  padding: $padding-16 $padding-28;
   @include flex-variant(
     flex,
     $direction: column,
     $align: center,
-    $gap: 0.75rem
+    $gap: $gap-12
   );
   position: fixed;
   z-index: 1000;
   background-color: $white;
-  border-radius: 0.5rem;
+  border-radius: $b-r-8;
   text-align: center;
   font-family: "Cairo-Regular";
   text-transform: capitalize;
   color: $grey-1;
-  box-shadow: 0 0 0.25rem 0 rgba(0, 0, 0, 0.25);
+  box-shadow: $boxShadow-1;
+  @include mediaQuery($smallScreen_min_width) {
+    & {
+      width: 32rem;
+    }
+  }
   .icon {
     width: 4rem;
     height: 4rem;
-    padding: 0.9375rem;
-    @include flex-variant(
-      flex,
-      $direction: row,
-      $align: center,
-      $justify: center
-    );
-    font-size: 1.75rem;
+    padding: $padding-15;
+    @include flex-row-center();
+    font-size: $f-s-28;
     color: $green-1;
-    border: 0.125rem solid $green-1;
+    border: $b-2 solid $green-1;
     border-radius: 50%;
     &.deleteIcon {
       padding: 0;
-      font-size: 3.25rem;
+      font-size: $f-s-52;
       border: none;
       color: $red-1;
     }
@@ -45,28 +46,28 @@
 
   .head {
     font-family: "Cairo-Bold";
-    font-size: 1.75rem;
+    font-size: $f-s-28;
   }
   .message {
-    font-size: 1.125rem;
+    font-size: $f-s-18;
   }
   .buttons {
     width: 100%;
-    margin-top: 1rem;
+    margin-top: $m-16;
     @include flex-variant(
       flex,
       $direction: row,
       $align: center,
       $justify: flex-end,
-      $gap: 1.25rem
+      $gap: $gap-20
     );
     button {
-      padding: 0.5rem 1.25rem;
+      padding: $padding-8 $padding-20;
       font-family: "Cairo-Bold";
       text-transform: capitalize;
       color: $white;
-      font-size: 1rem;
-      border-radius: 0.5rem;
+      font-size: $f-s-16;
+      border-radius: $b-r-8;
     }
     .deleteButton {
       background-color: $red-1;

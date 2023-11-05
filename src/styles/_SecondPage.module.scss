@@ -75,6 +75,7 @@
         $gap: $gap-24,
         $wrap: wrap
       );
+      text-transform: capitalize;
       @include mediaQuery($smallScreen_min_width) {
         flex-wrap: nowrap;
       }

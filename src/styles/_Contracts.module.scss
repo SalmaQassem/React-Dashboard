@@ -60,6 +60,7 @@
         @extend %flex;
         @extend %font;
         color: $white;
+        text-transform: capitalize;
         text-align: center;
         border-radius: $b-r-12;
         background-color: $grey-9;

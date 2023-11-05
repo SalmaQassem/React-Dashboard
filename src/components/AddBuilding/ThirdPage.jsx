@@ -17,14 +17,11 @@ const ThirdPage = (props) => {
   const navigate = useNavigate();
 
   const sendData = async (data) => {
-    /*for (var pair of data.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }*/
     const userToken = getAuthToken();
     try {
       const response = await axios.post(props.url, data, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${userToken}`,
         },
       });
@@ -41,64 +38,25 @@ const ThirdPage = (props) => {
       console.log(error.message);
     }
   };
-
   const saveData = async () => {
     const formData = new FormData();
     formData.append("user_id", userData.id);
-    formData.append("house_name", context.house_name);
-    formData.append("type", context.type);
-    formData.append("total_room", context.total_room);
-    formData.append("street", context.total_room);
-    formData.append("hajjaj_accsept", context.hajjaj_accsept);
-    formData.append("hajjaj_count", context.hajjaj_count);
-    formData.append("number_prrmit", +context.number_prrmit);
-    formData.append("house_owner_name", context.house_owner_name);
-    formData.append("phone", context.phone);
-    formData.append("build_number_prrmit", context.build_number_prrmit);
-    formData.append("total_floor", context.total_floor);
-    formData.append("owner_ip", context.owner_ip);
-    formData.append("lessor_name", context.lessor_name);
-    formData.append("alarm_network", context.alarm_network);
-    formData.append("fire_network", context.fire_network);
-    formData.append("fire_pump", context.fire_pump);
-    formData.append("generator", context.generator);
-    formData.append("bilud_component", context.bilud_component);
-    formData.append("institution_maintenance", context.institution_maintenance);
-    formData.append("institution_safty", context.institution_safty);
-    formData.append("price_hajj", context.price_hajj);
-    formData.append("price_years", context.price_years);
-    context.media.forEach((file) => {
-      formData.append("media", file);
-    });
-    formData.append("lat", context.lat);
-    formData.append("lang", context.lang);
-    formData.append("adresse", context.adresse);
-    /*const enteredData = {
-      user_id: userData.id,
-      house_name: context.house_name,
-      type: context.type,
-      total_room: context.total_room,
-      street: context.total_room,
-      hajjaj_accsept: context.hajjaj_accsept,
-      hajjaj_count: context.hajjaj_count,
-      number_prrmit: context.number_prrmit,
-      house_owner_name: context.house_owner_name,
-      phone: context.phone,
-      build_number_prrmit: context.build_number_prrmit,
-      total_floor: context.total_floor,
-      owner_ip: context.owner_ip,
-      lessor_name: context.lessor_name,
-      alarm_network: context.alarm_network,
-      fire_network: context.fire_network,
-      fire_pump: context.fire_pump,
-      generator: context.generator,
-      bilud_component: context.bilud_component,
-      institution_maintenance: context.institution_maintenance,
-      institution_safty: context.institution_safty,
-      price_hajj: context.price_hajj,
-      price_years: context.price_years,
-      media: context.media.slice(),
-    };*/
+    for (let key of Object.keys(context)) {
+      if (
+        key !== "setFormData" &&
+        key !== "setPage" &&
+        key !== "page" &&
+        key !== "id"
+      ) {
+        if (key === "media") {
+          for (let i = 0; i < context[key].length; i++) {
+            formData.append("media[]", context[key][i]);
+          }
+        } else {
+          formData.append(key, context[key]);
+        }
+      }
+    }
     sendData(formData);
   };
 

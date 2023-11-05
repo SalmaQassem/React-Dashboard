@@ -13,7 +13,6 @@ const Modal = ({
   submitDelete,
 }) => {
   const closeHandler = () => {
-    //setOpened({ state: false, first: 1 });
     setOpened((prevState) => {
       return { ...prevState, state: false };
     });
@@ -33,16 +32,18 @@ const Modal = ({
         initial={{
           opacity: 0,
           left: "50%",
+          top: "50%",
           x: "-50%",
-          y: "30%",
+          y: "20%",
         }}
         animate={{
           opacity: 1,
           left: "50%",
+          top: "50%",
           x: "-50%",
-          y: 0,
+          y: "-50%",
         }}
-        exit={{ opacity: 0, left: "50%", x: "-50%", y: "30%" }}
+        exit={{ opacity: 0, left: "50%", top: "50%", x: "-50%", y: "20%" }}
       >
         <div
           className={
