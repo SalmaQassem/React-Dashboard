@@ -1,0 +1,20 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+@use "./colors" as *;
+@use "./variables/global" as *;
+
+.languages {
+  @include flex-row-center($gap: $gap-15);
+
+  & > button {
+    background-color: transparent;
+    color: $black;
+    font-family: "Cairo-SemiBold";
+    font-size: $f-s-14;
+    text-transform: capitalize;
+
+    &.active {
+      color: $pink;
+    }
+  }
+}

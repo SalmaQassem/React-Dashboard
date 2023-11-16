@@ -1,7 +1,4 @@
 {
-  "header": {
-    "message": "مرحبا"
-  },
   "body": {
     "logOut": "تسجيل خروج",
     "adminRole": "أدمن",
@@ -81,13 +78,16 @@
     "showOnMap": "تحديد المنشأة على الخريطة",
     "buildingAddress": "عنوان المنشأة",
     "saveRegistration": "حفظ تسجيل المنشأة",
+    "addBuildingSuccess": "تم إضافة المنشأة بنجاح",
+    "editBuildingSuccess": "تم تعديل المنشأة بنجاح",
     "contractForm": "نموذج تعاقد",
     "startDate": "تاريخ البدء",
     "endDate": "تاريخ الإنتهاء",
     "contractDate": "تاريخ العقد",
     "notes": "ملاحظات",
     "generateContract": "تصدير العقد",
-    "uploadImage": "رجاء رفع شعار المنشأة أو الصورة الشخصية",
+    "uploadImage": "برجاء رفع الصورة الشخصية",
+    "profileImage": "الصورة الشخصية",
     "buildingData": "بيانات المنشأة",
     "imagesAndVideos": "صور و فيديوهات",
     "attachments": "مستندات",
@@ -144,6 +144,8 @@
     "changeLanguage": "العربية / الإنجليزية",
     "resize": "شاشة كاملة",
     "darkLight": "وضع الظلام / وضع الإضاءة",
-    "tableIndex": "م"
+    "tableIndex": "م",
+    "editUserSuccess": "تم تعديل البيانات بنجاح",
+    "loadMore": "تحميل المزيد"
   }
 }

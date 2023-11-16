@@ -2,13 +2,14 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
 @use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
 
 .form {
   width: 100vw;
   height: 100vh;
   .content {
     height: 100vh;
-    padding: 5rem 0;
+    padding: $padding-80 0;
     position: relative;
     @include flex-variant(flex, $direction: row, $align: center);
     &::before {
@@ -31,12 +32,7 @@
           width: 57%;
           height: 100%;
           flex-basis: 57%;
-          @include flex-variant(
-            flex,
-            $direction: row,
-            $align: center,
-            $justify: center
-          );
+          @include flex-row-center();
           img {
             width: 85%;
             height: 100%;

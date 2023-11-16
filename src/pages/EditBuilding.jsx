@@ -10,7 +10,6 @@ import { useLoaderData } from "react-router-dom";
 const EditBuilding = () => {
   const [t, i18n] = useTranslation("global");
   const data = useLoaderData();
-  //console.log(data);
   const firstData = {
     house_name: data[0].house_name,
     type: data[0].type,
@@ -56,7 +55,8 @@ const EditBuilding = () => {
 
 export default EditBuilding;
 
-export async function loader({ request }) {
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader() {
   const id = sessionStorage.getItem("houseId");
   const token = getAuthToken();
   let response = "";

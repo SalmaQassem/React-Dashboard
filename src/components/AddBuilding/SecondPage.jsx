@@ -24,6 +24,7 @@ const SecondPage = (props) => {
   const [fileError, setFileError] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const schema = yup.object({
     buildingComponents: yup.string().required(t("body.required")),
@@ -72,7 +73,7 @@ const SecondPage = (props) => {
     handleSubmit,
     watch,
     control,
-    setValue,
+    //setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -187,43 +188,52 @@ const SecondPage = (props) => {
       setSelectedOption(selectValue);
     }
   }, [selectValue]);
+
   useEffect(() => {
     if (watchedFiles) {
       const { length, ...files } = watchedFiles;
-      if (selectedOption && length > 0) {
-        for (let key in Object.keys(files)) {
-          if (
-            files[key].type === "application/pdf" ||
-            files[key].type === "application/docx" ||
-            files[key].type === "application/doc" ||
-            files[key].type === "image/jpg" ||
-            files[key].type === "image/jpeg" ||
-            files[key].type === "image/png"
-          ) {
-            setFileError(false);
-            setTableData((prevState) => {
-              return [
-                ...prevState,
-                {
-                  fileName: files[key].name,
-                  label: selectedOption.label,
-                  type: selectedOption.value,
-                  file: files[key],
-                },
-              ];
-            });
-          } else {
-            setFileError(true);
-            break;
-          }
-        }
+      if (length > 0) {
+        setSelectedImages(files);
       }
     }
   }, [watchedFiles]);
+
+  useEffect(() => {
+    if (selectedOption && Object.keys(selectedImages).length > 0) {
+      for (let key in Object.keys(selectedImages)) {
+        if (
+          selectedImages[key].type === "application/pdf" ||
+          selectedImages[key].type === "application/docx" ||
+          selectedImages[key].type === "application/doc" ||
+          selectedImages[key].type === "image/jpg" ||
+          selectedImages[key].type === "image/jpeg" ||
+          selectedImages[key].type === "image/png"
+        ) {
+          setFileError(false);
+          setTableData((prevState) => {
+            return [
+              ...prevState,
+              {
+                fileName: selectedImages[key].name,
+                label: selectedOption.label,
+                type: selectedOption.value,
+                file: selectedImages[key],
+              },
+            ];
+          });
+          setSelectedImages([]);
+        } else {
+          setFileError(true);
+          break;
+        }
+      }
+    }
+  }, [selectedImages, selectedOption]);
+
   useEffect(() => {
     if (props.state === "edit") {
-      let selected = {};
-      if (props.firstPageData.type === "hotel") {
+      //let selected = {};
+      /*if (props.firstPageData.type === "hotel") {
         selected = {
           value: "hotel",
           label: t("body.hotel"),
@@ -235,9 +245,10 @@ const SecondPage = (props) => {
         };
       }
       setValue("attachedType", selected);
-      setSelectedOption(selected);
+      setSelectedOption(selected);*/
     }
   }, []);
+  
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>
@@ -287,7 +298,7 @@ const SecondPage = (props) => {
             </div>
           );
         })}
-        <div>
+        <>
           <div className={styles.selectFile}>
             <label htmlFor="files" className={styles.filesButton}>
               {t("body.chooseFile")}
@@ -307,7 +318,7 @@ const SecondPage = (props) => {
           {errors.filesInput && (
             <span className={styles.feedback}>{errors.filesInput.message}</span>
           )}
-        </div>
+        </>
       </div>
       {tableData.length > 0 && (
         <div className={styles.table}>

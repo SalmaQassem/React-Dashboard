@@ -9,13 +9,44 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 const Conversations = () => {
   const [t, i18n] = useTranslation("global");
   const conversations = useLoaderData();
-  console.log(conversations);
   const navigate = useNavigate();
 
   const clickHandler = (e) => {
     navigate(`/dashboard/Chat/past/${e.currentTarget.id}`);
   };
+  const getDate = (createDate) => {
+    //console.log(createDate);
+    //const newData = createDate.split("Z")[0];
+    const date = new Date(createDate);
+    const currentDay = new Date().getDate();
+    const monthes = [
+      "jan",
+      "feb",
+      "mar",
+      "apr",
+      "may",
+      "jun",
+      "jul",
+      "aug",
+      "sep",
+      "oct",
+      "nov",
+      "dec",
+    ];
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const time = `${hours}:${minutes}`;
 
+    const day = date.getDate();
+    const month = monthes[date.getMonth()];
+    const year = date.getFullYear();
+    const fullDate = `${month} ${day}, ${year}`;
+
+    if (currentDay === day) {
+      return time;
+    }
+    return fullDate;
+  };
   return (
     <div className={styles.messages}>
       <MainHeader text={t("body.messages")} icon={<IoIosChatbubbles />} />
@@ -46,6 +77,7 @@ const Conversations = () => {
                         >{`${item.participants[0].first_name} ${item.participants[0].last_name}`}</p>
                         <p>{item.last_message.body}</p>
                       </div>
+                      <span>{getDate(item.last_message.created_at)}</span>
                     </div>
                   </div>
                 </div>
@@ -59,7 +91,8 @@ const Conversations = () => {
 
 export default Conversations;
 
-export async function loader({ request }) {
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader() {
   let response = "";
   const token = getAuthToken();
   try {

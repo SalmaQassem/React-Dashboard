@@ -6,23 +6,14 @@
 
 .button {
   width: 100%;
-  padding: 0.75rem 1.5rem;
-  @include flex-variant(
-    flex,
-    $direction: row,
-    $align: center,
-    $justify: center,
-    $gap: 1.25rem
-  );
-  font-size: 1.25rem;
+  padding: $padding-12 $padding-24;
+  @include flex-row-center($gap: $gap-20);
+  background-color: $pink;
+  font-size: $f-s-20;
   font-family: "Cairo-ExtraBold";
   color: $white;
-  letter-spacing: 0.125rem;
+  letter-spacing: $l-s-2;
   text-transform: capitalize;
-  background-color: $pink;
-  border-radius: 0.9375rem;
-  box-shadow: 0.125rem 0.25rem 0.25rem 0 $grey-3;
-  @include mediaQuery($Tablet_min_width) {
-    width: 85%;
-  }
+  border-radius: $b-r-15;
+  box-shadow: $boxShadow-1;
 }

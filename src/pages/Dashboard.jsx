@@ -80,6 +80,7 @@ const Dashboard = () => {
 
 export default Dashboard;
 
+// eslint-disable-next-line react-refresh/only-export-components
 export async function loader() {
   let response = "";
   const token = getAuthToken();

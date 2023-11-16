@@ -12,22 +12,31 @@
   font-family: "Cairo-Bold";
   font-size: $f-s-18;
 }
+%table-flex {
+  @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-30);
+}
 %width {
   & > p:first-child {
-    width: calc(((100% - (3 * $gap-30)) * 3) / 100);
+    min-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
+    max-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
   }
   & > p:nth-child(2) {
-    width: calc(((100% - (3 * $gap-30)) * 40) / 100);
+    min-width: calc(((100% - (3 * $gap-30)) * 50) / 100);
+    max-width: calc(((100% - (3 * $gap-30)) * 50) / 100);
+    //white-space: wrap;
   }
   & > p:nth-child(3) {
-    width: calc(((100% - (3 * $gap-30)) * 52) / 100);
+    min-width: calc(((100% - (3 * $gap-30)) * 40) / 100);
+    max-width: calc(((100% - (3 * $gap-30)) * 40) / 100);
   }
   & > p:nth-child(4) {
-    width: calc(((100% - (3 * $gap-30)) * 5) / 100);
+    min-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
+    max-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
     text-align: center;
   }
   & > button {
     min-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
+    max-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
   }
 }
 %flex-column {
@@ -40,6 +49,7 @@
 }
 .form {
   @extend %formStyle;
+  //overflow-x: scroll;
   .inputs {
     width: 100%;
     @extend %flex;
@@ -103,17 +113,15 @@
       color: $red;
     }
   }
+
   .table {
     width: 100%;
+    min-width: fit-content;
+    white-space: nowrap;
     .head {
       width: 100%;
       padding: $padding-12 $padding-24;
-      @include flex-variant(
-        flex,
-        $direction: row,
-        $align: center,
-        $gap: $gap-30
-      );
+      @extend %table-flex;
       @extend %font;
       color: $white;
       text-transform: capitalize;
@@ -128,12 +136,7 @@
       border-radius: $b-r-12 $b-r-12 0 0;
       .item {
         @extend %width;
-        @include flex-variant(
-          flex,
-          $direction: row,
-          $align: center,
-          $gap: $gap-30
-        );
+        @extend %table-flex;
         .num {
           @extend %font;
         }

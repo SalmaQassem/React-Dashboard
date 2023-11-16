@@ -14,20 +14,25 @@ const Root = () => {
   const screenContext = useContext(FullScreenContext);
   const mainMode = useContext(ModeContext);
   const modeType = mainMode.mode === "dark" ? styles.dark : "";
+
   return (
-    <FullScreen handle={screenContext.handle}>
-      <div className={styles.root}>
-        <Overlay
-          itemClass={
-            context.isOpened
-              ? `${styles.rootOverlay}`
-              : `${styles.rootOverlay} ${styles.close}`
-          }
-        />
-        <NavBar />
-        <div className={styles.content}>
-          <Aside />
-          <div className={`${styles.body} ${modeType}`}>{<Outlet />}</div>
+    <FullScreen
+      handle={screenContext.handle}
+    >
+      <div className={styles.wrapper}>
+        <div className={styles.root}>
+          <Overlay
+            itemClass={
+              context.isOpened
+                ? `${styles.rootOverlay}`
+                : `${styles.rootOverlay} ${styles.close}`
+            }
+          />
+          <NavBar />
+          <div className={styles.content}>
+            <Aside />
+            <div className={`${styles.body} ${modeType}`}>{<Outlet />}</div>
+          </div>
         </div>
       </div>
     </FullScreen>

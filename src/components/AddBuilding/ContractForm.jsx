@@ -13,17 +13,12 @@ import { AnimatePresence } from "framer-motion";
 const ContractForm = (props) => {
   const navigate = useNavigate();
   const [t, i18n] = useTranslation("global");
-  const [isModalOpened, setIsModalOpened] = useState({
-    state: false,
-    first: 0,
-  });
+  const [isModalOpened, setIsModalOpened] = useState(false);
   const data = useActionData();
 
   useEffect(() => {
     if (data && data.success && !isModalOpened.state) {
-      setIsModalOpened((prevState) => {
-        return { ...prevState, state: true };
-      });
+      setIsModalOpened(true);
       setTimeout(() => {
         navigate("/dashboard");
       }, 500);
@@ -76,8 +71,8 @@ const ContractForm = (props) => {
   return (
     <>
       <AnimatePresence>
-        {isModalOpened.state && (
-          /*isModalOpened.first === 0 &&*/ <Modal
+        {isModalOpened && (
+          <Modal
             head={t("body.success")}
             message={props.message}
             icon={<FaCheck />}

@@ -1,8 +1,6 @@
-//import styles from "../styles/_EditContract.module.scss";
 import styles from "../styles/_Contract.module.scss";
 import { getAuthToken } from "../util/auth";
 import { useLoaderData } from "react-router-dom";
-//import StyledContainer from "../components/UI/StyledContainer";
 import ContractFormHead from "../components/AddBuilding/ContractFormHead";
 import ContractForm from "../components/AddBuilding/ContractForm";
 import image from "../assets/images/Frame.png";
@@ -13,6 +11,7 @@ const EditContract = () => {
   const data = useLoaderData();
   houseId = data.id;
   const [t, i18n] = useTranslation("global");
+  
   return (
     <div className={styles.contract}>
       <ContractFormHead />
@@ -31,7 +30,8 @@ const EditContract = () => {
 };
 
 export default EditContract;
-export async function loader({ request, params }) {
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ params }) {
   const contractId = params.contractId;
   const token = getAuthToken();
   let response = "";
@@ -50,6 +50,7 @@ export async function loader({ request, params }) {
 
   return response;
 }
+// eslint-disable-next-line react-refresh/only-export-components
 export async function action({ request }) {
   const formData = await request.formData();
   const offset = new Date().getTimezoneOffset();

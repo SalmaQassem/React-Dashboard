@@ -26,7 +26,6 @@ const Contracts = () => {
   const [t, i18n] = useTranslation("global");
   const [deleteModal, setDeleteModal] = useState({
     state: false,
-    first: 0,
     index: null,
     contractId: null,
   });
@@ -157,7 +156,7 @@ const Contracts = () => {
     <>
       <AnimatePresence>
         {deleteModal.state && (
-          /*deleteModal.first === 0 &&*/ <Modal
+          <Modal
             head={t("body.delete")}
             message={t("body.deleteContract")}
             deleteText={t("body.submit")}
@@ -171,7 +170,7 @@ const Contracts = () => {
       </AnimatePresence>
       <AnimatePresence>
         {successModal.state && (
-          /*successModal.first === 0 &&*/ <Modal
+          <Modal
             head={t("body.success")}
             message={t("body.submitDeleteContract")}
             icon={<FaCheck />}
@@ -233,6 +232,8 @@ const Contracts = () => {
 };
 
 export default Contracts;
+
+// eslint-disable-next-line react-refresh/only-export-components
 export async function loader() {
   let response = "";
   const token = getAuthToken();

@@ -1,63 +1,175 @@
 import styles from "../../styles/_ProfileForm.module.scss";
-import { Form, useActionData } from "react-router-dom";
-import { useEffect, useRef, useContext } from "react";
-import { TbCloudUpload } from "react-icons/tb";
+import { useForm } from "react-hook-form";
+import { useState, useEffect, useContext } from "react";
+//import { TbCloudUpload } from "react-icons/tb";
 import FormButton from "../UI/FormButton";
 import { useTranslation } from "react-i18next";
-import UserContext from "../../store/user-context";
+//import UserContext from "../../store/user-context";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { getAuthToken } from "../../util/auth";
+import { AnimatePresence } from "framer-motion";
+import Modal from "../UI/Modal";
+import { FaCheck } from "react-icons/fa";
 
 const ProfileForm = (props) => {
-  const context = useContext(UserContext);
-  const [t, i18n] = useTranslation("global");
-  const data = useActionData();
   const oldData = props.userData;
-  const hiddenFileInput = useRef(null);
+  //const context = useContext(UserContext);
+  const [t, i18n] = useTranslation("global");
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [imageError, setImageError] = useState(false);
+  const [imageSrc, setImageSrc] = useState(
+    `	https://zadapp.mqawilk.com/public/images/${oldData.image}`
+  );
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const schema = yup.object().shape({
+    firstName: yup.string().required(t("body.required")),
+    lastName: yup.string().required(t("body.required")),
+    email: yup
+      .string()
+      .required(t("body.required"))
+      .email(t("body.emailValidation"))
+      .matches(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        t("body.emailValidation")
+      ),
+    phone: yup
+      .string()
+      .required(t("body.required"))
+      .min(
+        10,
+        `${t("body.phone")} ${t("body.buildingNameCase")} ${t("body.nums")}`
+      ),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], t("body.passwordMatch")),
+    image: yup.mixed().test("type", t("body.imageType"), (value) => {
+      if (
+        !uploadedImage ||
+        (value.length > 0 &&
+          (value[0].type === "image/jpeg" ||
+            value[0].type === "image/jpg" ||
+            value[0].type === "image/png"))
+      ) {
+        return true;
+      }
+      return false;
+    }),
+  });
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
+  const watchedImage = watch("image");
+
   const inputs = [
     {
       id: "first_name",
       type: "text",
       name: "firstName",
       label: t("body.firstName"),
+      error: errors.firstName,
     },
     {
       id: "last_name",
       type: "text",
       name: "lastName",
       label: t("body.lastName"),
+      error: errors.lastName,
     },
     {
       id: "email",
       type: "email",
       name: "email",
       label: t("body.email"),
+      error: errors.email,
     },
     {
       id: "phone",
       type: "text",
       name: "phone",
       label: t("body.phone"),
+      error: errors.phone,
     },
     {
       id: "password",
       type: "password",
       name: "password",
       label: t("body.changePassword"),
+      error: errors.password,
     },
     {
       id: "confirmPassword",
       type: "password",
       name: "confirmPassword",
       label: t("body.retypePassword"),
+      error: errors.confirmPassword,
     },
   ];
 
-  const handleClick = () => {
-    hiddenFileInput.current.click();
+  const formSubmitHandler = async (data) => {
+    const formData = new FormData();
+    formData.append("first_name", data.firstName);
+    formData.append("last_name", data.lastName);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("password", data.password);
+    formData.append("image", uploadedImage);
+
+    const userToken = getAuthToken();
+    try {
+      const response = await fetch(
+        "https://zadapp.mqawilk.com/api/profile/update",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: formData,
+        }
+      );
+      const data = await response.data;
+      console.log(data);
+      if (data.success) {
+        setIsModalOpened((prevState) => {
+          return { ...prevState, state: true };
+        });
+        setTimeout(() => {
+          //navigate("/dashboard");
+        }, 500);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
-  const handleChange = (e) => {
-    const imageUploaded = e.target.files;
-  };
+
   useEffect(() => {
+    if (watchedImage) {
+      if (watchedImage.length > 0) {
+        if (
+          watchedImage[0].type === "image/jpeg" ||
+          watchedImage[0].type === "image/jpg" ||
+          watchedImage[0].type === "image/png"
+        ) {
+          var reader = new FileReader();
+          reader.onload = function () {
+            const url = reader.result;
+            setImageError(false);
+            setImageSrc(url);
+            setUploadedImage(watchedImage[0]);
+          };
+          reader.readAsDataURL(watchedImage[0]);
+        } else {
+          setImageError(true);
+        }
+      }
+    }
+  }, [watchedImage]);
+
+  /*useEffect(() => {
     if (data && !data.message) {
       const {
         id,
@@ -86,11 +198,23 @@ const ProfileForm = (props) => {
     } else {
       console.log("error");
     }
-  }, [data]);
+  }, [data]);*/
 
   return (
-    <div className={styles.profile}>
-      <Form method="post" className={styles.form}>
+    <>
+      <AnimatePresence>
+        {isModalOpened && (
+          <Modal
+            head={t("body.success")}
+            message={t("body.editUserSuccess")}
+            buttonText={t("body.close")}
+            icon={<FaCheck />}
+            state={props.state}
+            setOpened={setIsModalOpened}
+          />
+        )}
+      </AnimatePresence>
+      <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
         <div className={styles.inputs}>
           {inputs.map((item) => {
             return (
@@ -102,37 +226,47 @@ const ProfileForm = (props) => {
                   type={item.type}
                   id={item.id}
                   className={styles.inputItem}
+                  {...register(item.name)}
                   defaultValue={
                     item.id !== "password" ? oldData[`${item.id}`] : ""
                   }
-                  name={item.name}
                 />
+                {item.error && (
+                  <span className={styles.feedback}>{item.error?.message}</span>
+                )}
               </div>
             );
           })}
         </div>
         <div className={styles.image}>
-          <p>{t("body.uploadImage")}</p>
+          <p>{t("body.profileImage")}</p>
           <div className={styles.selectFile}>
-            <div className={styles.uploadImg} onClick={handleClick}>
-              <TbCloudUpload />
+            <div className={styles.uploadImg}>
+              {/*<TbCloudUpload />*/}
+              <img src={imageSrc} />
+              <label htmlFor="image" className={styles.imageLabel}>
+                <p>{t("body.edit")}</p>
+                <input
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  {...register("image")}
+                />
+              </label>
             </div>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-              ref={hiddenFileInput}
-              style={{ display: "none" }}
-            />
           </div>
+          {(imageError || errors.image) &&
+            (imageError ? (
+              <span className={styles.feedback}>{t("body.imageType")}</span>
+            ) : (
+              <span className={styles.feedback}>{errors.image.message}</span>
+            ))}
         </div>
         <FormButton class={styles.submit} type="submit">
           {t("body.saveChanges")}
         </FormButton>
-      </Form>
-    </div>
+      </form>
+    </>
   );
 };
 

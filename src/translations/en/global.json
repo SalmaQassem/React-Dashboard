@@ -1,7 +1,4 @@
 {
-  "header": {
-    "message": "welcome"
-  },
   "body": {
     "logOut": "logout",
     "adminRole": "admin",
@@ -81,6 +78,8 @@
     "showOnMap": "show building on map",
     "buildingAddress": "bulilding address",
     "saveRegistration": "save building registration",
+    "addBuildingSuccess": "building has been added successfully",
+    "editBuildingSuccess": "building has been updated successfully",
     "contractForm": "contract form",
     "startDate": "start date",
     "endDate": "end date",
@@ -88,6 +87,7 @@
     "notes": "notes",
     "generateContract": "generate contract",
     "uploadImage": "please upload building logo or personal image",
+    "profileImage": "personal image",
     "buildingData": "building data",
     "imagesAndVideos": "images and videos",
     "attachments": "attachments",
@@ -107,6 +107,7 @@
     "chars": "6 characters",
     "nums": "10 numbers",
     "numss": "15 numbers",
+    "numsss": "3 numbers",
     "upload personalimage": "please upload your personal photo",
     "welcome": "welcome back",
     "login": "login",
@@ -116,6 +117,7 @@
     "verificationCode": "verification code",
     "verify": "verify",
     "newPassword": "new password",
+    "resetPassword": "reset password",
     "number": "must be number",
     "notifications": "notifications",
     "addedBuilding": "added new house",
@@ -133,6 +135,7 @@
     "emailValidation": "please enter a valid email address",
     "passwordMatch": "confirm password doesn't match",
     "imageType": "image extension is not supported, accepted extensions: jpeg, jpg, png",
+    "filesType": "file extension is not supported, accepted extensions: pdf, docx, doc, jpeg, jpg, png",
     "noContracts": "we couldn't find any contracts",
     "noNotificatons": "we couldn't find any notifications",
     "friendsList": "friends list",
@@ -141,6 +144,8 @@
     "changeLanguage": "arabic / english",
     "resize": "full screen",
     "darkLight": "dark / light",
-    "tableIndex": "#"
+    "tableIndex": "#",
+    "editUserSuccess": "data has been updated successfully",
+    "loadMore": "load more"
   }
 }

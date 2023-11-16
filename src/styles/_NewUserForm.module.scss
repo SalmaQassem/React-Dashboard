@@ -44,45 +44,10 @@
     @extend %inputsStyle;
   }
   .image {
-    @include flex-variant(flex, $direction: column, $gap: $gap-16);
-    > p {
-      font-family: "Cairo-Bold";
-      font-size: $f-s-18;
-      text-transform: capitalize;
-      color: $pink;
-    }
-    .selectFile {
-      .uploadImg {
-        width: 13.3125rem;
-        height: 8.75rem;
-        position: relative;
-        @include flex-row-center();
-        color: $black;
-        font-size: $f-s-90;
-        border: $b-r-2 dashed $black;
-        svg {
-          position: absolute;
-          z-index: 1;
-        }
-        .imageLabel {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          z-index: 2;
-          cursor: pointer;
-          input {
-            display: none;
-          }
-        }
-      }
-    }
+    @extend %selectImage;
   }
   .feedback {
-    padding: 0 $padding-15;
-    font-family: "Cairo-Regular";
-    text-transform: capitalize;
-    font-size: $f-s-14;
-    color: $red;
+    @extend %feedbackStyle;
   }
   .submit {
     @extend %submit;

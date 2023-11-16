@@ -36,6 +36,10 @@ const NewUserForm = (props) => {
       ),
 
     password: yup.string().required(t("body.required")),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], t("body.passwordMatch"))
+      .required(t("body.required")),
     phone: yup
       .string()
       .required(t("body.required"))
@@ -44,10 +48,7 @@ const NewUserForm = (props) => {
         `${t("body.phone")} ${t("body.buildingNameCase")} ${t("body.nums")}`
       ),
     input1: yup.string().required(t("body.required")),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref("password")], t("body.passwordMatch"))
-      .required(t("body.required")),
+
     userImage: yup
       .mixed()
       .test("file", t("body.required"), (value) => {

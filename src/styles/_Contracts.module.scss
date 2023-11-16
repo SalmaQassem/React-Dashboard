@@ -37,8 +37,6 @@
     & > button:nth-child(#{$i}) {
       min-width: calc(((100% - calc(7 * $gap-30)) * 8) / 100);
       max-width: calc(((100% - calc(7 * $gap-30)) * 8) / 100);
-      //min-width: fit-content;
-      //padding: 0.5rem;
     }
   }
 }
@@ -48,10 +46,10 @@
 .contracts {
   height: 100%;
   padding: $main-padding;
-  overflow-x: scroll;
+  //overflow-x: scroll;
   .items {
     min-width: fit-content;
-    white-space: nowrap;
+    //white-space: nowrap;
     @include flex-variant(flex, $direction: column, $gap: $gap-35);
 
     .table {

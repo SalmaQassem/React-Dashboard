@@ -10,7 +10,7 @@ const Messages = () => {
   const [t, i18n] = useTranslation("global");
   const friends = useLoaderData();
   const navigate = useNavigate();
-  
+
   const clickHandler = (e) => {
     navigate(`/dashboard/Chat/new/${e.currentTarget.id}`);
   };
@@ -57,7 +57,9 @@ const Messages = () => {
 };
 
 export default Messages;
-export async function loader({ request }) {
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader() {
   let response = "";
   const token = getAuthToken();
   try {

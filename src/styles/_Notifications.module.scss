@@ -32,9 +32,11 @@
         flex,
         $direction: column,
         $justify: center,
+        $align: center,
         $gap: $gap-24
       );
       .listItem {
+        width: 100%;
         padding: $padding-10 $padding-28;
         @extend %flex;
         font-family: "Cairo-Regular";
@@ -76,18 +78,12 @@
           .info {
             @include flex-row-center($wrap: wrap, $gap: $gap-8);
             text-align: center;
-            .user {
-              @include flex-variant(flex, $direction: column, $gap: $gap-14);
+            .name {
               font-family: "Cairo-Bold";
-              .name {
-                font-size: $f-s-18;
-                line-height: 1;
-              }
-              .role {
-                font-size: $f-s-16;
-                line-height: 1;
-              }
+              font-size: $f-s-18;
+              line-height: 1;
             }
+
             .action {
               color: $grey-5;
               font-size: $f-s-16;
@@ -97,6 +93,41 @@
 
         .date {
           color: $grey-5;
+          @include flex-variant(
+            flex,
+            $direction: column,
+            $justify: center,
+            $align: flex-end,
+          );
+        }
+      }
+      .loadButton {
+        width: 100%;
+        padding: $padding-6 $padding-8;
+        @include flex-row-center($gap: $gap-5);
+        background-color: $pink;
+        border-radius: $b-r-10;
+        box-shadow: $boxShadow-1;
+        color: $white;
+        font-family: "Cairo-SemiBold";
+        font-size: $f-s-18;
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        .icon {
+          @include flex-row-center();
+          font-size: $f-s-18;
+        }
+        @include mediaQuery($Tablet_min_width) {
+          width: 45%;
+        }
+        @include mediaQuery($smallScreen_min_width) {
+          width: 30%;
+        }
+        @include mediaQuery($medScreen_min_width) {
+          width: 22%;
+        }
+        @include mediaQuery($largeScreen_min_width) {
+          width: 18%;
         }
       }
     }

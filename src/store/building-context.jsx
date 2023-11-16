@@ -25,9 +25,9 @@ const BuildingContext = React.createContext({
   price_hajj: "",
   price_years: "",
   media: [],
-  lat: "",
-  lang: "",
-  adresse: "",
+  lat: "48.8566",
+  lang: "2.3522",
+  adresse: "town hall of bagnolet, 75004 paris, france",
   page: 0,
   setPage: () => {},
   setFormData: (
@@ -89,9 +89,9 @@ export const BuildingContextProvider = (props) => {
     price_hajj: "",
     price_years: "",
     media: [],
-    lat: "",
-    lang: "",
-    adresse: "",
+    lat: "48.8566",
+    lang: "2.3522",
+    adresse: "town hall of bagnolet, 75004 paris, france",
     page: 0,
   });
   return (

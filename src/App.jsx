@@ -1,12 +1,10 @@
 import styles from "./styles/_App.module.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Authentication, { action as AuthAction } from "./pages/Authentication";
+import Authentication from "./pages/Authentication";
 import Root from "./pages/Root";
-import ForgetPassword, {
-  action as ForgetPasswordAction,
-} from "./pages/ForgetPassword";
-import Code, { action as CodeAction } from "./pages/Code";
-import ResetPassword, { action as ResetAction } from "./pages/ResetPassword";
+import ForgetPassword from "./pages/ForgetPassword";
+import Code from "./pages/Code";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
 import HousePage, { loader as HouseLoader } from "./pages/HousePage";
 import NewUser from "./pages/NewUser";
@@ -22,10 +20,7 @@ import EditContract, {
 import EditBuilding, {
   loader as EditBuildingLoader,
 } from "./pages/EditBuilding";
-import Profile, {
-  loader as ProfileLoader,
-  action as ProfileAction,
-} from "./pages/Profile";
+import Profile, { loader as ProfileLoader } from "./pages/Profile";
 import Messages, { loader as MessagesLoader } from "./pages/Messages";
 import Conversations, {
   loader as ConversationsLoader,
@@ -38,27 +33,24 @@ import UserContext from "./store/user-context";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import Chat, { loader as ChatLoader } from "./pages/Chat";
+import Cookies from "js-cookie";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Authentication />,
-    action: AuthAction,
   },
   {
     path: "ForgetPassword",
     element: <ForgetPassword />,
-    action: ForgetPasswordAction,
   },
   {
     path: "CheckCode",
     element: <Code />,
-    action: CodeAction,
   },
   {
     path: "ResetPassword",
     element: <ResetPassword />,
-    action: ResetAction,
   },
   {
     path: "dashboard",
@@ -94,7 +86,6 @@ const router = createBrowserRouter([
         path: "Profile",
         element: <Profile />,
         loader: ProfileLoader,
-        action: ProfileAction,
       },
       {
         path: "AddBuilding",
@@ -119,10 +110,12 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 function App() {
   const [t, i18n] = useTranslation("global");
   const context = useContext(UserContext);
   const [classState, setClass] = useState("rtl");
+
   useEffect(() => {
     if (i18n.language === "en") {
       setClass("ltr");
@@ -132,7 +125,7 @@ function App() {
   }, [i18n.language]);
 
   useEffect(() => {
-    const storedUserData = sessionStorage.getItem("userData");
+    const storedUserData = Cookies.get("userData");
     const storedLang = sessionStorage.getItem("lang");
     if (storedLang) {
       i18n.changeLanguage(sessionStorage.getItem("lang"));
@@ -160,8 +153,6 @@ function App() {
         updated_at,
         image
       );
-    } else {
-      //console.log("empty");
     }
   }, []);
 

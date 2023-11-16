@@ -4,22 +4,24 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { getAuthToken } from "../util/auth";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { PiBookmarkSimpleBold } from "react-icons/pi";
+import { IoSend } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import Pusher from "pusher-js";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import UserContext from "../store/user-context";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(null);
+  const context = useContext(UserContext);
   let allMessages = [];
   const params = useParams();
-  const adminId = JSON.parse(sessionStorage.getItem("userData")).id;
-  const adminImg = JSON.parse(sessionStorage.getItem("userData")).image;
-  //console.log(params);
+  const adminId = context.id;
+  //const adminImg = context.image;
   const data = useLoaderData();
-  //console.log(data);
+
   const image =
     params.mode === "past"
       ? data.chats.participants[0].image
@@ -51,24 +53,30 @@ const Chat = () => {
 
     const pusher = new Pusher(import.meta.env.VITE_APP_KEY, {
       cluster: import.meta.env.VITE_CLUSTER_KEY,
+      channelAuthorization: {
+        //endpoint: "https://zadapp.mqawilk.com/api/broadcasting/auth",
+      },
     });
 
     const channel = pusher.subscribe(
       `${import.meta.env.VITE_CHANEEL_NAME}.${adminId}`
     );
 
-    channel.bind(import.meta.env.VITE_EVENT_NAME, function (data) {
-      allMessages.push(data);
+    channel.bind(import.meta.env.VITE_EVENT_NAME, (data) => {
+      console.log(data);
+      //allMessages.push(data);
       setMessages((prev) => {
-        return [...prev, allMessages];
+        return [...prev, data];
       });
     });
   }, []);
 
   const formSubmitHandler = async (formData) => {
+    console.log(formData.sentMessage);
     const enteredData = {
       user_id: params.mode === "past" ? data.chats.participants[0].id : data.id,
-      message: message,
+      //message: message,
+      message: formData.sentMessage,
     };
     const token = getAuthToken();
     try {
@@ -87,46 +95,41 @@ const Chat = () => {
   return (
     <div className={styles.chat}>
       <div className={styles.head}>
-        <StyledContainer>
-          <div className={styles.content}>
-            <div className={styles.user}>
-              <div className={styles.img}>
-                <img
-                  src={`https://zadapp.mqawilk.com/public/images/${image}`}
-                />
-              </div>
-              <div className={styles.text}>
-                <p>{`${firstName} ${lastName}`}</p>
-                <p>{email}</p>
-              </div>
+        <div className={styles.content}>
+          <div className={styles.user}>
+            <div className={styles.img}>
+              <img src={`https://zadapp.mqawilk.com/public/images/${image}`} />
             </div>
-            <div className={styles.tools}>
-              <div className={styles.icon}>
-                <RiDeleteBin6Line />
-              </div>
-              <div className={styles.icon}>
-                <PiBookmarkSimpleBold />
-              </div>
+            <div className={styles.text}>
+              <p>{`${firstName} ${lastName}`}</p>
+              <p>{email}</p>
             </div>
           </div>
-        </StyledContainer>
+          <div className={styles.tools}>
+            <div className={styles.icon}>
+              <RiDeleteBin6Line />
+            </div>
+            <div className={styles.icon}>
+              <PiBookmarkSimpleBold />
+            </div>
+          </div>
+        </div>
       </div>
       <div className={styles.body}>
-        <StyledContainer>
-          <div className={styles.data}>
-            <div className={styles.messages}>
-              {messages.length > 0 &&
-                messages.map((msg, index) => {
-                  return (
-                    <div
-                      key={index}
-                      /*className={
+        <div className={styles.data}>
+          <div className={styles.messages}>
+            {messages.length > 0 &&
+              messages.map((msg, index) => {
+                return (
+                  <div
+                    key={index}
+                    /*className={
                         msg.user_id === adminId
                           ? `${styles.message} ${styles.right}`
                           : `${styles.message} ${styles.left}`
                       }*/
-                    >
-                      {/*<div className={styles.img}>
+                  >
+                    {/*<div className={styles.img}>
                         <img
                           src={
                             msg.user_id === adminId
@@ -135,11 +138,11 @@ const Chat = () => {
                           }
                         />
                         </div>*/}
-                      <span>{msg.body}</span>
-                    </div>
-                  );
-                })}
-              {/*data.message &&
+                    <span>{msg.body}</span>
+                  </div>
+                );
+              })}
+            {/*data.message &&
                 data.message.length > 0 &&
                 data.message.map((msg, index) => {
                   return (
@@ -164,21 +167,24 @@ const Chat = () => {
                     </div>
                   );
                 })*/}
-            </div>
-            <form
-              onSubmit={handleSubmit(formSubmitHandler)}
-              className={styles.sendBox}
-            >
-              <textarea
-                placeholder={t("body.writeHere")}
-                {...register("sentMessage")}
-              ></textarea>
-              <button type="submit" className={styles.submit}>
-                {t("body.send")}
-              </button>
-            </form>
           </div>
-        </StyledContainer>
+          <form
+            onSubmit={handleSubmit(formSubmitHandler)}
+            className={styles.sendBox}
+          >
+            <textarea
+              className={styles.text}
+              placeholder={t("body.writeHere")}
+              {...register("sentMessage")}
+            />
+            <button type="submit" className={styles.submit}>
+              <div className={styles.icon}>
+                <IoSend />
+              </div>
+              <span>{t("body.send")}</span>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
@@ -186,7 +192,8 @@ const Chat = () => {
 
 export default Chat;
 
-export async function loader({ request, params }) {
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ params }) {
   const id = params.userId;
   const mode = params.mode;
   let url = "";

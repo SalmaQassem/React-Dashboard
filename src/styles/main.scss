@@ -118,6 +118,9 @@
 //Import Form Container
 @use "./FormContainer.module";
 
+//Import Form Wrapper
+@use "./FormWrapper.module";
+
 //Import Form Head
 @use "./FormHead.module";
 
@@ -162,3 +165,6 @@
 
 //Import Select
 @use "./SelectInput.module";
+
+//Import Change Language
+@use "./ChangeLanguage.module";

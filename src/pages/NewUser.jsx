@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 const NewUser = () => {
   const [t, i18n] = useTranslation("global");
+  
   return (
     <div className={styles.addUser}>
       <StyledHeader

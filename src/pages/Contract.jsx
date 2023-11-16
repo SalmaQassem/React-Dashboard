@@ -1,7 +1,6 @@
 import styles from "../styles/_Contract.module.scss";
 import StyledContainer from "../components/UI/StyledContainer";
 import image from "../assets/images/Frame.png";
-//import vector from "../assets/images/Vector2.png";
 import ContractForm from "../components/AddBuilding/ContractForm";
 import { getAuthToken } from "../util/auth";
 import ContractFormHead from "../components/AddBuilding/ContractFormHead";
@@ -9,6 +8,7 @@ import { useTranslation } from "react-i18next";
 
 const Contract = () => {
   const [t, i18n] = useTranslation("global");
+  
   return (
     <>
       <StyledContainer>
@@ -22,11 +22,12 @@ const Contract = () => {
           </div>
         </div>
       </StyledContainer>
-      {/*<img src={vector} alt="vector" className={styles.vector}/>*/}
     </>
   );
 };
 export default Contract;
+
+// eslint-disable-next-line react-refresh/only-export-components
 export async function action({ request }) {
   const formData = await request.formData();
   const offset = new Date().getTimezoneOffset();
@@ -60,9 +61,9 @@ export async function action({ request }) {
     document_start: documentStart,
     notes: formData.get("notes"),
   };
-  //console.log(enteredData);
+
   const userToken = getAuthToken();
-  let response;
+  let response = "";
   try {
     response = await fetch("https://zadapp.mqawilk.com/api/document/store", {
       method: "POST",

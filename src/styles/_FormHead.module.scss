@@ -1,6 +1,7 @@
 @use "../helpers/fonts" as *;
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/global" as *;
 
 .head {
   width: 100%;
@@ -9,9 +10,10 @@
     $direction: column,
     $align: center,
     $justify: center,
-    $gap: 1.125rem
+    $gap: $gap-18
   );
-
+  text-transform: capitalize;
+  
   .logo {
     width: 13.5rem;
     height: 4.0625rem;
@@ -21,8 +23,8 @@
     }
   }
   .title {
-    font-size: 1.375rem;
+    font-size: $f-s-22;
     font-family: "Cairo-ExtraBold";
-    letter-spacing: 0.125rem;
+    letter-spacing: $l-s-2;
   }
 }

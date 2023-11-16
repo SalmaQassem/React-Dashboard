@@ -29,6 +29,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+
 const FirstPage = (props) => {
   const context = useContext(BuildingContext);
   const [t, i18n] = useTranslation("global");
@@ -400,6 +401,7 @@ const FirstPage = (props) => {
       //setSelectedOption(selected);
     }
   }, []);
+  
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>

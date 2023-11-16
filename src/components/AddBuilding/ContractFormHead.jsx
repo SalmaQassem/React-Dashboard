@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 const ContractFormHead = () => {
   const [t, i18n] = useTranslation("global");
+  
   return (
     <div className={styles.head}>
       <h1>{t("body.contractForm")}</h1>

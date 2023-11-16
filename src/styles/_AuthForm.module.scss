@@ -2,56 +2,54 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
 @use "./variables/mediaQuery" as *;
+@use "./variables/global" as *;
+@use "./placeholders" as *;
 
-.authHead {
-  .welcome {
-    @include flex-variant(
-      flex,
-      $direction: row,
-      $align: center,
-      $justify: center,
-      $gap: 0.9375rem
-    );
-    font-family: "Cairo-SemiBold";
-    font-size: 1.25rem;
+.welcome {
+  @include flex-row-center($gap: $gap-15);
+  font-family: "Cairo-SemiBold";
+  font-size: $f-s-20;
 
-    .userIcon {
-      color: $grey-5;
-      font-size: 1.375rem;
-    }
+  .userIcon {
+    color: $grey-5;
+    font-size: $f-s-22;
   }
 }
+
 .form {
-  width: 100%;
-  @include flex-variant(
-    flex,
-    $direction: column,
-    $align: center,
-    $gap: 3.125rem
-  );
+  @extend %authFormStyle;
+
+  .inputs {
+    @extend %authInputs;
+    .inputItems {
+      @extend %authInputItem;
+    }
+    > p {
+      @extend %feedbackStyle;
+    }
+  }
+
   .forgetPass {
     width: 100%;
-    padding: 0 0.5rem;
+    padding: 0 $padding-8;
     @include flex-variant(
       flex,
       $direction: row,
       $align: center,
       $justify: space-between
     );
-    @include mediaQuery($Tablet_min_width) {
-      width: 85%;
-    }
+
     .checkbox {
       @include flex-variant(
         flex,
         $direction: row,
         $align: center,
-        $gap: 1.25rem
+        $gap: $gap-20
       );
       input {
         width: 0.9375rem;
         height: 0.9375rem;
-        border-radius: 0.3125rem;
+        border-radius: $b-r-5;
         cursor: pointer;
       }
       label {
@@ -61,18 +59,9 @@
     }
     .text {
       font-family: "Cairo-Black";
-      font-size: 1rem;
+      font-size: $f-s-16;
       color: $pink;
       cursor: pointer;
     }
   }
-  /*.loginButton {
-    width: 100%;
-    margin: 0;
-    justify-content: center;
-    letter-spacing: 0.125rem;
-    @include mediaQuery($Tablet_min_width) {
-      width: 85%;
-    }
-  }*/
 }

@@ -1,19 +1,23 @@
 import styles from "../../styles/_ThirdPage.module.scss";
 import Map from "./Map";
 import FormButton from "../UI/FormButton";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import BuildingContext from "../../store/building-context";
 import UserContext from "../../store/user-context";
 import { LiaHotelSolid } from "react-icons/lia";
 import { getAuthToken } from "../../util/auth";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Modal from "../UI/Modal";
+import { AnimatePresence } from "framer-motion";
+import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 
 const ThirdPage = (props) => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
   const userData = useContext(UserContext);
+  const [isModalOpened, setIsModalOpened] = useState(false);
   const navigate = useNavigate();
 
   const sendData = async (data) => {
@@ -21,23 +25,30 @@ const ThirdPage = (props) => {
     try {
       const response = await axios.post(props.url, data, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${userToken}`,
         },
       });
-      const res = response.data;
+      const res = await response.data;
       if (props.state === "edit") {
-        alert("success");
-        navigate("/dashboard");
+        setIsModalOpened(true);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 500);
       } else {
+        setIsModalOpened(true);
         sessionStorage.setItem("houseId", res.id);
         sessionStorage.setItem("userId", res.user_id);
-        navigate("/dashboard/Review");
+
+        setTimeout(() => {
+          navigate("/dashboard/Review");
+        }, 500);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
+
   const saveData = async () => {
     const formData = new FormData();
     formData.append("user_id", userData.id);
@@ -61,20 +72,38 @@ const ThirdPage = (props) => {
   };
 
   return (
-    <div className={styles.map}>
-      <p>{t("body.showOnMap")}</p>
-      <div className={styles.mapItem}>
-        <Map />
+    <>
+      <AnimatePresence>
+        {isModalOpened && (
+          <Modal
+            head={t("body.success")}
+            message={
+              props.state === "edit"
+                ? t("body.editBuildingSuccess")
+                : t("body.addBuildingSuccess")
+            }
+            buttonText={t("body.close")}
+            icon={<FaCheck />}
+            state={props.state}
+            setOpened={setIsModalOpened}
+          />
+        )}
+      </AnimatePresence>
+      <div className={styles.map}>
+        <p>{t("body.showOnMap")}</p>
+        <div className={styles.mapItem}>
+          <Map />
+        </div>
+        <FormButton
+          class={styles.save}
+          type="button"
+          icon={<LiaHotelSolid />}
+          onClick={saveData}
+        >
+          {t("body.saveRegistration")}
+        </FormButton>
       </div>
-      <FormButton
-        class={styles.save}
-        type="button"
-        icon={<LiaHotelSolid />}
-        onClick={saveData}
-      >
-        {t("body.saveRegistration")}
-      </FormButton>
-    </div>
+    </>
   );
 };
 

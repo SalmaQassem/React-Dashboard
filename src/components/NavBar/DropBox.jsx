@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { getAuthToken } from "../../util/auth";
 import Cookies from "js-cookie";
 import UserInfo from "./UserInfo";
+import axios from "axios";
 
 const DropBox = ({ setShown }) => {
   const [t, i18n] = useTranslation("global");
@@ -40,24 +41,27 @@ const DropBox = ({ setShown }) => {
   };
   const logOutHandler = async () => {
     clickHandler();
-    const token = getAuthToken();
-    const enteredData = {
-      access_token: token,
+    const accessToken = getAuthToken();
+    const access_token = {
+      token: accessToken,
     };
-    //sessionStorage.removeItem("userData");
-    //sessionStorage.removeItem("houseId");
-    //sessionStorage.removeItem("userId");
-    //Cookies.remove("token");
+    sessionStorage.removeItem("houseId");
+    sessionStorage.removeItem("userId");
+    Cookies.remove("token");
+    Cookies.remove("userData");
     try {
-      const response = await fetch("https://zadapp.mqawilk.com/api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(enteredData),
-      });
+      const response = await axios.post(
+        "https://zadapp.mqawilk.com/api/logout",
+        {
+          access_token,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
       if (response.ok) {
-        //navigate("/");
+        navigate("/");
       }
     } catch (error) {
       console.log(error.message);

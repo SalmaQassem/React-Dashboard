@@ -7,9 +7,11 @@ import BuildingContext from "../../store/building-context";
 const AddBuildingForm = (props) => {
   const context = useContext(BuildingContext);
   const houseId = sessionStorage.getItem("houseId");
+  
   useEffect(() => {
     context.setPage(0);
   }, []);
+
   return (
     <>
       {context.page === 0 && (

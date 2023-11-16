@@ -76,14 +76,16 @@
             }
           }
           .info {
+            flex: 1 0;
             @include flex-variant(
               flex,
               $direction: row,
               $align: center,
+              $justify:space-between,
               $gap: $gap-8
             );
             .user {
-              width: 100%;
+              //width: 100%;
               @include flex-variant(
                 flex,
                 $direction: column,

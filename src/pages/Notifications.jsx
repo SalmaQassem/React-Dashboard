@@ -7,14 +7,73 @@ import { HiOutlineBellAlert } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import NoData from "../components/UI/NoData";
 import { IoNotificationsOffSharp } from "react-icons/io5";
+import { FiArrowDown } from "react-icons/fi";
+import { useEffect, useState } from "react";
 
 const Notifications = () => {
   const data = useLoaderData();
+  const [filteredData, setFilteredData] = useState([]);
+  const [index, setIndex] = useState(0);
   const [t, i18n] = useTranslation("global");
   const navigate = useNavigate();
+
+  const loadHandler = (e) => {
+    e.stopPropagation();
+    setIndex((prevIndex) => {
+      return prevIndex + 10;
+    });
+  };
+
+  const getDate = (createDate, type) => {
+    const date = new Date(createDate);
+    const currentDay = new Date().getDate();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const time = `${hours}:${minutes}`;
+
+    if (type === "time") {
+      return time;
+    } else {
+      const monthes = [
+        "jan",
+        "feb",
+        "mar",
+        "apr",
+        "may",
+        "jun",
+        "jul",
+        "aug",
+        "sep",
+        "oct",
+        "nov",
+        "dec",
+      ];
+      const day = date.getDate();
+      const month = monthes[date.getMonth()];
+      const year = date.getFullYear();
+      const fullDate = `${month} ${day}, ${year}`;
+
+      if (currentDay === day) {
+        return "";
+      }
+      return fullDate;
+    }
+  };
+
   const clickHandler = (e) => {
     navigate(`/dashboard/Houses/${e.currentTarget.id}`);
   };
+
+  useEffect(() => {
+    if (data.length > 10) {
+      const items = data.slice(index, index + 10);
+      setFilteredData((prevData) => {
+        return [...prevData, ...items];
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
+
   return (
     <div className={styles.notification}>
       <MainHeader
@@ -24,7 +83,7 @@ const Notifications = () => {
       <div className={styles.body}>
         {data && data.length > 0 ? (
           <div className={styles.list}>
-            {data.map((item) => {
+            {(data.length > 10 ? filteredData : data).map((item) => {
               return (
                 <div
                   key={item.id}
@@ -41,22 +100,33 @@ const Notifications = () => {
                       />
                     </div>
                     <div className={styles.info}>
-                      <div className={styles.user}>
-                        <p
-                          className={styles.name}
-                        >{`${item.user.first_name} ${item.user.last_name}`}</p>
-                      </div>
+                      <p
+                        className={styles.name}
+                      >{`${item.user.first_name} ${item.user.last_name}`}</p>
                       <p className={styles.action}>{t("body.addedBuilding")}</p>
                     </div>
                   </div>
-                  <div className={styles.date}>{`${new Date(
-                    item.created_at
-                  ).getHours(0, 0, 0, 0)}:${new Date(
-                    item.created_at
-                  ).getSeconds()}`}</div>
+                  <div className={styles.date}>
+                    {getDate(item.created_at, "date") !== "" && (
+                      <span>{getDate(item.created_at, "date")}</span>
+                    )}
+                    <span>{getDate(item.created_at, "time")}</span>
+                  </div>
                 </div>
               );
             })}
+            {data.length > 10 && filteredData.length < data.length && (
+              <button
+                className={styles.loadButton}
+                type="text"
+                onClick={loadHandler}
+              >
+                <span>{t("body.loadMore")}</span>
+                <div className={styles.icon}>
+                  <FiArrowDown />
+                </div>
+              </button>
+            )}
           </div>
         ) : (
           <NoData
@@ -72,6 +142,7 @@ const Notifications = () => {
 
 export default Notifications;
 
+// eslint-disable-next-line react-refresh/only-export-components
 export async function loader() {
   let response = "";
   const token = getAuthToken();

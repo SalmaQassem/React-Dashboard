@@ -1,38 +1,56 @@
 import styles from "../../styles/_FormItem.module.scss";
+import { useTranslation } from "react-i18next";
 
-const FormItem = (props) => {
+const FormItem = ({
+  Class,
+  id,
+  type,
+  register,
+  name,
+  label,
+  icon,
+  onMouseDown,
+  onMouseUp,
+  onMouseLeave,
+  error,
+}) => {
+  const [t, i18n] = useTranslation("global");
+
   const mouseDownHandler = () => {
-    props.onMouseDown();
+    onMouseDown();
   };
   const mouseUpHandler = () => {
-    props.onMouseUp();
+    onMouseUp();
   };
   const mouseLeaveHandler = () => {
-    props.onMouseLeave();
+    onMouseLeave();
   };
+  const engLang = i18n.language === "en" ? styles.en : "";
+  const fieldClass = error
+    ? `${styles.field} ${styles.invalid} ${engLang}`
+    : `${styles.field} ${engLang}`;
   return (
-    <div
-      className={props.class ? `${styles.input} ${props.class}` : styles.input}
-    >
-      <div className={styles.field}>
-        <label htmlFor={props.id}>{props.label}</label>
+    <div className={Class ? `${styles.input} ${Class}` : styles.input}>
+      <div className={fieldClass}>
+        <label htmlFor={id}>{label}</label>
         <input
-          type={props.type}
-          id={props.id}
-          name={props.name}
-          required={props.required === "true"}
+          type={type}
+          id={id}
+          {...register(name)}
+          //required={props.required === "true"}
         />
         <div
           className={
-            props.onMouseDown ? `${styles.icon} ${styles.pass}` : styles.icon
+            onMouseDown ? `${styles.icon} ${styles.pass}` : styles.icon
           }
-          onMouseDown={props.onMouseDown ? mouseDownHandler : () => {}}
-          onMouseUp={props.onMouseUp ? mouseUpHandler : () => {}}
-          onMouseLeave={props.onMouseLeave ? mouseLeaveHandler : () => {}}
+          onMouseDown={onMouseDown ? mouseDownHandler : () => {}}
+          onMouseUp={onMouseUp ? mouseUpHandler : () => {}}
+          onMouseLeave={onMouseLeave ? mouseLeaveHandler : () => {}}
         >
-          {props.icon}
+          {icon}
         </div>
       </div>
+      {error && <span className={styles.feedback}>{error.message}</span>}
     </div>
   );
 };

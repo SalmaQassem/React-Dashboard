@@ -1,8 +1,7 @@
-@use "../helpers/fonts" as *;
-@use "../helpers/mixins" as *;
 @use "./colors" as *;
+@use "./variables/global" as *;
 
 .addUser {
-  padding: 1.75rem 2.5rem;
+  padding: $main-padding;
   color: $white;
 }
