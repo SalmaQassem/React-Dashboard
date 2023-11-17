@@ -75,8 +75,10 @@ const Tools = () => {
       text: t("body.notifications"),
     },
   ];
+  const x_value = i18n.language === "en" ? "-1rem" : "1rem";
+
   const childVariants = {
-    hidden: { opacity: 0, x: "1rem" },
+    hidden: { opacity: 0, x: x_value },
     visible: { opacity: 1, x: 0 },
   };
   return (
@@ -103,7 +105,7 @@ const Tools = () => {
             initial="hidden"
             animate="visible"
             variants={childVariants}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, x: "1rem" }}
             transition={{ staggerChildren: 0.1, ease: "easeInOut" }}
           >
             {links.map((item, index) => {

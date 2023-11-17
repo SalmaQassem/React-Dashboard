@@ -193,6 +193,7 @@ const SecondPage = (props) => {
     if (watchedFiles) {
       const { length, ...files } = watchedFiles;
       if (length > 0) {
+        console.log(files);
         setSelectedImages(files);
       }
     }

@@ -92,42 +92,17 @@
         }
 
         .date {
-          color: $grey-5;
           @include flex-variant(
             flex,
             $direction: column,
             $justify: center,
-            $align: flex-end,
+            $align: center
           );
-        }
-      }
-      .loadButton {
-        width: 100%;
-        padding: $padding-6 $padding-8;
-        @include flex-row-center($gap: $gap-5);
-        background-color: $pink;
-        border-radius: $b-r-10;
-        box-shadow: $boxShadow-1;
-        color: $white;
-        font-family: "Cairo-SemiBold";
-        font-size: $f-s-18;
-        text-transform: capitalize;
-        letter-spacing: 1px;
-        .icon {
-          @include flex-row-center();
-          font-size: $f-s-18;
-        }
-        @include mediaQuery($Tablet_min_width) {
-          width: 45%;
-        }
-        @include mediaQuery($smallScreen_min_width) {
-          width: 30%;
-        }
-        @include mediaQuery($medScreen_min_width) {
-          width: 22%;
-        }
-        @include mediaQuery($largeScreen_min_width) {
-          width: 18%;
+          color: $grey-5;
+          white-space: nowrap;
+          @include mediaQuery($smallScreen_min_width) {
+            align-items: flex-end;
+          }
         }
       }
     }

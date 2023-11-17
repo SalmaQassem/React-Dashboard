@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 //import { TbCloudUpload } from "react-icons/tb";
 import FormButton from "../UI/FormButton";
 import { useTranslation } from "react-i18next";
-//import UserContext from "../../store/user-context";
+import UserContext from "../../store/user-context";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { getAuthToken } from "../../util/auth";
@@ -14,7 +14,7 @@ import { FaCheck } from "react-icons/fa";
 
 const ProfileForm = (props) => {
   const oldData = props.userData;
-  //const context = useContext(UserContext);
+  const context = useContext(UserContext);
   const [t, i18n] = useTranslation("global");
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageError, setImageError] = useState(false);
@@ -125,22 +125,47 @@ const ProfileForm = (props) => {
         {
           method: "POST",
           headers: {
-            "Content-Type": "multipart/form-data",
+            //"Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
           },
           body: formData,
         }
       );
       const data = await response.data;
+      //console.log(response);
       console.log(data);
-      if (data.success) {
+      /*if (data.success) {
         setIsModalOpened((prevState) => {
           return { ...prevState, state: true };
         });
+        const {
+          id,
+          first_name,
+          last_name,
+          phone,
+          email,
+          role,
+          created_at,
+          updated_at,
+          image,
+        } = data;
+        context.setUserData(
+          id,
+          first_name,
+          last_name,
+          phone,
+          email,
+          role,
+          created_at,
+          updated_at,
+          image
+        );
+        sessionStorage.setItem("userData", JSON.stringify(data));
         setTimeout(() => {
           //navigate("/dashboard");
         }, 500);
-      }
+      }*/
     } catch (error) {
       console.log(error.message);
     }

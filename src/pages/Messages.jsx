@@ -5,25 +5,42 @@ import { IoIosChatbubbles } from "react-icons/io";
 import FilterList from "../components/Chat/FilterList";
 import { getAuthToken } from "../util/auth";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import LoadMoreButton from "../components/UI/LoadMoreButton";
 
 const Messages = () => {
   const [t, i18n] = useTranslation("global");
   const friends = useLoaderData();
+  const [filteredData, setFilteredData] = useState([]);
+  const [index, setIndex] = useState(0);
   const navigate = useNavigate();
 
+  const loadHandler = () => {
+    setIndex((prevIndex) => {
+      return prevIndex + 5;
+    });
+  };
   const clickHandler = (e) => {
     navigate(`/dashboard/Chat/new/${e.currentTarget.id}`);
   };
+  useEffect(() => {
+    if (friends.length > 5) {
+      const items = friends.slice(index, index + 5);
+      setFilteredData((prevData) => {
+        return [...prevData, ...items];
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
 
   return (
     <div className={styles.messages}>
       <MainHeader text={t("body.messages")} icon={<IoIosChatbubbles />} />
       <div className={styles.body}>
         <FilterList />
-        <div className={styles.list}>
-          {friends &&
-            friends.length > 0 &&
-            friends.map((item) => {
+        {friends && friends.length > 0 && (
+          <div className={styles.list}>
+            {(friends.length > 5 ? filteredData : friends).map((item) => {
               return (
                 <div
                   key={item.id}
@@ -50,7 +67,11 @@ const Messages = () => {
                 </div>
               );
             })}
-        </div>
+            {friends.length > 5 && filteredData.length < friends.length && (
+              <LoadMoreButton onClickHandler={loadHandler} />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

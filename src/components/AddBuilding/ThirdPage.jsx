@@ -61,7 +61,16 @@ const ThirdPage = (props) => {
       ) {
         if (key === "media") {
           for (let i = 0; i < context[key].length; i++) {
-            formData.append("media[]", context[key][i]);
+            if (
+              context[key][i].type === "application/pdf" ||
+              context[key][i].type === "application/docx" ||
+              context[key][i].type === "application/doc"
+            ) {
+              console.log(context[key][i]);
+              formData.append("attached_file[]", context[key][i]);
+            } else {
+              formData.append("media[]", context[key][i]);
+            }
           }
         } else {
           formData.append(key, context[key]);

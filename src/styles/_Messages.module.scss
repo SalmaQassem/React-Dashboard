@@ -22,6 +22,22 @@
     $gap: $gap-24
   );
 }
+%flex-column {
+  @include flex-variant(
+    flex,
+    $direction: column,
+    $align: center,
+    $gap: $gap-16
+  );
+}
+%list-flex {
+  @extend %flex-column;
+  @include mediaQuery($smallScreen_min_width) {
+    & {
+      flex-direction: row;
+    }
+  }
+}
 .messages {
   height: 100%;
   padding: $main-padding;
@@ -30,15 +46,11 @@
 
     .list {
       @extend %flex;
+      align-items: center;
       .listItem {
+        width: 100%;
         padding: $padding-10 $padding-28;
-        @include flex-variant(
-          flex,
-          $direction: row,
-          $justify: space-between,
-          $align: center,
-          $gap: $gap-16
-        );
+        @extend %list-flex;
         font-family: "Cairo-Regular";
         font-size: $f-s-16;
         border-radius: $b-r-10;
@@ -48,19 +60,8 @@
 
         .text {
           width: 100%;
-          @include flex-variant(
-            flex,
-            $direction: column,
-            $align: center,
-            $gap: $gap-24
-          );
+          @extend %list-flex;
 
-          @include mediaQuery($Tablet_min_width) {
-            & {
-              flex-direction: row;
-              gap: $gap-16;
-            }
-          }
           .img {
             width: 4.375rem;
             height: 4.375rem;
@@ -81,19 +82,13 @@
               flex,
               $direction: row,
               $align: center,
-              $justify:space-between,
+              $justify: space-between,
               $gap: $gap-8
             );
             .user {
-              //width: 100%;
-              @include flex-variant(
-                flex,
-                $direction: column,
-                $align: center,
-                $gap: $gap-14
-              );
+              @extend %flex-column;
               font-family: "Cairo-Bold";
-              @include mediaQuery($Tablet_min_width) {
+              @include mediaQuery($smallScreen_min_width) {
                 & {
                   align-items: flex-start;
                 }
@@ -115,7 +110,18 @@
           }
         }
         .date {
+          @include flex-variant(
+            flex,
+            $direction: column,
+            $justify: center,
+            $align: center
+          );
           color: $grey-5;
+          text-transform: capitalize;
+          white-space: nowrap;
+          @include mediaQuery($smallScreen_min_width) {
+            align-items: flex-end;
+          }
         }
       }
     }

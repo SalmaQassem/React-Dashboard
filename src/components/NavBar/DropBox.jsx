@@ -42,24 +42,25 @@ const DropBox = ({ setShown }) => {
   const logOutHandler = async () => {
     clickHandler();
     const accessToken = getAuthToken();
-    const access_token = {
+    const enteredData = {
       token: accessToken,
     };
-    sessionStorage.removeItem("houseId");
+    /*sessionStorage.removeItem("houseId");
     sessionStorage.removeItem("userId");
     Cookies.remove("token");
-    Cookies.remove("userData");
+    Cookies.remove("userData");*/
     try {
       const response = await axios.post(
         "https://zadapp.mqawilk.com/api/logout",
         {
-          access_token,
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
-      console.log(response);
+      const data = await response.data;
+      console.log(data);
       if (response.ok) {
         navigate("/");
       }

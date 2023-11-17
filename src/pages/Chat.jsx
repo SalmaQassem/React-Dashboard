@@ -19,7 +19,7 @@ const Chat = () => {
   let allMessages = [];
   const params = useParams();
   const adminId = context.id;
-  //const adminImg = context.image;
+  const adminImg = context.image;
   const data = useLoaderData();
 
   const image =
@@ -53,9 +53,9 @@ const Chat = () => {
 
     const pusher = new Pusher(import.meta.env.VITE_APP_KEY, {
       cluster: import.meta.env.VITE_CLUSTER_KEY,
-      channelAuthorization: {
+      /*channelAuthorization: {
         //endpoint: "https://zadapp.mqawilk.com/api/broadcasting/auth",
-      },
+      },*/
     });
 
     const channel = pusher.subscribe(
@@ -142,31 +142,31 @@ const Chat = () => {
                   </div>
                 );
               })}
-            {/*data.message &&
-                data.message.length > 0 &&
-                data.message.map((msg, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className={
-                        msg.user_id === adminId
-                          ? `${styles.message} ${styles.right}`
-                          : `${styles.message} ${styles.left}`
-                      }
-                    >
-                      <div className={styles.img}>
-                        <img
-                          src={
-                            msg.user_id === adminId
-                              ? `https://zadapp.mqawilk.com/public/images/${adminImg}`
-                              : `https://zadapp.mqawilk.com/public/images/${image}`
-                          }
-                        />
-                      </div>
-                      <span>{msg.body}</span>
+            {data.message &&
+              data.message.length > 0 &&
+              data.message.map((msg, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={
+                      msg.user_id === adminId
+                        ? `${styles.message} ${styles.right}`
+                        : `${styles.message} ${styles.left}`
+                    }
+                  >
+                    <div className={styles.img}>
+                      <img
+                        src={
+                          msg.user_id === adminId
+                            ? `https://zadapp.mqawilk.com/public/images/${adminImg}`
+                            : `https://zadapp.mqawilk.com/public/images/${image}`
+                        }
+                      />
                     </div>
-                  );
-                })*/}
+                    <span>{msg.body}</span>
+                  </div>
+                );
+              })}
           </div>
           <form
             onSubmit={handleSubmit(formSubmitHandler)}

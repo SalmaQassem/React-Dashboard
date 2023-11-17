@@ -14,38 +14,41 @@ const Conversations = () => {
   const clickHandler = (e) => {
     navigate(`/dashboard/Chat/past/${e.currentTarget.id}`);
   };
-  const getDate = (createDate) => {
+  const getDate = (createDate, type) => {
     //console.log(createDate);
     //const newData = createDate.split("Z")[0];
     const date = new Date(createDate);
     const currentDay = new Date().getDate();
-    const monthes = [
-      "jan",
-      "feb",
-      "mar",
-      "apr",
-      "may",
-      "jun",
-      "jul",
-      "aug",
-      "sep",
-      "oct",
-      "nov",
-      "dec",
-    ];
     const hours = String(date.getHours()).padStart(2, "0");
     const minutes = String(date.getMinutes()).padStart(2, "0");
     const time = `${hours}:${minutes}`;
-
-    const day = date.getDate();
-    const month = monthes[date.getMonth()];
-    const year = date.getFullYear();
-    const fullDate = `${month} ${day}, ${year}`;
-
-    if (currentDay === day) {
+    if (type === "time") {
       return time;
+    } else {
+      const monthes = [
+        "jan",
+        "feb",
+        "mar",
+        "apr",
+        "may",
+        "jun",
+        "jul",
+        "aug",
+        "sep",
+        "oct",
+        "nov",
+        "dec",
+      ];
+      const day = date.getDate();
+      const month = monthes[date.getMonth()];
+      const year = date.getFullYear();
+      const fullDate = `${month} ${day}, ${year}`;
+      if (currentDay === day) {
+        return "";
+      } else {
+        return fullDate;
+      }
     }
-    return fullDate;
   };
   return (
     <div className={styles.messages}>
@@ -77,8 +80,13 @@ const Conversations = () => {
                         >{`${item.participants[0].first_name} ${item.participants[0].last_name}`}</p>
                         <p>{item.last_message.body}</p>
                       </div>
-                      <span>{getDate(item.last_message.created_at)}</span>
                     </div>
+                  </div>
+                  <div className={styles.date}>
+                    {getDate(item.created_at, "date") !== "" && (
+                      <span>{getDate(item.created_at, "date")}</span>
+                    )}
+                    <span>{getDate(item.created_at, "time")}</span>
                   </div>
                 </div>
               );

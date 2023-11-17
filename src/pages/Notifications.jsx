@@ -7,8 +7,8 @@ import { HiOutlineBellAlert } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import NoData from "../components/UI/NoData";
 import { IoNotificationsOffSharp } from "react-icons/io5";
-import { FiArrowDown } from "react-icons/fi";
 import { useEffect, useState } from "react";
+import LoadMoreButton from "../components/UI/LoadMoreButton";
 
 const Notifications = () => {
   const data = useLoaderData();
@@ -17,8 +17,7 @@ const Notifications = () => {
   const [t, i18n] = useTranslation("global");
   const navigate = useNavigate();
 
-  const loadHandler = (e) => {
-    e.stopPropagation();
+  const loadHandler = () => {
     setIndex((prevIndex) => {
       return prevIndex + 10;
     });
@@ -116,16 +115,7 @@ const Notifications = () => {
               );
             })}
             {data.length > 10 && filteredData.length < data.length && (
-              <button
-                className={styles.loadButton}
-                type="text"
-                onClick={loadHandler}
-              >
-                <span>{t("body.loadMore")}</span>
-                <div className={styles.icon}>
-                  <FiArrowDown />
-                </div>
-              </button>
+              <LoadMoreButton onClickHandler={loadHandler} />
             )}
           </div>
         ) : (
