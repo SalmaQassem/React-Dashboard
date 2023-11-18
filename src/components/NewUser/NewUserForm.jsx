@@ -44,7 +44,7 @@ const NewUserForm = (props) => {
       .string()
       .required(t("body.required"))
       .min(
-        10,
+        7,
         `${t("body.phone")} ${t("body.buildingNameCase")} ${t("body.nums")}`
       ),
     input1: yup.string().required(t("body.required")),

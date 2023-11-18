@@ -1,5 +1,5 @@
 import styles from "../styles/_Chat.module.scss";
-import StyledContainer from "../components/UI/StyledContainer";
+//import StyledContainer from "../components/UI/StyledContainer";
 import { useLoaderData, useParams } from "react-router-dom";
 import { getAuthToken } from "../util/auth";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -13,31 +13,37 @@ import { useState, useContext } from "react";
 import UserContext from "../store/user-context";
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
+  const data = useLoaderData();
+  console.log(data);
+  const [messages, setMessages] = useState([...data.message]);
   const [message, setMessage] = useState(null);
   const context = useContext(UserContext);
-  let allMessages = [];
+  //let allMessages = [];
   const params = useParams();
   const adminId = context.id;
   const adminImg = context.image;
-  const data = useLoaderData();
 
-  const image =
+  /*const image =
     params.mode === "past"
-      ? data.chats.participants[0].image
+      ? data.chats[0].participants[0].image
       : params.mode === "new" && data.image;
   const firstName =
     params.mode === "past"
-      ? data.chats.participants[0].first_name
+      ? data.chats[0].participants[0].first_name
       : params.mode === "new" && data.first_name;
   const lastName =
     params.mode === "past"
-      ? data.chats.participants[0].last_name
+      ? data.chats[0].participants[0].last_name
       : params.mode === "new" && data.last_name;
   const email =
     params.mode === "past"
-      ? data.chats.participants[0].email
-      : params.mode === "new" && data.email;
+      ? data.chats[0].participants[0].email
+      : params.mode === "new" && data.email;*/
+  const image = data.chats[0].participants[0].image;
+  const firstName = data.chats[0].participants[0].first_name;
+  const lastName = data.chats[0].participants[0].last_name;
+  const email = data.chats[0].participants[0].email;
+
   const [t, i18n] = useTranslation("global");
   const {
     register,
@@ -53,9 +59,6 @@ const Chat = () => {
 
     const pusher = new Pusher(import.meta.env.VITE_APP_KEY, {
       cluster: import.meta.env.VITE_CLUSTER_KEY,
-      /*channelAuthorization: {
-        //endpoint: "https://zadapp.mqawilk.com/api/broadcasting/auth",
-      },*/
     });
 
     const channel = pusher.subscribe(
@@ -63,7 +66,9 @@ const Chat = () => {
     );
 
     channel.bind(import.meta.env.VITE_EVENT_NAME, (data) => {
-      console.log(data);
+      //console.log("enter");
+      //console.log(data);
+      //console.log("msg", JSON.stringify(data));
       //allMessages.push(data);
       setMessages((prev) => {
         return [...prev, data];
@@ -71,10 +76,16 @@ const Chat = () => {
     });
   }, []);
 
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
+
   const formSubmitHandler = async (formData) => {
-    console.log(formData.sentMessage);
+    //console.log(formData.sentMessage);
+    setMessage(formData.sentMessage);
     const enteredData = {
-      user_id: params.mode === "past" ? data.chats.participants[0].id : data.id,
+      user_id: params.mode === "past" ? data.chats[0].participants[0].id : data.id,
+      //user_id: data.chats.participants[0].id,
       //message: message,
       message: formData.sentMessage,
     };
@@ -118,18 +129,18 @@ const Chat = () => {
       <div className={styles.body}>
         <div className={styles.data}>
           <div className={styles.messages}>
-            {messages.length > 0 &&
+            {/*messages.length > 0 &&
               messages.map((msg, index) => {
                 return (
                   <div
                     key={index}
-                    /*className={
+                    className={
                         msg.user_id === adminId
                           ? `${styles.message} ${styles.right}`
                           : `${styles.message} ${styles.left}`
-                      }*/
+                      }
                   >
-                    {/*<div className={styles.img}>
+                    {<div className={styles.img}>
                         <img
                           src={
                             msg.user_id === adminId
@@ -137,14 +148,14 @@ const Chat = () => {
                               : `https://zadapp.mqawilk.com/public/images/${image}`
                           }
                         />
-                        </div>*/}
+                        </div>}
                     <span>{msg.body}</span>
                   </div>
                 );
-              })}
-            {data.message &&
-              data.message.length > 0 &&
-              data.message.map((msg, index) => {
+              })*/}
+            {messages &&
+              messages.length > 0 &&
+              messages.map((msg, index) => {
                 return (
                   <div
                     key={index}
@@ -198,7 +209,8 @@ export async function loader({ params }) {
   const mode = params.mode;
   let url = "";
   if (mode === "new") {
-    url = `https://zadapp.mqawilk.com/api/show/myFrind/${id}`;
+    //url = `https://zadapp.mqawilk.com/api/show/myFrind/${id}`;
+    url = `https://zadapp.mqawilk.com/api/getConversation/${id}`;
   } else if (mode === "past") {
     url = `https://zadapp.mqawilk.com/api/getConversation/${id}`;
   }

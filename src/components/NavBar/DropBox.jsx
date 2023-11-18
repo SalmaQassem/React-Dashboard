@@ -45,13 +45,10 @@ const DropBox = ({ setShown }) => {
     const enteredData = {
       token: accessToken,
     };
-    /*sessionStorage.removeItem("houseId");
-    sessionStorage.removeItem("userId");
-    Cookies.remove("token");
-    Cookies.remove("userData");*/
     try {
       const response = await axios.post(
         "https://zadapp.mqawilk.com/api/logout",
+        enteredData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -60,8 +57,12 @@ const DropBox = ({ setShown }) => {
         }
       );
       const data = await response.data;
-      console.log(data);
-      if (response.ok) {
+      //console.log(data);
+      if (data && data.message) {
+        sessionStorage.removeItem("houseId");
+        sessionStorage.removeItem("userId");
+        Cookies.remove("token");
+        Cookies.remove("userData");
         navigate("/");
       }
     } catch (error) {

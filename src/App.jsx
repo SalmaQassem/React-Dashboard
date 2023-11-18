@@ -11,7 +11,7 @@ import NewUser from "./pages/NewUser";
 import AddBuilding from "./pages/AddBuilding";
 import Review, { loader as ReviewsLoader } from "./pages/Review";
 import Contract, { action as ContractAction } from "./pages/Contract";
-import UserPermits from "./pages/userPermits";
+import UserPermits from "./pages/UserPermits";
 import Contracts, { loader as ContractLoader } from "./pages/Contracts";
 import EditContract, {
   loader as EditLoader,

@@ -5,6 +5,7 @@ import { FiUserPlus, FiUserCheck } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
 import { LiaHotelSolid } from "react-icons/lia";
 import { AiOutlineFileDone } from "react-icons/ai";
+import { PiFiles } from "react-icons/pi";
 import AsideItem from "./AsideItem";
 import { useContext } from "react";
 import AsideContext from "../../store/aside-context";
@@ -43,6 +44,18 @@ const Aside = () => {
       id: "2",
       name: t("body.contracts"),
       icon: <AiOutlineFileDone />,
+      url: "Contracts",
+    },
+    {
+      id: "3",
+      name: t("body.reports"),
+      icon: <PiFiles />,
+      url: "Contracts",
+    },
+    {
+      id: "4",
+      name: t("body.completeHejj"),
+      icon: <PiFiles />,
       url: "Contracts",
     },
   ];

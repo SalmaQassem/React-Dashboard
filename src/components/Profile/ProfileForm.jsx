@@ -11,10 +11,14 @@ import { getAuthToken } from "../../util/auth";
 import { AnimatePresence } from "framer-motion";
 import Modal from "../UI/Modal";
 import { FaCheck } from "react-icons/fa";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ProfileForm = (props) => {
   const oldData = props.userData;
+  //console.log(oldData);
   const context = useContext(UserContext);
+  const navigate = useNavigate();
   const [t, i18n] = useTranslation("global");
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageError, setImageError] = useState(false);
@@ -37,7 +41,7 @@ const ProfileForm = (props) => {
       .string()
       .required(t("body.required"))
       .min(
-        10,
+        7,
         `${t("body.phone")} ${t("body.buildingNameCase")} ${t("body.nums")}`
       ),
     confirmPassword: yup
@@ -111,34 +115,36 @@ const ProfileForm = (props) => {
 
   const formSubmitHandler = async (data) => {
     const formData = new FormData();
+    console.log(watchedImage);
+    //console.log(uploadedImage);
+    const pass = data.password === "" ? oldData.password : data.password;
     formData.append("first_name", data.firstName);
     formData.append("last_name", data.lastName);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
-    formData.append("password", data.password);
+    formData.append("password", pass);
     formData.append("image", uploadedImage);
 
     const userToken = getAuthToken();
-    try {
-      const response = await fetch(
+    /*try {
+      const response = await axios.post(
         "https://zadapp.mqawilk.com/api/profile/update",
+        formData,
         {
-          method: "POST",
           headers: {
             //"Content-Type": "multipart/form-data",
             "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
           },
-          body: formData,
         }
       );
       const data = await response.data;
-      //console.log(response);
-      console.log(data);
-      /*if (data.success) {
+      if (data && data.success) {
+        //console.log(data);
         setIsModalOpened((prevState) => {
           return { ...prevState, state: true };
         });
+        console.log(data.user);
         const {
           id,
           first_name,
@@ -148,8 +154,9 @@ const ProfileForm = (props) => {
           role,
           created_at,
           updated_at,
+          password,
           image,
-        } = data;
+        } = data.user;
         context.setUserData(
           id,
           first_name,
@@ -159,16 +166,17 @@ const ProfileForm = (props) => {
           role,
           created_at,
           updated_at,
+          password,
           image
         );
         sessionStorage.setItem("userData", JSON.stringify(data));
         setTimeout(() => {
-          //navigate("/dashboard");
+          navigate("/dashboard");
         }, 500);
-      }*/
+      }
     } catch (error) {
       console.log(error.message);
-    }
+    }*/
   };
 
   useEffect(() => {
@@ -194,6 +202,9 @@ const ProfileForm = (props) => {
     }
   }, [watchedImage]);
 
+  useEffect(() => {
+    //console.log(uploadedImage);
+  }, [uploadedImage]);
   /*useEffect(() => {
     if (data && !data.message) {
       const {
