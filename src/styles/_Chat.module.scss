@@ -5,30 +5,32 @@
 @use "./variables/global" as *;
 @use "./variables/mediaQuery" as *;
 
-%font {
-  font-family: "Cairo-ExtraBold";
-  font-size: $f-s-18;
-}
 %scroll {
   overflow-y: auto;
   &::-webkit-scrollbar-track {
     @extend %track;
+    width: 0;
   }
   &::-webkit-scrollbar {
     @extend %scrollbar;
+    width: 0;
   }
   &::-webkit-scrollbar-thumb {
     @extend %thumb;
   }
 }
+%flex {
+  @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-16);
+}
 .chat {
   height: 100%;
   @include flex-variant(flex, $direction: column);
   .head {
-    //padding: $padding-28 0 $padding-16 0;
+    height: 8rem;
     padding: $main-padding;
     border-bottom: $border-1 solid $white;
     .content {
+      height: 100%;
       @include flex-variant(
         flex,
         $direction: row,
@@ -43,8 +45,8 @@
           $gap: $gap-16
         );
         .img {
-          width: 5.3125rem;
-          height: 5.3125rem;
+          width: 3.625rem;
+          height: 3.625rem;
           border-radius: 50%;
           overflow: hidden;
           img {
@@ -53,7 +55,8 @@
           }
         }
         .text {
-          @extend %font;
+          font-family: "Cairo-ExtraBold";
+          font-size: $f-s-18;
           > p:first-of-type {
             text-transform: capitalize;
           }
@@ -76,98 +79,144 @@
     }
   }
   .body {
-    flex: 1 0;
-    padding: $main-padding;
-    @extend %font;
-    .data {
-      height: 100%;
+    @include flex-variant(flex, $direction: column, $justify: space-between);
+    flex-grow: 1;
+    font-family: "Cairo-Bold";
+    font-size: $f-s-16;
+    .messages {
+      width: 100%;
+      max-height: calc(100vh - 14rem);
+      padding: $main-padding;
       @include flex-variant(
         flex,
         $direction: column,
         $justify: space-between,
-        $gap: $gap-40
+        $gap: $gap-16
       );
-      .messages {
-        width: 100%;
-        max-height: 60%;
+      @extend %scroll;
+      .message {
         @include flex-variant(
           flex,
-          $direction: column,
-          $justify: space-between,
+          $direction: row,
+          $align: flex-start,
           $gap: $gap-16
         );
-        @extend %scroll;
-
-        .message {
+        .img {
+          width: 3.125rem;
+          height: 3.125rem;
+          border-radius: 50%;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .msgText {
+          padding: $padding-8 $padding-12;
           @include flex-variant(
             flex,
-            $direction: row,
-            $align: center,
-            $gap: $gap-16
+            $direction: column,
+            $justify: space-between
           );
-          &.left {
-            margin: 0 auto 0 0;
-            .img {
-              order: 2;
-            }
-            span {
-              order: 1;
+          font-size: $f-s-16;
+          border-radius: $b-r-16;
+          box-shadow: $boxShadow-1;
+          .time {
+            font-size: $f-s-12;
+            font-family: "Cairo-Medium";
+          }
+        }
+        &.right {
+          .msgText {
+            background-color: $grey-14;
+            border-top-right-radius: $b-r-2;
+            .time {
+              @include flex-variant(flex, $direction: row, $justify: flex-end);
+              color: $grey-10;
             }
           }
+        }
+        &.left {
+          justify-content: flex-end;
           .img {
-            width: 3.125rem;
-            height: 3.125rem;
-            border-radius: 50%;
-            overflow: hidden;
-            img {
-              width: 100%;
-              height: 100%;
+            order: 2;
+          }
+          .msgText {
+            order: 1;
+            background-color: $pink;
+            border-top-left-radius: $b-r-2;
+            color: $white;
+            .time {
+              @include flex-variant(
+                flex,
+                $direction: row,
+                $justify: flex-start
+              );
+              color: $white-1;
             }
           }
         }
       }
-      .sendBox {
+    }
+    .sendBox {
+      width: 100%;
+      min-height: 15%;
+      padding: $main-padding;
+      box-shadow: $boxShadow-2;
+      .sendForm {
         width: 100%;
-        padding: $padding-16 $padding-28;
-        @include flex-variant(flex, $direction: column, $gap: $gap-16);
-        border-radius: $b-r-15;
-        //overflow: hidden;
-        background-color: $black;
-        @include mediaQuery($medScreen_min_width) {
-          width: 60%;
-        }
-        @include mediaQuery($largeScreen_min_width) {
-          width: 50%;
-        }
-        .text {
-          width: 100%;
-          height: auto;
-          min-height: 1.5rem;
-          max-height: 4.25rem;
-          background-color: $black;
-          @extend %font;
-          color: $white;
-          resize: none;
-          @extend %scroll;
-          &::-webkit-scrollbar {
-            width: 0;
-          }
-          &::placeholder {
-            text-transform: capitalize;
-            color: $white;
-          }
-        }
+        height: 100%;
+        @extend %flex;
         .submit {
-          width: 30%;
+          width: 3rem;
+          height: 3rem;
           padding: $padding-6 $padding-8;
-          @include flex-row-center($gap: $gap-12);
-          @extend %font;
-          background-color: $white;
+          @include flex-row-center();
+          background-color: $pink;
+          color: $white;
+          font-size: $f-s-22;
+          border-radius: 50%;
+          box-shadow: $boxShadow-1;
+        }
+        .textWrapper {
+          width: 60%;
+          max-height: 8.25rem;
+          padding: $padding-16 $padding-28;
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $align: center,
+            $gap: $gap-24
+          );
+          background-color: $black;
+          box-shadow: $boxShadow-1;
           border-radius: $b-r-15;
-          text-transform: capitalize;
-          .icon {
-            height: 100%;
-            @include flex-row-center();
+          .text {
+            min-height: 1.875rem;
+            max-height: 6.25rem;
+            flex-grow: 1;
+            background-color: $black;
+            font-family: "Cairo-Bold";
+            font-size: $f-s-16;
+            color: $white;
+            resize: none;
+            @extend %scroll;
+            &::-webkit-scrollbar {
+              width: 0;
+            }
+            &::placeholder {
+              text-transform: capitalize;
+              color: $white;
+            }
+          }
+          .attachments {
+            @extend %flex;
+            .attachment {
+              @include flex-row-center();
+              background-color: transparent;
+              font-size: $f-s-22;
+              color: $white;
+            }
           }
         }
       }

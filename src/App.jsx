@@ -13,6 +13,8 @@ import Review, { loader as ReviewsLoader } from "./pages/Review";
 import Contract, { action as ContractAction } from "./pages/Contract";
 import UserPermits from "./pages/UserPermits";
 import Contracts, { loader as ContractLoader } from "./pages/Contracts";
+import Reports from "./pages/Reports";
+import CloseSeason from "./pages/CloseSeason";
 import EditContract, {
   loader as EditLoader,
   action as EditAction,
@@ -76,6 +78,8 @@ const router = createBrowserRouter([
       { path: "NewUser", element: <NewUser /> },
       { path: "UserPermits", element: <UserPermits /> },
       { path: "Contracts", element: <Contracts />, loader: ContractLoader },
+      { path: "Reports", element: <Reports /> },
+      { path: "Close-Season", element: <CloseSeason /> },
       {
         path: "EditContract/:contractId",
         element: <EditContract />,
@@ -140,6 +144,7 @@ function App() {
         role,
         created_at,
         updated_at,
+        password,
         image,
       } = JSON.parse(storedUserData);
       context.setUserData(
@@ -151,6 +156,7 @@ function App() {
         role,
         created_at,
         updated_at,
+        password,
         image
       );
     }

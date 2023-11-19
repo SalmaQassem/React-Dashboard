@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { LiaHotelSolid } from "react-icons/lia";
 import { AiOutlineFileDone } from "react-icons/ai";
 import { PiFiles } from "react-icons/pi";
+import { FaKaaba } from "react-icons/fa6";
 import AsideItem from "./AsideItem";
 import { useContext } from "react";
 import AsideContext from "../../store/aside-context";
@@ -50,13 +51,13 @@ const Aside = () => {
       id: "3",
       name: t("body.reports"),
       icon: <PiFiles />,
-      url: "Contracts",
+      url: "Reports",
     },
     {
       id: "4",
       name: t("body.completeHejj"),
-      icon: <PiFiles />,
-      url: "Contracts",
+      icon: <FaKaaba />,
+      url: "Close-Season",
     },
   ];
   const houses = [

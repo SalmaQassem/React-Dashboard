@@ -5,13 +5,17 @@ import BuildingContext from "../../store/building-context";
 import MapSearch from "./MapSearch";
 import axios from "axios";
 
-const Map = () => {
+const Map = (props) => {
   const context = useContext(BuildingContext);
-  const center = [48.8566, 2.3522];
+  const center = props.oldData
+    ? [props.oldData.lat, props.oldData.lang]
+    : [48.8566, 2.3522];
   const [location, setLocation] = useState({
     lat: center[0],
     lang: center[1],
-    address: "town hall of bagnolet, 75004 paris, france",
+    address: props.oldData
+      ? props.oldData.adresse
+      : "town hall of bagnolet, 75004 paris, france",
   });
   const markerRef = useRef(null);
   const handleMarkerDrag = (newPosition) => {

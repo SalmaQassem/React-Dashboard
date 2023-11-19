@@ -17,15 +17,15 @@ const Messages = () => {
 
   const loadHandler = () => {
     setIndex((prevIndex) => {
-      return prevIndex + 5;
+      return prevIndex + 6;
     });
   };
   const clickHandler = (e) => {
     navigate(`/dashboard/Chat/new/${e.currentTarget.id}`);
   };
   useEffect(() => {
-    if (friends.length > 5) {
-      const items = friends.slice(index, index + 5);
+    if (friends.length > 6) {
+      const items = friends.slice(index, index + 6);
       setFilteredData((prevData) => {
         return [...prevData, ...items];
       });
@@ -40,7 +40,7 @@ const Messages = () => {
         <FilterList />
         {friends && friends.length > 0 && (
           <div className={styles.list}>
-            {(friends.length > 5 ? filteredData : friends).map((item) => {
+            {(friends.length > 6 ? filteredData : friends).map((item) => {
               return (
                 <div
                   key={item.id}
@@ -67,7 +67,7 @@ const Messages = () => {
                 </div>
               );
             })}
-            {friends.length > 5 && filteredData.length < friends.length && (
+            {friends.length > 6 && filteredData.length < friends.length && (
               <LoadMoreButton onClickHandler={loadHandler} />
             )}
           </div>

@@ -4,19 +4,26 @@ import MainHeader from "../components/UI/MainHeader";
 import { IoIosChatbubbles } from "react-icons/io";
 import FilterList from "../components/Chat/FilterList";
 import { getAuthToken } from "../util/auth";
+import { useState, useEffect } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import LoadMoreButton from "../components/UI/LoadMoreButton";
 
 const Conversations = () => {
   const [t, i18n] = useTranslation("global");
   const conversations = useLoaderData();
+  const [filteredData, setFilteredData] = useState([]);
+  const [index, setIndex] = useState(0);
   const navigate = useNavigate();
 
+  const loadHandler = () => {
+    setIndex((prevIndex) => {
+      return prevIndex + 6;
+    });
+  };
   const clickHandler = (e) => {
     navigate(`/dashboard/Chat/past/${e.currentTarget.id}`);
   };
   const getDate = (createDate, type) => {
-    //console.log(createDate);
-    //const newData = createDate.split("Z")[0];
     const date = new Date(createDate);
     const currentDay = new Date().getDate();
     const hours = String(date.getHours()).padStart(2, "0");
@@ -50,15 +57,27 @@ const Conversations = () => {
       }
     }
   };
+  useEffect(() => {
+    if (conversations.chats.length > 6) {
+      const items = conversations.chats.slice(index, index + 6);
+      setFilteredData((prevData) => {
+        return [...prevData, ...items];
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
+
   return (
     <div className={styles.messages}>
       <MainHeader text={t("body.messages")} icon={<IoIosChatbubbles />} />
       <div className={styles.body}>
         <FilterList />
-        <div className={styles.list}>
-          {conversations &&
-            conversations.chats.length > 0 &&
-            conversations.chats.map((item, index) => {
+        {conversations && conversations.chats.length > 0 && (
+          <div className={styles.list}>
+            {(conversations.chats.length > 6
+              ? filteredData
+              : conversations.chats
+            ).map((item) => {
               return (
                 <div
                   key={item.id}
@@ -91,7 +110,12 @@ const Conversations = () => {
                 </div>
               );
             })}
-        </div>
+            {conversations.chats.length > 6 &&
+              filteredData.length < conversations.chats.length && (
+                <LoadMoreButton onClickHandler={loadHandler} />
+              )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -37,6 +37,11 @@ const EditBuilding = () => {
     price_years: data[0].price_years,
     media: data[0].media.slice(),
   };
+  const thirdData = {
+    lat: data[0].lat,
+    lang: data[0].lang,
+    adresse: data[0].adresse,
+  };
   return (
     <div className={styles.page}>
       <StyledContainer>
@@ -46,6 +51,7 @@ const EditBuilding = () => {
             state="edit"
             firstPageData={firstData}
             secondPageData={secondData}
+            thirdPageData={thirdData}
           />
         </div>
       </StyledContainer>

@@ -126,7 +126,7 @@ const ProfileForm = (props) => {
     formData.append("image", uploadedImage);
 
     const userToken = getAuthToken();
-    /*try {
+    try {
       const response = await axios.post(
         "https://zadapp.mqawilk.com/api/profile/update",
         formData,
@@ -176,7 +176,7 @@ const ProfileForm = (props) => {
       }
     } catch (error) {
       console.log(error.message);
-    }*/
+    }
   };
 
   useEffect(() => {

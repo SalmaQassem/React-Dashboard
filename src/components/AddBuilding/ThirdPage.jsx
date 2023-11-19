@@ -101,7 +101,7 @@ const ThirdPage = (props) => {
       <div className={styles.map}>
         <p>{t("body.showOnMap")}</p>
         <div className={styles.mapItem}>
-          <Map />
+          <Map oldData={props.state === "edit" ? props.thirdPageData : null} />
         </div>
         <FormButton
           class={styles.save}

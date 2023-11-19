@@ -10,16 +10,11 @@
 .housesContainer {
   @include flex-variant(flex, $direction: column, $gap: $gap-40);
   .houses {
-    @include flex-variant(
-      flex,
-      $direction: row,
-      $align: center,
-      $wrap: wrap,
-      $gap: $gap-40
-    );
+    @include flex-variant(flex, $direction: row, $wrap: wrap, $gap: $gap-40);
     .card {
       width: 100%;
-      min-height: 30rem;
+      height: 27rem;
+      min-height: 27rem;
       background-color: $white;
       border-radius: $b-r-15;
       box-shadow: $boxShadow-1;
@@ -53,7 +48,7 @@
       .text {
         height: 50%;
         padding: $padding-15;
-        @include flex-variant(flex, $direction: column, $justify: space-around);
+        @include flex-variant(flex, $direction: column, $gap: $gap-14);
         font-family: "Cairo-SemiBold";
         h2 {
           font-family: "Cairo-Bold";
