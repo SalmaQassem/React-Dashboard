@@ -10,11 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
-    "@mui/material": "^5.14.18",
-    "@mui/styles": "^5.14.18",
     "chart.js": "^4.4.0",
     "framer-motion": "^10.16.4",
     "i18next": "^23.5.1",
