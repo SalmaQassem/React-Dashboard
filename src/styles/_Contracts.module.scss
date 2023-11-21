@@ -2,41 +2,44 @@
 @use "../helpers/mixins" as *;
 @use "./colors" as *;
 @use "./variables/global" as *;
+@use "./placeholders" as *;
 
 %flex {
   @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-30);
 }
 %font {
-  font-family: "Cairo-Bold";
-  font-size: $f-s-18;
+  font-family: "Cairo-Medium";
+  font-size: $f-s-16;
+  text-transform: capitalize;
 }
 %width {
-  & > p:first-child {
-    min-width: calc(((100% - calc(7 * $gap-30)) * 5) / 100);
-    max-width: calc(((100% - calc(7 * $gap-30)) * 5) / 100);
+  &:first-of-type {
+    width: 6.25rem;
+    min-width: 6.25rem;
+    max-width: 6.25rem;
   }
-  & > p:nth-child(2) {
-    min-width: calc(((100% - calc(7 * $gap-30)) * 10) / 100);
-    max-width: calc(((100% - calc(7 * $gap-30)) * 10) / 100);
+  &:nth-of-type(2) {
+    width: 8.75rem;
+    min-width: 8.75rem;
+    max-width: 8.75rem;
   }
   @for $i from 3 through 5 {
-    & > p:nth-child(#{$i}) {
-      min-width: calc(((100% - calc(7 * $gap-30)) * 15) / 100);
-      max-width: calc(((100% - calc(7 * $gap-30)) * 15) / 100);
+    &:nth-of-type(#{$i}) {
+      width: 11.25rem;
+      min-width: 11.25rem;
+      max-width: 11.25rem;
     }
   }
-  & > p:nth-child(6) {
-    min-width: calc(((100% - calc(7 * $gap-30)) * 24) / 100);
-    max-width: calc(((100% - calc(7 * $gap-30)) * 24) / 100);
+  &:nth-of-type(6) {
+    width: 12.5rem;
+    min-width: 12.5rem;
+    max-width: 12.5rem;
   }
   @for $i from 7 through 8 {
-    & > p:nth-child(#{$i}) {
-      min-width: calc(((100% - calc(7 * $gap-30)) * 8) / 100);
-      max-width: calc(((100% - calc(7 * $gap-30)) * 8) / 100);
-    }
-    & > button:nth-child(#{$i}) {
-      min-width: calc(((100% - calc(7 * $gap-30)) * 8) / 100);
-      max-width: calc(((100% - calc(7 * $gap-30)) * 8) / 100);
+    &:nth-of-type(#{$i}) {
+      width: 6.25rem;
+      min-width: 6.25rem;
+      max-width: 6.25rem;
     }
   }
 }
@@ -46,53 +49,100 @@
 .contracts {
   height: 100%;
   padding: $main-padding;
-  //overflow-x: scroll;
-  .items {
-    min-width: fit-content;
-    //white-space: nowrap;
-    @include flex-variant(flex, $direction: column, $gap: $gap-35);
-
-    .table {
-      .head {
-        @extend %padding;
-        @extend %flex;
-        @extend %font;
-        color: $white;
-        text-transform: capitalize;
-        text-align: center;
-        border-radius: $b-r-12;
-        background-color: $grey-9;
-        @extend %width;
+  .filterForm {
+    padding: 0 $padding-24;
+    margin-bottom: $m-35;
+    @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-30);
+    .title {
+      @extend %font;
+    }
+    .inputs {
+      @include flex-variant(flex, $direction: row, $gap: $gap-30);
+      .input {
+        height: 2rem;
+        width: 12rem;
+        padding: 0 $padding-10;
+        position: relative;
+        border-bottom: $border-1 solid $grey-7;
+        input {
+          width: calc(((100% - calc(2 * $padding-10)) * 95) / 100) !important;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          z-index: 1;
+          font-family: "Cairo-Regular";
+          font-size: $f-s-14;
+          background-color: transparent;
+          float: right;
+          &::placeholder {
+            text-transform: capitalize;
+            color: $grey-5;
+          }
+        }
+        .icon {
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $align: center,
+            $justify: flex-end
+          );
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: $padding-10;
+          font-size: $f-s-18;
+          color: $pink;
+        }
+        &.en {
+          .icon {
+            left: initial;
+            right: $padding-10;
+          }
+        }
       }
-      .tableBody {
-        @extend %padding;
-        @include flex-variant(flex, $direction: column, $gap: $gap-16);
-        border: $b-r-1 solid $grey-10;
-        border-radius: $b-r-12 $b-r-12 0 0;
-        .item {
-          @extend %width;
-          @extend %flex;
-          text-align: center;
+    }
+    .filterBtn {
+      padding: $padding-6 $padding-10;
+      @include flex-variant(
+        flex,
+        $direction: row,
+        $align: center,
+        $gap: $gap-8
+      );
+      background-color: $pink;
+      color: $white;
+      border-radius: $b-r-8;
+      @extend %font;
 
-          .num {
-            @extend %font;
-          }
-          .name {
-            color: $pink;
-            @extend %font;
-          }
-          .type {
-            font-family: "Cairo-Bold";
-            font-size: $f-s-16;
-          }
-          .delete {
-            height: 3rem;
-            @include flex-row-center();
-            background-color: $black;
-            color: $white;
-            font-size: $f-s-24;
-            border-radius: $b-r-15;
-          }
+      .icon {
+        @include flex-row-center();
+      }
+    }
+  }
+
+  .contractsTable {
+    background-color: $white-1;
+    border-radius: $b-r-12;
+    box-shadow: $boxShadow-2;
+    overflow: hidden;
+    th {
+      @extend %width;
+    }
+    td {
+      @extend %width;
+      overflow-wrap: break-word;
+      button {
+        width: 100%;
+        @include flex-row-center();
+        color: $white;
+        font-size: $f-s-22;
+        background-color: transparent;
+
+        &:first-of-type {
+          color: $black;
+        }
+        &.delete {
+          color: $red;
         }
       }
     }

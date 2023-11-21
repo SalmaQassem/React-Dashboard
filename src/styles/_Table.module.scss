@@ -1,0 +1,119 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+@use "./colors" as *;
+@use "./variables/global" as *;
+@use "./placeholders" as *;
+@use "./variables/mediaQuery" as *;
+
+%tableItem {
+  padding-left: $padding-16;
+  text-align: center;
+  &:first-of-type {
+    padding-right: $padding-40;
+  }
+  &:last-of-type {
+    padding-left: $padding-40;
+  }
+  &.en {
+    padding-left: 0;
+    padding-right: $padding-16;
+    text-align: left;
+    &:first-of-type {
+      padding-left: $padding-40;
+    }
+    &:last-of-type {
+      padding-right: $padding-40;
+    }
+  }
+}
+%scroll {
+  &::-webkit-scrollbar-track {
+    @extend %track;
+  }
+  &::-webkit-scrollbar {
+    @extend %scrollbar;
+    height: 2rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    @extend %thumb;
+    min-width: 6.875rem;
+    border-width: 0.75rem;
+    border-radius: 2rem;
+  }
+}
+.tableContainer {
+  overflow-x: auto;
+  @extend %scroll;
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+
+    .head {
+      height: 3.75rem;
+      background-color: $grey-11;
+      font-family: "Cairo-Bold";
+      font-size: $f-s-18;
+      color: $white;
+      text-transform: capitalize;
+      white-space: nowrap;
+
+      tr {
+        th {
+          @extend %tableItem;
+        }
+      }
+    }
+
+    .body {
+      font-family: "Cairo-Regular";
+      font-size: $f-s-16;
+      tr {
+        height: 3.125rem;
+        &:nth-child(even) {
+          background-color: $grey-14;
+        }
+        td {
+          @extend %tableItem;
+        }
+      }
+    }
+  }
+}
+.pagination {
+  width: 100%;
+  padding: 0 $padding-40;
+  box-shadow: $box-shadow-4;
+  min-height: 3.4375rem;
+  @include flex-variant(
+    flex,
+    $direction: row,
+    $justify: flex-end,
+    $align: center,
+    $gap: $gap-20
+  );
+  .buttons {
+    @include flex-variant(flex, $direction: row, $align: center);
+    button {
+      padding: $padding-8;
+      @include flex-row-center();
+      background-color: transparent;
+      font-size: $f-s-24;
+      color: $black;
+      border-radius: 50%;
+      transition: 0.3s;
+      &.disabled {
+        color: $grey-11;
+        cursor: default;
+      }
+      &:not(.disabled):hover {
+        background-color: $grey-12;
+        box-shadow: $box-shadow-4;
+      }
+    }
+  }
+  .pages {
+    font-family: "Cairo-Regular";
+    font-size: $f-s-16;
+    word-spacing: 0.3125rem;
+  }
+}

@@ -15,17 +15,6 @@ const ContractForm = (props) => {
   const [t, i18n] = useTranslation("global");
   const [isModalOpened, setIsModalOpened] = useState(false);
   const data = useActionData();
-
-  useEffect(() => {
-    if (data && data.success && !isModalOpened.state) {
-      setIsModalOpened(true);
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 500);
-    } else {
-      console.log("failed");
-    }
-  }, [data]);
   const inputs = [
     {
       id: "hajjPrice",
@@ -68,6 +57,17 @@ const ContractForm = (props) => {
     },
   ];
 
+  useEffect(() => {
+    if (data && data.success && !isModalOpened.state) {
+      setIsModalOpened(true);
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
+    } else {
+      console.log("failed");
+    }
+  }, [data]);
+
   return (
     <>
       <AnimatePresence>
@@ -81,7 +81,6 @@ const ContractForm = (props) => {
           />
         )}
       </AnimatePresence>
-
       <Form method="post" className={styles.form}>
         <div className={styles.inputs}>
           {inputs.map((item) => {

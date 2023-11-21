@@ -3,20 +3,22 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 
 const DateInput = (props) => {
-  const [date, setDate] = useState("");
-  props.defaultValue;
+  const [dateValue, setDate] = useState("");
+
   return (
     <DatePicker
       selected={
-        date === ""
+        dateValue === ""
           ? props.defaultValue
             ? new Date(props.defaultValue)
             : null
-          : date
+          : dateValue
       }
       name={props.name}
       placeholderText={props.placeholder}
-      onChange={(date) => setDate(date)}
+      onChange={(date) => {
+        props.onChange ? props.onChange(date) : setDate(date);
+      }}
     />
   );
 };

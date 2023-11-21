@@ -148,6 +148,11 @@
     "darkLight": "dark / light",
     "tableIndex": "#",
     "editUserSuccess": "data has been updated successfully",
-    "loadMore": "load more"
+    "loadMore": "load more",
+    "from": "from",
+    "goNext": "next page",
+    "goPrev": "previous page",
+    "to": "to",
+    "filter": "filter"
   }
 }

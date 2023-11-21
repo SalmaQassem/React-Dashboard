@@ -1,0 +1,43 @@
+@use "./colors" as *;
+@use "./variables/global" as *;
+
+%width {
+  &:first-of-type {
+    width: 6.25rem;
+    min-width: 6.25rem;
+    max-width: 6.25rem;
+  }
+  &:nth-of-type(2) {
+    width: 8.75rem;
+    min-width: 8.75rem;
+    max-width: 8.75rem;
+  }
+  @for $i from 3 through 4 {
+    &:nth-of-type(#{$i}) {
+      width: 11.25rem;
+      min-width: 11.25rem;
+      max-width: 11.25rem;
+    }
+  }
+  &:nth-of-type(5) {
+    width: 12.5rem;
+    min-width: 12.5rem;
+    max-width: 12.5rem;
+  }
+}
+.reports {
+  height: 100%;
+  padding: $main-padding;
+  .reportsTable {
+    background-color: $white-1;
+    border-radius: $b-r-12;
+    box-shadow: $boxShadow-2;
+    overflow: hidden;
+    th {
+      @extend %width;
+    }
+    td {
+      @extend %width;
+    }
+  }
+}

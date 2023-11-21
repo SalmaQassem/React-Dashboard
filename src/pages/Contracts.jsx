@@ -1,24 +1,20 @@
 import styles from "../styles/_Contracts.module.scss";
-import classes from "../styles/_Pagination.module.scss";
-import StyledHeader from "../components/UI/MainHeader";
 import { useTranslation } from "react-i18next";
-import { AiOutlineFileDone, AiOutlineEdit } from "react-icons/ai";
 import { getAuthToken } from "../util/auth";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { IoClose } from "react-icons/io5";
 import { useState } from "react";
-import ReactPaginate from "react-paginate";
-import {
-  MdKeyboardDoubleArrowLeft,
-  MdKeyboardDoubleArrowRight,
-} from "react-icons/md";
+import { AiOutlineEdit } from "react-icons/ai";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { AnimatePresence } from "framer-motion";
+import { FiAlertTriangle, FiFilter } from "react-icons/fi";
+import { FaRegCalendarAlt, FaCheck } from "react-icons/fa";
 import Modal from "../components/UI/Modal";
-import { FiAlertTriangle } from "react-icons/fi";
-import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import NoData from "../components/UI/NoData";
 import { PiFolderNotchOpenFill } from "react-icons/pi";
+import Table from "../components/UI/Table";
+import DateInput from "../components/UI/DateInput";
+import { useForm } from "react-hook-form";
 
 const Contracts = () => {
   const data = useLoaderData();
@@ -33,13 +29,29 @@ const Contracts = () => {
     state: false,
     first: 0,
   });
-  const [itemOffset, setItemOffset] = useState({ offset: 0, newCounter: 1 });
-  const items = Array.from(Array(data.length).keys());
-  const itemsPerPage = 8;
-  const endOffset = itemOffset.offset + itemsPerPage;
-  const currentItems = tableData.slice(itemOffset.offset, endOffset);
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm();
+  const editHandler = (contractId) => {
+    navigate(`/dashboard/EditContract/${contractId}`);
+  };
+  const deleteHandler = async (contract, deleteIndex) => {
+    setDeleteModal((prevState) => {
+      return {
+        ...prevState,
+        state: true,
+        index: deleteIndex,
+        contractId: contract,
+      };
+    });
+  };
   const tableHead = [
     { id: "0", text: t("body.tableIndex") },
     { id: "1", text: t("body.hajjPrice") },
@@ -50,22 +62,52 @@ const Contracts = () => {
     { id: "6", text: t("body.edit") },
     { id: "7", text: t("body.delete") },
   ];
-  const editHandler = (e) => {
-    const contractId = e.currentTarget.dataset.contract;
-    navigate(`/dashboard/EditContract/${contractId}`);
+  const tableBody = tableData.map((item) => {
+    return {
+      price_hajj: item.price_hajj,
+      start_date: item.start_date,
+      end_date: item.end_date,
+      document_start: item.document_start,
+      notes: item.notes,
+      editButton: {
+        handler: editHandler,
+        icon: <AiOutlineEdit />,
+        contract: item.id,
+      },
+      deleteButton: {
+        handler: deleteHandler,
+        class: styles.delete,
+        icon: <RiDeleteBin6Line />,
+        contract: item.id,
+      },
+    };
+  });
+  const changeStartDate = (date) => {
+    setStartDate(date);
   };
-  const deleteHandler = async (e) => {
-    const contract = e.currentTarget.dataset.contract;
-    const deleteIndex = e.currentTarget.id;
-    setDeleteModal((prevState) => {
-      return {
-        ...prevState,
-        state: true,
-        index: deleteIndex,
-        contractId: contract,
-      };
-    });
+  const changeEndDate = (date) => {
+    setEndDate(date);
   };
+  const dateInputs = [
+    {
+      id: 0,
+      name: "startDate",
+      type: "date",
+      placeholder: t("body.from"),
+      icon: <FaRegCalendarAlt />,
+      value: startDate !== "" ? startDate : null,
+      changeHandler: changeStartDate,
+    },
+    {
+      id: 1,
+      name: "endDate",
+      type: "date",
+      placeholder: t("body.to"),
+      icon: <FaRegCalendarAlt />,
+      value: endDate !== "" ? endDate : null,
+      changeHandler: changeEndDate,
+    },
+  ];
   const submitDeleteHandler = async () => {
     setTableData((prevState) => {
       const newArr = prevState.filter((item) => {
@@ -98,59 +140,13 @@ const Contracts = () => {
       console.log(error.message);
     }
   };
-
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
-    setItemOffset({ offset: newOffset, newCounter: newOffset + 1 });
-  };
-  const Items = ({ currentItems }) => {
-    return (
-      <>
-        {currentItems.length > 0 && (
-          <div className={styles.table}>
-            <div className={styles.head}>
-              {tableHead.map((item) => {
-                return <p key={item.id}>{item.text}</p>;
-              })}
-            </div>
-            <div className={styles.tableBody}>
-              {currentItems.map((item, index) => {
-                return (
-                  <div key={index} className={styles.item}>
-                    <p className={styles.num}>
-                      {itemOffset.newCounter + index}
-                    </p>
-                    <p className={styles.name}>{item.price_hajj}</p>
-                    <p className={styles.name}>{item.start_date}</p>
-                    <p className={styles.name}>{item.end_date}</p>
-                    <p className={styles.name}>{item.document_start}</p>
-                    <p className={styles.type}>{item.notes}</p>
-                    <button
-                      type="button"
-                      id={index}
-                      data-contract={item.id}
-                      className={styles.delete}
-                      onClick={editHandler}
-                    >
-                      <AiOutlineEdit />
-                    </button>
-                    <button
-                      type="button"
-                      id={index}
-                      data-contract={item.id}
-                      className={styles.delete}
-                      onClick={deleteHandler}
-                    >
-                      <IoClose />
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </>
-    );
+  const submitFilter = () => {
+    const filteredData = data.filter((item) => {
+      const itemDate = new Date(item.document_start);
+      console.log(itemDate);
+      return itemDate >= startDate && itemDate <= endDate;
+    });
+    setTableData(filteredData);
   };
   return (
     <>
@@ -180,43 +176,56 @@ const Contracts = () => {
         )}
       </AnimatePresence>
       <div className={styles.contracts}>
-        <StyledHeader
-          text={t("body.contracts")}
-          icon={<AiOutlineFileDone />}
-          class={styles.header}
-        />
-        {currentItems.length > 0 ? (
-          <div className={styles.items}>
-            <Items currentItems={currentItems} />
-            <ReactPaginate
-              nextLabel={
-                i18n.language === "ar" ? (
-                  <MdKeyboardDoubleArrowLeft />
-                ) : (
-                  <MdKeyboardDoubleArrowRight />
-                )
-              }
-              previousLabel={
-                i18n.language === "ar" ? (
-                  <MdKeyboardDoubleArrowRight />
-                ) : (
-                  <MdKeyboardDoubleArrowLeft />
-                )
-              }
-              onPageChange={handlePageClick}
-              breakLabel="..."
-              breakClassName={classes.pageBreak}
-              pageCount={pageCount}
-              pageRangeDisplayed={3}
-              marginPagesDisplayed={0}
-              containerClassName={classes.pagination}
-              pageClassName={classes.pageNumber}
-              pageLinkClassName={classes.link}
-              previousLinkClassName={classes.prev}
-              nextLinkClassName={classes.next}
-              disabledLinkClassName={classes.disable}
-              activeClassName={classes.active}
-              renderOnZeroPageCount={null}
+        <form
+          className={styles.filterForm}
+          onSubmit={handleSubmit(submitFilter)}
+        >
+          <span className={styles.title}>{t("body.contractDate")}</span>
+          <div className={styles.inputs}>
+            {dateInputs.map((item) => {
+              return (
+                <div
+                  key={item.id}
+                  className={
+                    i18n.language === "en"
+                      ? `${styles.input} ${styles.en}`
+                      : styles.input
+                  }
+                >
+                  {item.type === "date" ? (
+                    <DateInput
+                      placeholder={item.placeholder}
+                      name={item.name}
+                      defaultValue={item.value}
+                      onChange={item.changeHandler}
+                    />
+                  ) : (
+                    <input
+                      type={item.type}
+                      id={item.id}
+                      name={item.name}
+                      placeholder={item.placeholder}
+                    />
+                  )}
+                  <div className={styles.icon}>{item.icon}</div>
+                </div>
+              );
+            })}
+          </div>
+          <button className={styles.filterBtn}>
+            <span>{t("body.filter")}</span>
+            <span className={styles.icon}>
+              <FiFilter />
+            </span>
+          </button>
+        </form>
+        {tableData.length > 0 ? (
+          <div className={styles.contractsTable}>
+            <Table
+              tableHead={tableHead}
+              tableBody={tableBody}
+              data={data}
+              rowPerPage={5}
             />
           </div>
         ) : (
