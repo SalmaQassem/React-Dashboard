@@ -3,49 +3,82 @@
 @use "../helpers/fonts" as *;
 @use "./variables/mediaQuery" as *;
 @use "./variables/global" as *;
+@use "./placeholders" as *;
 
-.aside {
+.asideWrapper {
+  height: calc(100% - 6rem);
+  min-height: 100%;
   width: 17rem;
-  padding: $padding-40 $padding-20;
-  @include flex-variant(flex, $direction: column, $gap: $gap-36);
   flex-basis: 17rem;
   position: absolute;
-  min-height: 100%;
   z-index: 1000;
   right: 0;
-  font-family: "Cairo-Bold";
-  background-color: $pink;
   transition: 0.6s;
-
+  background-color: $pink;
+  box-shadow: $boxShadow-2;
+  overflow-y: overlay;
+  direction: ltr;
+  &::-webkit-scrollbar-track {
+    @extend %track;
+    background-color: inherit;
+  }
+  &::-webkit-scrollbar {
+    @extend %scrollbar;
+  }
+  &::-webkit-scrollbar-thumb {
+    @extend %thumb;
+    background-color: $white;
+    box-shadow: none;
+  }
   &.dark {
     background-color: $black;
   }
   &.close {
     right: -100%;
   }
+  &.en {
+    right: initial;
+    left: 0;
+    direction: rtl;
+    &.close {
+      right: initial;
+      left: -100%;
+    }
+    .aside {
+      direction: ltr;
+    }
+  }
   @include mediaQuery($XlargeScreen_min_width) {
     & {
       position: initial;
+      height: auto;
     }
   }
-  .section {
+  .aside {
     width: 100%;
-    @include flex-variant(flex, $direction: column, $gap: $gap-16);
-    text-transform: capitalize;
+    padding: $padding-40 $padding-20;
+    @include flex-variant(flex, $direction: column, $gap: $gap-36);
+    font-family: "Cairo-Bold";
+    direction: rtl;
+    .section {
+      width: 100%;
+      @include flex-variant(flex, $direction: column, $gap: $gap-16);
+      text-transform: capitalize;
 
-    > span {
-      margin: 0 $m-10;
-      font-size: $f-s-16;
-      color: $white;
-    }
+      > span {
+        margin: 0 $m-10;
+        font-size: $f-s-16;
+        color: $white;
+      }
 
-    .items {
-      @include flex-variant(
-        flex,
-        $direction: column,
-        $align: center,
-        $gap: $gap-20
-      );
+      .items {
+        @include flex-variant(
+          flex,
+          $direction: column,
+          $align: center,
+          $gap: $gap-20
+        );
+      }
     }
   }
 }

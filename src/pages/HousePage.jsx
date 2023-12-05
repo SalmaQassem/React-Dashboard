@@ -12,7 +12,7 @@ const HousePage = () => {
     if (context) context.setPage(0);
   }, [context]);
 
-  return <House data={loaderData} mode="" />;
+  return <House data={loaderData} />;
 };
 
 export default HousePage;

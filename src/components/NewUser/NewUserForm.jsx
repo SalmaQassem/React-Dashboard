@@ -86,7 +86,7 @@ const NewUserForm = (props) => {
       error: errors.input1,
       radios: [
         { id: "super_admin", name: "input1", label: t("body.adminRole") },
-        { id: "supervisor", name: "input1", label: t("body.supervisor") },
+        { id: "admin", name: "input1", label: t("body.supervisor") },
         { id: "writer", name: "input1", label: t("body.writer") },
       ],
     },

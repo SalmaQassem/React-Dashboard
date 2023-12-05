@@ -1,9 +1,10 @@
 import styles from "../styles/_Contracts.module.scss";
+import StyledHeader from "../components/UI/MainHeader";
 import { useTranslation } from "react-i18next";
 import { getAuthToken } from "../util/auth";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineFileDone } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AnimatePresence } from "framer-motion";
 import { FiAlertTriangle, FiFilter } from "react-icons/fi";
@@ -22,12 +23,10 @@ const Contracts = () => {
   const [t, i18n] = useTranslation("global");
   const [deleteModal, setDeleteModal] = useState({
     state: false,
-    index: null,
     contractId: null,
   });
   const [successModal, setsuccessModal] = useState({
     state: false,
-    first: 0,
   });
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -35,19 +34,17 @@ const Contracts = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    control,
+    setValue,
     formState: { errors },
   } = useForm();
   const editHandler = (contractId) => {
     navigate(`/dashboard/EditContract/${contractId}`);
   };
-  const deleteHandler = async (contract, deleteIndex) => {
+  const deleteHandler = async (contract) => {
     setDeleteModal((prevState) => {
       return {
         ...prevState,
         state: true,
-        index: deleteIndex,
         contractId: contract,
       };
     });
@@ -69,16 +66,20 @@ const Contracts = () => {
       end_date: item.end_date,
       document_start: item.document_start,
       notes: item.notes,
-      editButton: {
-        handler: editHandler,
+      button1: {
+        handler: () => {
+          editHandler(item.id);
+        },
+        buttonName: "editButton",
         icon: <AiOutlineEdit />,
-        contract: item.id,
       },
-      deleteButton: {
-        handler: deleteHandler,
+      button2: {
+        handler: () => {
+          deleteHandler(item.id);
+        },
+        buttonName: "deleteButton",
         class: styles.delete,
         icon: <RiDeleteBin6Line />,
-        contract: item.id,
       },
     };
   });
@@ -109,13 +110,6 @@ const Contracts = () => {
     },
   ];
   const submitDeleteHandler = async () => {
-    setTableData((prevState) => {
-      const newArr = prevState.filter((item) => {
-        return item !== prevState[deleteModal.index];
-      });
-      return newArr;
-    });
-
     const token = getAuthToken();
     try {
       const response = await axios.delete(
@@ -129,25 +123,34 @@ const Contracts = () => {
       );
       const data = await response.data;
       if (data.success) {
-        setsuccessModal((prevState) => {
-          return { ...prevState, state: true };
+        setTableData((prevState) => {
+          const newArr = prevState.filter((item) => {
+            return item.id !== deleteModal.contractId;
+          });
+          return newArr;
         });
+        setsuccessModal({ state: true });
         setTimeout(() => {
-          navigate("/dashboard");
+          setsuccessModal({ state: false });
         }, 500);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
-  const submitFilter = () => {
-    const filteredData = data.filter((item) => {
-      const itemDate = new Date(item.document_start);
-      console.log(itemDate);
-      return itemDate >= startDate && itemDate <= endDate;
-    });
-    setTableData(filteredData);
+  const submitFilter = (formData) => {
+    if (formData.startDate && formData.endDate) {
+      const filteredData = data.filter((item) => {
+        const itemDate = new Date(item.document_start);
+        return (
+          itemDate >= new Date(formData.startDate) &&
+          itemDate <= new Date(formData.endDate)
+        );
+      });
+      setTableData(filteredData);
+    }
   };
+
   return (
     <>
       <AnimatePresence>
@@ -176,58 +179,64 @@ const Contracts = () => {
         )}
       </AnimatePresence>
       <div className={styles.contracts}>
-        <form
-          className={styles.filterForm}
-          onSubmit={handleSubmit(submitFilter)}
-        >
-          <span className={styles.title}>{t("body.contractDate")}</span>
-          <div className={styles.inputs}>
-            {dateInputs.map((item) => {
-              return (
-                <div
-                  key={item.id}
-                  className={
-                    i18n.language === "en"
-                      ? `${styles.input} ${styles.en}`
-                      : styles.input
-                  }
-                >
-                  {item.type === "date" ? (
-                    <DateInput
-                      placeholder={item.placeholder}
-                      name={item.name}
-                      defaultValue={item.value}
-                      onChange={item.changeHandler}
-                    />
-                  ) : (
-                    <input
-                      type={item.type}
-                      id={item.id}
-                      name={item.name}
-                      placeholder={item.placeholder}
-                    />
-                  )}
-                  <div className={styles.icon}>{item.icon}</div>
-                </div>
-              );
-            })}
-          </div>
-          <button className={styles.filterBtn}>
-            <span>{t("body.filter")}</span>
-            <span className={styles.icon}>
-              <FiFilter />
-            </span>
-          </button>
-        </form>
+        <StyledHeader
+          text={t("body.contracts")}
+          icon={<AiOutlineFileDone />}
+          class={styles.header}
+        />
         {tableData.length > 0 ? (
-          <div className={styles.contractsTable}>
-            <Table
-              tableHead={tableHead}
-              tableBody={tableBody}
-              data={data}
-              rowPerPage={5}
-            />
-          </div>
+          <>
+            <form
+              className={styles.filterForm}
+              onSubmit={handleSubmit(submitFilter)}
+            >
+              <span className={styles.title}>{t("body.contractDate")}</span>
+              <div className={styles.inputs}>
+                {dateInputs.map((item) => {
+                  return (
+                    <div
+                      key={item.id}
+                      className={
+                        i18n.language === "en"
+                          ? `${styles.input} ${styles.en}`
+                          : styles.input
+                      }
+                    >
+                      {item.type === "date" ? (
+                        <DateInput
+                          placeholder={item.placeholder}
+                          name={item.name}
+                          register={register}
+                          setValue={setValue}
+                        />
+                      ) : (
+                        <input
+                          type={item.type}
+                          id={item.id}
+                          name={item.name}
+                          placeholder={item.placeholder}
+                        />
+                      )}
+                      <div className={styles.icon}>{item.icon}</div>
+                    </div>
+                  );
+                })}
+              </div>
+              <button className={styles.filterBtn}>
+                <span>{t("body.filter")}</span>
+                <span className={styles.icon}>
+                  <FiFilter />
+                </span>
+              </button>
+            </form>
+            <div className={styles.contractsTable}>
+              <Table
+                tableHead={tableHead}
+                tableBody={tableBody}
+                rowPerPage={5}
+              />
+            </div>
+          </>
         ) : (
           <NoData
             message={t("body.noData")}

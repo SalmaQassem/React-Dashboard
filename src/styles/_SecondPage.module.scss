@@ -73,9 +73,6 @@
           @extend %iconStyle;
         }
       }
-      .feedback {
-        @extend %feedbackStyle;
-      }
     }
     .selectFile {
       @include flex-variant(
@@ -106,11 +103,7 @@
       }
     }
     .feedback {
-      padding: 0 $padding-15;
-      font-family: "Cairo-Regular";
-      text-transform: capitalize;
-      font-size: $f-s-14;
-      color: $red;
+      @extend %feedbackStyle;
     }
   }
 

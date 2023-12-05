@@ -3,6 +3,7 @@
 @use "./colors" as *;
 @use "./variables/global" as *;
 @use "./placeholders" as *;
+@use "./variables/mediaQuery" as *;
 
 %flex {
   @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-30);
@@ -52,12 +53,18 @@
   .filterForm {
     padding: 0 $padding-24;
     margin-bottom: $m-35;
-    @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-30);
+    @include flex-variant(
+      flex,
+      $direction: row,
+      $align: center,
+      $gap: $gap-30,
+      $wrap: wrap
+    );
     .title {
       @extend %font;
     }
     .inputs {
-      @include flex-variant(flex, $direction: row, $gap: $gap-30);
+      @include flex-variant(flex, $direction: row, $gap: $gap-30, $wrap: wrap);
       .input {
         height: 2rem;
         width: 12rem;
@@ -65,7 +72,6 @@
         position: relative;
         border-bottom: $border-1 solid $grey-7;
         input {
-          width: calc(((100% - calc(2 * $padding-10)) * 95) / 100) !important;
           height: 100%;
           position: absolute;
           top: 0;
@@ -110,9 +116,10 @@
         $gap: $gap-8
       );
       background-color: $pink;
+      @extend %font;
       color: $white;
       border-radius: $b-r-8;
-      @extend %font;
+      box-shadow: $boxShadow-2;
 
       .icon {
         @include flex-row-center();

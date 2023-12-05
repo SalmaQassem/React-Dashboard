@@ -5,6 +5,7 @@
 @use "./variables/global" as *;
 
 .search {
+  height: 3.125rem;
   @include mediaQuery($medScreen_min_width) {
     & {
       flex: 1 0;

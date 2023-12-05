@@ -42,7 +42,7 @@ const NavBar = () => {
           <div className={styles.logo}>
             <img src={logo} alt="logo" />
           </div>
-          <div className={styles.bars} onClick={onBarsClick}>
+          <div className={`${styles.bars} ${modeType}`} onClick={onBarsClick}>
             <span />
             <span />
             <span />

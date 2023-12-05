@@ -11,15 +11,17 @@ import { Link } from "react-router-dom";
 import UserContext from "../../store/user-context";
 import FullScreenContext from "../../store/fullScreen-context";
 import ModeContext from "../../store/mode-context";
+//import { useEffect } from "react";
+//import useKeypress from "react-use-keypress";
 
 const Tools = () => {
   const [t, i18n] = useTranslation("global");
   const [isIconsShown, setIsIconsShown] = useState(false);
+  //const [isFull, setIsFull] = useState(false);
   const context = useContext(UserContext);
   const screenContext = useContext(FullScreenContext);
   const modeContext = useContext(ModeContext);
   const modeType = modeContext.mode === "dark" ? styles.dark : "";
-
   const changeLanguage = () => {
     if (i18n.language === "ar") {
       i18n.changeLanguage("en");
@@ -40,6 +42,9 @@ const Tools = () => {
   };
   const handleResize = () => {
     screenContext.handle.enter();
+    /*setIsFull((prev) => {
+      return !prev;
+    });*/
     if (isIconsShown) {
       setIsIconsShown(false);
     }
@@ -81,6 +86,14 @@ const Tools = () => {
     hidden: { opacity: 0, x: x_value },
     visible: { opacity: 1, x: 0 },
   };
+  /*useEffect(() => {
+    if (isFull) {
+      screenContext.handle.enter();
+    } else {
+      screenContext.handle.exit();
+    }
+  }, [isFull]);*/
+
   return (
     <>
       <button

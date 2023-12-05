@@ -1,7 +1,6 @@
 import styles from "../../styles/_FiltersList.module.scss";
 import { FaUserFriends } from "react-icons/fa";
 import { PiChatsFill } from "react-icons/pi";
-import { HiMiniUserGroup } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
@@ -19,12 +18,6 @@ const FilterList = () => {
       url: "/dashboard/Conversations",
       icon: <PiChatsFill />,
       name: t("body.chats"),
-    },
-    {
-      id: "groups",
-      url: "Groups",
-      icon: <HiMiniUserGroup />,
-      name: t("body.groups"),
     },
   ];
   return (

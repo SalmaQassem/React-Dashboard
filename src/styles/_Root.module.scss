@@ -6,21 +6,9 @@
 .wrapper {
   height: 100%;
   overflow-y: auto;
-
-  &::-webkit-scrollbar-track {
-    @extend %track;
-  }
-  &::-webkit-scrollbar {
-    @extend %scrollbar;
-    width: 0;
-  }
-  &::-webkit-scrollbar-thumb {
-    @extend %thumb;
-  }
   .root {
     min-height: 100vh;
     @include flex-variant(flex, $direction: column);
-    overflow: hidden;
     background-color: $white;
     .rootOverlay {
       @include mediaQuery($XlargeScreen_min_width) {
@@ -35,9 +23,9 @@
     .content {
       position: relative;
       @include flex-variant(flex, $direction: row, $grow: 1);
+      overflow-x: hidden;
       .body {
         width: 100%;
-        position: relative;
         background-color: $grey-3;
         &.dark {
           background-color: $white-1;

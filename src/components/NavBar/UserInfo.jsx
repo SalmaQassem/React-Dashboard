@@ -23,6 +23,8 @@ const UserInfo = ({ extraClass }) => {
         <p>
           {context.role === "super_admin"
             ? t("body.adminRole")
+            : context.role === "admin"
+            ? t("body.supervisor")
             : t("body.writer")}
         </p>
       </div>

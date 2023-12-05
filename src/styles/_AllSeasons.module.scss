@@ -1,0 +1,179 @@
+@use "../helpers/fonts" as *;
+@use "../helpers/mixins" as *;
+@use "./colors" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
+@import "./placeholders";
+
+%width {
+  &:first-of-type {
+    width: 6.25rem;
+    min-width: 6.25rem;
+    max-width: 6.25rem;
+  }
+  &:nth-of-type(2) {
+    width: 8.75rem;
+    min-width: 8.75rem;
+    max-width: 8.75rem;
+  }
+  @for $i from 3 through 4 {
+    &:nth-of-type(#{$i}) {
+      width: 11.25rem;
+      min-width: 11.25rem;
+      max-width: 11.25rem;
+    }
+  }
+  &:nth-of-type(5) {
+    width: 10rem;
+    min-width: 10rem;
+    max-width: 10rem;
+  }
+}
+.seasons {
+  height: 100%;
+  width: 100%;
+  padding: $main-padding;
+  .body {
+    @include flex-variant(flex, $direction: column, $gap: $gap-24);
+    .addNew {
+      width: fit-content;
+      padding: $padding-6 $padding-16;
+      @include flex-variant(
+        flex,
+        $direction: row,
+        $align: center,
+        $gap: $gap-8
+      );
+      border-radius: $b-r-8;
+      font-family: "Cairo-Regular";
+      font-size: $f-s-18;
+      text-transform: capitalize;
+      background-color: $white;
+      box-shadow: $boxShadow-2;
+      .icon {
+        @include flex-row-center();
+        color: $pink;
+        font-size: $f-s-32;
+      }
+    }
+    .seasonsTable {
+      background-color: $white-1;
+      border-radius: $b-r-12;
+      box-shadow: $boxShadow-2;
+      overflow: hidden;
+      th {
+        @extend %width;
+      }
+      td {
+        @extend %width;
+        height: 3.75rem;
+        overflow-wrap: break-word;
+        text-transform: capitalize;
+        &:last-of-type {
+          color: $pink;
+        }
+        button {
+          min-width: 60%;
+          height: fit-content;
+          padding: $padding-3 $padding-10;
+          background-color: $white;
+          color: $pink;
+          font-size: $f-s-16;
+          font-family: "Cairo-Medium";
+          text-transform: capitalize;
+          border-radius: $b-r-8;
+          box-shadow: $box-shadow-4;
+        }
+      }
+    }
+    .formWrapper {
+      overflow: hidden;
+      .form {
+        @extend %formStyle;
+        width: 100%;
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $align: center,
+          $justify: initial,
+          $gap: $gap-24,
+          $wrap: wrap
+        );
+        @include mediaQuery($medScreen_min_width) {
+          & {
+            flex-wrap: nowrap;
+          }
+        }
+        .inputs {
+          width: 100%;
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $gap: $gap-24,
+            $wrap: wrap
+          );
+          @include mediaQuery($medScreen_min_width) {
+            & {
+              width: fit-content;
+              flex-wrap: nowrap;
+            }
+          }
+          .input {
+            width: 100%;
+            @include flex-variant(
+              flex,
+              $direction: column,
+              $justify: space-between,
+              $gap: $gap-8
+            );
+            @include mediaQuery($smallScreen_min_width) {
+              & {
+                width: calc((100% - $gap-24) / 2);
+              }
+            }
+            @include mediaQuery($medScreen_min_width) {
+              & {
+                width: fit-content;
+              }
+            }
+            .inputItem {
+              @extend %inputStyle;
+              width: 100%;
+              position: relative;
+              @include flex-variant(flex, $direction: row, $align: center);
+              @include mediaQuery($medScreen_min_width) {
+                & {
+                  width: 15.625rem;
+                }
+              }
+              .icon {
+                left: $padding-15;
+                @include flex-variant(
+                  flex,
+                  $direction: row,
+                  $align: center,
+                  $justify: flex-end
+                );
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                @extend %iconStyle;
+                color: $pink;
+                pointer-events: none;
+              }
+            }
+          }
+        }
+        .submit {
+          padding: $padding-8 $padding-16;
+          font-size: $f-s-16;
+          font-family: "Cairo-Regular";
+          border-radius: $b-r-8;
+          box-shadow: $boxShadow-2;
+          background-color: $pink;
+          color: $white;
+        }
+      }
+    }
+  }
+}

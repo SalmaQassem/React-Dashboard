@@ -1,0 +1,41 @@
+@use "../helpers/fonts" as *;
+@use "./colors" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
+@import "./placeholders";
+
+%font {
+  font-family: "Cairo-Regular";
+  font-size: $f-s-16;
+}
+.datePicker {
+  width: 100%;
+  text-transform: capitalize;
+  @extend %font;
+  > div {
+    padding: 0;
+    input {
+      height: 3.125rem !important;
+      padding: 0;
+      box-sizing: border-box;
+      @extend %font;
+      &::placeholder {
+        color: $grey-5;
+        opacity: 1;
+      }
+    }
+    > div {
+      margin: 0;
+      button {
+        padding: 0;
+        font-size: $f-s-24;
+        color: $pink;
+      }
+    }
+    fieldset {
+      padding: 0;
+      top: 0;
+      border: none !important;
+    }
+  }
+}

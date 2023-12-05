@@ -125,6 +125,7 @@
   font-family: "Cairo-Regular";
   font-size: $f-s-16;
   &::placeholder {
+    color: $grey-5;
     text-transform: capitalize;
   }
   &::-webkit-outer-spin-button,

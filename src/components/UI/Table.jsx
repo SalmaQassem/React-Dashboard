@@ -3,15 +3,22 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
-const Table = ({ tableHead, tableBody, data, rowPerPage }) => {
+const Table = ({ tableHead, tableBody, rowPerPage }) => {
   const [t, i18n] = useTranslation("global");
   const [dataIndex, setDataIndex] = useState(0);
   const [nextDisable, setNextDisable] = useState(false);
   const [prevDisable, setPrevDisable] = useState(true);
   const currentItems = tableBody.slice(dataIndex, dataIndex + rowPerPage);
+  if (currentItems.length === 0) {
+    if (dataIndex - rowPerPage >= 0) {
+      setDataIndex((prev) => {
+        return prev - rowPerPage;
+      });
+    }
+  }
 
   const clickNextHandler = () => {
-    if (dataIndex + rowPerPage < data.length) {
+    if (dataIndex + rowPerPage < tableBody.length) {
       setDataIndex((prev) => {
         return prev + rowPerPage;
       });
@@ -25,15 +32,17 @@ const Table = ({ tableHead, tableBody, data, rowPerPage }) => {
     }
   };
   useEffect(() => {
-    if (data.length > 0 && dataIndex + rowPerPage >= data.length) {
+    if (dataIndex + rowPerPage >= tableBody.length) {
       setNextDisable(true);
-      setPrevDisable(false);
+    } else {
+      setNextDisable(false);
     }
     if (dataIndex - rowPerPage < 0) {
       setPrevDisable(true);
-      setNextDisable(false);
+    } else {
+      setPrevDisable(false);
     }
-  }, [dataIndex, data.length]);
+  }, [dataIndex, tableBody, rowPerPage]);
 
   return (
     <>
@@ -61,41 +70,31 @@ const Table = ({ tableHead, tableBody, data, rowPerPage }) => {
                     {dataIndex + index + 1}
                   </td>
                   {Object.keys(item).map((itemKey) => {
-                    if (
-                      itemKey !== "editButton" &&
-                      itemKey !== "deleteButton"
-                    ) {
-                      return (
-                        <td
-                          key={itemKey}
-                          className={i18n.language === "en" ? styles.en : ""}
-                        >
-                          {item[itemKey]}
-                        </td>
-                      );
-                    } else {
-                      return (
-                        <td key={itemKey}>
+                    return (
+                      <td
+                        key={itemKey}
+                        className={i18n.language === "en" ? styles.en : ""}
+                      >
+                        {!itemKey.startsWith("button") ? (
+                          item[itemKey]
+                        ) : (
                           <button
                             className={
-                              itemKey === "deleteButton"
+                              item[itemKey].buttonName === "deleteButton"
                                 ? item[itemKey].class
                                 : ""
                             }
-                            data-item={item[itemKey]}
-                            data-count={index}
                             onClick={() => {
-                              item[itemKey].handler(
-                                item[itemKey].contract,
-                                index
-                              );
+                              item[itemKey].handler();
                             }}
                           >
-                            {item[itemKey].icon}
+                            {item[itemKey].icon
+                              ? item[itemKey].icon
+                              : item[itemKey].text}
                           </button>
-                        </td>
-                      );
-                    }
+                        )}
+                      </td>
+                    );
                   })}
                 </tr>
               );
@@ -106,8 +105,8 @@ const Table = ({ tableHead, tableBody, data, rowPerPage }) => {
       <div className={styles.pagination}>
         <p className={styles.pages}>
           {`${dataIndex + 1}–${
-            nextDisable ? data.length : dataIndex + rowPerPage
-          } ${t("body.from")} ${data.length}`}
+            nextDisable ? tableBody.length : dataIndex + rowPerPage
+          } ${t("body.from")} ${tableBody.length}`}
         </p>
         <div className={styles.buttons}>
           <button

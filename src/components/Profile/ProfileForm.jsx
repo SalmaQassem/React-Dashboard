@@ -1,7 +1,6 @@
 import styles from "../../styles/_ProfileForm.module.scss";
 import { useForm } from "react-hook-form";
 import { useState, useEffect, useContext } from "react";
-//import { TbCloudUpload } from "react-icons/tb";
 import FormButton from "../UI/FormButton";
 import { useTranslation } from "react-i18next";
 import UserContext from "../../store/user-context";
@@ -13,10 +12,10 @@ import Modal from "../UI/Modal";
 import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const ProfileForm = (props) => {
   const oldData = props.userData;
-  //console.log(oldData);
   const context = useContext(UserContext);
   const navigate = useNavigate();
   const [t, i18n] = useTranslation("global");
@@ -116,7 +115,6 @@ const ProfileForm = (props) => {
   const formSubmitHandler = async (data) => {
     const formData = new FormData();
     console.log(watchedImage);
-    //console.log(uploadedImage);
     const pass = data.password === "" ? oldData.password : data.password;
     formData.append("first_name", data.firstName);
     formData.append("last_name", data.lastName);
@@ -140,7 +138,6 @@ const ProfileForm = (props) => {
       );
       const data = await response.data;
       if (data && data.success) {
-        //console.log(data);
         setIsModalOpened((prevState) => {
           return { ...prevState, state: true };
         });
@@ -169,7 +166,7 @@ const ProfileForm = (props) => {
           password,
           image
         );
-        sessionStorage.setItem("userData", JSON.stringify(data));
+        Cookies.set("userData", JSON.stringify(data.user));
         setTimeout(() => {
           navigate("/dashboard");
         }, 500);
@@ -201,40 +198,6 @@ const ProfileForm = (props) => {
       }
     }
   }, [watchedImage]);
-
-  useEffect(() => {
-    //console.log(uploadedImage);
-  }, [uploadedImage]);
-  /*useEffect(() => {
-    if (data && !data.message) {
-      const {
-        id,
-        first_name,
-        last_name,
-        phone,
-        email,
-        role,
-        created_at,
-        updated_at,
-        image,
-      } = data;
-      context.setUserData(
-        id,
-        first_name,
-        last_name,
-        phone,
-        email,
-        role,
-        created_at,
-        updated_at,
-        image
-      );
-      sessionStorage.setItem("userData", JSON.stringify(data));
-      //alert("success");
-    } else {
-      console.log("error");
-    }
-  }, [data]);*/
 
   return (
     <>
@@ -278,7 +241,6 @@ const ProfileForm = (props) => {
           <p>{t("body.profileImage")}</p>
           <div className={styles.selectFile}>
             <div className={styles.uploadImg}>
-              {/*<TbCloudUpload />*/}
               <img src={imageSrc} />
               <label htmlFor="image" className={styles.imageLabel}>
                 <p>{t("body.edit")}</p>

@@ -28,6 +28,12 @@
     }
   }
   .text {
+    @include flex-variant(
+      flex,
+      $direction: column,
+      $justify: space-between,
+      $gap: $gap-5
+    );
     color: $white;
     font-family: "Cairo-Bold";
     font-size: $f-s-16;

@@ -1,7 +1,7 @@
 import styles from "./styles/_App.module.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Authentication from "./pages/Authentication";
-import Root from "./pages/Root";
+import Root, { loader as RootLoader } from "./pages/Root";
 import ForgetPassword from "./pages/ForgetPassword";
 import Code from "./pages/Code";
 import ResetPassword from "./pages/ResetPassword";
@@ -9,16 +9,12 @@ import Dashboard, { loader as dashboardLoader } from "./pages/Dashboard";
 import HousePage, { loader as HouseLoader } from "./pages/HousePage";
 import NewUser from "./pages/NewUser";
 import AddBuilding from "./pages/AddBuilding";
-import Review, { loader as ReviewsLoader } from "./pages/Review";
-import Contract, { action as ContractAction } from "./pages/Contract";
+import Contract, { loader as ContractLoader } from "./pages/Contract";
 import UserPermits from "./pages/UserPermits";
-import Contracts, { loader as ContractLoader } from "./pages/Contracts";
+import Contracts, { loader as ContractsLoader } from "./pages/Contracts";
 import Reports from "./pages/Reports";
-import CloseSeason from "./pages/CloseSeason";
-import EditContract, {
-  loader as EditLoader,
-  action as EditAction,
-} from "./pages/EditContract";
+import AllSeasons, { loader as SeasonsLoader } from "./pages/AllSeasons";
+import EditContract, { loader as EditLoader } from "./pages/EditContract";
 import EditBuilding, {
   loader as EditBuildingLoader,
 } from "./pages/EditBuilding";
@@ -57,6 +53,7 @@ const router = createBrowserRouter([
   {
     path: "dashboard",
     element: <Root />,
+    loader: RootLoader,
     children: [
       {
         index: true,
@@ -77,14 +74,13 @@ const router = createBrowserRouter([
       { path: "Chat/:mode/:userId", element: <Chat />, loader: ChatLoader },
       { path: "NewUser", element: <NewUser /> },
       { path: "UserPermits", element: <UserPermits /> },
-      { path: "Contracts", element: <Contracts />, loader: ContractLoader },
+      { path: "Contracts", element: <Contracts />, loader: ContractsLoader },
       { path: "Reports", element: <Reports /> },
-      { path: "Close-Season", element: <CloseSeason /> },
+      { path: "AllSeasons", element: <AllSeasons />, loader: SeasonsLoader },
       {
         path: "EditContract/:contractId",
         element: <EditContract />,
         loader: EditLoader,
-        action: EditAction,
       },
       {
         path: "Profile",
@@ -95,16 +91,15 @@ const router = createBrowserRouter([
         path: "AddBuilding",
         element: <AddBuilding />,
       },
-      { path: "Review", element: <Review />, loader: ReviewsLoader },
       {
         path: "EditBuilding",
         element: <EditBuilding />,
         loader: EditBuildingLoader,
       },
       {
-        path: "Contract",
+        path: "Contract/:houseId",
         element: <Contract />,
-        action: ContractAction,
+        loader: ContractLoader,
       },
       {
         path: "Notifications",

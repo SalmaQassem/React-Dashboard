@@ -3,78 +3,79 @@
 @use "./colors" as *;
 @use "./variables/global" as *;
 @use "./variables/mediaQuery" as *;
-@use "./placeholders" as *;
+@import "./placeholders";
 
-%font {
-  font-family: "Cairo-Regular";
-  font-size: $f-s-16;
-}
 .form {
   width: 100%;
-  @include flex-variant(
-    flex,
-    $direction: column,
-    $gap: $gap-40
-  );
+  @include flex-variant(flex, $direction: column, $gap: $gap-40);
   @include mediaQuery($smallScreen_min_width) {
     width: 80%;
   }
   @include mediaQuery($largeScreen_min_width) {
     width: calc(((100% - $gap-28) * 60) / 100);
   }
+  @extend %formStyle;
   .inputs {
-    @include flex-variant(flex, $direction: column, $gap: $gap-24);
+    width: 100%;
+    @include flex-variant(flex, $direction: column, $gap: $gap-20);
     .input {
-      @extend %inputStyle;
-      position: relative;
-      input {
-        width: calc(((100% - calc(2 * $padding-15)) * 95) / 100);
-        height: 100%;
-        position: absolute;
-        top: 0;
-        z-index: 1;
-        @extend %font;
-        background-color: transparent;
-        float: right;
-        &::placeholder {
-          text-transform: capitalize;
+      width: 100%;
+      @include flex-variant(
+        flex,
+        $direction: column,
+        $justify: space-between,
+        $gap: $gap-8
+      );
+      .inputItem {
+        @extend %inputStyle;
+        position: relative;
+        @include flex-variant(flex, $direction: row, $align: center);
+        .inputField {
+          height: 100%;
+          position: absolute;
+          top: 0;
+          z-index: 1;
+          float: right;
+          @extend %inputFieldStyle;
         }
-      }
-      .icon {
-        width: calc(((100% - calc(2 * $padding-15)) * 5) / 100);
-        @include flex-variant(
-          flex,
-          $direction: row,
-          $align: center,
-          $justify: flex-end
-        );
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: $padding-15;
-        font-size: $f-s-24;
-        color: $pink;
-      }
-      &.en {
         .icon {
-          left: initial;
-          right: $padding-15;
+          left: $padding-15;
+          @include flex-variant(
+            flex,
+            $direction: row,
+            $align: center,
+            $justify: flex-end
+          );
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          @extend %iconStyle;
+          color: $pink;
+          pointer-events: none;
         }
+        &.en {
+          .icon {
+            left: initial;
+            right: $padding-15;
+          }
+        }
+        &.invalid input::placeholder {
+          color: $red;
+        }
+      }
+      .textArea {
+        width: 100%;
+        height: 14.375rem;
+        padding: $padding-15;
+        @extend %inputFieldStyle;
+        flex: initial;
+        border: $border-1 solid $grey-9;
+        border-radius: $b-r-8;
+        resize: none;
       }
     }
-    .textArea {
-      width: 100%;
-      height: 14.375rem;
-      padding: $padding-15;
-      border: $border-1 solid $grey-9;
-      border-radius: $b-r-8;
-      font-family: "Cairo-Regular";
-      font-size: $f-s-16;
-      @extend %font;
-      resize: none;
-      &::placeholder {
-        text-transform: capitalize;
-      }
+    .feedback {
+      @extend %feedbackStyle;
     }
   }
   .button {

@@ -36,6 +36,15 @@ const Houses = (props) => {
         {props.currentItems && (
           <div className={styles.houses}>
             {props.currentItems.map((item) => {
+              const imgs =
+                item.media && item.media.length > 0
+                  ? item.media.filter((item) => {
+                      const type = item.mime_type.split("/")[1];
+                      return (
+                        type === "png" || type === "jpg" || type === "jpeg"
+                      );
+                    })
+                  : [];
               return (
                 <div
                   key={item.id}
@@ -45,9 +54,7 @@ const Houses = (props) => {
                 >
                   <div className={styles.image}>
                     <img
-                      src={
-                        item.media.length > 0 ? item.media[0].original_url : ""
-                      }
+                      src={imgs.length > 0 ? imgs[0].original_url : ""}
                       alt="room"
                     />
                   </div>

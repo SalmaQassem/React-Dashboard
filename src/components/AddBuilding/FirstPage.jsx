@@ -320,14 +320,6 @@ const FirstPage = (props) => {
   const Generator = watch("generator");
 
   const formSubmitHandler = (data) => {
-    /*let alarmValue =
-      props.state === "edit" ? props.firstPageData.alarm_network : alarm;
-    let fireValue =
-      props.state === "edit" ? props.firstPageData.fire_network : fireNetwork;
-    let pumpValue =
-      props.state === "edit" ? props.firstPageData.fire_pump : firePump;
-    let generatorValue =
-      props.state === "edit" ? props.firstPageData.generator : generator;*/
     context.setFormData((prevData) => {
       return {
         ...prevData,
@@ -398,7 +390,6 @@ const FirstPage = (props) => {
         };
       }
       setValue("buildingType", selected);
-      //setSelectedOption(selected);
     }
   }, []);
   

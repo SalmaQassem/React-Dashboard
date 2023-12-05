@@ -55,9 +55,9 @@ const Aside = () => {
     },
     {
       id: "4",
-      name: t("body.completeHejj"),
+      name: t("body.hajjSeasons"),
       icon: <FaKaaba />,
-      url: "Close-Season",
+      url: "AllSeasons",
     },
   ];
   const houses = [
@@ -82,44 +82,67 @@ const Aside = () => {
     }
   };
   const modeType = mainMode.mode === "dark" ? styles.dark : "";
+  const langClass = i18n.language === "en" ? styles.en : "";
   return (
-    <aside
+    <div
       className={
         asideContext.isOpened
-          ? `${styles.aside} ${modeType}`
-          : `${styles.aside} ${styles.close} ${modeType}`
+          ? `${styles.asideWrapper} ${modeType} ${langClass}`
+          : `${styles.asideWrapper} ${styles.close} ${modeType} ${langClass}`
       }
     >
-      <div className={styles.section}>
-        <div className={styles.items}>
-          {main.map((item, index) => {
-            return index === 0 ? (
-              <AsideItem
-                key={item.id}
-                name={item.name}
-                icon={item.icon}
-                url={item.url}
-                End={true}
-                onClick={clickLinkHandler}
-              />
-            ) : (
-              <AsideItem
-                key={item.id}
-                name={item.name}
-                icon={item.icon}
-                url={item.url}
-                End={false}
-                onClick={clickLinkHandler}
-              />
-            );
-          })}
-        </div>
-      </div>
-      {context.role === "super_admin" && (
+      <aside className={styles.aside}>
         <div className={styles.section}>
-          <span>{t("body.usersControl")}</span>
           <div className={styles.items}>
-            {usersOptions.map((item) => {
+            {main.map((item, index) => {
+              return index === 0 ? (
+                <AsideItem
+                  key={item.id}
+                  name={item.name}
+                  icon={item.icon}
+                  url={item.url}
+                  End={true}
+                  onClick={clickLinkHandler}
+                />
+              ) : (
+                <AsideItem
+                  key={item.id}
+                  name={item.name}
+                  icon={item.icon}
+                  url={item.url}
+                  End={false}
+                  onClick={clickLinkHandler}
+                />
+              );
+            })}
+          </div>
+        </div>
+        {(context.role === "super_admin" || context.role === "admin") && (
+          <div className={styles.section}>
+            <span>{t("body.usersControl")}</span>
+            <div className={styles.items}>
+              {usersOptions.map((item) => {
+                return (
+                  ((context.role === "super_admin" &&
+                    item.url !== "AllSeasons") ||
+                    context.role === "admin") && (
+                    <AsideItem
+                      key={item.id}
+                      name={item.name}
+                      icon={item.icon}
+                      url={item.url}
+                      onClick={clickLinkHandler}
+                    />
+                  )
+                );
+              })}
+            </div>
+          </div>
+        )}
+        <div className={styles.section}>
+          <span>{t("body.buildingControl")}</span>
+          <div className={styles.items}>
+            {houses.map((item) => {
               return (
                 <AsideItem
                   key={item.id}
@@ -132,40 +155,24 @@ const Aside = () => {
             })}
           </div>
         </div>
-      )}
-      <div className={styles.section}>
-        <span>{t("body.buildingControl")}</span>
-        <div className={styles.items}>
-          {houses.map((item) => {
-            return (
-              <AsideItem
-                key={item.id}
-                name={item.name}
-                icon={item.icon}
-                url={item.url}
-                onClick={clickLinkHandler}
-              />
-            );
-          })}
+        <div className={styles.section}>
+          <span>{t("body.account")}</span>
+          <div className={styles.items}>
+            {account.map((item) => {
+              return (
+                <AsideItem
+                  key={item.id}
+                  name={item.name}
+                  icon={item.icon}
+                  url={item.url}
+                  onClick={clickLinkHandler}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div className={styles.section}>
-        <span>{t("body.account")}</span>
-        <div className={styles.items}>
-          {account.map((item) => {
-            return (
-              <AsideItem
-                key={item.id}
-                name={item.name}
-                icon={item.icon}
-                url={item.url}
-                onClick={clickLinkHandler}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </aside>
+      </aside>
+    </div>
   );
 };
 

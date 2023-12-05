@@ -12,7 +12,7 @@
     "permissions": "صلاحيات المستخدمين",
     "contracts": "العقود",
     "reports": "التقارير",
-    "completeHejj": "تقفيل موسم الحج",
+    "hajjSeasons": "مواسم الحج",
     "buildingRecords": "سجل المنشأة",
     "buildingControl": "إدارة المنشأة",
     "addBuilding": "إضافة منشأة",
@@ -142,7 +142,6 @@
     "noNotificatons": "لم نستطيع العثور على أى إشعارات",
     "friendsList": "قائمة الأصدقاء",
     "chats": "المحادثات",
-    "groups": "المجموعات",
     "changeLanguage": "العربية / الإنجليزية",
     "resize": "شاشة كاملة",
     "darkLight": "وضع الظلام / وضع الإضاءة",
@@ -153,6 +152,16 @@
     "goNext": "الصفحة التالية",
     "goPrev": "الصفحة السابقة",
     "to": "إلى",
-    "filter": "تصنيف"
+    "filter": "تصنيف",
+    "deleteBuilding": "حذف المنشأة",
+    "deleteHouse": "هل أنت متأكد من إزالة هذه المنشأة؟",
+    "deleteBuildingSuccess": "تم حذف المنشأة بنجاح",
+    "closeSeason": "إغلاق الموسم",
+    "openSeason": "فتح الموسم",
+    "seasonName": "اسم الموسم",
+    "noSeasons": "لم نستطيع العثور على أى مواسم",
+    "openNewSeason": "فتح موسم جديد",
+    "closedSeason": "تم إنتهاء الموسم",
+    "closeSeasonMsg": "هل أنت متأكد من إغلاق هذا الموسم؟"
   }
 }

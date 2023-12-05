@@ -37,11 +37,8 @@ const ThirdPage = (props) => {
         }, 500);
       } else {
         setIsModalOpened(true);
-        sessionStorage.setItem("houseId", res.id);
-        sessionStorage.setItem("userId", res.user_id);
-
         setTimeout(() => {
-          navigate("/dashboard/Review");
+          navigate(`/dashboard/Houses/${res.id}`);
         }, 500);
       }
     } catch (error) {

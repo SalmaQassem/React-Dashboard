@@ -9,6 +9,9 @@
   .inputs {
     @extend %inputsStyle;
   }
+  .input {
+    justify-content: space-between;
+  }
   .image {
     @extend %selectImage;
     .uploadImg {

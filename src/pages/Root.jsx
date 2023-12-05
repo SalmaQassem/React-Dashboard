@@ -8,6 +8,8 @@ import { useContext } from "react";
 import { FullScreen } from "react-full-screen";
 import FullScreenContext from "../store/fullScreen-context";
 import ModeContext from "../store/mode-context";
+import { getAuthToken } from "../util/auth";
+import { redirect } from "react-router-dom";
 
 const Root = () => {
   const context = useContext(AsideContext);
@@ -16,9 +18,7 @@ const Root = () => {
   const modeType = mainMode.mode === "dark" ? styles.dark : "";
 
   return (
-    <FullScreen
-      handle={screenContext.handle}
-    >
+    <FullScreen handle={screenContext.handle}>
       <div className={styles.wrapper}>
         <div className={styles.root}>
           <Overlay
@@ -29,9 +29,9 @@ const Root = () => {
             }
           />
           <NavBar />
-          <div className={styles.content}>
+          <div className={`${styles.content} ${modeType}`}>
             <Aside />
-            <div className={`${styles.body} ${modeType}`}>{<Outlet />}</div>
+            <div className={styles.body}>{<Outlet />}</div>
           </div>
         </div>
       </div>
@@ -40,3 +40,10 @@ const Root = () => {
 };
 
 export default Root;
+// eslint-disable-next-line react-refresh/only-export-components
+export const loader = () => {
+  const token = getAuthToken();
+  if (!token) {
+    return redirect("/");
+  } else return "";
+};

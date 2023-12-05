@@ -1,7 +1,8 @@
 import styles from "../styles/_Reports.module.scss";
+import StyledHeader from "../components/UI/MainHeader";
 import Table from "../components/UI/Table";
 import NoData from "../components/UI/NoData";
-import { PiFolderNotchOpenFill } from "react-icons/pi";
+import { PiFiles, PiFolderNotchOpenFill } from "react-icons/pi";
 import { useTranslation } from "react-i18next";
 
 const Reports = () => {
@@ -68,6 +69,11 @@ const Reports = () => {
 
   return (
     <div className={styles.reports}>
+      <StyledHeader
+        text={t("body.reports")}
+        icon={<PiFiles />}
+        class={styles.header}
+      />
       {data.length > 0 ? (
         <div className={styles.reportsTable}>
           <Table
