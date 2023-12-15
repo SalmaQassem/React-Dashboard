@@ -6,7 +6,6 @@ import BuildingContext from "../../store/building-context";
 
 const AddBuildingForm = (props) => {
   const context = useContext(BuildingContext);
-  const houseId = sessionStorage.getItem("houseId");
 
   useEffect(() => {
     context.setPage(0);
@@ -33,7 +32,8 @@ const AddBuildingForm = (props) => {
           url={
             props.state === "add"
               ? "https://zadapp.mqawilk.com/api/houses/store"
-              : "https://zadapp.mqawilk.com/api/update/selfhoues/" + houseId
+              : "https://zadapp.mqawilk.com/api/update/selfhoues/" +
+                props.houseId
           }
         />
       )}

@@ -35,6 +35,7 @@ const EditBuilding = () => {
     institution_safty: data[0].institution_safty,
     price_hajj: data[0].price_hajj,
     price_years: data[0].price_years,
+    attached_type:data[0].attached_type,
     media: data[0].media.slice(),
   };
   const thirdData = {
@@ -52,6 +53,7 @@ const EditBuilding = () => {
             firstPageData={firstData}
             secondPageData={secondData}
             thirdPageData={thirdData}
+            houseId={data[0].id}
           />
         </div>
       </StyledContainer>
@@ -62,8 +64,8 @@ const EditBuilding = () => {
 export default EditBuilding;
 
 // eslint-disable-next-line react-refresh/only-export-components
-export async function loader() {
-  const id = sessionStorage.getItem("houseId");
+export async function loader({ params }) {
+  const id = params.buildingId;
   const token = getAuthToken();
   let response = "";
   try {

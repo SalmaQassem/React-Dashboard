@@ -20,14 +20,7 @@ const MapSearch = () => {
     });
     map.addControl(searchControl);
     searchControlRef.current = searchControl;
-
-    /*map.on("geosearch/showlocation", (data) => {
-      if (data) {
-        setAddress((prev) => {
-          return { ...prev, address: data.location.label };
-        });
-      }
-    });*/
+    
     return () => {
       map.removeControl(searchControl);
     };

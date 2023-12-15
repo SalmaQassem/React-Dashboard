@@ -38,42 +38,45 @@ const SecondPage = (props) => {
       .number()
       .typeError(t("body.required"))
       .required(t("body.required")),
-    filesInput: yup
-      .mixed()
-      .test("file", t("body.required"), (value) => {
-        if (value.length > 0) {
-          return true;
-        }
-        return false;
-      })
-      .test("type", t("body.filesType"), (value) => {
-        if (
-          value.length > 0 &&
-          (value[0].type === "application/pdf" ||
-            value[0].type === "application/docx" ||
-            value[0].type === "application/doc" ||
-            value[0].type === "image/jpg" ||
-            value[0].type === "image/jpeg" ||
-            value[0].type === "image/png")
-        ) {
-          return true;
-        }
-        return false;
-      }),
-    attachedType: yup
-      .object()
-      .shape({
-        label: yup.string().required(t("body.required")),
-        value: yup.string().required(t("body.required")),
-      })
-      .required(t("body.required")),
+    filesInput:
+      props.state !== "edit" &&
+      yup
+        .mixed()
+        .test("file", t("body.required"), (value) => {
+          if (value.length > 0) {
+            return true;
+          }
+          return false;
+        })
+        .test("type", t("body.filesType"), (value) => {
+          if (
+            value.length > 0 &&
+            (value[0].type === "application/pdf" ||
+              value[0].type === "application/docx" ||
+              value[0].type === "application/doc" ||
+              value[0].type === "image/jpg" ||
+              value[0].type === "image/jpeg" ||
+              value[0].type === "image/png")
+          ) {
+            return true;
+          }
+          return false;
+        }),
+    attachedType:
+      props.state !== "edit" &&
+      yup
+        .object()
+        .shape({
+          label: yup.string().required(t("body.required")),
+          value: yup.string().required(t("body.required")),
+        })
+        .required(t("body.required")),
   });
   const {
     register,
     handleSubmit,
     watch,
     control,
-    //setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -139,9 +142,12 @@ const SecondPage = (props) => {
       error: errors.attachedType,
       options: [
         { value: "image_bilud", label: t("body.buildingImages") },
-        { value: "السجل التجاري", label: t("body.commercialRegistration") },
-        { value: "السجل الضريبي", label: t("body.taxRegistration") },
-        { value: "تصريح الحج", label: t("body.hajjPermit") },
+        {
+          value: "commercial_registration",
+          label: t("body.commercialRegistration"),
+        },
+        { value: "tax_registration", label: t("body.taxRegistration") },
+        { value: "hajj_permit", label: t("body.hajjPermit") },
       ],
     },
   ];
@@ -166,7 +172,10 @@ const SecondPage = (props) => {
         institution_safty: data.institutionSafty,
         price_hajj: data.hajjPrice,
         price_years: data.yearsPrice,
-        media: files.slice(),
+        media:
+          props.state === "edit"
+            ? props.secondPageData.media.slice()
+            : files.slice(),
       };
     });
     context.setPage((prevNum) => {
@@ -193,7 +202,6 @@ const SecondPage = (props) => {
     if (watchedFiles) {
       const { length, ...files } = watchedFiles;
       if (length > 0) {
-        console.log(files);
         setSelectedImages(files);
       }
     }
@@ -231,25 +239,6 @@ const SecondPage = (props) => {
     }
   }, [selectedImages, selectedOption]);
 
-  useEffect(() => {
-    if (props.state === "edit") {
-      //let selected = {};
-      /*if (props.firstPageData.type === "hotel") {
-        selected = {
-          value: "hotel",
-          label: t("body.hotel"),
-        };
-      } else {
-        selected = {
-          value: "build",
-          label: t("body.building"),
-        };
-      }
-      setValue("attachedType", selected);
-      setSelectedOption(selected);*/
-    }
-  }, []);
-  
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>

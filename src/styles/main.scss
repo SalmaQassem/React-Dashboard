@@ -1,29 +1,17 @@
-//Import global rules
-@use "./global_rules";
-
 //Import Global Variables
 @use "./variables/global";
 
 //Import Media Query Variables
 @use "./variables/mediaQuery";
 
-//Import Colors
-@use "./colors";
+//Import Add Building
+@use "./AddBuilding.module";
 
-//Import Fonts
-@use "../helpers/fonts";
-
-//Import Mixins
-@use "../helpers/mixins";
-
-//Import Placeholders
-@use "./placeholders";
+//Import Close Season
+@use "./AllSeasons.module";
 
 //Import App
 @use "./App.module";
-
-//Import NavBar
-@use "./NavBar.module";
 
 //Import Aside
 @use "./Aside.module";
@@ -31,47 +19,23 @@
 //Import Aside Item
 @use "./AsideItem.module";
 
-//Import DropBox
-@use "./DropBox.module";
+//Import Auth Button
+@use "./AuthButton.module";
 
-//Import Search
-@use "./Search.module";
+//Import Auth Form
+@use "./AuthForm.module";
 
-//Import Tools
-@use "./Tools.module";
+//Import Change Language
+@use "./ChangeLanguage.module";
 
-//Import User Info
-@use "./UserInfo.module";
+//Import Chat
+@use "./Chat.module";
 
-//Import Dashboard
-@use "./Dashboard.module";
+//Import Code Form
+@use "./CodeForm.module";
 
-//Import Houses
-@use "./Houses.module";
-
-//Import Messages
-@use "./Messages.module";
-
-//Import Filter List
-@use "./FiltersList.module";
-
-//Import New User
-@use "./NewUser.module";
-
-//Import New User Form
-@use "./NewUserForm.module";
-
-//Import User Permits
-@use "./UserPermits.module";
-
-//Import User Permits Form
-@use "./UserPermitsForm.module";
-
-//Import Profile
-@use "./Profile.module";
-
-//Import Profile Form
-@use "./ProfileForm.module";
+//Import Colors
+@use "./colors";
 
 //Import Contract
 @use "./Contract.module";
@@ -85,29 +49,20 @@
 //Import Contracts
 @use "./Contracts.module";
 
-//Import Add Building
-@use "./AddBuilding.module";
+//Import Dashboard
+@use "./Dashboard.module";
+
+//Import DatePicker
+@use "./DatePicker.module";
+
+//Import DropBox
+@use "./DropBox.module";
+
+//Import Filter List
+@use "./FiltersList.module";
 
 //Import First Page
 @use "./FirstPage.module";
-
-//Import Second Page
-@use "./SecondPage.module";
-
-//Import Third Page
-@use "./ThirdPage.module";
-
-//Import Auth Button
-@use "./AuthButton.module";
-
-//Import Auth Form
-@use "./AuthForm.module";
-
-//Import Chat
-@use "./Chat.module";
-
-//Import Code Form
-@use "./CodeForm.module";
 
 //Import Forget Password Form
 @use "./ForgetPasswordForm.module";
@@ -118,14 +73,23 @@
 //Import Form Container
 @use "./FormContainer.module";
 
-//Import Form Wrapper
-@use "./FormWrapper.module";
-
 //Import Form Head
 @use "./FormHead.module";
 
 //Import Form Item
 @use "./FormItem.module";
+
+//Import Form Wrapper
+@use "./FormWrapper.module";
+
+//Import global rules
+@use "./global_rules";
+
+//Import Review
+@use "./House.module";
+
+//Import Houses
+@use "./Houses.module";
 
 //Import Images Gallery
 @use "./ImagesGallery.module";
@@ -133,11 +97,26 @@
 //Import Input Form
 @use "./InputForm.module";
 
+//Import Load More Button
+@use "./LoadMoreButton.module";
+
 //Import Main Header
 @use "./MainHeader.module";
 
+//Import Messages
+@use "./Messages.module";
+
 //Import Modal
 @use "./Modal.module";
+
+//Import NavBar
+@use "./NavBar.module";
+
+//Import New User
+@use "./NewUser.module";
+
+//Import New User Form
+@use "./NewUserForm.module";
 
 //Import No Data
 @use "./NoData.module";
@@ -151,32 +130,56 @@
 //Import Pagination
 @use "./Pagination.module";
 
+//Import Placeholders
+@use "./placeholders";
+
+//Import Profile
+@use "./Profile.module";
+
+//Import Profile Form
+@use "./ProfileForm.module";
+
 //Import Radio Button
 @use "./RadioButton.module";
-
-//Import Reset Password
-@use "./ResetPasswordForm.module";
-
-//Import Review
-@use "./House.module";
-
-//Import Root
-@use "./Root.module";
-
-//Import Select
-@use "./SelectInput.module";
-
-//Import Change Language
-@use "./ChangeLanguage.module";
-
-//Import Load More Button
-@use "./LoadMoreButton.module";
 
 //Import Reports
 @use "./Reports.module";
 
-//Import Close Season
-@use "./AllSeasons.module";
+//Import Reset Password
+@use "./ResetPasswordForm.module";
 
-//Import DatePicker
-@use "./DatePicker.module";
+//Import Root
+@use "./Root.module";
+
+//Import Search
+@use "./Search.module";
+
+//Import Second Page
+@use "./SecondPage.module";
+
+//Import Select
+@use "./SelectInput.module";
+
+//Import Table
+@use "./Table.module";
+
+//Import Third Page
+@use "./ThirdPage.module";
+
+//Import Tools
+@use "./Tools.module";
+
+//Import User Info
+@use "./UserInfo.module";
+
+//Import User Permits
+@use "./UserPermits.module";
+
+//Import User Permits Form
+@use "./UserPermitsForm.module";
+
+//Import Fonts
+@use "../helpers/fonts";
+
+//Import Mixins
+@use "../helpers/mixins";

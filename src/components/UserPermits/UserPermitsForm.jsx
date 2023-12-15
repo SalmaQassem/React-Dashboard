@@ -40,8 +40,6 @@ const UserPermitsForm = (props) => {
           register={register}
           icon="true"
           label={props.type}
-          //checked={item.value === radio.id}
-          //onChange={props.inputHandler}
         />
       </div>
       <div className={styles.permits}>

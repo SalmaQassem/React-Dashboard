@@ -2,7 +2,7 @@ import styles from "../../styles/_NewUserForm.module.scss";
 import { useState, useEffect } from "react";
 import RadioButton from "../UI/RadioButton";
 import FormButton from "../UI/FormButton";
-import { TbCloudUpload } from "react-icons/tb";
+import uploadImg from "../../assets/images/upload.png";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { getAuthToken } from "../../util/auth";
@@ -18,6 +18,7 @@ const NewUserForm = (props) => {
   const [t, i18n] = useTranslation("global");
   const [radioInput, setRadioInput] = useState(null);
   const [image, setImage] = useState(null);
+  const [imageSrc, setImageSrc] = useState(uploadImg);
   const navigate = useNavigate();
   const [isModalOpened, setIsModalOpened] = useState({
     state: false,
@@ -179,7 +180,19 @@ const NewUserForm = (props) => {
   useEffect(() => {
     if (watchedImage) {
       if (watchedImage.length > 0) {
-        setImage(watchedImage[0]);
+        if (
+          watchedImage[0].type === "image/jpeg" ||
+          watchedImage[0].type === "image/jpg" ||
+          watchedImage[0].type === "image/png"
+        ) {
+          var reader = new FileReader();
+          reader.onload = function () {
+            const url = reader.result;
+            setImageSrc(url);
+            setImage(watchedImage[0]);
+          };
+          reader.readAsDataURL(watchedImage[0]);
+        }
       }
     }
   }, [watchedImage]);
@@ -253,7 +266,7 @@ const NewUserForm = (props) => {
           <p>{t("body.uploadImage")}</p>
           <div className={styles.selectFile}>
             <div className={styles.uploadImg}>
-              <TbCloudUpload />
+              <img src={imageSrc} alt="user-img" loading="lazy" />
               <label htmlFor="userImage" className={styles.imageLabel}>
                 <input
                   type="file"

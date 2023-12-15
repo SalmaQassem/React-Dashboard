@@ -87,7 +87,7 @@ const Reports = () => {
         <NoData
           message={t("body.noData")}
           icon={<PiFolderNotchOpenFill />}
-          subMessage={t("body.noContracts")}
+          subMessage={t("body.noReports")}
         />
       )}
     </div>

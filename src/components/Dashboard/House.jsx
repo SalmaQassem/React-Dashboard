@@ -20,6 +20,7 @@ import Modal from "../UI/Modal";
 import { AnimatePresence } from "framer-motion";
 import { FiAlertTriangle } from "react-icons/fi";
 import { FaCheck } from "react-icons/fa";
+import Table from "../UI/Table";
 
 const House = ({ data }) => {
   const [t, i18n] = useTranslation("global");
@@ -186,8 +187,29 @@ const House = ({ data }) => {
     const items = filteredItems.filter((item) => {
       return item.name === filter;
     });
-    setFilteredData(items);
+    if (items.length > 0 && items[0].data && items[0].data.length === 0) {
+      setFilteredData([]);
+    } else {
+      setFilteredData(items);
+    }
   }, [filter, i18n.language]);
+
+  const tableHead = [
+    { id: "0", text: t("body.tableIndex") },
+    { id: "1", text: t("body.startDate") },
+    { id: "2", text: t("body.endDate") },
+    { id: "3", text: t("body.price") },
+  ];
+  const tableBody =
+    filter === "records" &&
+    filteredData.length > 0 &&
+    filteredData[0].data.map((item) => {
+      return {
+        start_date: item.startDate,
+        end_date: item.endDate,
+        price: item.price,
+      };
+    });
 
   return (
     <>
@@ -225,7 +247,10 @@ const House = ({ data }) => {
             <div className={styles.filters}>
               <p>{t("body.roomsAndHouses")}</p>
               <div className={styles.filterItems}>
-                <Link to="/dashboard/EditBuilding" className={styles.button}>
+                <Link
+                  to={`/dashboard/EditBuilding/${data[0].id}`}
+                  className={styles.button}
+                >
                   {t("body.editBuilding")}
                 </Link>
                 {data[0].type_mujarah !== "accsspt" && (
@@ -269,69 +294,50 @@ const House = ({ data }) => {
               </div>
             </StyledContainer>
           </div>
-          <div className={styles.data}>
-            <StyledContainer>
-              <div className={styles.filteredData}>
-                {(filteredData.length === 0 ||
-                  !filteredData[0].data ||
-                  filteredData[0].data.length === 0) && (
-                  <p className={styles.message}>{t("body.noData")}</p>
-                )}
-                {filter !== "records" &&
-                filteredData.length > 0 &&
-                filteredData[0].data &&
-                filteredData[0].data.length > 0 ? (
-                  <>
-                    {filteredData[0].data.map((item) => {
-                      return (
-                        <div key={item.id} className={styles.item}>
-                          <p className={styles.name}>{item.title}</p>
-                          <p className={styles.value}>{item.value}</p>
-                          <div className={styles.icon}>{item.icon}</div>
+          <StyledContainer>
+            <div className={styles.data}>
+              <StyledContainer>
+                <div className={styles.filteredData}>
+                  {filteredData.length > 0 ? (
+                    filter !== "records" ? (
+                      <>
+                        {filteredData.length > 0 &&
+                          filteredData[0].data.map((item) => {
+                            return (
+                              <div key={item.id} className={styles.item}>
+                                <p className={styles.name}>{item.title}</p>
+                                <p className={styles.value}>{item.value}</p>
+                                <div className={styles.icon}>{item.icon}</div>
+                              </div>
+                            );
+                          })}
+                        {filter === "location" && (
+                          <div className={styles.map}>
+                            <MapView center={[data[0].lat, data[0].lang]} />
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <p className={styles.tableTitle}>
+                          {t("body.allContracts")}
+                        </p>
+                        <div className={styles.table}>
+                          <Table
+                            tableHead={tableHead}
+                            tableBody={tableBody}
+                            rowPerPage={5}
+                          />
                         </div>
-                      );
-                    })}
-                    {filter === "location" && (
-                      <div className={styles.map}>
-                        <MapView center={[data[0].lat, data[0].lang]} />
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  filter === "records" &&
-                  filteredData.length > 0 &&
-                  filteredData[0].data &&
-                  filteredData[0].data.length > 0 && (
-                    <>
-                      <p className={styles.tableTitle}>
-                        {t("body.allContracts")}
-                      </p>
-                      <div className={styles.table}>
-                        <div className={styles.tableHead}>
-                          <p>{t("body.tableIndex")}</p>
-                          <p>{t("body.startDate")}</p>
-                          <p>{t("body.endDate")}</p>
-                          <p>{t("body.price")}</p>
-                          <p>{t("body.show")}</p>
-                        </div>
-                        {filteredData[0].data.map((item, index) => {
-                          return (
-                            <div key={item.id} className={styles.tableBody}>
-                              <p>{index + 1}</p>
-                              <p>{item.startDate}</p>
-                              <p>{item.endDate}</p>
-                              <p>{item.price}</p>
-                              <p className={styles.icon}>{item.icon}</p>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </>
-                  )
-                )}
-              </div>
-            </StyledContainer>
-          </div>
+                      </>
+                    )
+                  ) : (
+                    <p className={styles.message}>{t("body.noData")}</p>
+                  )}
+                </div>
+              </StyledContainer>
+            </div>
+          </StyledContainer>
         </div>
       </div>
     </>

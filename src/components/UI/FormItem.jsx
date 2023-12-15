@@ -37,7 +37,6 @@ const FormItem = ({
           type={type}
           id={id}
           {...register(name)}
-          //required={props.required === "true"}
         />
         <div
           className={

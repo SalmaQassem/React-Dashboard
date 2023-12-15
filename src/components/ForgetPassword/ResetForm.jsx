@@ -13,11 +13,17 @@ import AuthButton from "../UI/AuthButton";
 import { useTranslation } from "react-i18next";
 import ChangeLanguage from "../UI/ChangeLanguage";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import Modal from "../UI/Modal";
+import { FaCheck } from "react-icons/fa";
 
 const ResetForm = () => {
   const [isShown, setIsShown] = useState(false);
   const [isShown1, setIsShown1] = useState(false);
   const [t, i18n] = useTranslation("global");
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const navigate = useNavigate();
   const schema = yup.object().shape({
     password: yup.string().required(t("body.required")),
     confirmPassword: yup
@@ -88,6 +94,14 @@ const ResetForm = () => {
           },
         }
       );
+      const data = await response.data;
+      if (data && data.message) {
+        Cookies.remove("otp");
+        setIsModalOpened(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 500);
+      }
     } catch (error) {
       if (error.response) {
         if (error.response.data.message && error.response.data.errors) {
@@ -101,43 +115,56 @@ const ResetForm = () => {
   };
 
   return (
-    <FormContainer>
-      <FormWrapper>
-        <FormHeader text={t("body.resetPassword")} />
-        <form
-          onSubmit={handleSubmit(formSubmitHandler)}
-          className={styles.form}
-        >
-          <div className={styles.inputs}>
-            <div className={styles.inputItems}>
-              {inputs.map((item) => {
-                return (
-                  <FormItem
-                    id={item.id}
-                    key={item.id}
-                    type={item.type}
-                    register={register}
-                    name={item.name}
-                    label={item.label}
-                    icon={item.icon}
-                    onMouseDown={item.onMouseDown}
-                    onMouseUp={item.onMouseUp}
-                    onMouseLeave={item.onMouseLeave}
-                    error={item.error}
-                  />
-                );
-              })}
+    <>
+      <AnimatePresence>
+        {isModalOpened && (
+          <Modal
+            head={t("body.success")}
+            message={t("body.passwordResetSuccess")}
+            icon={<FaCheck />}
+            state="edit"
+            setOpened={setIsModalOpened}
+          />
+        )}
+      </AnimatePresence>
+      <FormContainer>
+        <FormWrapper>
+          <FormHeader text={t("body.resetPassword")} />
+          <form
+            onSubmit={handleSubmit(formSubmitHandler)}
+            className={styles.form}
+          >
+            <div className={styles.inputs}>
+              <div className={styles.inputItems}>
+                {inputs.map((item) => {
+                  return (
+                    <FormItem
+                      id={item.id}
+                      key={item.id}
+                      type={item.type}
+                      register={register}
+                      name={item.name}
+                      label={item.label}
+                      icon={item.icon}
+                      onMouseDown={item.onMouseDown}
+                      onMouseUp={item.onMouseUp}
+                      onMouseLeave={item.onMouseLeave}
+                      error={item.error}
+                    />
+                  );
+                })}
+              </div>
+              {isSubmitted &&
+                errors.submit &&
+                !errors.password &&
+                !errors.confirmPassword && <p>{errors.submit.message}</p>}
             </div>
-            {isSubmitted &&
-              errors.submit &&
-              !errors.password &&
-              !errors.confirmPassword && <p>{errors.submit.message}</p>}
-          </div>
-          <AuthButton text={t("body.saveChanges")} type="submit" />
-        </form>
-        <ChangeLanguage />
-      </FormWrapper>
-    </FormContainer>
+            <AuthButton text={t("body.saveChanges")} type="submit" />
+          </form>
+          <ChangeLanguage />
+        </FormWrapper>
+      </FormContainer>
+    </>
   );
 };
 

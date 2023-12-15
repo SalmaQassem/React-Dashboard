@@ -64,11 +64,11 @@ const Chart = () => {
   ];
   const config = {
     tension: 0.4,
-    borderColor: "#000",
     pointBackgroundColor: "#d11242",
     pointBorderColor: "#fff",
     pointBorderWidth: 2,
     pointRadius: 6,
+    borderColor: "#000",
   };
   const setBackground = (context) => {
     const bgColor = ["rgba(209, 18, 66, 1)", "rgba(102, 102, 102, 0)"];
@@ -103,7 +103,7 @@ const Chart = () => {
       },
     ],
   };
-  return <Line options={options} data={data} />;
+  return <Line options={options} data={data} className="chart" />;
 };
 
 export default Chart;

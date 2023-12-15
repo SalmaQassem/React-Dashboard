@@ -1,17 +1,19 @@
 @use "./colors" as *;
 @use "../helpers/mixins" as *;
 @use "../helpers/fonts" as *;
+@use "./variables/global" as *;
+@use "./variables/mediaQuery" as *;
 
 %font {
   font-family: "Cairo-Bold";
-  font-size: 1rem;
+  font-size: $f-s-16;
   color: $white;
   text-transform: capitalize;
 }
 %tableItems {
   @include flex-variant(flex, $direction: row, $align: center);
-  padding: 0 1.5rem;
-  font-size: 1rem;
+  padding: 0 $padding-24;
+  font-size: $f-s-16;
   > p:first-of-type {
     width: 2%;
   }
@@ -23,90 +25,137 @@
 %icon {
   @include flex-variant(flex, $direction: row, $align: center);
   @extend %font;
-  font-size: 2rem;
+  font-size: $f-s-32;
   color: $grey-7;
 }
 %flex-center {
-  @include flex-variant(
-    flex,
-    $direction: row,
-    $align: center,
-    $justify: center
-  );
+  @include flex-row-center();
+}
+%width {
+  &:first-of-type {
+    width: 6.25rem;
+    min-width: 6.25rem;
+    max-width: 6.25rem;
+  }
+  @for $i from 2 through 3 {
+    &:nth-of-type(#{$i}) {
+      width: 8.75rem;
+      min-width: 8.75rem;
+      max-width: 8.75rem;
+    }
+  }
+  &:nth-of-type(4) {
+    width: 12.5rem;
+    min-width: 12.5rem;
+    max-width: 12.5rem;
+  }
 }
 .review {
-  @include flex-variant(flex, $direction: column, $gap: 1.75rem);
+  @include flex-variant(flex, $direction: column, $gap: $gap-28);
 
   .filters {
-    padding: 1rem;
-    @include flex-variant(
-      flex,
-      $direction: row,
-      $align: center,
-      $justify: space-between
-    );
+    padding: $padding-16;
+    @include flex-variant(flex, $direction: column, $gap: $gap-12);
     background-color: $pink;
     @extend %font;
-    border-radius: 1.125rem 1.125rem 0 0;
-
+    border-radius: $b-r-18 $b-r-18 0 0;
+    @include mediaQuery($largeScreen_min_width) {
+      & {
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $align: center,
+          $justify: space-between
+        );
+      }
+    }
     .filterItems {
-      width: 30%;
-      @include flex-variant(flex, $direction: row, $align: stretch, $gap: 1rem);
+      @include flex-variant(
+        flex,
+        $direction: row,
+        $align: stretch,
+        $gap: $gap-16,
+        $wrap: wrap
+      );
+      @include mediaQuery($medScreen_min_width) {
+        & {
+          flex-wrap: nowrap;
+        }
+      }
       .button {
-        padding: 0.75rem 0.75rem;
+        width: 100%;
+        height: 3.875rem;
+        padding: $padding-10;
         @extend %flex-center;
-        flex: 1 0;
         color: $white;
         @extend %font;
         background-color: $black;
-        border: 0.0625rem solid $white;
-        border-radius: 0.9375rem;
+        border: $border-1 solid $white;
+        border-radius: $b-r-15;
         text-align: center;
+
+        @include mediaQuery($mobile_min_width) {
+          & {
+            width: calc((100% - $gap-16) / 2);
+          }
+        }
+        @include mediaQuery($medScreen_min_width) {
+          & {
+            width: 12.375rem;
+          }
+        }
       }
     }
   }
   .info {
-    padding: 1rem;
+    padding: $padding-16;
     background-color: $pink-1;
     .wrapper {
       @include flex-variant(
         flex,
         $direction: row,
         $align: stretch,
-        $justify: center,
-        $gap: 1rem
+        $gap: $gap-16,
+        $wrap: wrap
       );
+      @include mediaQuery($XlargeScreen_min_width) {
+        & {
+          justify-content: center;
+          flex-wrap: nowrap;
+        }
+      }
       .infoItem {
-        padding: 2rem;
-        flex: 1 0;
+        width: 100%;
+        height: 6.625rem;
+        padding: $padding-10;
         @extend %flex-center;
         @extend %font;
         text-align: center;
         background-color: $pink;
-        border-radius: 0.9375rem 2.5rem 0.9375rem 0.9375rem;
+        border-radius: $b-r-15 $b-r-40 $b-r-15 $b-r-15;
         border: 0.0625rem solid $white;
         cursor: pointer;
         &.active {
           background-color: $black;
+        }
+        @include mediaQuery($mobile_min_width) {
+          & {
+            width: calc((100% - $gap-16) / 2);
+          }
+        }
+        @include mediaQuery($medScreen_min_width) {
+          & {
+            width: 12.375rem;
+          }
         }
       }
     }
   }
   .data {
     min-height: 65vh;
-    > .img {
-      width: 16vw;
-      height: 100%;
-      position: absolute;
-      z-index: 100;
-      background-image: url("../assets/images/Vector3.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      left: 0;
-    }
     .filteredData {
-      padding: 1.75rem 0;
-      @include flex-variant(flex, $direction: column, $gap: 1.5rem);
+      padding: $padding-28 0;
+      @include flex-variant(flex, $direction: column, $gap: $gap-24);
       .message {
         text-align: center;
         @extend %font;
@@ -117,60 +166,77 @@
           flex,
           $direction: row,
           $align: center,
-          $gap: 1.75rem
+          $gap: $gap-28
         );
         .name {
-          width: 15%;
+          width: calc((calc((100% - calc(2 * $gap-28)) * 40)) / 100);
           @extend %font;
           color: $black;
           overflow-wrap: break-word;
+          @include mediaQuery($largeScreen_min_width) {
+            & {
+              width: calc((calc((100% - calc(2 * $gap-28)) * 25)) / 100);
+            }
+          }
         }
         .value {
-          min-width: 15%;
+          width: calc((calc((100% - calc(2 * $gap-28)) * 40)) / 100);
           @extend %font;
           color: $grey-10;
           a {
             color: $grey-10;
           }
+          @include mediaQuery($largeScreen_min_width) {
+            & {
+              width: calc((calc((100% - calc(2 * $gap-28)) * 25)) / 100);
+            }
+          }
         }
         .icon {
-          width: 10%;
+          width: calc((calc((100% - calc(2 * $gap-28)) * 20)) / 100);
           @extend %icon;
+          @include mediaQuery($largeScreen_min_width) {
+            & {
+              width: calc((calc((100% - calc(2 * $gap-28)) * 10)) / 100);
+            }
+          }
         }
       }
       .map {
         width: 100%;
         height: 30rem;
-        border: 0.0625rem solid #fff;
-        border-radius: 0.9375rem;
+        border: $border-1 solid #fff;
+        border-radius: $b-r-15;
         overflow: hidden;
       }
       .tableTitle {
         text-transform: capitalize;
         font-family: "Cairo-Bold";
-        font-size: 1.5rem;
+        font-size: $f-s-24;
       }
       .table {
-        @include flex-variant(flex, $direction: column, $gap: 1.5rem);
-        padding: 1.5rem 0;
-        background-color: $grey-12;
-        border-radius: 0.9375rem;
-        box-shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.05);
-        text-transform: capitalize;
-        font-family: "Cairo-Bold";
-        .tableHead {
-          @extend %tableItems;
-          box-shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.03);
-          padding-bottom: 1rem;
+        background-color: $white-1;
+        border-radius: $b-r-12;
+        box-shadow: $boxShadow-2;
+        overflow: hidden;
+        th {
+          @extend %width;
         }
-        .tableBody {
-          @extend %tableItems;
-          color: $grey-10;
-          .icon {
-            @extend %icon;
-            justify-content: center;
-            svg {
-              cursor: pointer;
+        td {
+          @extend %width;
+          overflow-wrap: break-word;
+          button {
+            width: 100%;
+            @include flex-row-center();
+            color: $white;
+            font-size: $f-s-22;
+            background-color: transparent;
+
+            &:first-of-type {
+              color: $black;
+            }
+            &.delete {
+              color: $red;
             }
           }
         }

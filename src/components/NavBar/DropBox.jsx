@@ -57,7 +57,6 @@ const DropBox = ({ setShown }) => {
         }
       );
       const data = await response.data;
-      //console.log(data);
       if (data && data.message) {
         sessionStorage.removeItem("houseId");
         sessionStorage.removeItem("userId");

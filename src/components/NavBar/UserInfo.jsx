@@ -16,6 +16,7 @@ const UserInfo = ({ extraClass }) => {
         <img
           src={`https://zadapp.mqawilk.com/public/images/${context.image}`}
           alt="user"
+          loading="lazy"
         />
       </div>
       <div className={`${styles.text} ${modeType}`}>

@@ -14,7 +14,7 @@ import axios from "axios";
 import NoData from "../components/UI/NoData";
 import { PiFolderNotchOpenFill } from "react-icons/pi";
 import Table from "../components/UI/Table";
-import DateInput from "../components/UI/DateInput";
+import DateTimePicker from "../components/UI/DateTimePicker";
 import { useForm } from "react-hook-form";
 
 const Contracts = () => {
@@ -203,21 +203,24 @@ const Contracts = () => {
                       }
                     >
                       {item.type === "date" ? (
-                        <DateInput
-                          placeholder={item.placeholder}
+                        <DateTimePicker
                           name={item.name}
+                          placeholder={item.placeholder}
                           register={register}
                           setValue={setValue}
+                          defaultValue={item.value}
                         />
                       ) : (
-                        <input
-                          type={item.type}
-                          id={item.id}
-                          name={item.name}
-                          placeholder={item.placeholder}
-                        />
+                        <>
+                          <input
+                            type={item.type}
+                            id={item.id}
+                            name={item.name}
+                            placeholder={item.placeholder}
+                          />
+                          <div className={styles.icon}>{item.icon}</div>
+                        </>
                       )}
-                      <div className={styles.icon}>{item.icon}</div>
                     </div>
                   );
                 })}

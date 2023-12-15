@@ -22,7 +22,7 @@ const ProfileForm = (props) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageError, setImageError] = useState(false);
   const [imageSrc, setImageSrc] = useState(
-    `	https://zadapp.mqawilk.com/public/images/${oldData.image}`
+    `https://zadapp.mqawilk.com/public/images/${oldData.image}`
   );
   const [isModalOpened, setIsModalOpened] = useState(false);
   const schema = yup.object().shape({
@@ -114,7 +114,6 @@ const ProfileForm = (props) => {
 
   const formSubmitHandler = async (data) => {
     const formData = new FormData();
-    console.log(watchedImage);
     const pass = data.password === "" ? oldData.password : data.password;
     formData.append("first_name", data.firstName);
     formData.append("last_name", data.lastName);
@@ -241,7 +240,7 @@ const ProfileForm = (props) => {
           <p>{t("body.profileImage")}</p>
           <div className={styles.selectFile}>
             <div className={styles.uploadImg}>
-              <img src={imageSrc} />
+              <img src={imageSrc} alt="profile-img" loading="lazy" />
               <label htmlFor="image" className={styles.imageLabel}>
                 <p>{t("body.edit")}</p>
                 <input

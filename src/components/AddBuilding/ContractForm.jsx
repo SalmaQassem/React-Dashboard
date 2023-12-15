@@ -1,7 +1,6 @@
 import styles from "../../styles/_ContractForm.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import DateInput from "../UI/DateInput";
 import DateTimePicker from "../UI/DateTimePicker";
 import FormButton from "../UI/FormButton";
 import { SlUser } from "react-icons/sl";

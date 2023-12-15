@@ -6,6 +6,17 @@
 .wrapper {
   height: 100%;
   overflow-y: auto;
+  &::-webkit-scrollbar-track {
+    @extend %track;
+    background-color: $white;
+  }
+  &::-webkit-scrollbar {
+    @extend %scrollbar;
+  }
+  &::-webkit-scrollbar-thumb {
+    @extend %thumb;
+  }
+
   .root {
     min-height: 100vh;
     @include flex-variant(flex, $direction: column);

@@ -106,7 +106,11 @@ const Chat = () => {
         <div className={styles.content}>
           <div className={styles.user}>
             <div className={styles.img}>
-              <img src={`https://zadapp.mqawilk.com/public/images/${image}`} />
+              <img
+                src={`https://zadapp.mqawilk.com/public/images/${image}`}
+                alt="user-img"
+                loading="lazy"
+              />
             </div>
             <div className={styles.text}>
               <p>{`${firstName} ${lastName}`}</p>
@@ -158,13 +162,6 @@ const Chat = () => {
         </div>
         <div className={styles.sendBox}>
           <form className={styles.sendForm}>
-            <button
-              type="submit"
-              className={styles.submit}
-              onClick={formSubmitHandler}
-            >
-              <IoIosSend />
-            </button>
             <div className={styles.textWrapper}>
               <TextareaAutosize
                 className={styles.text}
@@ -185,6 +182,13 @@ const Chat = () => {
                 </button>
               </div>
             </div>
+            <button
+              type="submit"
+              className={styles.submit}
+              onClick={formSubmitHandler}
+            >
+              <IoIosSend />
+            </button>
           </form>
         </div>
       </div>

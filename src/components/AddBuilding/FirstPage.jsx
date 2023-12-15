@@ -132,10 +132,25 @@ const FirstPage = (props) => {
     handleSubmit,
     watch,
     control,
-    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      buildingType:
+        props.state === "edit"
+          ? props.firstPageData.type === "hotel"
+            ? {
+                value: "hotel",
+                label: t("body.hotel"),
+                icon: <BsBuildings />,
+              }
+            : {
+                value: "build",
+                label: t("body.building"),
+                icon: <RiHotelLine />,
+              }
+          : null,
+    },
   });
 
   const firstPageInputs = [
@@ -373,26 +388,6 @@ const FirstPage = (props) => {
     }
   }, [Generator]);
 
-  useEffect(() => {
-    if (props.state === "edit") {
-      let selected = {};
-      if (props.firstPageData.type === "hotel") {
-        selected = {
-          value: "hotel",
-          label: t("body.hotel"),
-          icon: <BsBuildings />,
-        };
-      } else {
-        selected = {
-          value: "build",
-          label: t("body.building"),
-          icon: <RiHotelLine />,
-        };
-      }
-      setValue("buildingType", selected);
-    }
-  }, []);
-  
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
       <div className={styles.inputs}>

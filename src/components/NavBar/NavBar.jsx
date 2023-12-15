@@ -1,5 +1,4 @@
 import styles from "../../styles/_NavBar.module.scss";
-//import StyledContainer from "../UI/StyledContainer";
 import logo from "../../assets/images/logo.png";
 import { useContext, useState } from "react";
 import AsideContext from "../../store/aside-context";
@@ -40,7 +39,7 @@ const NavBar = () => {
       <div className={styles.items}>
         <div className={styles.title}>
           <div className={styles.logo}>
-            <img src={logo} alt="logo" />
+            <img src={logo} alt="logo" loading="lazy" />
           </div>
           <div className={`${styles.bars} ${modeType}`} onClick={onBarsClick}>
             <span />

@@ -43,7 +43,8 @@ const ImagesGallery = (props) => {
               <div className={styles.sideImages}>
                 {props.images.map((img, index) => {
                   return (
-                    index > 0 && (
+                    index > 0 &&
+                    index <= 4 && (
                       <div className={styles.img} key={index}>
                         <img
                           src={img.original_url}

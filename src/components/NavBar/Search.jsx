@@ -5,6 +5,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { getAuthToken } from "../../util/auth";
 import ModeContext from "../../store/mode-context";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 const Search = () => {
   const searchRef = useRef();
@@ -19,15 +20,17 @@ const Search = () => {
       const token = getAuthToken();
       let response;
       try {
-        response = await fetch("https://zadapp.mqawilk.com/api/house/search", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(enteredData),
-        });
-        const data = await response.json();
+        response = await axios.post(
+          "https://zadapp.mqawilk.com/api/house/search",
+          JSON.stringify(enteredData),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.data;
         const id = data.id;
         navigate(`Houses/${id}`);
         searchRef.current.value = "";
@@ -36,7 +39,7 @@ const Search = () => {
       }
     }
   };
-  
+
   return (
     <div className={styles.search}>
       <div className={`${styles.input} ${modeType}`}>

@@ -179,10 +179,6 @@ const AuthForm = () => {
               !errors.password && <p>{errors.submit.message}</p>}
           </div>
           <div className={styles.forgetPass}>
-            <div className={styles.checkbox}>
-              <input type="checkbox" id="checkbox" name="checkbox" />
-              <label htmlFor="checkbox">{t("body.rememberMe")}</label>
-            </div>
             <Link to="ForgetPassword" className={styles.text}>
               {t("body.forgetPassword")}
             </Link>

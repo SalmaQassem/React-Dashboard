@@ -69,17 +69,9 @@
         height: 2rem;
         width: 12rem;
         padding: 0 $padding-10;
-        position: relative;
         border-bottom: $border-1 solid $grey-7;
         input {
-          height: 100%;
-          position: absolute;
-          top: 0;
-          z-index: 1;
-          font-family: "Cairo-Regular";
-          font-size: $f-s-14;
-          background-color: transparent;
-          float: right;
+          height: 100% !important;
           &::placeholder {
             text-transform: capitalize;
             color: $grey-5;

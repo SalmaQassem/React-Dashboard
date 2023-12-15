@@ -45,6 +45,22 @@
   }
   .image {
     @extend %selectImage;
+    .uploadImg {
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .imageLabel {
+        @include flex-variant(
+          flex,
+          $direction: row,
+          $justify: center,
+          $align: flex-end
+        );
+      }
+    }
   }
   .feedback {
     @extend %feedbackStyle;

@@ -103,9 +103,9 @@ const Conversations = () => {
                   </div>
                   <div className={styles.date}>
                     {getDate(item.created_at, "date") !== "" && (
-                      <span>{getDate(item.created_at, "date")}</span>
+                      <span>{getDate(item.updated_at, "date")}</span>
                     )}
-                    <span>{getDate(item.created_at, "time")}</span>
+                    <span>{getDate(item.updated_at, "time")}</span>
                   </div>
                 </div>
               );

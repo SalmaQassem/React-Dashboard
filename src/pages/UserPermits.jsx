@@ -2,14 +2,12 @@ import styles from "../styles/_UserPermits.module.scss";
 import StyledHeader from "../components/UI/MainHeader";
 import { FaUserShield } from "react-icons/fa";
 import UserPermitsForm from "../components/UserPermits/UserPermitsForm";
-//import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import FormButton from "../components/UI/FormButton";
 import { Form } from "react-router-dom";
 
 const UserPermits = () => {
   const [t, i18n] = useTranslation("global");
-  //const [input, setInput] = useState("");
   const adminPermits = [
     { id: "0", name: t("body.deleteUser") },
     { id: "1", name: t("body.addUser") },
@@ -20,10 +18,6 @@ const UserPermits = () => {
     { id: "1", name: t("body.editAccountReq") },
     { id: "2", name: t("body.deleteContent") },
   ];
-
-  /*const radioInputHandler = ({ target: { value } }) => {
-    setInput(value);
-  };*/
 
   const onFirstFormSubmit = () => {};
   const onSecondFormSubmit = () => {};
@@ -39,7 +33,6 @@ const UserPermits = () => {
           <UserPermitsForm
             type={t("body.adminRole")}
             permits={adminPermits}
-            //inputHandler={radioInputHandler}
           />
           <FormButton
             type="button"
@@ -57,7 +50,6 @@ const UserPermits = () => {
           <UserPermitsForm
             type={t("body.user")}
             permits={clientPermits}
-            //inputHandler={radioInputHandler}
           />
           <FormButton
             type="button"

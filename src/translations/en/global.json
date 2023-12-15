@@ -162,6 +162,8 @@
     "noSeasons": "we couldn't find any season",
     "openNewSeason": "open new season",
     "closedSeason": "season has ended",
-    "closeSeasonMsg": "are you sure you want to close this season?"
+    "closeSeasonMsg": "are you sure you want to close this season?",
+    "passwordResetSuccess": "password has been updated successfully",
+    "noReports": "we couldn't find any reports"
   }
 }
