@@ -1,6 +1,6 @@
 import styles from "../../styles/_ContractForm.module.scss";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import DateTimePicker from "../UI/DateTimePicker";
 import FormButton from "../UI/FormButton";
 import { SlUser } from "react-icons/sl";
@@ -13,11 +13,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { getAuthToken } from "../../util/auth";
 import axios from "axios";
+import { FiAlertTriangle } from "react-icons/fi";
 
 const ContractForm = (props) => {
   const navigate = useNavigate();
   const [t, i18n] = useTranslation("global");
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
   const schema = yup.object({
     hajjPrice: yup
       .number()
@@ -30,8 +33,8 @@ const ContractForm = (props) => {
   });
   const {
     register,
+    control,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -58,7 +61,6 @@ const ContractForm = (props) => {
       name: "startDate",
       placeholder: t("body.startDate"),
       icon: <FaRegCalendarAlt />,
-      value: props.state === "edit" ? props.inputsData.start_date : null,
       error: errors.startDate,
     },
     {
@@ -67,7 +69,6 @@ const ContractForm = (props) => {
       name: "endDate",
       placeholder: t("body.endDate"),
       icon: <FaRegCalendarAlt />,
-      value: props.state === "edit" ? props.inputsData.end_date : null,
       error: errors.endDate,
     },
     {
@@ -76,7 +77,6 @@ const ContractForm = (props) => {
       name: "contractDate",
       placeholder: t("body.contractDate"),
       icon: <FaRegCalendarAlt />,
-      value: props.state === "edit" ? props.inputsData.document_start : null,
       error: errors.contractDate,
     },
     {
@@ -89,64 +89,74 @@ const ContractForm = (props) => {
     },
   ];
   const formSubmitHandler = async (formData) => {
-    const offset = new Date().getTimezoneOffset();
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const offset = new Date().getTimezoneOffset();
 
-    const startDate = new Date(
-      Date.parse(formData.startDate) - offset * 60 * 1000
-    )
-      .toISOString()
-      .replace("T", " ")
-      .split(".")[0];
+      const startDate = new Date(
+        Date.parse(formData.startDate) - offset * 60 * 1000
+      )
+        .toISOString()
+        .replace("T", " ")
+        .split(".")[0];
 
-    const endDate = new Date(Date.parse(formData.endDate) - offset * 60 * 1000)
-      .toISOString()
-      .replace("T", " ")
-      .split(".")[0];
-    const documentStart = new Date(
-      Date.parse(formData.contractDate) - offset * 60 * 1000
-    )
-      .toISOString()
-      .replace("T", " ")
-      .split(".")[0];
+      const endDate = new Date(
+        Date.parse(formData.endDate) - offset * 60 * 1000
+      )
+        .toISOString()
+        .replace("T", " ")
+        .split(".")[0];
+      const documentStart = new Date(
+        Date.parse(formData.contractDate) - offset * 60 * 1000
+      )
+        .toISOString()
+        .replace("T", " ")
+        .split(".")[0];
 
-    const enteredData = {
-      user_id:
-        props.state === "edit" ? props.inputsData.user_id : props.user_id,
-      house_id:
-        props.state === "edit" ? props.inputsData.houseId : props.house_id,
-      price_hajj: formData.hajjPrice,
-      start_date: startDate,
-      end_date: endDate,
-      document_start: documentStart,
-      notes: formData.notes,
-    };
-    const userToken = getAuthToken();
-    try {
-      const response = await axios.post(
-        props.url,
-        JSON.stringify(enteredData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
+      const enteredData = {
+        user_id:
+          props.state === "edit" ? props.inputsData.user_id : props.user_id,
+        house_id:
+          props.state === "edit" ? props.inputsData.houseId : props.house_id,
+        price_hajj: formData.hajjPrice,
+        start_date: startDate,
+        end_date: endDate,
+        document_start: documentStart,
+        notes: formData.notes,
+      };
+      const userToken = getAuthToken();
+      try {
+        const response = await axios.post(
+          props.url,
+          JSON.stringify(enteredData),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+        const res = await response.data;
+        setIsSubmitting(false);
+        if (res.success) {
+          setIsModalOpened(true);
+          if (props.state === "edit") {
+            setTimeout(() => {
+              navigate("/dashboard/Contracts");
+            }, 500);
+          } else {
+            setTimeout(() => {
+              navigate(`/dashboard/Houses/${props.house_id}`);
+            }, 500);
+          }
         }
-      );
-      const res = await response.data;
-      if (res.success) {
-        setIsModalOpened(true);
-        if (props.state === "edit") {
-          setTimeout(() => {
-            navigate("/dashboard/Contracts");
-          }, 500);
-        } else {
-          setTimeout(() => {
-            navigate(`/dashboard/Houses/${props.house_id}`);
-          }, 500);
-        }
+      } catch (error) {
+        setIsSubmitting(false);
+        setIsError(true);
+        setTimeout(() => {
+          setIsError(false);
+        }, 1000);
       }
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
@@ -168,6 +178,16 @@ const ContractForm = (props) => {
           />
         )}
       </AnimatePresence>
+      {isError && (
+        <AnimatePresence>
+          <Modal
+            head={t("body.error")}
+            message={t("body.contractError")}
+            icon={<FiAlertTriangle />}
+            state="error"
+          />
+        </AnimatePresence>
+      )}
       <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
         <div className={styles.inputs}>
           {inputs.map((item) => {
@@ -176,7 +196,11 @@ const ContractForm = (props) => {
                 {item.type === "textArea" ? (
                   <textarea
                     name={item.name}
-                    className={styles.textArea}
+                    className={
+                      item.error
+                        ? `${styles.textArea} ${styles.invalid}`
+                        : styles.textArea
+                    }
                     defaultValue={item.value}
                     {...register(item.name)}
                     placeholder={item.placeholder}
@@ -188,12 +212,16 @@ const ContractForm = (props) => {
                     }
                   >
                     {item.type === "date" ? (
-                      <DateTimePicker
+                      <Controller
                         name={item.name}
-                        placeholder={item.placeholder}
-                        register={register}
-                        setValue={setValue}
-                        defaultValue={item.value}
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <DateTimePicker
+                            placeholder={item.placeholder}
+                            value={value}
+                            onChange={onChange}
+                          />
+                        )}
                       />
                     ) : (
                       <>
@@ -223,7 +251,9 @@ const ContractForm = (props) => {
           })}
         </div>
         <FormButton type="submit" class={styles.button}>
-          {t("body.generateContract")}
+          {isSubmitting
+            ? `${t("body.submitting")}...`
+            : t("body.generateContract")}
         </FormButton>
       </form>
     </>

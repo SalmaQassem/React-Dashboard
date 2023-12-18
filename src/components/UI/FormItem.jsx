@@ -13,6 +13,7 @@ const FormItem = ({
   onMouseUp,
   onMouseLeave,
   error,
+  placeholder,
 }) => {
   const [t, i18n] = useTranslation("global");
 
@@ -36,6 +37,7 @@ const FormItem = ({
         <input
           type={type}
           id={id}
+          placeholder={placeholder && placeholder}
           {...register(name)}
         />
         <div

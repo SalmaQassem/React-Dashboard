@@ -17,6 +17,7 @@ import { IoPricetagsOutline, IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Table from "../UI/Table";
 
 const SecondPage = (props) => {
   const [t, i18n] = useTranslation("global");
@@ -151,12 +152,34 @@ const SecondPage = (props) => {
       ],
     },
   ];
+  const deleteHandler = (deleteIndex) => {
+    setTableData((prevState) => {
+      const newArr = prevState.filter((item) => {
+        return item !== prevState[deleteIndex];
+      });
+      return newArr;
+    });
+  };
   const tableHead = [
     { id: "0", text: t("body.tableIndex") },
     { id: "1", text: t("body.fileName") },
     { id: "2", text: t("body.attachmentType") },
     { id: "3", text: "" },
   ];
+  const tableBody = tableData.map((item, index) => {
+    return {
+      fileName: item.fileName,
+      label: item.label,
+      button1: {
+        handler: () => {
+          deleteHandler(index);
+        },
+        buttonName: "deleteButton",
+        class: styles.delete,
+        icon: <IoClose />,
+      },
+    };
+  });
   const selectValue = watch("attachedType");
   const watchedFiles = watch("filesInput");
 
@@ -174,7 +197,9 @@ const SecondPage = (props) => {
         price_years: data.yearsPrice,
         media:
           props.state === "edit"
-            ? props.secondPageData.media.slice()
+            ? tableData.length === 0
+              ? props.secondPageData.media.slice()
+              : files.slice()
             : files.slice(),
       };
     });
@@ -182,16 +207,7 @@ const SecondPage = (props) => {
       return prevNum + 1;
     });
   };
-  const deleteHandler = (e) => {
-    const deleteIndex = e.currentTarget.id;
 
-    setTableData((prevState) => {
-      const newArr = prevState.filter((item) => {
-        return item !== prevState[deleteIndex];
-      });
-      return newArr;
-    });
-  };
   useEffect(() => {
     if (selectValue) {
       setSelectedOption(selectValue);
@@ -312,30 +328,7 @@ const SecondPage = (props) => {
       </div>
       {tableData.length > 0 && (
         <div className={styles.table}>
-          <div className={styles.head}>
-            {tableHead.map((item) => {
-              return <p key={item.id}>{item.text}</p>;
-            })}
-          </div>
-          <div className={styles.tableBody}>
-            {tableData.map((item, index) => {
-              return (
-                <div key={index} className={styles.item}>
-                  <p className={styles.num}>{index + 1}</p>
-                  <p className={styles.name}>{item.fileName}</p>
-                  <p className={styles.type}>{item.label}</p>
-                  <button
-                    type="button"
-                    id={index}
-                    className={styles.delete}
-                    onClick={deleteHandler}
-                  >
-                    <IoClose />
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+          <Table tableHead={tableHead} tableBody={tableBody} rowPerPage={5} />
         </div>
       )}
       <FormButton

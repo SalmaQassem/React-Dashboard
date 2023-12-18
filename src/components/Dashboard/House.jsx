@@ -27,6 +27,8 @@ const House = ({ data }) => {
   const [isActive, setIsActive] = useState("0");
   const [filter, setFilter] = useState("buildingType");
   const [filteredData, setFilteredData] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [deleteModal, setDeleteModal] = useState({
     state: false,
   });
@@ -160,26 +162,34 @@ const House = ({ data }) => {
     setDeleteModal({ state: true });
   };
   const submitDeleteHandler = async () => {
-    const userToken = getAuthToken();
-    try {
-      const response = await axios.delete(
-        `https://zadapp.mqawilk.com/api/delete/selfhoues/${data[0].id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const userToken = getAuthToken();
+      try {
+        const response = await axios.delete(
+          `https://zadapp.mqawilk.com/api/delete/selfhoues/${data[0].id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+        const res = await response.data;
+        setIsSubmitting(false);
+        if (res.success) {
+          setsuccessModal({ state: true });
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1000);
         }
-      );
-      const res = await response.data;
-      if (res.success) {
-        setsuccessModal({ state: true });
+      } catch (error) {
+        setIsSubmitting(false);
+        setIsError(true);
         setTimeout(() => {
-          navigate("/dashboard");
-        }, 500);
+          setIsError(false);
+        }, 1000);
       }
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
@@ -238,6 +248,16 @@ const House = ({ data }) => {
           />
         )}
       </AnimatePresence>
+      {isError && (
+        <AnimatePresence>
+          <Modal
+            head={t("body.error")}
+            message={t("body.deleteBuildingError")}
+            icon={<FiAlertTriangle />}
+            state="error"
+          />
+        </AnimatePresence>
+      )}
       <div className={styles.review}>
         <StyledContainer>
           <ImagesGallery images={imgs} />

@@ -10,6 +10,7 @@ import axios from "axios";
 import Modal from "../UI/Modal";
 import { AnimatePresence } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
+import { FiAlertTriangle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -19,6 +20,8 @@ const NewUserForm = (props) => {
   const [radioInput, setRadioInput] = useState(null);
   const [image, setImage] = useState(null);
   const [imageSrc, setImageSrc] = useState(uploadImg);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
   const [isModalOpened, setIsModalOpened] = useState({
     state: false,
@@ -137,38 +140,46 @@ const NewUserForm = (props) => {
     },
   ];
   const formSubmitHandler = async (data) => {
-    const userToken = getAuthToken();
-    const formData = new FormData();
-    formData.append("first_name", data.firstName);
-    formData.append("last_name", data.lastName);
-    formData.append("email", data.email);
-    formData.append("password", data.password);
-    formData.append("phone", data.phone);
-    formData.append("role", radioInput);
-    formData.append("image", image);
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const userToken = getAuthToken();
+      const formData = new FormData();
+      formData.append("first_name", data.firstName);
+      formData.append("last_name", data.lastName);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("phone", data.phone);
+      formData.append("role", radioInput);
+      formData.append("image", image);
 
-    try {
-      const response = await axios.post(
-        "https://zadapp.mqawilk.com/api/register",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${userToken}`,
-          },
+      try {
+        const response = await axios.post(
+          "https://zadapp.mqawilk.com/api/register",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+        const data = await response.data;
+        setIsSubmitting(false);
+        if (data.success) {
+          setIsModalOpened((prevState) => {
+            return { ...prevState, state: true };
+          });
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1000);
         }
-      );
-      const data = await response.data;
-      if (data.success) {
-        setIsModalOpened((prevState) => {
-          return { ...prevState, state: true };
-        });
+      } catch (error) {
+        setIsSubmitting(false);
+        setIsError(true);
         setTimeout(() => {
-          navigate("/dashboard");
-        }, 500);
+          setIsError(false);
+        }, 1000);
       }
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
@@ -200,16 +211,25 @@ const NewUserForm = (props) => {
     <>
       <AnimatePresence>
         {isModalOpened.state && (
-          /*isModalOpened.first === 0 &&*/ <Modal
+          <Modal
             head={t("body.success")}
             message={t("body.newUserSuccess")}
-            buttonText={t("body.close")}
             icon={<FaCheck />}
             state={props.state}
             setOpened={setIsModalOpened}
           />
         )}
       </AnimatePresence>
+      {isError && (
+        <AnimatePresence>
+          <Modal
+            head={t("body.error")}
+            message={t("body.newUserError")}
+            icon={<FiAlertTriangle />}
+            state="error"
+          />
+        </AnimatePresence>
+      )}
       <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
         <div className={styles.radioButtons}>
           {radioItems.map((item) => {
@@ -282,7 +302,7 @@ const NewUserForm = (props) => {
           )}
         </div>
         <FormButton class={styles.submit} type="submit">
-          {t("body.activateUser")}
+          {isSubmitting ? `${t("body.submitting")}...` : t("body.activateUser")}
         </FormButton>
       </form>
     </>

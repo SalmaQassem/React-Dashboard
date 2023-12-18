@@ -16,27 +16,25 @@
   @include flex-variant(flex, $direction: row, $align: center, $gap: $gap-30);
 }
 %width {
-  & > p:first-child {
-    min-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
-    max-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
+  &:first-of-type {
+    width: 6.25rem;
+    min-width: 6.25rem;
+    max-width: 6.25rem;
   }
-  & > p:nth-child(2) {
-    min-width: calc(((100% - (3 * $gap-30)) * 50) / 100);
-    max-width: calc(((100% - (3 * $gap-30)) * 50) / 100);
-    //white-space: wrap;
+  &:nth-of-type(2) {
+    width: 16.25rem;
+    min-width: 16.25rem;
+    max-width: 16.25rem;
   }
-  & > p:nth-child(3) {
-    min-width: calc(((100% - (3 * $gap-30)) * 40) / 100);
-    max-width: calc(((100% - (3 * $gap-30)) * 40) / 100);
+  &:nth-of-type(3) {
+    width: 12.5rem;
+    min-width: 12.5rem;
+    max-width: 12.5rem;
   }
-  & > p:nth-child(4) {
-    min-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
-    max-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
-    text-align: center;
-  }
-  & > button {
-    min-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
-    max-width: calc(((100% - (3 * $gap-30)) * 5) / 100);
+  &:nth-of-type(4) {
+    width: 6.25rem;
+    min-width: 6.25rem;
+    max-width: 6.25rem;
   }
 }
 %flex-column {
@@ -49,7 +47,6 @@
 }
 .form {
   @extend %formStyle;
-  //overflow-x: scroll;
   .inputs {
     width: 100%;
     @extend %flex;
@@ -106,52 +103,39 @@
       @extend %feedbackStyle;
     }
   }
-
   .table {
     width: 100%;
-    min-width: fit-content;
-    white-space: nowrap;
-    .head {
-      width: 100%;
-      padding: $padding-12 $padding-24;
-      @extend %table-flex;
-      @extend %font;
-      color: $white;
-      text-transform: capitalize;
-      border-radius: $b-r-12;
-      background-color: $grey-9;
+    background-color: $white-1;
+    border-radius: $b-r-12;
+    box-shadow: $boxShadow-2;
+    overflow: hidden;
+    th {
       @extend %width;
     }
-    .tableBody {
-      padding: $padding-12 $padding-24;
-      @include flex-variant(flex, $direction: column, $gap: $gap-16);
-      border: $border-1 solid $grey-10;
-      border-radius: $b-r-12 $b-r-12 0 0;
-      .item {
-        @extend %width;
-        @extend %table-flex;
-        .num {
-          @extend %font;
-        }
-        .name {
-          color: $pink;
-          @extend %font;
-        }
-        .type {
-          font-family: "Cairo-Bold";
-          font-size: $f-s-16;
-          text-transform: capitalize;
-        }
-        .delete {
-          //width: 3.75rem;
-          //width: 10%;
-          height: 3rem;
-          @include flex-row-center();
-          background-color: $black;
-          color: $white;
-          font-size: $f-s-24;
-          border-radius: $b-r-15;
-        }
+    td {
+      @extend %width;
+      overflow-wrap: break-word;
+      &:first-of-type {
+        @extend %font;
+      }
+      &:nth-of-type(2) {
+        color: $pink;
+        @extend %font;
+      }
+      &:nth-of-type(3) {
+        font-family: "Cairo-Bold";
+        font-size: $f-s-16;
+        text-transform: capitalize;
+      }
+      button {
+        width: 3.609375rem;
+        height: 2.75rem;
+        margin: 0 auto;
+        @include flex-row-center();
+        background-color: $black;
+        color: $white;
+        font-size: $f-s-22;
+        border-radius: $b-r-15;
       }
     }
   }

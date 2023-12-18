@@ -47,7 +47,7 @@ const Modal = ({
       >
         <div
           className={
-            state === "delete"
+            state === "delete" || state === "error"
               ? `${styles.icon} ${styles.deleteIcon}`
               : styles.icon
           }

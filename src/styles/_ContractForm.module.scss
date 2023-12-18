@@ -28,27 +28,20 @@
       );
       .inputItem {
         @extend %inputStyle;
-        position: relative;
         @include flex-variant(flex, $direction: row, $align: center);
         .inputField {
+          min-width: 0;
           height: 100%;
-          position: absolute;
-          top: 0;
-          z-index: 1;
           float: right;
           @extend %inputFieldStyle;
         }
         .icon {
-          left: $padding-15;
           @include flex-variant(
             flex,
             $direction: row,
             $align: center,
             $justify: flex-end
           );
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
           @extend %iconStyle;
           color: $pink;
           pointer-events: none;
@@ -72,6 +65,10 @@
         border: $border-1 solid $grey-9;
         border-radius: $b-r-8;
         resize: none;
+        &.invalid {
+          color: $red;
+          border-color: $red;
+        }
       }
     }
     .feedback {

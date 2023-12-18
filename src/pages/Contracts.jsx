@@ -15,12 +15,15 @@ import NoData from "../components/UI/NoData";
 import { PiFolderNotchOpenFill } from "react-icons/pi";
 import Table from "../components/UI/Table";
 import DateTimePicker from "../components/UI/DateTimePicker";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import dayjs from "dayjs";
 
 const Contracts = () => {
   const data = useLoaderData();
   const [tableData, setTableData] = useState(data);
   const [t, i18n] = useTranslation("global");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [deleteModal, setDeleteModal] = useState({
     state: false,
     contractId: null,
@@ -28,15 +31,18 @@ const Contracts = () => {
   const [successModal, setsuccessModal] = useState({
     state: false,
   });
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const navigate = useNavigate();
   const {
-    register,
+    control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      startDate: null,
+      endDate: null,
+    },
+  });
   const editHandler = (contractId) => {
     navigate(`/dashboard/EditContract/${contractId}`);
   };
@@ -83,12 +89,6 @@ const Contracts = () => {
       },
     };
   });
-  const changeStartDate = (date) => {
-    setStartDate(date);
-  };
-  const changeEndDate = (date) => {
-    setEndDate(date);
-  };
   const dateInputs = [
     {
       id: 0,
@@ -96,8 +96,6 @@ const Contracts = () => {
       type: "date",
       placeholder: t("body.from"),
       icon: <FaRegCalendarAlt />,
-      value: startDate !== "" ? startDate : null,
-      changeHandler: changeStartDate,
     },
     {
       id: 1,
@@ -105,37 +103,43 @@ const Contracts = () => {
       type: "date",
       placeholder: t("body.to"),
       icon: <FaRegCalendarAlt />,
-      value: endDate !== "" ? endDate : null,
-      changeHandler: changeEndDate,
     },
   ];
   const submitDeleteHandler = async () => {
-    const token = getAuthToken();
-    try {
-      const response = await axios.delete(
-        "https://zadapp.mqawilk.com/api/document/delete/" +
-          deleteModal.contractId,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.data;
-      if (data.success) {
-        setTableData((prevState) => {
-          const newArr = prevState.filter((item) => {
-            return item.id !== deleteModal.contractId;
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const token = getAuthToken();
+      try {
+        const response = await axios.delete(
+          "https://zadapp.mqawilk.com/api/document/delete/" +
+            deleteModal.contractId,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.data;
+        setIsSubmitting(false);
+        if (data.success) {
+          setTableData((prevState) => {
+            const newArr = prevState.filter((item) => {
+              return item.id !== deleteModal.contractId;
+            });
+            return newArr;
           });
-          return newArr;
-        });
-        setsuccessModal({ state: true });
+          setsuccessModal({ state: true });
+          setTimeout(() => {
+            setsuccessModal({ state: false });
+          }, 1000);
+        }
+      } catch (error) {
+        setIsSubmitting(false);
+        setIsError(true);
         setTimeout(() => {
-          setsuccessModal({ state: false });
-        }, 500);
+          setIsError(false);
+        }, 1000);
       }
-    } catch (error) {
-      console.log(error.message);
     }
   };
   const submitFilter = (formData) => {
@@ -143,11 +147,13 @@ const Contracts = () => {
       const filteredData = data.filter((item) => {
         const itemDate = new Date(item.document_start);
         return (
-          itemDate >= new Date(formData.startDate) &&
-          itemDate <= new Date(formData.endDate)
+          itemDate.getTime() >= new Date(dayjs(formData.startDate)).getTime() &&
+          itemDate.getTime() <= new Date(dayjs(formData.endDate)).getTime()
         );
       });
       setTableData(filteredData);
+      setValue("startDate", null);
+      setValue("endDate", null);
     }
   };
 
@@ -178,6 +184,16 @@ const Contracts = () => {
           />
         )}
       </AnimatePresence>
+      {isError && (
+        <AnimatePresence>
+          <Modal
+            head={t("body.error")}
+            message={t("body.deleteContractError")}
+            icon={<FiAlertTriangle />}
+            state="error"
+          />
+        </AnimatePresence>
+      )}
       <div className={styles.contracts}>
         <StyledHeader
           text={t("body.contracts")}
@@ -202,30 +218,22 @@ const Contracts = () => {
                           : styles.input
                       }
                     >
-                      {item.type === "date" ? (
-                        <DateTimePicker
-                          name={item.name}
-                          placeholder={item.placeholder}
-                          register={register}
-                          setValue={setValue}
-                          defaultValue={item.value}
-                        />
-                      ) : (
-                        <>
-                          <input
-                            type={item.type}
-                            id={item.id}
-                            name={item.name}
+                      <Controller
+                        name={item.name}
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <DateTimePicker
                             placeholder={item.placeholder}
+                            value={value}
+                            onChange={onChange}
                           />
-                          <div className={styles.icon}>{item.icon}</div>
-                        </>
-                      )}
+                        )}
+                      />
                     </div>
                   );
                 })}
               </div>
-              <button className={styles.filterBtn}>
+              <button className={styles.filterBtn} type="submit">
                 <span>{t("body.filter")}</span>
                 <span className={styles.icon}>
                   <FiFilter />

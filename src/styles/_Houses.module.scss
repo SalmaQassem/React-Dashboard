@@ -16,6 +16,7 @@
       height: auto;
       flex: 1 0;
       flex-basis: 100%;
+      flex-grow: 0;
       @include flex-variant(flex, $direction: column);
       align-self: stretch;
       background-color: $white;

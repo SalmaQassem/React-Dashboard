@@ -49,6 +49,7 @@ const AuthForm = () => {
       type: "email",
       name: "email",
       label: t("body.email"),
+      placeholder:"admin@test.com",
       error: errors.email,
       icon: <HiOutlineMail />,
     },
@@ -57,6 +58,7 @@ const AuthForm = () => {
       type: isShown ? "text" : "password",
       name: "password",
       label: t("body.password"),
+      placeholder:"admin",
       error: errors.password,
       icon: isShown ? <AiOutlineEye /> : <AiOutlineEyeInvisible />,
     },
@@ -169,6 +171,7 @@ const AuthForm = () => {
                       item.id === "password" ? hidePassword : () => {}
                     }
                     error={item.error}
+                    placeholder={item.placeholder}
                   />
                 );
               })}

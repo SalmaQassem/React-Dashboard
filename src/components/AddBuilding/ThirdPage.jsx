@@ -12,37 +12,48 @@ import Modal from "../UI/Modal";
 import { AnimatePresence } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
 import axios from "axios";
+import { FiAlertTriangle } from "react-icons/fi";
 
 const ThirdPage = (props) => {
   const [t, i18n] = useTranslation("global");
   const context = useContext(BuildingContext);
   const userData = useContext(UserContext);
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const sendData = async (data) => {
-    const userToken = getAuthToken();
-    try {
-      const response = await axios.post(props.url, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-      const res = await response.data;
-      if (props.state === "edit") {
-        setIsModalOpened(true);
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const userToken = getAuthToken();
+      try {
+        const response = await axios.post(props.url, data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+        const res = await response.data;
+        setIsSubmitting(false);
+        if (props.state === "edit") {
+          setIsModalOpened(true);
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 500);
+        } else {
+          setIsModalOpened(true);
+          setTimeout(() => {
+            navigate(`/dashboard/Houses/${res.id}`);
+          }, 1000);
+        }
+      } catch (error) {
+        setIsSubmitting(false);
+        setIsError(true);
         setTimeout(() => {
-          navigate("/dashboard");
-        }, 500);
-      } else {
-        setIsModalOpened(true);
-        setTimeout(() => {
-          navigate(`/dashboard/Houses/${res.id}`);
-        }, 500);
+          setIsError(false);
+        }, 1000);
       }
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
@@ -63,7 +74,6 @@ const ThirdPage = (props) => {
               context[key][i].type === "application/docx" ||
               context[key][i].type === "application/doc"
             ) {
-              console.log(context[key][i]);
               formData.append("attached_file[]", context[key][i]);
             } else {
               formData.append("media[]", context[key][i]);
@@ -95,6 +105,16 @@ const ThirdPage = (props) => {
           />
         )}
       </AnimatePresence>
+      {isError && (
+        <AnimatePresence>
+          <Modal
+            head={t("body.error")}
+            message={t("body.addBuildingError")}
+            icon={<FiAlertTriangle />}
+            state="error"
+          />
+        </AnimatePresence>
+      )}
       <div className={styles.map}>
         <p>{t("body.showOnMap")}</p>
         <div className={styles.mapItem}>
@@ -106,7 +126,9 @@ const ThirdPage = (props) => {
           icon={<LiaHotelSolid />}
           onClick={saveData}
         >
-          {t("body.saveRegistration")}
+          {isSubmitting
+            ? `${t("body.submitting")}...`
+            : t("body.saveRegistration")}
         </FormButton>
       </div>
     </>

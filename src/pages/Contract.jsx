@@ -50,6 +50,5 @@ export async function loader({ params }) {
   } catch (error) {
     console.log(error.message);
   }
-
   return response;
 }

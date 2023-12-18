@@ -119,7 +119,6 @@ const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           import("./pages/Chat").then((module) => module.loader({ params })),
-        // loader: ChatLoader,
       },
       {
         path: "NewUser",
@@ -146,7 +145,6 @@ const router = createBrowserRouter([
         ),
         loader: () =>
           import("./pages/Contracts").then((module) => module.loader()),
-        //loader: ContractsLoader,
       },
       {
         path: "Reports",
@@ -185,7 +183,6 @@ const router = createBrowserRouter([
             <Profile />
           </Suspense>
         ),
-        //loader: ProfileLoader,
         loader: () =>
           import("./pages/Profile").then((module) => module.loader()),
       },
@@ -217,9 +214,9 @@ const router = createBrowserRouter([
           </Suspense>
         ),
         loader: ({ params }) =>
-          import("./pages/Contract").then((module) => {
-            module.loader({ params });
-          }),
+          import("./pages/Contract").then((module) =>
+            module.loader({ params })
+          ),
       },
       {
         path: "Notifications",

@@ -163,7 +163,17 @@
     "openNewSeason": "open new season",
     "closedSeason": "season has ended",
     "closeSeasonMsg": "are you sure you want to close this season?",
+    "submitCloseSeason": "season has been closed successfully",
     "passwordResetSuccess": "password has been updated successfully",
-    "noReports": "we couldn't find any reports"
+    "noReports": "we couldn't find any reports",
+    "error": "error",
+    "newUserError": "error in adding user",
+    "submitting": "submitting",
+    "contractError": "error in adding contract",
+    "newSeasonError": "error in opening new season",
+    "deleteContractError": "error in deleting contract",
+    "addBuildingError": "error in adding building",
+    "editProfileError": "error in editing profile",
+    "deleteBuildingError": "error in deleting building"
   }
 }

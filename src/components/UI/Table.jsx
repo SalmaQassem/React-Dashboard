@@ -79,6 +79,7 @@ const Table = ({ tableHead, tableBody, rowPerPage }) => {
                           item[itemKey]
                         ) : (
                           <button
+                            type="button"
                             className={
                               item[itemKey].buttonName === "deleteButton"
                                 ? item[itemKey].class
@@ -110,6 +111,7 @@ const Table = ({ tableHead, tableBody, rowPerPage }) => {
         </p>
         <div className={styles.buttons}>
           <button
+            type="button"
             className={prevDisable ? styles.disabled : ""}
             onClick={!prevDisable ? clickPrevHandler : () => {}}
             title={!prevDisable ? t("body.goPrev") : ""}
@@ -121,6 +123,7 @@ const Table = ({ tableHead, tableBody, rowPerPage }) => {
             )}
           </button>
           <button
+            type="button"
             className={nextDisable ? styles.disabled : ""}
             onClick={!nextDisable ? clickNextHandler : () => {}}
             title={!nextDisable ? t("body.goNext") : ""}

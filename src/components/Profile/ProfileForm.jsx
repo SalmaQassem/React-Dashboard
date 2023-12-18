@@ -13,12 +13,15 @@ import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { FiAlertTriangle } from "react-icons/fi";
 
 const ProfileForm = (props) => {
   const oldData = props.userData;
   const context = useContext(UserContext);
   const navigate = useNavigate();
   const [t, i18n] = useTranslation("global");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imageError, setImageError] = useState(false);
   const [imageSrc, setImageSrc] = useState(
@@ -113,65 +116,73 @@ const ProfileForm = (props) => {
   ];
 
   const formSubmitHandler = async (data) => {
-    const formData = new FormData();
-    const pass = data.password === "" ? oldData.password : data.password;
-    formData.append("first_name", data.firstName);
-    formData.append("last_name", data.lastName);
-    formData.append("email", data.email);
-    formData.append("phone", data.phone);
-    formData.append("password", pass);
-    formData.append("image", uploadedImage);
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const formData = new FormData();
+      const pass = data.password === "" ? oldData.password : data.password;
+      formData.append("first_name", data.firstName);
+      formData.append("last_name", data.lastName);
+      formData.append("email", data.email);
+      formData.append("phone", data.phone);
+      formData.append("password", pass);
+      formData.append("image", uploadedImage);
 
-    const userToken = getAuthToken();
-    try {
-      const response = await axios.post(
-        "https://zadapp.mqawilk.com/api/profile/update",
-        formData,
-        {
-          headers: {
-            //"Content-Type": "multipart/form-data",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      const data = await response.data;
-      if (data && data.success) {
-        setIsModalOpened((prevState) => {
-          return { ...prevState, state: true };
-        });
-        console.log(data.user);
-        const {
-          id,
-          first_name,
-          last_name,
-          phone,
-          email,
-          role,
-          created_at,
-          updated_at,
-          password,
-          image,
-        } = data.user;
-        context.setUserData(
-          id,
-          first_name,
-          last_name,
-          phone,
-          email,
-          role,
-          created_at,
-          updated_at,
-          password,
-          image
+      const userToken = getAuthToken();
+      try {
+        const response = await axios.post(
+          "https://zadapp.mqawilk.com/api/profile/update",
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
         );
-        Cookies.set("userData", JSON.stringify(data.user));
+        const data = await response.data;
+        setIsSubmitting(false);
+        if (data && data.success) {
+          setIsModalOpened((prevState) => {
+            return { ...prevState, state: true };
+          });
+          console.log(data.user);
+          const {
+            id,
+            first_name,
+            last_name,
+            phone,
+            email,
+            role,
+            created_at,
+            updated_at,
+            password,
+            image,
+          } = data.user;
+          context.setUserData(
+            id,
+            first_name,
+            last_name,
+            phone,
+            email,
+            role,
+            created_at,
+            updated_at,
+            password,
+            image
+          );
+          Cookies.set("userData", JSON.stringify(data.user));
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1000);
+        }
+      } catch (error) {
+        setIsSubmitting(false);
+        setIsSubmitting(false);
+        setIsError(true);
         setTimeout(() => {
-          navigate("/dashboard");
-        }, 500);
+          setIsError(false);
+        }, 1000);
       }
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
@@ -212,6 +223,16 @@ const ProfileForm = (props) => {
           />
         )}
       </AnimatePresence>
+      {isError && (
+        <AnimatePresence>
+          <Modal
+            head={t("body.error")}
+            message={t("body.editProfileError")}
+            icon={<FiAlertTriangle />}
+            state="error"
+          />
+        </AnimatePresence>
+      )}
       <form onSubmit={handleSubmit(formSubmitHandler)} className={styles.form}>
         <div className={styles.inputs}>
           {inputs.map((item) => {
@@ -260,7 +281,7 @@ const ProfileForm = (props) => {
             ))}
         </div>
         <FormButton class={styles.submit} type="submit">
-          {t("body.saveChanges")}
+          {isSubmitting ? `${t("body.submitting")}...` : t("body.saveChanges")}
         </FormButton>
       </form>
     </>

@@ -163,7 +163,17 @@
     "openNewSeason": "فتح موسم جديد",
     "closedSeason": "تم إنتهاء الموسم",
     "closeSeasonMsg": "هل أنت متأكد من إغلاق هذا الموسم؟",
+    "submitCloseSeason": "تم إغلاق الموسم بنجاح",
     "passwordResetSuccess": "تم تغيير كلمة المرور بنجاح",
-    "noReports": "لم نستطيع العثور على أى تقارير"
+    "noReports": "لم نستطيع العثور على أى تقارير",
+    "error": "خطأ",
+    "newUserError": "خطأ في إضافة المستخدم",
+    "submitting": "إرسال",
+    "contractError": "خطأ في إصدار العقد",
+    "newSeasonError": "خطأ في فتح موسم جديد",
+    "deleteContractError": "خطأ في إزالة العقد",
+    "addBuildingError": "خطأ في إضافة المنشأة",
+    "editProfileError": "خطأ في تعديل الحساب",
+    "deleteBuildingError": "خطأ في حذف المنشأة"
   }
 }

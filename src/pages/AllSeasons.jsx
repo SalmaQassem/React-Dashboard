@@ -29,6 +29,8 @@ const AllSeasons = () => {
   const [successModal, setsuccessModal] = useState({
     state: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [t, i18n] = useTranslation("global");
   const userContext = useContext(UserContext);
   const {
@@ -67,19 +69,27 @@ const AllSeasons = () => {
     return date;
   };
   const sendRequest = async (url, enteredData) => {
-    const userToken = getAuthToken();
-    let ret = null;
-    try {
-      const response = await axios.post(url, JSON.stringify(enteredData), {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-      ret = await response.data;
-      return ret;
-    } catch (error) {
-      console.log(error.message);
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const userToken = getAuthToken();
+      let ret = null;
+      try {
+        const response = await axios.post(url, JSON.stringify(enteredData), {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+        ret = await response.data;
+        setIsSubmitting(false);
+        return ret;
+      } catch (error) {
+        setIsSubmitting(false);
+        setIsError(true);
+        setTimeout(() => {
+          setIsError(false);
+        }, 1000);
+      }
     }
   };
   const closeHandler = (seasonId) => {
@@ -106,6 +116,10 @@ const AllSeasons = () => {
       );
       arr[index].stutes = "0";
       setTableData([...arr]);
+      setsuccessModal({ state: true });
+      setTimeout(() => {
+        setsuccessModal({ state: false });
+      }, 1000);
     }
   };
   const tableHead = [
@@ -183,7 +197,7 @@ const AllSeasons = () => {
       });
       setValue("startDate", null);
       setValue("endDate", null);
-      setIsNew(false);
+      //setIsNew(false);
     }
   };
   return (
@@ -206,13 +220,23 @@ const AllSeasons = () => {
         {successModal.state && (
           <Modal
             head={t("body.success")}
-            message={t("body.submitDeleteContract")}
+            message={t("body.submitCloseSeason")}
             icon={<FaCheck />}
             state="submitDelete"
             setOpened={setsuccessModal}
           />
         )}
       </AnimatePresence>
+      {isError && (
+        <AnimatePresence>
+          <Modal
+            head={t("body.error")}
+            message={t("body.newSeasonError")}
+            icon={<FiAlertTriangle />}
+            state="error"
+          />
+        </AnimatePresence>
+      )}
       <div className={styles.seasons}>
         <StyledHeader
           text={t("body.hajjSeasons")}
@@ -267,7 +291,9 @@ const AllSeasons = () => {
                     })}
                   </div>
                   <button type="submit" className={styles.submit}>
-                    {t("body.openSeason")}
+                    {isSubmitting
+                      ? `${t("body.submitting")}...`
+                      : t("body.openSeason")}
                   </button>
                 </form>
               </motion.div>
