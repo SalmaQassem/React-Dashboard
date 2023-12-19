@@ -1,0 +1,26 @@
+@use "./colors" as *;
+@use "./variables/global" as *;
+@use "../helpers/mixins" as *;
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  padding: $main-padding;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  @include flex-row-center();
+  background-color: $white;
+  .circule {
+    width: 4rem;
+    height: 4rem;
+    .innerCircule {
+      width: 4rem;
+      height: 4rem;
+      border: $b-10 solid $grey-4;
+      border-top-color: $pink;
+      border-radius: 50%;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import styles from "../../styles/_CodeForm.module.scss";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -16,6 +17,7 @@ import Cookies from "js-cookie";
 
 const CodeForm = () => {
   const [t, i18n] = useTranslation("global");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const schema = yup.object().shape({
     code: yup.string().required(t("body.required")),
@@ -28,31 +30,36 @@ const CodeForm = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const formSubmitHandler = async (formData) => {
-    const checkCode = { code: formData.code };
-    try {
-      const response = await axios.post(
-        "https://zadapp.mqawilk.com/api/password/code/check",
-        checkCode,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.data;
-      if (data && data.message) {
-        Cookies.set("otp", data.code, {
-          secure: true,
-        });
-        navigate("/ResetPassword");
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.data.message && error.response.data.errors) {
-          setError("submit", {
-            type: "server",
-            message: error.response.data.message,
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const checkCode = { code: formData.code };
+      try {
+        const response = await axios.post(
+          "https://zadapp.mqawilk.com/api/password/code/check",
+          checkCode,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.data;
+        setIsSubmitting(false);
+        if (data && data.message) {
+          Cookies.set("otp", data.code, {
+            secure: true,
           });
+          navigate("/ResetPassword");
+        }
+      } catch (error) {
+        setIsSubmitting(false);
+        if (error.response) {
+          if (error.response.data.message && error.response.data.errors) {
+            setError("submit", {
+              type: "server",
+              message: error.response.data.message,
+            });
+          }
         }
       }
     }
@@ -83,7 +90,12 @@ const CodeForm = () => {
               <p>{errors.submit.message}</p>
             )}
           </div>
-          <AuthButton text={t("body.verify")} type="submit" />
+          <AuthButton
+            text={
+              isSubmitting ? `${t("body.submitting")}...` : t("body.verify")
+            }
+            type="submit"
+          />
         </form>
         <ChangeLanguage />
       </FormWrapper>

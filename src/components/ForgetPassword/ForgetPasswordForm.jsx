@@ -1,4 +1,5 @@
 import styles from "../../styles/_ForgetPasswordForm.module.scss";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -15,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 const ForgetPasswordForm = () => {
   const [t, i18n] = useTranslation("global");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const schema = yup.object().shape({
     email: yup
@@ -33,28 +35,33 @@ const ForgetPasswordForm = () => {
     formState: { errors, isSubmitted },
   } = useForm({ resolver: yupResolver(schema) });
   const formSubmitHandler = async (formData) => {
-    const emailAdd = { email: formData.email };
-    try {
-      const response = await axios.post(
-        "https://zadapp.mqawilk.com/api/password/email",
-        emailAdd,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const emailAdd = { email: formData.email };
+      try {
+        const response = await axios.post(
+          "https://zadapp.mqawilk.com/api/password/email",
+          emailAdd,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.data;
+        setIsSubmitting(false);
+        if (data && data.message) {
+          navigate("/CheckCode");
         }
-      );
-      const data = await response.data;
-      if (data && data.message) {
-        navigate("/CheckCode");
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.data.message && error.response.data.errors) {
-          setError("submit", {
-            type: "server",
-            message: error.response.data.message,
-          });
+      } catch (error) {
+        setIsSubmitting(false);
+        if (error.response) {
+          if (error.response.data.message && error.response.data.errors) {
+            setError("submit", {
+              type: "server",
+              message: error.response.data.message,
+            });
+          }
         }
       }
     }
@@ -83,7 +90,12 @@ const ForgetPasswordForm = () => {
               <p>{errors.submit.message}</p>
             )}
           </div>
-          <AuthButton text={t("body.sendCode")} type="submit" />
+          <AuthButton
+            text={
+              isSubmitting ? `${t("body.submitting")}...` : t("body.sendCode")
+            }
+            type="submit"
+          />
         </form>
         <ChangeLanguage />
       </FormWrapper>

@@ -174,6 +174,10 @@
     "deleteContractError": "error in deleting contract",
     "addBuildingError": "error in adding building",
     "editProfileError": "error in editing profile",
-    "deleteBuildingError": "error in deleting building"
+    "deleteBuildingError": "error in deleting building",
+    "pageNotFound": "page not found",
+    "pageNotFoundMesg": "the page you are looking for doesn't exist or an other error occured",
+    "goTo": "go to",
+    "homePage": "home page"
   }
 }

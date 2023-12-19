@@ -1,0 +1,41 @@
+@use "./colors" as *;
+@use "./variables/global" as *;
+@use "../helpers/mixins" as *;
+@use "../helpers/fonts" as *;
+
+.error {
+  width: 100vw;
+  height: 100vh;
+  padding: $main-padding;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  @include flex-variant(
+    flex,
+    $direction: column,
+    $justify: center,
+    $align: center,
+    $gap: $gap-12
+  );
+  background-color: $white;
+  color: $black;
+  text-align: center;
+  text-transform: capitalize;
+  h1 {
+    font-family: "Cairo-Bold";
+    font-size: $f-s-60;
+    line-height: 1.5;
+  }
+  .firstMsg {
+    font-family: "Cairo-Medium";
+    font-size: $f-s-32;
+  }
+  .secondMsg {
+    font-family: "Cairo-Regular";
+    font-size: $f-s-18;
+    a {
+      color: $pink;
+    }
+  }
+}

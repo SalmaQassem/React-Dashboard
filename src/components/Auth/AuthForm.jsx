@@ -24,6 +24,7 @@ const AuthForm = () => {
   const navigate = useNavigate();
   const [t, i18n] = useTranslation("global");
   const [isShown, setIsShown] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const schema = yup.object().shape({
     email: yup
@@ -49,7 +50,7 @@ const AuthForm = () => {
       type: "email",
       name: "email",
       label: t("body.email"),
-      placeholder:"admin@test.com",
+      placeholder: "admin@test.com",
       error: errors.email,
       icon: <HiOutlineMail />,
     },
@@ -58,7 +59,7 @@ const AuthForm = () => {
       type: isShown ? "text" : "password",
       name: "password",
       label: t("body.password"),
-      placeholder:"admin",
+      placeholder: "admin",
       error: errors.password,
       icon: isShown ? <AiOutlineEye /> : <AiOutlineEyeInvisible />,
     },
@@ -73,64 +74,69 @@ const AuthForm = () => {
     setIsShown(false);
   };
   const formSubmitHandler = async (formData) => {
-    const enteredData = {
-      email: formData.email,
-      password: formData.password,
-    };
-    try {
-      const response = await axios.post(
-        "https://zadapp.mqawilk.com/api/login",
-        enteredData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.data;
-      if (data && data.accessToken) {
-        //store token in cookies
-        Cookies.set("token", data.accessToken, {
-          secure: true,
-        });
-        //store user data in Cookies
-        Cookies.set("userData", JSON.stringify(data.user), {
-          secure: true,
-        });
-        //store user data in context
-        const {
-          id,
-          first_name,
-          last_name,
-          phone,
-          email,
-          role,
-          created_at,
-          updated_at,
-          password,
-          image,
-        } = data.user;
-        context.setUserData(
-          id,
-          first_name,
-          last_name,
-          phone,
-          email,
-          role,
-          created_at,
-          updated_at,
-          password,
-          image
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const enteredData = {
+        email: formData.email,
+        password: formData.password,
+      };
+      try {
+        const response = await axios.post(
+          "https://zadapp.mqawilk.com/api/login",
+          enteredData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.data.message && !error.response.data.errors) {
-          setError("submit", {
-            type: "server",
-            message: error.response.data.message,
+        const data = await response.data;
+        setIsSubmitting(false);
+        if (data && data.accessToken) {
+          //store token in cookies
+          Cookies.set("token", data.accessToken, {
+            secure: true,
           });
+          //store user data in Cookies
+          Cookies.set("userData", JSON.stringify(data.user), {
+            secure: true,
+          });
+          //store user data in context
+          const {
+            id,
+            first_name,
+            last_name,
+            phone,
+            email,
+            role,
+            created_at,
+            updated_at,
+            password,
+            image,
+          } = data.user;
+          context.setUserData(
+            id,
+            first_name,
+            last_name,
+            phone,
+            email,
+            role,
+            created_at,
+            updated_at,
+            password,
+            image
+          );
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        setIsSubmitting(false);
+        if (error.response) {
+          if (error.response.data.message && !error.response.data.errors) {
+            setError("submit", {
+              type: "server",
+              message: error.response.data.message,
+            });
+          }
         }
       }
     }
@@ -186,7 +192,10 @@ const AuthForm = () => {
               {t("body.forgetPassword")}
             </Link>
           </div>
-          <AuthButton text={t("body.login")} type="submit" />
+          <AuthButton
+            text={isSubmitting ? `${t("body.submitting")}...` : t("body.login")}
+            type="submit"
+          />
         </form>
         <ChangeLanguage />
       </FormWrapper>

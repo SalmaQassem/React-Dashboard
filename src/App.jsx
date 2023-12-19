@@ -4,6 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./store/user-context";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
+const Loading = lazy(() => import("./components/UI/Loading"));
+const Error = lazy(() => import("./components/UI/Error"));
 const Authentication = lazy(() => import("./pages/Authentication"));
 const ForgetPassword = lazy(() => import("./pages/ForgetPassword"));
 const Code = lazy(() => import("./pages/Code"));
@@ -30,61 +32,68 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<p>loading...</p>}>
+      <Suspense fallback={<Loading />}>
         <Authentication />
       </Suspense>
     ),
+    errorElement: <Error />,
   },
   {
     path: "ForgetPassword",
     element: (
-      <Suspense fallback={<p>loading...</p>}>
+      <Suspense fallback={<Loading />}>
         <ForgetPassword />
       </Suspense>
     ),
+    errorElement: <Error />,
   },
   {
     path: "CheckCode",
     element: (
-      <Suspense fallback={<p>loading...</p>}>
+      <Suspense fallback={<Loading />}>
         <Code />
       </Suspense>
     ),
+    errorElement: <Error />,
   },
   {
     path: "ResetPassword",
     element: (
-      <Suspense fallback={<p>loading...</p>}>
+      <Suspense fallback={<Loading />}>
         <ResetPassword />
       </Suspense>
     ),
+    errorElement: <Error />,
   },
   {
     path: "dashboard",
     element: (
-      <Suspense fallback={<p>loading...</p>}>
+      <Suspense fallback={<Loading />}>
         <Root />
       </Suspense>
     ),
+    errorElement: <Error />,
     loader: () => import("./pages/Root").then((module) => module.loader()),
     children: [
       {
         index: true,
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <Dashboard />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: () =>
           import("./pages/Dashboard").then((module) => module.loader()),
       },
       {
         path: "Houses/:imageId",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <HousePage />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: ({ params }) =>
           import("./pages/HousePage").then((module) =>
             module.loader({ params })
@@ -93,10 +102,11 @@ const router = createBrowserRouter([
       {
         path: "Messages",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <Messages />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: () =>
           import("./pages/Messages").then((module) => module.loader()),
       },
@@ -107,6 +117,7 @@ const router = createBrowserRouter([
             <Conversations />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: () =>
           import("./pages/Conversations").then((module) => module.loader()),
       },
@@ -117,60 +128,67 @@ const router = createBrowserRouter([
             <Chat />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: ({ params }) =>
           import("./pages/Chat").then((module) => module.loader({ params })),
       },
       {
         path: "NewUser",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <NewUser />
           </Suspense>
         ),
+        errorElement: <Error />,
       },
       {
         path: "UserPermits",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <UserPermits />
           </Suspense>
         ),
+        errorElement: <Error />,
       },
       {
         path: "Contracts",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <Contracts />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: () =>
           import("./pages/Contracts").then((module) => module.loader()),
       },
       {
         path: "Reports",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <Reports />
           </Suspense>
         ),
+        errorElement: <Error />,
       },
       {
         path: "AllSeasons",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <AllSeasons />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: () =>
           import("./pages/AllSeasons").then((module) => module.loader()),
       },
       {
         path: "EditContract/:contractId",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <EditContract />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: ({ params }) =>
           import("./pages/EditContract").then((module) =>
             module.loader({ params })
@@ -179,28 +197,31 @@ const router = createBrowserRouter([
       {
         path: "Profile",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <Profile />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: () =>
           import("./pages/Profile").then((module) => module.loader()),
       },
       {
         path: "AddBuilding",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <AddBuilding />
           </Suspense>
         ),
+        errorElement: <Error />,
       },
       {
         path: "EditBuilding/:buildingId",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <EditBuilding />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: ({ params }) =>
           import("./pages/EditBuilding").then((module) =>
             module.loader({ params })
@@ -209,10 +230,11 @@ const router = createBrowserRouter([
       {
         path: "Contract/:houseId",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <Contract />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: ({ params }) =>
           import("./pages/Contract").then((module) =>
             module.loader({ params })
@@ -221,10 +243,11 @@ const router = createBrowserRouter([
       {
         path: "Notifications",
         element: (
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<Loading />}>
             <Notifications />
           </Suspense>
         ),
+        errorElement: <Error />,
         loader: () =>
           import("./pages/Notifications").then((module) => module.loader()),
       },

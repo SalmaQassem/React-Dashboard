@@ -23,6 +23,7 @@ const ResetForm = () => {
   const [isShown1, setIsShown1] = useState(false);
   const [t, i18n] = useTranslation("global");
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const schema = yup.object().shape({
     password: yup.string().required(t("body.required")),
@@ -78,37 +79,42 @@ const ResetForm = () => {
     },
   ];
   const formSubmitHandler = async (formData) => {
-    const otp = Cookies.get("otp");
-    const enteredData = {
-      code: otp,
-      password: formData.password,
-      password_confirmation: formData.confirmPassword,
-    };
-    try {
-      const response = await axios.post(
-        "https://zadapp.mqawilk.com/api/password/reset",
-        enteredData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+    if (!isSubmitting) {
+      setIsSubmitting(true);
+      const otp = Cookies.get("otp");
+      const enteredData = {
+        code: otp,
+        password: formData.password,
+        password_confirmation: formData.confirmPassword,
+      };
+      try {
+        const response = await axios.post(
+          "https://zadapp.mqawilk.com/api/password/reset",
+          enteredData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.data;
+        setIsSubmitting(false);
+        if (data && data.message) {
+          Cookies.remove("otp");
+          setIsModalOpened(true);
+          setTimeout(() => {
+            navigate("/");
+          }, 500);
         }
-      );
-      const data = await response.data;
-      if (data && data.message) {
-        Cookies.remove("otp");
-        setIsModalOpened(true);
-        setTimeout(() => {
-          navigate("/");
-        }, 500);
-      }
-    } catch (error) {
-      if (error.response) {
-        if (error.response.data.message && error.response.data.errors) {
-          setError("submit", {
-            type: "server",
-            message: error.response.data.message,
-          });
+      } catch (error) {
+        setIsSubmitting(false);
+        if (error.response) {
+          if (error.response.data.message && error.response.data.errors) {
+            setError("submit", {
+              type: "server",
+              message: error.response.data.message,
+            });
+          }
         }
       }
     }
@@ -159,7 +165,14 @@ const ResetForm = () => {
                 !errors.password &&
                 !errors.confirmPassword && <p>{errors.submit.message}</p>}
             </div>
-            <AuthButton text={t("body.saveChanges")} type="submit" />
+            <AuthButton
+              text={
+                isSubmitting
+                  ? `${t("body.submitting")}...`
+                  : t("body.saveChanges")
+              }
+              type="submit"
+            />
           </form>
           <ChangeLanguage />
         </FormWrapper>
